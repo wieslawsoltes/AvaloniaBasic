@@ -15,7 +15,10 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <Panel>
+  <Panel behaviors:DragSettings.MinimumDragDelta="3"
+         behaviors:DragSettings.SnapToGrid="True"
+         behaviors:DragSettings.SnapX="10"
+         behaviors:DragSettings.SnapY="10">
 
     <DockPanel>
 
@@ -50,7 +53,7 @@
           <Canvas Background="Transparent" 
                   Width="800"
                   Height="600"
-                  behaviors:ItemDragBehavior.IsDropArea="True" />
+                  behaviors:DragSettings.IsDropArea="True" />
         </Panel>
       </Border>
 

@@ -7,6 +7,7 @@ using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 using AvaloniaBasicDemo.Model;
+using AvaloniaBasicDemo.Utilities;
 
 namespace AvaloniaBasicDemo.Behaviors;
 
@@ -14,12 +15,6 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 {
     public static readonly StyledProperty<Canvas?> PreviewCanvasProperty = 
         AvaloniaProperty.Register<ItemDragBehavior, Canvas?>(nameof(PreviewCanvas));
-
-    public static readonly StyledProperty<double> MinimumDragDeltaProperty = 
-        AvaloniaProperty.Register<ItemDragBehavior, double>(nameof(MinimumDragDelta), 5d);
-
-    public static readonly AttachedProperty<bool> IsDropAreaProperty = 
-        AvaloniaProperty.RegisterAttached<IAvaloniaObject, bool>("IsDropArea", typeof(ItemDragBehavior));
 
     private Point _start;
     private bool _isDragging;
@@ -30,22 +25,6 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
     {
         get => GetValue(PreviewCanvasProperty);
         set => SetValue(PreviewCanvasProperty, value);
-    }
-
-    public double MinimumDragDelta
-    {
-        get => GetValue(MinimumDragDeltaProperty);
-        set => SetValue(MinimumDragDeltaProperty, value);
-    }
-
-    public static bool GetIsDropArea(IAvaloniaObject obj)
-    {
-        return obj.GetValue(IsDropAreaProperty);
-    }
-
-    public static void SetIsDropArea(IAvaloniaObject obj, bool value)
-    {
-        obj.SetValue(IsDropAreaProperty, value);
     }
 
     protected override void OnAttachedToVisualTree()
@@ -86,8 +65,11 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
         if (_dropArea is { })
         {
-            var point = e.GetPosition(_dropArea);
+            var root = AssociatedObject.GetVisualRoot();
+            var point = e.GetPosition(root);
+
             AddControl(point);
+
             _dropArea = null;
         }
 
@@ -97,18 +79,26 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
     private void PointerMoved(object? sender, PointerEventArgs e)
     {
-        if (e.Pointer.Captured == null)
+        if (AssociatedObject is null)
+        {
             return;
+        }
+
+        if (e.Pointer.Captured == null)
+        {
+            return;
+        }
 
         var root = AssociatedObject.GetVisualRoot();
         var point = e.GetPosition(root);
 
-        _dropArea = root.GetVisualsAt(point).OfType<IPanel>().FirstOrDefault(GetIsDropArea);
+        _dropArea = root.GetVisualsAt(point).OfType<IPanel>().FirstOrDefault(DragSettings.GetIsDropArea);
 
         if (!_isDragging)
         {
+            var minimumDragDelta = DragSettings.GetMinimumDragDelta(AssociatedObject);
             var delta = _start - point;
-            if (Math.Abs(delta.X) > MinimumDragDelta)
+            if (Math.Abs(delta.X) > minimumDragDelta || Math.Abs(delta.Y) > minimumDragDelta)
             {
                 _isDragging = true;
 
@@ -123,6 +113,55 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
         UpdatePreview();
     }
 
+    private Point SnapPoint(Point point, bool isPreview)
+    {
+        if (AssociatedObject is null)
+        {
+            return point;
+        }
+
+        if (_dropArea is { })
+        {
+            var translatePoint = _dropArea.TranslatePoint(point, PreviewCanvas);
+            if (translatePoint is { })
+            {
+                point = translatePoint.Value;
+            }
+        }
+
+        var snapToGrid = DragSettings.GetSnapToGrid(AssociatedObject) && _dropArea is { };
+        var snapX = DragSettings.GetSnapX(AssociatedObject);
+        var snapY = DragSettings.GetSnapY(AssociatedObject);
+        var snappedPoint = Snap.SnapPoint(point, snapX, snapY, snapToGrid);
+
+        if (_dropArea is { })
+        {
+            if (isPreview)
+            {
+                var translatePoint = PreviewCanvas.TranslatePoint(snappedPoint, _dropArea);
+                if (translatePoint is { })
+                {
+                    snappedPoint = translatePoint.Value;
+                }
+            }
+            else
+            {
+                var translatePointBack = PreviewCanvas.TranslatePoint(snappedPoint, _dropArea);
+                if (translatePointBack is { })
+                {
+                    var root = AssociatedObject.GetVisualRoot();
+                    var translatePoint = root.TranslatePoint(translatePointBack.Value, _dropArea);
+                    if (translatePoint is { })
+                    {
+                        snappedPoint = translatePoint.Value;
+                    }
+                }
+            }
+        }
+
+        return snappedPoint;
+    }
+    
     private void AddPreview(Point point)
     {
         if (PreviewCanvas is null)
@@ -132,6 +171,8 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
         if (AssociatedObject?.DataContext is IDragItem item)
         {
+            point = SnapPoint(point, true);
+
             _previewControl = item.CreatePreview();
 
             Canvas.SetLeft(_previewControl, point.X);
@@ -143,10 +184,17 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
     private void MovePreview(Point point)
     {
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+        
         if (_previewControl is null)
         {
             return;
         }
+
+        point = SnapPoint(point, true);
 
         Canvas.SetLeft(_previewControl, point.X);
         Canvas.SetTop(_previewControl, point.Y);
@@ -154,6 +202,11 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
     private void UpdatePreview()
     {
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
         if (_previewControl is null)
         {
             return;
@@ -169,6 +222,11 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
     private void RemovePreview()
     {
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
         if (PreviewCanvas is null)
         {
             return;
@@ -194,6 +252,8 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
         if (AssociatedObject?.DataContext is IDragItem item)
         {
             var control = item.CreateControl();
+
+            point = SnapPoint(point, false);
 
             Canvas.SetLeft(control, point.X);
             Canvas.SetTop(control, point.Y);
