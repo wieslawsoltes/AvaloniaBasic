@@ -47,7 +47,8 @@
       <Border BoxShadow="4 11 30 1 #3F000000"
               Background="White" 
               Width="800"
-              Height="600">
+              Height="600"
+              ZIndex="-1">
         <Panel>
           <controls:GridLines />
           <Canvas Background="Transparent" 
