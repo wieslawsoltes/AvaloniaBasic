@@ -49,8 +49,12 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
     private void PointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        var root = AssociatedObject.GetVisualRoot();
-        var point = e.GetPosition(root);
+        if (PreviewCanvas is null)
+        {
+            return;
+        }
+
+        var point = e.GetPosition(PreviewCanvas);
 
         _start = point;
         e.Pointer.Capture(AssociatedObject);
@@ -58,6 +62,11 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
     private void PointerReleased(object? sender, PointerReleasedEventArgs e)
     {
+        if (PreviewCanvas is null)
+        {
+            return;
+        }
+
         if (_previewControl is { })
         {
             RemovePreview();
@@ -65,8 +74,7 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
         if (_dropArea is { })
         {
-            var root = AssociatedObject.GetVisualRoot();
-            var point = e.GetPosition(root);
+            var point = e.GetPosition(PreviewCanvas);
 
             AddControl(point);
 
@@ -79,6 +87,11 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
     private void PointerMoved(object? sender, PointerEventArgs e)
     {
+        if (PreviewCanvas is null)
+        {
+            return;
+        }
+
         if (AssociatedObject is null)
         {
             return;
@@ -89,10 +102,13 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
             return;
         }
 
-        var root = AssociatedObject.GetVisualRoot();
-        var point = e.GetPosition(root);
+        var point = e.GetPosition(PreviewCanvas);
 
-        _dropArea = root.GetVisualsAt(point).OfType<IPanel>().FirstOrDefault(DragSettings.GetIsDropArea);
+        _dropArea = AssociatedObject
+            .GetVisualRoot()
+            .GetVisualsAt(point)
+            .OfType<IPanel>()
+            .FirstOrDefault(DragSettings.GetIsDropArea);
 
         if (!_isDragging)
         {
