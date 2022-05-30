@@ -6,6 +6,7 @@
         xmlns:vm="clr-namespace:AvaloniaBasicDemo.ViewModels"
         xmlns:behaviors="clr-namespace:AvaloniaBasicDemo.Behaviors"
         xmlns:views="clr-namespace:AvaloniaBasicDemo.Views"
+        xmlns:controls="clr-namespace:AvaloniaBasicDemo.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AvaloniaBasicDemo.Views.MainWindow"
         x:DataType="vm:MainViewModel" x:CompileBindings="True"
@@ -46,7 +47,7 @@
               Width="800"
               Height="600">
         <Panel>
-          <views:GridLines />
+          <controls:GridLines />
           <Canvas Background="Transparent" 
                   Width="800"
                   Height="600"

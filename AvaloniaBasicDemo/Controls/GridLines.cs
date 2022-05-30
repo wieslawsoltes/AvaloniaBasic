@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 
-namespace AvaloniaBasicDemo.Views;
+namespace AvaloniaBasicDemo.Controls;
 
 public sealed class GridLines : Control
 {
