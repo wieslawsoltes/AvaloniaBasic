@@ -42,7 +42,7 @@
       </ListBox>
 
       <Border BoxShadow="4 11 30 1 #3F000000"
-              Background="WhiteSmoke" 
+              Background="White" 
               Width="800"
               Height="600">
         <Panel>
