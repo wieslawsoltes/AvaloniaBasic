@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragAdornerDemo", "DragAdornerDemo\DragAdornerDemo.csproj", "{BE9867D2-E9F8-4BA8-A712-5876C4E00E80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaBasicDemo", "AvaloniaBasicDemo\AvaloniaBasicDemo.csproj", "{BE9867D2-E9F8-4BA8-A712-5876C4E00E80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
