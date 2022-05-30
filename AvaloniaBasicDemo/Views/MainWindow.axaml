@@ -5,6 +5,7 @@
         xmlns:m="clr-namespace:AvaloniaBasicDemo.Model"
         xmlns:vm="clr-namespace:AvaloniaBasicDemo.ViewModels"
         xmlns:behaviors="clr-namespace:AvaloniaBasicDemo.Behaviors"
+        xmlns:views="clr-namespace:AvaloniaBasicDemo.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AvaloniaBasicDemo.Views.MainWindow"
         x:DataType="vm:MainViewModel" x:CompileBindings="True"
@@ -41,12 +42,16 @@
       </ListBox>
 
       <Border BoxShadow="4 11 30 1 #3F000000"
+              Background="WhiteSmoke" 
               Width="800"
               Height="600">
-        <Canvas Background="WhiteSmoke" 
-                Width="800"
-                Height="600"
-                behaviors:ItemDragBehavior.IsDropArea="True" />
+        <Panel>
+          <views:GridLines />
+          <Canvas Background="Transparent" 
+                  Width="800"
+                  Height="600"
+                  behaviors:ItemDragBehavior.IsDropArea="True" />
+        </Panel>
       </Border>
 
     </DockPanel>
