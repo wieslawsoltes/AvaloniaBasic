@@ -57,24 +57,22 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
         var point = e.GetPosition(PreviewCanvas);
 
         _start = point;
+
         e.Pointer.Capture(AssociatedObject);
     }
 
     private void PointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        if (PreviewCanvas is null)
+        if (PreviewCanvas is null || AssociatedObject is null)
         {
             return;
         }
 
-        if (_previewControl is { })
-        {
-            RemovePreview();
-        }
+        RemovePreview();
 
         if (_dropArea is { })
         {
-            var point = e.GetPosition(PreviewCanvas);
+            var point = e.GetPosition(_dropArea);
 
             AddControl(point);
 
@@ -82,33 +80,18 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
         }
 
         _isDragging = false;
+
         e.Pointer.Capture(null);
     }
 
     private void PointerMoved(object? sender, PointerEventArgs e)
     {
-        if (PreviewCanvas is null)
-        {
-            return;
-        }
-
-        if (AssociatedObject is null)
-        {
-            return;
-        }
-
-        if (e.Pointer.Captured == null)
+        if (PreviewCanvas is null || AssociatedObject is null || e.Pointer.Captured == null)
         {
             return;
         }
 
         var point = e.GetPosition(PreviewCanvas);
-
-        _dropArea = AssociatedObject
-            .GetVisualRoot()
-            .GetVisualsAt(point)
-            .OfType<IPanel>()
-            .FirstOrDefault(DragSettings.GetIsDropArea);
 
         if (!_isDragging)
         {
@@ -118,15 +101,46 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
             {
                 _isDragging = true;
 
+                FindDropArea(point);
+ 
+                if (_dropArea is { })
+                {
+                    point = e.GetPosition(_dropArea);
+                }
+
                 AddPreview(point);
             }
         }
         else
         {
+            point = e.GetPosition(PreviewCanvas);
+
+            FindDropArea(point);
+
+            if (_dropArea is { })
+            {
+                point = e.GetPosition(_dropArea);
+            }
+
             MovePreview(point);
         }
 
         UpdatePreview();
+    }
+
+    private void FindDropArea(Point point)
+    {
+        if (AssociatedObject is null)
+        {
+            _dropArea = null;
+            return;
+        }
+
+        _dropArea = AssociatedObject
+            .GetVisualRoot()
+            .GetVisualsAt(point)
+            .OfType<IPanel>()
+            .FirstOrDefault(DragSettings.GetIsDropArea);
     }
 
     private Point SnapPoint(Point point, bool isPreview)
@@ -136,42 +150,17 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
             return point;
         }
 
-        if (_dropArea is { })
-        {
-            var translatePoint = _dropArea.TranslatePoint(point, PreviewCanvas);
-            if (translatePoint is { })
-            {
-                point = translatePoint.Value;
-            }
-        }
-
         var snapToGrid = DragSettings.GetSnapToGrid(AssociatedObject) && _dropArea is { };
         var snapX = DragSettings.GetSnapX(AssociatedObject);
         var snapY = DragSettings.GetSnapY(AssociatedObject);
         var snappedPoint = Snap.SnapPoint(point, snapX, snapY, snapToGrid);
 
-        if (_dropArea is { })
+        if (_dropArea is { } && isPreview)
         {
-            if (isPreview)
+            var translatePoint = _dropArea.TranslatePoint(snappedPoint, PreviewCanvas);
+            if (translatePoint is { })
             {
-                var translatePoint = PreviewCanvas.TranslatePoint(snappedPoint, _dropArea);
-                if (translatePoint is { })
-                {
-                    snappedPoint = translatePoint.Value;
-                }
-            }
-            else
-            {
-                var translatePointBack = PreviewCanvas.TranslatePoint(snappedPoint, _dropArea);
-                if (translatePointBack is { })
-                {
-                    var root = AssociatedObject.GetVisualRoot();
-                    var translatePoint = root.TranslatePoint(translatePointBack.Value, _dropArea);
-                    if (translatePoint is { })
-                    {
-                        snappedPoint = translatePoint.Value;
-                    }
-                }
+                snappedPoint = translatePoint.Value;
             }
         }
 
@@ -187,7 +176,7 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
         if (AssociatedObject?.DataContext is IDragItem item)
         {
-            point = SnapPoint(point, true);
+            point = SnapPoint(point, _dropArea is null);
 
             _previewControl = item.CreatePreview();
 
@@ -200,12 +189,7 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
     private void MovePreview(Point point)
     {
-        if (AssociatedObject is null)
-        {
-            return;
-        }
-        
-        if (_previewControl is null)
+        if (AssociatedObject is null || _previewControl is null)
         {
             return;
         }
@@ -218,12 +202,7 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
     private void UpdatePreview()
     {
-        if (AssociatedObject is null)
-        {
-            return;
-        }
-
-        if (_previewControl is null)
+        if (AssociatedObject is null || _previewControl is null)
         {
             return;
         }
@@ -238,17 +217,7 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
     private void RemovePreview()
     {
-        if (AssociatedObject is null)
-        {
-            return;
-        }
-
-        if (PreviewCanvas is null)
-        {
-            return;
-        }
-
-        if (_previewControl is null)
+        if (AssociatedObject is null || PreviewCanvas is null || _previewControl is null)
         {
             return;
         }
