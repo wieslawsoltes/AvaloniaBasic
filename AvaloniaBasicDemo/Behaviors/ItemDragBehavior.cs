@@ -150,9 +150,11 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
             return point;
         }
 
-        var snapToGrid = DragSettings.GetSnapToGrid(AssociatedObject) && _dropArea is { };
-        var snapX = DragSettings.GetSnapX(AssociatedObject);
-        var snapY = DragSettings.GetSnapY(AssociatedObject);
+        IAvaloniaObject snapObject = _dropArea is { } ? _dropArea : AssociatedObject;
+
+        var snapToGrid = DragSettings.GetSnapToGrid(snapObject) && _dropArea is { };
+        var snapX = DragSettings.GetSnapX(snapObject);
+        var snapY = DragSettings.GetSnapY(snapObject);
         var snappedPoint = Snap.SnapPoint(point, snapX, snapY, snapToGrid);
 
         if (_dropArea is { } && isPreview)
