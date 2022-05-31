@@ -32,7 +32,7 @@ public class DataGridViewModel : IDragItem
         dataGrid.Columns.Add(new DataGridTextColumn { Header = "Item 3", Width = DataGridLength.Auto });
         dataGrid.Width = 300d;
         dataGrid.Height = 100d;
-        dataGrid.Background = Brushes.Blue;
+        dataGrid.Background = Brushes.LightGray;
         return dataGrid;
     }
 

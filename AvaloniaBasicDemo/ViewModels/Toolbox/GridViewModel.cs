@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Media;
+using AvaloniaBasicDemo.Behaviors;
 using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
@@ -24,7 +25,9 @@ public class GridViewModel : IDragItem
         var grid = new Grid();
         grid.Width = 100d;
         grid.Height = 100d;
-        grid.Background = Brushes.Blue;
+        grid.Background = Brushes.LightGray;
+        DragSettings.SetIsDropArea(grid, true);
+        DragSettings.SetSnapToGrid(grid, false);
         return grid;
     }
 

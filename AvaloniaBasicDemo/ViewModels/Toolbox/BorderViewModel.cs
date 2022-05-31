@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Media;
+using AvaloniaBasicDemo.Behaviors;
 using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
@@ -24,7 +25,10 @@ public class BorderViewModel : IDragItem
         var border = new Border();
         border.Width = 100d;
         border.Height = 100d;
-        border.Background = Brushes.Blue;
+        border.Background = Brushes.LightGray;
+        // TODO: Support setting Child
+        DragSettings.SetIsDropArea(border, true);
+        DragSettings.SetSnapToGrid(border, false);
         return border;
     }
 

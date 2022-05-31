@@ -22,7 +22,7 @@ public class RadioButtonViewModel : IDragItem
     {
         var radioButton = new RadioButton();
         radioButton.Content = "RadioButton";
-        radioButton.Foreground = Brushes.Blue;
+        //radioButton.Foreground = Brushes.Blue;
         return radioButton;
     }
 

@@ -22,7 +22,7 @@ public class TextBoxViewModel : IDragItem
     {
         var textBox = new TextBox();
         textBox.Text = "Text";
-        textBox.Foreground = Brushes.Blue;
+        //textBox.Foreground = Brushes.Blue;
         return textBox;
     }
 

@@ -22,7 +22,7 @@ public class ButtonViewModel : IDragItem
     {
         var button = new Button();
         button.Content = "Button";
-        button.Foreground = Brushes.Blue;
+        //button.Foreground = Brushes.Blue;
         return button;
     }
 

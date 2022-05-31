@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Media;
+using AvaloniaBasicDemo.Behaviors;
 using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
@@ -24,7 +25,9 @@ public class StackPanelViewModel : IDragItem
         var stackPanel = new StackPanel();
         stackPanel.Width = 100d;
         stackPanel.Height = 100d;
-        stackPanel.Background = Brushes.Blue;
+        stackPanel.Background = Brushes.LightGray;
+        DragSettings.SetIsDropArea(stackPanel, true);
+        DragSettings.SetSnapToGrid(stackPanel, false);
         return stackPanel;
     }
 

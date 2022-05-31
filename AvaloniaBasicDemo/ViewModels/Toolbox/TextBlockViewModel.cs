@@ -22,7 +22,7 @@ public class TextBlockViewModel : IDragItem
     {
         var textBlock = new TextBlock();
         textBlock.Text = "Text";
-        textBlock.Foreground = Brushes.Blue;
+        //textBlock.Foreground = Brushes.Blue;
         return textBlock;
     }
 

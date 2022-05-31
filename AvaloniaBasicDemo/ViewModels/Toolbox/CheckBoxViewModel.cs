@@ -22,7 +22,7 @@ public class CheckBoxViewModel : IDragItem
     {
         var checkBox = new CheckBox();
         checkBox.Content = "CheckBox";
-        checkBox.Foreground = Brushes.Blue;
+        //checkBox.Foreground = Brushes.Blue;
         return checkBox;
     }
 

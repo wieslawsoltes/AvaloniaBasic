@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Media;
+using AvaloniaBasicDemo.Behaviors;
 using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
@@ -24,7 +25,9 @@ public class TabControlViewModel : IDragItem
         var tabControl = new TabControl();
         tabControl.Items = new[] { "Item 1", "Item 2", "Item 3" };
         tabControl.SelectedIndex = 0;
-        tabControl.Foreground = Brushes.Blue;
+        //tabControl.Foreground = Brushes.Blue;
+        DragSettings.SetIsDropArea(tabControl, true);
+        DragSettings.SetSnapToGrid(tabControl, false);
         return tabControl;
     }
 

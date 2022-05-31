@@ -24,7 +24,7 @@ public class ComboBoxViewModel : IDragItem
         var comboBox = new ComboBox();
         comboBox.Items = new[] { "Item 1", "Item 2", "Item 3" };
         comboBox.SelectedIndex = 0;
-        comboBox.Foreground = Brushes.Blue;
+        //comboBox.Foreground = Brushes.Blue;
         return comboBox;
     }
 

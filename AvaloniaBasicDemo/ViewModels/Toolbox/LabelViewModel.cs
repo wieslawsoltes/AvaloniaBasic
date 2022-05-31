@@ -22,7 +22,7 @@ public class LabelViewModel : IDragItem
     {
         var label = new Label();
         label.Content = "Label";
-        label.Foreground = Brushes.Blue;
+        //label.Foreground = Brushes.Blue;
         return label;
     }
 
