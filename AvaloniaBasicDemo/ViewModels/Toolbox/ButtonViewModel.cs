@@ -1,5 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Media;
+using Avalonia.Rendering;
+using AvaloniaBasicDemo.Behaviors;
 using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
@@ -23,6 +25,9 @@ public class ButtonViewModel : IDragItem
         var button = new Button();
         button.Content = "Button";
         //button.Foreground = Brushes.Blue;
+        // TODO: Support setting Content
+        DragSettings.SetIsDropArea(button, true);
+        DragSettings.SetSnapToGrid(button, false);
         return button;
     }
 
