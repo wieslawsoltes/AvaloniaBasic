@@ -25,7 +25,7 @@ public class RectangleViewModel : IDragItem
         var rectangle = new Rectangle();
         rectangle.Width = 100d;
         rectangle.Height = 100d;
-        rectangle.Fill = Brushes.LightGray;
+        rectangle.Fill = Brushes.Gray;
         return rectangle;
     }
 
