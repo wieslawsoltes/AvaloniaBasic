@@ -16,7 +16,6 @@ public class SliderViewModel : IDragItem
     {
         var slider = new Slider();
         slider.Width = 100d;
-        slider.Height = 30d;
         slider.Background = Brushes.Black;
         return slider;
     }
@@ -25,7 +24,6 @@ public class SliderViewModel : IDragItem
     {
         var slider = new Slider();
         slider.Width = 100d;
-        slider.Height = 30d;
         slider.Background = Brushes.LightGray;
         DragSettings.SetIsDropArea(slider, true);
         DragSettings.SetSnapToGrid(slider, false);
