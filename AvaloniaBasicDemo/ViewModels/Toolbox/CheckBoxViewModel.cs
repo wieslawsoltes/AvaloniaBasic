@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Media;
+using AvaloniaBasicDemo.Behaviors;
 using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
@@ -23,6 +24,9 @@ public class CheckBoxViewModel : IDragItem
         var checkBox = new CheckBox();
         checkBox.Content = "CheckBox";
         //checkBox.Foreground = Brushes.Blue;
+        // TODO: Support setting Content
+        DragSettings.SetIsDropArea(checkBox, true);
+        DragSettings.SetSnapToGrid(checkBox, false);
         return checkBox;
     }
 
