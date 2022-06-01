@@ -29,6 +29,7 @@
                DockPanel.Dock="Left">
         <ListBox.Styles>
           <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="12,4,12,4" />
             <Setter Property="(Interaction.Behaviors)">
               <BehaviorCollectionTemplate>
                 <BehaviorCollection>
