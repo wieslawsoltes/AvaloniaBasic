@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Media;
+using AvaloniaBasicDemo.Behaviors;
 using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
@@ -23,6 +24,9 @@ public class RadioButtonViewModel : IDragItem
         var radioButton = new RadioButton();
         radioButton.Content = "RadioButton";
         //radioButton.Foreground = Brushes.Blue;
+        // TODO: Support setting Content
+        DragSettings.SetIsDropArea(radioButton, true);
+        DragSettings.SetSnapToGrid(radioButton, false);
         return radioButton;
     }
 
