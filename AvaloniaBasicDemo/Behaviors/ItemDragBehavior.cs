@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -19,7 +20,7 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
     private Point _start;
     private bool _isDragging;
     private Control? _previewControl;
-    private IPanel? _dropArea;
+    private IControl? _dropArea;
 
     public Canvas? PreviewCanvas
     {
@@ -136,11 +137,19 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
             return;
         }
 
-        _dropArea = AssociatedObject
-            .GetVisualRoot()
-            .GetVisualsAt(point)
-            .OfType<IPanel>()
-            .FirstOrDefault(DragSettings.GetIsDropArea);
+        var root = AssociatedObject.GetVisualRoot();
+
+        // TODO: var visuals = root.GetVisualsAt(point);
+        var visuals = (root as TopLevel)
+            .GetVisualDescendants()
+            .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
+            .Reverse();
+
+        var dropAreas = visuals.OfType<IControl>().Where(DragSettings.GetIsDropArea).ToList();
+
+        _dropArea = dropAreas.FirstOrDefault(DragSettings.GetIsDropArea);
+
+        Debug.WriteLine($"dropAreas: {dropAreas.Count}, _dropArea: {_dropArea}, point: {point}");
     }
 
     private Point SnapPoint(Point point, bool isPreview)
@@ -150,7 +159,7 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
             return point;
         }
 
-        IAvaloniaObject snapObject = _dropArea is { } ? _dropArea : AssociatedObject;
+        IAvaloniaObject snapObject = _dropArea ?? AssociatedObject;
 
         var snapToGrid = DragSettings.GetSnapToGrid(snapObject) && _dropArea is { };
         var snapX = DragSettings.GetSnapX(snapObject);
@@ -242,10 +251,35 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
             point = SnapPoint(point, false);
 
-            Canvas.SetLeft(control, point.X);
-            Canvas.SetTop(control, point.Y);
+            // TODO: Properly position in panel.
 
-            _dropArea.Children.Add(control);
+            Debug.WriteLine($"_dropArea: {_dropArea}, point: {point}");
+
+            if (_dropArea is Canvas)
+            {
+                Canvas.SetLeft(control, point.X);
+                Canvas.SetTop(control, point.Y);
+            }
+
+            if (_dropArea is IPanel and not Canvas)
+            {
+                control.Margin = new Thickness(point.X, point.Y, 0d, 0d);
+            }
+
+            // TODO: Use ContentAttribute to set content if applicable.
+
+            if (_dropArea is IPanel panel)
+            {
+                panel.Children.Add(control);
+            }
+            else if (_dropArea is IContentControl contentControl)
+            {
+                contentControl.Content = control;
+            }
+            else if (_dropArea is Decorator decorator)
+            {
+                decorator.Child = control;
+            } 
         }
     }
 }
