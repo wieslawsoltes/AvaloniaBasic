@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Media;
+using AvaloniaBasicDemo.Behaviors;
 using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
@@ -23,6 +24,9 @@ public class LabelViewModel : IDragItem
         var label = new Label();
         label.Content = "Label";
         //label.Foreground = Brushes.Blue;
+        // TODO: Support setting Content
+        DragSettings.SetIsDropArea(label, true);
+        DragSettings.SetSnapToGrid(label, false);
         return label;
     }
 
