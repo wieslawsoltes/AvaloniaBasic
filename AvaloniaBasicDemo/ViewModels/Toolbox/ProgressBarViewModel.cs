@@ -16,6 +16,9 @@ public class ProgressBarViewModel : IDragItem
         var progressBar = new ProgressBar();
         progressBar.Width = 200d;
         progressBar.Height = 30d;
+        progressBar.Minimum = 0;
+        progressBar.Maximum = 100;
+        progressBar.Value = 50;
         progressBar.Background = Brushes.Black;
         return progressBar;
     }
@@ -25,6 +28,9 @@ public class ProgressBarViewModel : IDragItem
         var progressBar = new ProgressBar();
         progressBar.Width = 200d;
         progressBar.Height = 30d;
+        progressBar.Minimum = 0;
+        progressBar.Maximum = 100;
+        progressBar.Value = 50;
         progressBar.Background = Brushes.LightGray;
         DragSettings.SetIsDropArea(progressBar, true);
         DragSettings.SetSnapToGrid(progressBar, false);
