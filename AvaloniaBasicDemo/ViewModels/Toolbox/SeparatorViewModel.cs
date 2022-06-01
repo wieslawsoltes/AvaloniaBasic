@@ -26,7 +26,7 @@ public class SeparatorViewModel : IDragItem
         var separator = new Separator();
         separator.Width = 100d;
         separator.Height = 1d;
-        separator.Background = Brushes.LightGray;
+        separator.Background = Brushes.Gray;
         DragSettings.SetIsDropArea(separator, true);
         DragSettings.SetSnapToGrid(separator, false);
         return separator;
