@@ -263,7 +263,7 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
             if (_dropArea is IPanel and not Canvas)
             {
-                control.Margin = new Thickness(point.X, point.Y, 0d, 0d);
+                // TODO: control.Margin = new Thickness(point.X, point.Y, 0d, 0d);
             }
 
             // TODO: Use ContentAttribute to set content if applicable.
