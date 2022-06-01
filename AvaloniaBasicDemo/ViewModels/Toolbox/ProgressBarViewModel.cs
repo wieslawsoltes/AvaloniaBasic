@@ -14,7 +14,7 @@ public class ProgressBarViewModel : IDragItem
     public Control CreatePreview()
     {
         var progressBar = new ProgressBar();
-        progressBar.Width = 100d;
+        progressBar.Width = 200d;
         progressBar.Height = 30d;
         progressBar.Background = Brushes.Black;
         return progressBar;
@@ -23,7 +23,7 @@ public class ProgressBarViewModel : IDragItem
     public Control CreateControl()
     {
         var progressBar = new ProgressBar();
-        progressBar.Width = 100d;
+        progressBar.Width = 200d;
         progressBar.Height = 30d;
         progressBar.Background = Brushes.LightGray;
         DragSettings.SetIsDropArea(progressBar, true);
