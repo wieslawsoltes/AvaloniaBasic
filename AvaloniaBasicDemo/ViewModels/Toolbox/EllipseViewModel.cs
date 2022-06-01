@@ -25,7 +25,7 @@ public class EllipseViewModel : IDragItem
         var ellipse = new Ellipse();
         ellipse.Width = 100d;
         ellipse.Height = 100d;
-        ellipse.Fill = Brushes.LightGray;
+        ellipse.Fill = Brushes.Gray;
         return ellipse;
     }
 
