@@ -9,6 +9,8 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="AvaloniaBasicDemo.Views.MainWindow"
         x:DataType="vm:MainViewModel" x:CompileBindings="True"
+        WindowStartupLocation="CenterScreen" WindowState="Normal"
+        Width="1100" Height="700"
         Title="Avalonia Basic">
 
   <Design.DataContext>
