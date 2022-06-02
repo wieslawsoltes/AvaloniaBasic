@@ -18,6 +18,7 @@ public class ItemDragBehavior : Behavior<Control>
         AvaloniaProperty.Register<ItemDragBehavior, Canvas?>(nameof(PreviewCanvas));
 
     private Point _start;
+    private bool _started;
     private bool _isDragging;
     private Control? _previewControl;
     private IControl? _dropArea;
@@ -60,20 +61,24 @@ public class ItemDragBehavior : Behavior<Control>
             return;
         }
 
-        var point = e.GetPosition(PreviewCanvas);
-
-        _start = point;
-
-        e.Pointer.Capture(AssociatedObject);
+        _start = e.GetPosition(PreviewCanvas);
+        _started = true;
     }
 
     private void PointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        if (PreviewCanvas is null || AssociatedObject is null || e.Pointer.Captured == null)
+        if (PreviewCanvas is null || AssociatedObject is null)
         {
             return;
         }
 
+        _started = false;
+
+        if (!_isDragging)
+        {
+            return;
+        }
+        
         RemovePreview();
 
         if (_dropArea is { })
@@ -86,27 +91,29 @@ public class ItemDragBehavior : Behavior<Control>
         }
 
         _isDragging = false;
-
         e.Pointer.Capture(null);
     }
 
     private void PointerMoved(object? sender, PointerEventArgs e)
     {
-        if (PreviewCanvas is null || AssociatedObject is null || e.Pointer.Captured == null)
+        if (PreviewCanvas is null || AssociatedObject is null)
         {
             return;
         }
 
-        var point = e.GetPosition(PreviewCanvas);
-
+        if (!_started)
+        {
+            return;
+        }
+        
         if (!_isDragging)
         {
+            var point = e.GetPosition(PreviewCanvas);
             var minimumDragDelta = DragSettings.GetMinimumDragDelta(AssociatedObject);
             var delta = _start - point;
+
             if (Math.Abs(delta.X) > minimumDragDelta || Math.Abs(delta.Y) > minimumDragDelta)
             {
-                _isDragging = true;
-
                 FindDropArea(point);
  
                 if (_dropArea is { })
@@ -115,11 +122,15 @@ public class ItemDragBehavior : Behavior<Control>
                 }
 
                 AddPreview(point);
+                UpdatePreview();
+
+                _isDragging = true;
+                e.Pointer.Capture(AssociatedObject);
             }
         }
         else
         {
-            point = e.GetPosition(PreviewCanvas);
+            var point = e.GetPosition(PreviewCanvas);
 
             FindDropArea(point);
 
@@ -129,9 +140,8 @@ public class ItemDragBehavior : Behavior<Control>
             }
 
             MovePreview(point);
+            UpdatePreview();
         }
-
-        UpdatePreview();
     }
 
     private void FindDropArea(Point point)
