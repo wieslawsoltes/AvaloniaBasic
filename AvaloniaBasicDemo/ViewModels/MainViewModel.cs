@@ -5,18 +5,19 @@ using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using AvaloniaBasicDemo.Model;
 using AvaloniaBasicDemo.ViewModels.Toolbox;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasicDemo.ViewModels;
 
-public class MainViewModel
+public partial class MainViewModel : ObservableObject
 {
-    public ObservableCollection<IToolBoxItem> Toolboxes { get; set; }
+    [ObservableProperty] private ObservableCollection<IToolBoxItem> _toolboxes;
 
     public HierarchicalTreeDataGridSource<IToolBoxItem> Source { get; }
 
     public MainViewModel()
     {
-        Toolboxes = new ObservableCollection<IToolBoxItem>
+        _toolboxes = new ObservableCollection<IToolBoxItem>
         {
             new ToolboxGroupViewModel
             {
@@ -147,7 +148,7 @@ public class MainViewModel
             },
         };
 
-        Source = new HierarchicalTreeDataGridSource<IToolBoxItem>(Toolboxes)
+        Source = new HierarchicalTreeDataGridSource<IToolBoxItem>(_toolboxes)
 		{
 			Columns =
 			{
