@@ -2,7 +2,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:m="clr-namespace:AvaloniaBasicDemo.Model"
         xmlns:vm="clr-namespace:AvaloniaBasicDemo.ViewModels"
         xmlns:behaviors="clr-namespace:AvaloniaBasicDemo.Behaviors"
         xmlns:controls="clr-namespace:AvaloniaBasicDemo.Controls"
@@ -25,8 +24,9 @@
     <DockPanel>
 
       <TreeDataGrid Source="{Binding Source}" 
-               Width="200" 
-               DockPanel.Dock="Left">
+                    ShowColumnHeaders="False"
+                    Width="200" 
+                    DockPanel.Dock="Left">
         <TreeDataGrid.Styles>
           <Style Selector="TreeDataGridRow">
             <Setter Property="(Interaction.Behaviors)">
