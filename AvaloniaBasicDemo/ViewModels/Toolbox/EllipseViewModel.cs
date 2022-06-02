@@ -1,17 +1,12 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class EllipseViewModel : IDragItem
+public class EllipseViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var ellipse = new Ellipse();
         ellipse.Width = 100d;
@@ -20,7 +15,7 @@ public class EllipseViewModel : IDragItem
         return ellipse;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var ellipse = new Ellipse();
         ellipse.Width = 100d;
@@ -29,7 +24,7 @@ public class EllipseViewModel : IDragItem
         return ellipse;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not Ellipse ellipse)
         {

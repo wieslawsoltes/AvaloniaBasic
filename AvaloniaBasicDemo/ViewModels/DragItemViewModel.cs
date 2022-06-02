@@ -1,0 +1,18 @@
+using Avalonia.Controls;
+using AvaloniaBasicDemo.Model;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+
+namespace AvaloniaBasicDemo.ViewModels;
+
+public abstract partial class DragItemViewModel : ObservableObject, IDragItem
+{
+    [ObservableProperty] private string? _name;
+    [ObservableProperty] private string? _icon;
+    [ObservableProperty] private bool _isExpanded;
+
+    public abstract Control CreatePreview();
+
+    public abstract Control CreateControl();
+
+    public abstract void UpdatePreview(Control control, bool isPointerOver);
+}

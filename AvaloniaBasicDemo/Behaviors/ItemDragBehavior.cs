@@ -12,7 +12,7 @@ using AvaloniaBasicDemo.Utilities;
 
 namespace AvaloniaBasicDemo.Behaviors;
 
-public class ItemDragBehavior : Behavior<ListBoxItem>
+public class ItemDragBehavior : Behavior<Control>
 {
     public static readonly StyledProperty<Canvas?> PreviewCanvasProperty = 
         AvaloniaProperty.Register<ItemDragBehavior, Canvas?>(nameof(PreviewCanvas));
@@ -50,6 +50,11 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
     private void PointerPressed(object? sender, PointerPressedEventArgs e)
     {
+        if (AssociatedObject?.DataContext is not IDragItem)
+        {
+            return;
+        }
+
         if (PreviewCanvas is null)
         {
             return;
@@ -64,7 +69,7 @@ public class ItemDragBehavior : Behavior<ListBoxItem>
 
     private void PointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        if (PreviewCanvas is null || AssociatedObject is null)
+        if (PreviewCanvas is null || AssociatedObject is null || e.Pointer.Captured == null)
         {
             return;
         }

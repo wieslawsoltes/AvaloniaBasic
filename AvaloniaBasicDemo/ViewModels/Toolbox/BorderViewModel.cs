@@ -1,17 +1,12 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using AvaloniaBasicDemo.Behaviors;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class BorderViewModel : IDragItem
+public class BorderViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var border = new Border();
         border.Width = 100d;
@@ -20,7 +15,7 @@ public class BorderViewModel : IDragItem
         return border;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var border = new Border();
         border.Width = 100d;
@@ -32,7 +27,7 @@ public class BorderViewModel : IDragItem
         return border;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not Border border)
         {

@@ -1,17 +1,12 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class RectangleViewModel : IDragItem
+public class RectangleViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var rectangle = new Rectangle();
         rectangle.Width = 100d;
@@ -20,7 +15,7 @@ public class RectangleViewModel : IDragItem
         return rectangle;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var rectangle = new Rectangle();
         rectangle.Width = 100d;
@@ -29,7 +24,7 @@ public class RectangleViewModel : IDragItem
         return rectangle;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not Rectangle rectangle)
         {

@@ -1,17 +1,12 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using AvaloniaBasicDemo.Behaviors;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class TabControlViewModel : IDragItem
+public class TabControlViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var tabControl = new TabControl();
         tabControl.Items = new[] { "Item 1", "Item 2", "Item 3" };
@@ -20,7 +15,7 @@ public class TabControlViewModel : IDragItem
         return tabControl;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var tabControl = new TabControl();
         tabControl.Items = new[] { "Item 1", "Item 2", "Item 3" };
@@ -31,7 +26,7 @@ public class TabControlViewModel : IDragItem
         return tabControl;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not TabControl tabControl)
         {

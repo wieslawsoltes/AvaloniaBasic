@@ -1,16 +1,11 @@
 using Avalonia.Controls;
 using Avalonia.Media;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class DataGridViewModel : IDragItem
+public class DataGridViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var dataGrid = new DataGrid();
         dataGrid.AutoGenerateColumns = false;
@@ -23,7 +18,7 @@ public class DataGridViewModel : IDragItem
         return dataGrid;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var dataGrid = new DataGrid();
         dataGrid.AutoGenerateColumns = false;
@@ -36,7 +31,7 @@ public class DataGridViewModel : IDragItem
         return dataGrid;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not DataGrid dataGrid)
         {

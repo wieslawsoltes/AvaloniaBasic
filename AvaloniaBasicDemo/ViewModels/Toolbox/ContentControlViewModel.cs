@@ -1,17 +1,12 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using AvaloniaBasicDemo.Behaviors;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class ContentControlViewModel : IDragItem
+public class ContentControlViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var contentControl = new ContentControl();
         contentControl.Width = 100d;
@@ -20,7 +15,7 @@ public class ContentControlViewModel : IDragItem
         return contentControl;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var contentControl = new ContentControl();
         contentControl.Width = 100d;
@@ -31,7 +26,7 @@ public class ContentControlViewModel : IDragItem
         return contentControl;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not ContentControl contentControl)
         {

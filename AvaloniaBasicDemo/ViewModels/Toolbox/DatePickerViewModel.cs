@@ -1,17 +1,12 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Media;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class DatePickerViewModel : IDragItem
+public class DatePickerViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var datePicker = new DatePicker();
         datePicker.SelectedDate = DateTimeOffset.Now;
@@ -19,7 +14,7 @@ public class DatePickerViewModel : IDragItem
         return datePicker;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var datePicker = new DatePicker();
         datePicker.SelectedDate = DateTimeOffset.Now;
@@ -27,7 +22,7 @@ public class DatePickerViewModel : IDragItem
         return datePicker;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not DatePicker datePicker)
         {

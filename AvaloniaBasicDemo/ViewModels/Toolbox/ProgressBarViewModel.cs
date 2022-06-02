@@ -1,17 +1,12 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using AvaloniaBasicDemo.Behaviors;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class ProgressBarViewModel : IDragItem
+public class ProgressBarViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var progressBar = new ProgressBar();
         progressBar.Width = 200d;
@@ -23,7 +18,7 @@ public class ProgressBarViewModel : IDragItem
         return progressBar;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var progressBar = new ProgressBar();
         progressBar.Width = 200d;
@@ -37,7 +32,7 @@ public class ProgressBarViewModel : IDragItem
         return progressBar;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not ProgressBar progressBar)
         {

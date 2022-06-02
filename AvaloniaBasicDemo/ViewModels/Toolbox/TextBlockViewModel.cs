@@ -1,16 +1,11 @@
 using Avalonia.Controls;
 using Avalonia.Media;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class TextBlockViewModel : IDragItem
+public class TextBlockViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var textBlock = new TextBlock();
         textBlock.Text = "Text";
@@ -18,7 +13,7 @@ public class TextBlockViewModel : IDragItem
         return textBlock;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var textBlock = new TextBlock();
         textBlock.Text = "Text";
@@ -26,7 +21,7 @@ public class TextBlockViewModel : IDragItem
         return textBlock;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not TextBlock textBlock)
         {

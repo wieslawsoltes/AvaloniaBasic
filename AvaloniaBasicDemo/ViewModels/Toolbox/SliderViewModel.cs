@@ -1,18 +1,12 @@
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using AvaloniaBasicDemo.Behaviors;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class SliderViewModel : IDragItem
+public class SliderViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var slider = new Slider();
         slider.Width = 100d;
@@ -23,7 +17,7 @@ public class SliderViewModel : IDragItem
         return slider;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var slider = new Slider();
         slider.Width = 100d;
@@ -36,7 +30,7 @@ public class SliderViewModel : IDragItem
         return slider;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not Slider slider)
         {

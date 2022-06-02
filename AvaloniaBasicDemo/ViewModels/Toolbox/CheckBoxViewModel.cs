@@ -1,17 +1,12 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using AvaloniaBasicDemo.Behaviors;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class CheckBoxViewModel : IDragItem
+public class CheckBoxViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var checkBox = new CheckBox();
         checkBox.Content = "CheckBox";
@@ -19,7 +14,7 @@ public class CheckBoxViewModel : IDragItem
         return checkBox;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var checkBox = new CheckBox();
         checkBox.Content = "CheckBox";
@@ -30,7 +25,7 @@ public class CheckBoxViewModel : IDragItem
         return checkBox;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not CheckBox checkBox)
         {

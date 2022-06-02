@@ -2,17 +2,12 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using AvaloniaBasicDemo.Behaviors;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class ScrollBarViewModel : IDragItem
+public class ScrollBarViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var scrollBar = new ScrollBar();
         scrollBar.Width = 30d;
@@ -21,7 +16,7 @@ public class ScrollBarViewModel : IDragItem
         return scrollBar;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var scrollBar = new ScrollBar();
         scrollBar.Width = 30d;
@@ -32,7 +27,7 @@ public class ScrollBarViewModel : IDragItem
         return scrollBar;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not ScrollBar scrollBar)
         {

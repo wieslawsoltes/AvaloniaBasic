@@ -1,24 +1,19 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using AvaloniaBasicDemo.Behaviors;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class GridSplitterViewModel : IDragItem
+public class GridSplitterViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var gridSplitter = new GridSplitter();
         gridSplitter.Background = Brushes.Black;
         return gridSplitter;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var gridSplitter = new GridSplitter();
         gridSplitter.Background = Brushes.LightGray;
@@ -27,7 +22,7 @@ public class GridSplitterViewModel : IDragItem
         return gridSplitter;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not GridSplitter gridSplitter)
         {

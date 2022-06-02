@@ -1,17 +1,12 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using AvaloniaBasicDemo.Behaviors;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class CanvasViewModel : IDragItem
+public class CanvasViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var canvas = new Canvas();
         canvas.Width = 200d;
@@ -20,7 +15,7 @@ public class CanvasViewModel : IDragItem
         return canvas;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var canvas = new Canvas();
         canvas.Width = 200d;
@@ -31,7 +26,7 @@ public class CanvasViewModel : IDragItem
         return canvas;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not Canvas canvas)
         {

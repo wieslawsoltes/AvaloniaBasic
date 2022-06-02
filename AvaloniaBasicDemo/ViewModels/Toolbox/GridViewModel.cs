@@ -1,17 +1,12 @@
 using Avalonia.Controls;
 using Avalonia.Media;
 using AvaloniaBasicDemo.Behaviors;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class GridViewModel : IDragItem
+public class GridViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var grid = new Grid();
         grid.Width = 100d;
@@ -20,7 +15,7 @@ public class GridViewModel : IDragItem
         return grid;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var grid = new Grid();
         grid.Width = 100d;
@@ -31,7 +26,7 @@ public class GridViewModel : IDragItem
         return grid;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not Grid grid)
         {

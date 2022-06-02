@@ -1,18 +1,12 @@
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Media;
 using AvaloniaBasicDemo.Behaviors;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class SeparatorViewModel : IDragItem
+public class SeparatorViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var separator = new Separator();
         separator.Width = 100d;
@@ -21,7 +15,7 @@ public class SeparatorViewModel : IDragItem
         return separator;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var separator = new Separator();
         separator.Width = 100d;
@@ -32,7 +26,7 @@ public class SeparatorViewModel : IDragItem
         return separator;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not Separator separator)
         {

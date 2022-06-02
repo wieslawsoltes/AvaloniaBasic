@@ -2,12 +2,8 @@
 
 namespace AvaloniaBasicDemo.Model;
 
-public interface IDragItem
+public interface IDragItem : IToolBoxItem
 {
-    string? Name { get; init; }
-
-    string? Icon { get; init; }
-
     Control CreatePreview();
 
     Control CreateControl();

@@ -1,17 +1,12 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Media;
-using AvaloniaBasicDemo.Model;
 
 namespace AvaloniaBasicDemo.ViewModels.Toolbox;
 
-public class CalendarViewModel : IDragItem
+public class CalendarViewModel : DragItemViewModel
 {
-    public string? Name { get; init; }
-
-    public string? Icon { get; init; }
-
-    public Control CreatePreview()
+    public override Control CreatePreview()
     {
         var calendar = new Calendar();
         calendar.SelectedDate = DateTime.Now;
@@ -19,7 +14,7 @@ public class CalendarViewModel : IDragItem
         return calendar;
     }
 
-    public Control CreateControl()
+    public override Control CreateControl()
     {
         var calendar = new Calendar();
         calendar.SelectedDate = DateTime.Now;
@@ -27,7 +22,7 @@ public class CalendarViewModel : IDragItem
         return calendar;
     }
 
-    public void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(Control control, bool isPointerOver)
     {
         if (control is not Calendar calendar)
         {
