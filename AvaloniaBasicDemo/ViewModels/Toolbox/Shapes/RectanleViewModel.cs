@@ -2,7 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 
-namespace AvaloniaBasicDemo.ViewModels.Toolbox;
+namespace AvaloniaBasicDemo.ViewModels.Toolbox.Shapes;
 
 public class RectangleViewModel : DragItemViewModel
 {

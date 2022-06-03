@@ -5,6 +5,7 @@ using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using AvaloniaBasicDemo.Model;
 using AvaloniaBasicDemo.ViewModels.Toolbox;
+using AvaloniaBasicDemo.ViewModels.Toolbox.Shapes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasicDemo.ViewModels;
@@ -132,10 +133,13 @@ public partial class MainViewModel : ObservableObject
                 Name = "Shapes",
                 Items = new ObservableCollection<IDragItem>
                 {
-                    // ...
+                    new ArcViewModel { Name = "Arc" },
                     new EllipseViewModel { Name = "Ellipse" },
+                    new LineViewModel { Name = "Line" },
+                    new PathViewModel { Name = "Path" },
+                    new PolygonViewModel { Name = "Polygon" },
+                    new PolylineViewModel { Name = "Polyline" },
                     new RectangleViewModel { Name = "Rectangle" },
-                    // ...
                 }
             },
             new ToolboxGroupViewModel
