@@ -157,7 +157,7 @@ public partial class MainViewModel : ObservableObject
 			Columns =
 			{
 				new HierarchicalExpanderColumn<IToolBoxItem>(
-                    new TemplateColumn<IToolBoxItem>(
+                    inner: new TemplateColumn<IToolBoxItem>(
 					    "Toolbox",
 					    new FuncDataTemplate<IToolBoxItem>((_, _) =>
                         {
@@ -171,26 +171,26 @@ public partial class MainViewModel : ObservableObject
 						    CanUserResizeColumn = false,
 						    CanUserSortColumn = false,
 					    },
-					    width: new GridLength(1, GridUnitType.Star)),
-				x =>
-                {
-                    if (x is ToolboxGroupViewModel toolboxGroupViewModel)
+					    width: new GridLength(1, GridUnitType.Star)), 
+                    childSelector: x =>
                     {
-                        return toolboxGroupViewModel.Items;
-                    }
+                        if (x is ToolboxGroupViewModel toolboxGroupViewModel)
+                        {
+                            return toolboxGroupViewModel.Items;
+                        }
 
-                    return null;
-                },
-				x =>
-				{
-                    if (x is ToolboxGroupViewModel toolboxGroupViewModel)
-                    {
-                        return toolboxGroupViewModel.Items?.Count > 0;
-                    }
+                        return null;
+                    },
+                    hasChildrenSelector: x =>
+				    {
+                        if (x is ToolboxGroupViewModel toolboxGroupViewModel)
+                        {
+                            return toolboxGroupViewModel.Items?.Count > 0;
+                        }
 
-                    return false;
-                },
-				x => x.IsExpanded)
+                        return false;
+                    },
+                    isExpandedSelector: x => x.IsExpanded)
             }
 		};
     }
