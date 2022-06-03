@@ -25,7 +25,7 @@
 
       <TreeDataGrid Source="{Binding Source}" 
                     ShowColumnHeaders="False"
-                    Width="200" 
+                    Width="250" 
                     DockPanel.Dock="Left">
         <TreeDataGrid.Styles>
           <Style Selector="TreeDataGridRow">
