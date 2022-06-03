@@ -9,7 +9,7 @@ public class ContextMenuViewModel : DragItemViewModel
     public override Control CreatePreview()
     {
         var contextMenu = new ContextMenu();
-        contextMenu.Width = 100d;
+        contextMenu.Width = 200d;
         contextMenu.Height = 100d;
         contextMenu.Background = Brushes.Black;
         return contextMenu;
@@ -18,7 +18,7 @@ public class ContextMenuViewModel : DragItemViewModel
     public override Control CreateControl()
     {
         var contextMenu = new ContextMenu();
-        contextMenu.Width = 100d;
+        contextMenu.Width = 200d;
         contextMenu.Height = 100d;
         contextMenu.Background = Brushes.LightGray;
         DragSettings.SetIsDropArea(contextMenu, true);
