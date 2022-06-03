@@ -294,6 +294,10 @@ public class ItemDragBehavior : Behavior<Control>
             else if (_dropArea is Decorator decorator)
             {
                 decorator.Child = control;
+            }
+            else if (_dropArea is ItemsControl itemsControl)
+            {
+                // TODO:
             } 
         }
     }
