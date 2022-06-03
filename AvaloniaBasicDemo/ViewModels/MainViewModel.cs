@@ -111,9 +111,9 @@ public partial class MainViewModel : ObservableObject
                 Items = new ObservableCollection<IDragItem>
                 {
                     new CalendarViewModel { Name = "Calendar" },
-                    // CalendarDatePicker
+                    new CalendarDatePickerViewModel { Name = "CalendarDatePicker" },
                     new DatePickerViewModel { Name = "DatePicker" },
-                    // TimePicker
+                    new TimePickerViewModel { Name = "TimePicker" },
                 }
             },
             new ToolboxGroupViewModel
