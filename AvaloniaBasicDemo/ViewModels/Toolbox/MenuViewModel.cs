@@ -9,8 +9,8 @@ public class MenuViewModel : DragItemViewModel
     public override Control CreatePreview()
     {
         var menu = new Menu();
-        menu.Width = 100d;
-        menu.Height = 100d;
+        menu.Width = 200d;
+        menu.Height = 30d;
         menu.Background = Brushes.Black;
         return menu;
     }
@@ -18,8 +18,8 @@ public class MenuViewModel : DragItemViewModel
     public override Control CreateControl()
     {
         var menu = new Menu();
-        menu.Width = 100d;
-        menu.Height = 100d;
+        menu.Width = 200d;
+        menu.Height = 30d;
         menu.Background = Brushes.LightGray;
         DragSettings.SetIsDropArea(menu, true);
         DragSettings.SetSnapToGrid(menu, false);
