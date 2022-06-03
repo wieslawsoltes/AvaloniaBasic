@@ -1,0 +1,34 @@
+using System;
+using Avalonia.Controls;
+using Avalonia.Media;
+
+namespace AvaloniaBasicDemo.ViewModels.Toolbox;
+
+public class CalendarDatePickerViewModel : DragItemViewModel
+{
+    public override Control CreatePreview()
+    {
+        var calendarDatePicker = new CalendarDatePicker();
+        calendarDatePicker.SelectedDate = DateTime.Now;
+        calendarDatePicker.Background = Brushes.Black;
+        return calendarDatePicker;
+    }
+
+    public override Control CreateControl()
+    {
+        var calendarDatePicker = new CalendarDatePicker();
+        calendarDatePicker.SelectedDate = DateTime.Now;
+        //calendarDatePicker.Background = Brushes.Blue;
+        return calendarDatePicker;
+    }
+
+    public override void UpdatePreview(Control control, bool isPointerOver)
+    {
+        if (control is not CalendarDatePicker calendarDatePicker)
+        {
+            return;
+        }
+
+        calendarDatePicker.Background = isPointerOver ? Brushes.Green : Brushes.Red;
+    }
+}
