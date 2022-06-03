@@ -27,10 +27,12 @@ public partial class MainViewModel : ObservableObject
                 {
                     new BorderViewModel { Name = "Border" },
                     new CanvasViewModel { Name = "Canvas" },
+                    new DecoratorViewModel { Name = "Decorator" },
                     new DockPanelViewModel { Name = "DockPanel" },
                     new ExpanderViewModel { Name = "Expander" },
                     new GridViewModel { Name = "Grid" },
                     new GridSplitterViewModel { Name = "GridSplitter" },
+                    new LayoutTransformControlViewModel { Name = "LayoutTransformControl" },
                     new PanelViewModel { Name = "Panel" },
                     new RelativePanelViewModel { Name = "RelativePanel" },
                     new ScrollBarViewModel { Name = "ScrollBar" },
@@ -47,9 +49,11 @@ public partial class MainViewModel : ObservableObject
                 Items = new ObservableCollection<IDragItem>
                 {
                     new ButtonViewModel { Name = "Button" },
+                    new ButtonSpinnerViewModel { Name = "ButtonSpinner" },
                     new RepeatButtonViewModel { Name = "RepeatButton" },
                     new RadioButtonViewModel { Name = "RadioButton" },
                     new ToggleButtonViewModel { Name = "ToggleButton" },
+                    new ToggleSwitchViewModel { Name = "ToggleSwitch" },
                 }
             },
             new ToolboxGroupViewModel
@@ -57,10 +61,14 @@ public partial class MainViewModel : ObservableObject
                 Name = "Data Display",
                 Items = new ObservableCollection<IDragItem>
                 {
+                    new CarouselViewModel { Name = "Carousel" },
                     new DataGridViewModel { Name = "DataGrid" },
                     new ItemsControlViewModel { Name = "ItemsControl" },
                     new ItemsRepeaterViewModel { Name = "ItemsRepeater" },
                     new ListBoxViewModel { Name = "ListBox" },
+                    new TabControlViewModel { Name = "TabControl" },
+                    new TabStripViewModel { Name = "TabStrip" },
+                    new TreeDataGridViewModel { Name = "TreeDataGrid" },
                     new TreeViewViewModel { Name = "TreeView" },
                 }
             },
@@ -69,10 +77,13 @@ public partial class MainViewModel : ObservableObject
                 Name = "Text",
                 Items = new ObservableCollection<IDragItem>
                 {
+                    new AccessTextViewModel { Name = "AccessText" },
                     new AutoCompleteBoxViewModel { Name = "AutoCompleteBox" },
+                    new MaskedTextBoxViewModel { Name = "MaskedTextBoxViewModel" },
+                    new NumericUpDownViewModel { Name = "NumericUpDown" },
                     new TextBlockViewModel { Name = "TextBlock" },
                     new TextBoxViewModel { Name = "TextBox" },
-                    // NumericUpDown
+                    
                 }
             },
             new ToolboxGroupViewModel
@@ -92,7 +103,7 @@ public partial class MainViewModel : ObservableObject
                 {
                     new ContentControlViewModel { Name = "ContentControl" },
                     new LabelViewModel { Name = "Label" },
-                    new TabControlViewModel { Name = "TabControl" },
+                    new TransitioningContentControlViewModel { Name = "TransitioningContentControl" },
                     new ViewboxViewModel { Name = "Viewbox" },
                 }
             },
@@ -121,11 +132,13 @@ public partial class MainViewModel : ObservableObject
                 Name = "Menus",
                 Items = new ObservableCollection<IDragItem>
                 {
-                    // ContextMenu
-                    // Flyout, ...
+                    new ContextMenuViewModel { Name = "ContextMenu" },
+                    // Flyout
                     new MenuViewModel { Name = "Menu" },
-                    // MenuItem
+                    // MenuFlyout
+                    new MenuItemViewModel { Name = "MenuItem" },
                     new SeparatorViewModel { Name = "Separator" },
+                    // NativeMenu
                 }
             },
             new ToolboxGroupViewModel
