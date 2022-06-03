@@ -52,7 +52,9 @@ public partial class MainViewModel : ObservableObject
                     new ButtonSpinnerViewModel { Name = "ButtonSpinner" },
                     new RepeatButtonViewModel { Name = "RepeatButton" },
                     new RadioButtonViewModel { Name = "RadioButton" },
+                    // SplitButton
                     new ToggleButtonViewModel { Name = "ToggleButton" },
+                    // ToggleSplitButton
                     new ToggleSwitchViewModel { Name = "ToggleSwitch" },
                 }
             },
