@@ -18,7 +18,6 @@ public class MenuItemViewModel : DragItemViewModel
     {
         var menuItem = new MenuItem();
         menuItem.Header = "MenuItem";
-        menuItem.Background = Brushes.LightGray;
         DragSettings.SetIsDropArea(menuItem, true);
         DragSettings.SetSnapToGrid(menuItem, false);
         return menuItem;
