@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -297,7 +298,10 @@ public class ItemDragBehavior : Behavior<Control>
             }
             else if (_dropArea is ItemsControl itemsControl)
             {
-                // TODO:
+                if (itemsControl.Items is AvaloniaList<object> items)
+                {
+                    items.Add(control);
+                }
             } 
         }
     }
