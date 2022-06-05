@@ -9,6 +9,7 @@ using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 using AvaloniaBasicDemo.Model;
 using AvaloniaBasicDemo.Utilities;
+using AvaloniaBasicDemo.ViewModels;
 
 namespace AvaloniaBasicDemo.Behaviors;
 
@@ -310,7 +311,12 @@ public class ItemDragBehavior : Behavior<Control>
                 {
                     items.Add(control);
                 }
-            } 
+            }
+
+            if (DropAreaCanvas?.DataContext is MainViewModel mainViewModel)
+            {
+                mainViewModel.UpdateLogicalTreeSource(DropAreaCanvas);
+            }
         }
     }
 }
