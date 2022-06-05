@@ -9,7 +9,7 @@
         x:Class="AvaloniaBasicDemo.Views.MainWindow"
         x:DataType="vm:MainViewModel" x:CompileBindings="True"
         WindowStartupLocation="CenterScreen" WindowState="Normal"
-        Width="1100" Height="700"
+        Width="1320" Height="700"
         Title="Avalonia Basic">
 
   <Design.DataContext>
@@ -19,15 +19,14 @@
   <Panel behaviors:DragSettings.MinimumDragDelta="3"
          behaviors:DragSettings.SnapToGrid="True"
          behaviors:DragSettings.SnapX="10"
-         behaviors:DragSettings.SnapY="10"
-         DataContext="{Binding Toolbox}">
+         behaviors:DragSettings.SnapY="10">
 
-    <DockPanel>
+    <Grid ColumnDefinitions="250, *, 200">
 
       <TreeDataGrid Source="{Binding ToolboxSource}" 
+                    DataContext="{Binding Toolbox}"
                     ShowColumnHeaders="False"
-                    Width="250" 
-                    DockPanel.Dock="Left">
+                    Grid.Column="0">
         <TreeDataGrid.Styles>
           <Style Selector="TreeDataGridRow">
             <Setter Property="(Interaction.Behaviors)">
@@ -43,11 +42,17 @@
         </TreeDataGrid.Styles>
       </TreeDataGrid>
 
+      <TreeDataGrid Source="{Binding LogicalTreeSource}" 
+                    ShowColumnHeaders="False"
+                    Grid.Column="2">
+      </TreeDataGrid>
+
       <Border BoxShadow="4 11 30 1 #3F000000"
               Background="White" 
               Width="800"
               Height="600"
-              ZIndex="-1">
+              ZIndex="-1"
+              Grid.Column="1">
         <Panel>
           <controls:GridLines />
           <Canvas Name="DropAreaCanvas"
@@ -58,7 +63,7 @@
         </Panel>
       </Border>
 
-    </DockPanel>
+    </Grid>
 
     <Canvas Name="PreviewCanvas"
             IsHitTestVisible="False" />
