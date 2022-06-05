@@ -17,7 +17,7 @@ public partial class MainWindow : Window
     {
         if (DataContext is MainViewModel mainViewModel)
         {
-            mainViewModel.UpdateLogicalTreeSource(DropAreaCanvas);
+            mainViewModel.Tree.UpdateLogicalTree(DropAreaCanvas);
         }
     }
 }

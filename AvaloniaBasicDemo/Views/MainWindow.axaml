@@ -43,6 +43,7 @@
       </TreeDataGrid>
 
       <TreeDataGrid Source="{Binding LogicalTreeSource}" 
+                    DataContext="{Binding Tree}"
                     ShowColumnHeaders="False"
                     Grid.Column="2">
       </TreeDataGrid>

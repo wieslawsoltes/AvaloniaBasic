@@ -315,7 +315,7 @@ public class ItemDragBehavior : Behavior<Control>
 
             if (DropAreaCanvas?.DataContext is MainViewModel mainViewModel)
             {
-                mainViewModel.UpdateLogicalTreeSource(DropAreaCanvas);
+                mainViewModel.Tree.UpdateLogicalTree(DropAreaCanvas);
             }
         }
     }
