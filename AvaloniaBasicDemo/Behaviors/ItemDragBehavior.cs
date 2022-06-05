@@ -174,7 +174,7 @@ public class ItemDragBehavior : Behavior<Control>
 
         _dropArea = dropAreas.FirstOrDefault(DragSettings.GetIsDropArea);
 
-        Debug.WriteLine($"dropAreas: {dropAreas.Count}, _dropArea: {_dropArea}, point: {point}");
+        // Debug.WriteLine($"dropAreas: {dropAreas.Count}, _dropArea: {_dropArea}, point: {point}");
     }
 
     private Point SnapPoint(Point point, bool isPreview)
@@ -278,7 +278,7 @@ public class ItemDragBehavior : Behavior<Control>
 
             // TODO: Properly position in panel.
 
-            Debug.WriteLine($"_dropArea: {_dropArea}, point: {point}");
+            // Debug.WriteLine($"_dropArea: {_dropArea}, point: {point}");
 
             if (_dropArea is Canvas)
             {
