@@ -19,11 +19,12 @@
   <Panel behaviors:DragSettings.MinimumDragDelta="3"
          behaviors:DragSettings.SnapToGrid="True"
          behaviors:DragSettings.SnapX="10"
-         behaviors:DragSettings.SnapY="10">
+         behaviors:DragSettings.SnapY="10"
+         DataContext="{Binding Toolbox}">
 
     <DockPanel>
 
-      <TreeDataGrid Source="{Binding Source}" 
+      <TreeDataGrid Source="{Binding ToolboxSource}" 
                     ShowColumnHeaders="False"
                     Width="250" 
                     DockPanel.Dock="Left">
@@ -33,6 +34,7 @@
               <BehaviorCollectionTemplate>
                 <BehaviorCollection>
                   <behaviors:ItemDragBehavior PreviewCanvas="{Binding #PreviewCanvas}"
+                                              DropAreaCanvas="{Binding #DropAreaCanvas}"
                                               x:CompileBindings="False" />
                 </BehaviorCollection>
               </BehaviorCollectionTemplate>
@@ -48,7 +50,8 @@
               ZIndex="-1">
         <Panel>
           <controls:GridLines />
-          <Canvas Background="Transparent" 
+          <Canvas Name="DropAreaCanvas"
+                  Background="Transparent" 
                   Width="800"
                   Height="600"
                   behaviors:DragSettings.IsDropArea="True" />
