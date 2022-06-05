@@ -18,6 +18,9 @@ public class ItemDragBehavior : Behavior<Control>
     public static readonly StyledProperty<Canvas?> PreviewCanvasProperty = 
         AvaloniaProperty.Register<ItemDragBehavior, Canvas?>(nameof(PreviewCanvas));
 
+    public static readonly StyledProperty<Canvas?> DropAreaCanvasProperty = 
+        AvaloniaProperty.Register<ItemDragBehavior, Canvas?>(nameof(DropAreaCanvas));
+
     private Point _start;
     private bool _started;
     private bool _isDragging;
@@ -28,6 +31,12 @@ public class ItemDragBehavior : Behavior<Control>
     {
         get => GetValue(PreviewCanvasProperty);
         set => SetValue(PreviewCanvasProperty, value);
+    }
+
+    public Canvas? DropAreaCanvas
+    {
+        get => GetValue(DropAreaCanvasProperty);
+        set => SetValue(DropAreaCanvasProperty, value);
     }
 
     protected override void OnAttachedToVisualTree()
