@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
 using Avalonia.Controls.Templates;
@@ -13,6 +14,7 @@ namespace AvaloniaBasicDemo.ViewModels;
 public partial class ToolboxViewModel : ObservableObject
 {
     [ObservableProperty] private ObservableCollection<IToolBoxItem> _toolboxes;
+    [ObservableProperty] private IToolBoxItem? _selectedToolBoxItem;
 
     public HierarchicalTreeDataGridSource<IToolBoxItem> ToolboxSource { get; }
 
@@ -207,6 +209,13 @@ public partial class ToolboxViewModel : ObservableObject
                     },
                     isExpandedSelector: x => x.IsExpanded)
             }
+        };
+
+        ToolboxSource.RowSelection!.SingleSelect = true;
+
+        ToolboxSource.RowSelection.SelectionChanged += (_, args) =>
+        {
+            SelectedToolBoxItem = args.SelectedItems.FirstOrDefault();
         };
     }
 }
