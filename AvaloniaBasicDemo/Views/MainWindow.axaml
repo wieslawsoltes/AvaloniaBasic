@@ -9,7 +9,7 @@
         x:Class="AvaloniaBasicDemo.Views.MainWindow"
         x:DataType="vm:MainViewModel" x:CompileBindings="True"
         WindowStartupLocation="CenterScreen" WindowState="Normal"
-        Width="1320" Height="700"
+        Width="1500" Height="700"
         Title="Avalonia Basic">
 
   <Design.DataContext>
@@ -21,7 +21,7 @@
          behaviors:DragSettings.SnapX="10"
          behaviors:DragSettings.SnapY="10">
 
-    <Grid ColumnDefinitions="250, *, 200">
+    <Grid ColumnDefinitions="250, *, 400">
 
       <TreeDataGrid Source="{Binding ToolboxSource}" 
                     DataContext="{Binding Toolbox}"
@@ -42,11 +42,42 @@
         </TreeDataGrid.Styles>
       </TreeDataGrid>
 
-      <TreeDataGrid Source="{Binding LogicalTreeSource}" 
-                    DataContext="{Binding Tree}"
-                    ShowColumnHeaders="False"
-                    Grid.Column="2">
-      </TreeDataGrid>
+      <Grid RowDefinitions="*,*" 
+            Grid.Column="2">
+        <TreeDataGrid Source="{Binding LogicalTreeSource}" 
+                      DataContext="{Binding Tree}"
+                      ShowColumnHeaders="False"
+                      Grid.Row="0">
+        </TreeDataGrid>
+        <TreeDataGrid Source="{Binding PropertiesSource}" 
+                      DataContext="{Binding Tree}"
+                      ShowColumnHeaders="True"
+                      Grid.Row="1">
+          <TreeDataGrid.Styles>
+            <Style Selector="TreeDataGridExpanderCell">
+              <Setter Property="Template">
+                <ControlTemplate>
+                  <Border Background="{TemplateBinding Background}"
+                          Padding="0">
+                    <DockPanel>
+                      <Border DockPanel.Dock="Left"
+                              Margin="4 0"
+                              Width="12" Height="12">
+                        <ToggleButton Classes="ExpandCollapseChevron"
+                                      Focusable="False"
+                                      IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                                      IsVisible="{TemplateBinding ShowExpander}"
+                                      Cursor="Hand"/>
+                      </Border>
+                      <Decorator Name="PART_Content"/>
+                    </DockPanel>
+                  </Border>
+                </ControlTemplate>
+              </Setter>
+            </Style>
+          </TreeDataGrid.Styles>
+        </TreeDataGrid>
+      </Grid>
 
       <Border BoxShadow="4 11 30 1 #3F000000"
               Background="White" 
