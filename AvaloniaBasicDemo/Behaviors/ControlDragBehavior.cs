@@ -76,6 +76,23 @@ public class ControlDragBehavior : PointerEventsBehavior<Control>
         }
     }
 
+    private Point SnapPoint(Point point)
+    {
+        if (AssociatedObject is null)
+        {
+            return point;
+        }
+
+        IAvaloniaObject snapObject = AssociatedObject;
+
+        var snapToGrid = DragSettings.GetSnapToGrid(snapObject);
+        var snapX = DragSettings.GetSnapX(snapObject);
+        var snapY = DragSettings.GetSnapY(snapObject);
+        var snappedPoint = Snap.SnapPoint(point, snapX, snapY, snapToGrid);
+
+        return snappedPoint;
+    }
+    
     private Control? FindDragArea(Point point)
     {
         var visuals = AssociatedObject
