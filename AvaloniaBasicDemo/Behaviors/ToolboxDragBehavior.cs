@@ -164,7 +164,6 @@ public class ToolboxDragBehavior : Behavior<Control>
 
         var root = AssociatedObject.GetVisualRoot();
 
-        // TODO: var visuals = root.GetVisualsAt(point);
         var visuals = (root as TopLevel)
             .GetVisualDescendants()
             .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
@@ -173,8 +172,6 @@ public class ToolboxDragBehavior : Behavior<Control>
         var dropAreas = visuals.OfType<IControl>().Where(DragSettings.GetIsDropArea).ToList();
 
         _dropArea = dropAreas.FirstOrDefault(DragSettings.GetIsDropArea);
-
-        // Debug.WriteLine($"dropAreas: {dropAreas.Count}, _dropArea: {_dropArea}, point: {point}");
     }
 
     private Point SnapPoint(Point point, bool isPreview)
@@ -277,8 +274,6 @@ public class ToolboxDragBehavior : Behavior<Control>
             point = SnapPoint(point, false);
 
             // TODO: Properly position in panel.
-
-            // Debug.WriteLine($"_dropArea: {_dropArea}, point: {point}");
 
             if (_dropArea is Canvas)
             {
