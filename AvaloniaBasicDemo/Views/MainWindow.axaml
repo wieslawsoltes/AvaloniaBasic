@@ -32,9 +32,9 @@
             <Setter Property="(Interaction.Behaviors)">
               <BehaviorCollectionTemplate>
                 <BehaviorCollection>
-                  <behaviors:ItemDragBehavior PreviewCanvas="{Binding #PreviewCanvas}"
-                                              DropAreaCanvas="{Binding #DropAreaCanvas}"
-                                              x:CompileBindings="False" />
+                  <behaviors:ToolboxDragBehavior PreviewCanvas="{Binding #PreviewCanvas}"
+                                                 DropAreaCanvas="{Binding #DropAreaCanvas}"
+                                                 x:CompileBindings="False" />
                 </BehaviorCollection>
               </BehaviorCollectionTemplate>
             </Setter>

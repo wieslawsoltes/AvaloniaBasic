@@ -13,13 +13,13 @@ using AvaloniaBasicDemo.ViewModels;
 
 namespace AvaloniaBasicDemo.Behaviors;
 
-public class ItemDragBehavior : Behavior<Control>
+public class ToolboxDragBehavior : Behavior<Control>
 {
     public static readonly StyledProperty<Canvas?> PreviewCanvasProperty = 
-        AvaloniaProperty.Register<ItemDragBehavior, Canvas?>(nameof(PreviewCanvas));
+        AvaloniaProperty.Register<ToolboxDragBehavior, Canvas?>(nameof(PreviewCanvas));
 
     public static readonly StyledProperty<Canvas?> DropAreaCanvasProperty = 
-        AvaloniaProperty.Register<ItemDragBehavior, Canvas?>(nameof(DropAreaCanvas));
+        AvaloniaProperty.Register<ToolboxDragBehavior, Canvas?>(nameof(DropAreaCanvas));
 
     private Point _start;
     private bool _started;

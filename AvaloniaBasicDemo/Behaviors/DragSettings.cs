@@ -5,19 +5,19 @@ namespace AvaloniaBasicDemo.Behaviors;
 public class DragSettings : AvaloniaObject
 {
     public static readonly AttachedProperty<bool> IsDropAreaProperty = 
-        AvaloniaProperty.RegisterAttached<IAvaloniaObject, bool>("IsDropArea", typeof(ItemDragBehavior));
+        AvaloniaProperty.RegisterAttached<IAvaloniaObject, bool>("IsDropArea", typeof(ToolboxDragBehavior));
 
     public static readonly AttachedProperty<double> MinimumDragDeltaProperty = 
-        AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("MinimumDragDelta", typeof(ItemDragBehavior), defaultValue: 3d, inherits: true);
+        AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("MinimumDragDelta", typeof(ToolboxDragBehavior), defaultValue: 3d, inherits: true);
 
     public static readonly AttachedProperty<bool> SnapToGridProperty = 
-        AvaloniaProperty.RegisterAttached<IAvaloniaObject, bool>("SnapToGrid", typeof(ItemDragBehavior), defaultValue: false, inherits: true);
+        AvaloniaProperty.RegisterAttached<IAvaloniaObject, bool>("SnapToGrid", typeof(ToolboxDragBehavior), defaultValue: false, inherits: true);
 
     public static readonly AttachedProperty<double> SnapXProperty = 
-        AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("SnapX", typeof(ItemDragBehavior), defaultValue: 10d, inherits: true);
+        AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("SnapX", typeof(ToolboxDragBehavior), defaultValue: 10d, inherits: true);
 
     public static readonly AttachedProperty<double> SnapYProperty = 
-        AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("SnapY", typeof(ItemDragBehavior), defaultValue: 10d, inherits: true);
+        AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("SnapY", typeof(ToolboxDragBehavior), defaultValue: 10d, inherits: true);
 
     public static bool GetIsDropArea(IAvaloniaObject obj)
     {
