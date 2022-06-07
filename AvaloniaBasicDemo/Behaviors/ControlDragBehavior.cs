@@ -36,7 +36,12 @@ public class ControlDragBehavior : PointerEventsBehavior<Control>
         if (dragArea is { })
         {
             _dragArea = dragArea;
-            _start = e.GetPosition(AssociatedObject);
+
+            if (_dragArea.Parent is Canvas canvas)
+            {
+                _start = e.GetPosition(canvas);
+            }
+
             e.Pointer.Capture(AssociatedObject);
             e.Handled = true;
 
@@ -58,21 +63,22 @@ public class ControlDragBehavior : PointerEventsBehavior<Control>
     {
         if (_dragArea is { })
         {
-            if (_dragArea.Parent is Canvas)
+            if (_dragArea.Parent is Canvas canvas)
             {
-                var point = e.GetPosition(AssociatedObject);
-                var delta = point - _start;
+                var position = e.GetPosition(canvas);
+
+                var delta = position - _start;
+
+                _start = position;
 
                 var left = Canvas.GetLeft(_dragArea);
                 var top = Canvas.GetTop(_dragArea);
 
-                point = new Point(left + delta.X, top + delta.Y);
-                point = SnapPoint(point);
+                position = new Point(left + delta.X, top + delta.Y);
+                // position = SnapPoint(position);
 
-                Canvas.SetLeft(_dragArea, point.X);
-                Canvas.SetTop(_dragArea, point.Y);
-
-                _start = point;
+                Canvas.SetLeft(_dragArea, position.X);
+                Canvas.SetTop(_dragArea, position.Y);
             }
 
             e.Handled = true;
