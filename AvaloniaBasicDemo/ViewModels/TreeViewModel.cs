@@ -188,13 +188,13 @@ public partial class TreeViewModel : ObservableObject
         _properties.Add(clrProps);
     }
 
-    private void AddToLogicalTree(ILogical root, ObservableCollection<LogicalViewModel> tree, int level)
+    private void AddToLogicalTree(ILogical root, ObservableCollection<LogicalViewModel> tree)
     {
         var logicalViewModel = new LogicalViewModel()
         {
             Name = root.GetType().Name,
             Logical = root,
-            IsExpanded = level <= 1
+            IsExpanded = true
         };
         tree.Add(logicalViewModel);
 
@@ -206,7 +206,7 @@ public partial class TreeViewModel : ObservableObject
                 logicalViewModel.Children = new ObservableCollection<LogicalViewModel>();
             }
 
-            AddToLogicalTree(logical, logicalViewModel.Children, level += 1);
+            AddToLogicalTree(logical, logicalViewModel.Children);
         }
     }
 
