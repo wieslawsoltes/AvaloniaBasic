@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -17,6 +18,8 @@ namespace AvaloniaBasicDemo.ViewModels;
 
 public partial class TreeViewModel : ObservableObject
 {
+    private readonly Dictionary<IAvaloniaObject, ObservableCollection<PropertyViewModel>> _propertiesCache = new();
+
     [ObservableProperty] private ObservableCollection<LogicalViewModel> _logicalTree;
     [ObservableProperty] private ObservableCollection<PropertyViewModel> _properties;
     [ObservableProperty] private LogicalViewModel? _selectedLogical;
@@ -28,8 +31,6 @@ public partial class TreeViewModel : ObservableObject
     public TreeViewModel()
     {
         _logicalTree = new ObservableCollection<LogicalViewModel>();
-
-        _properties = new ObservableCollection<PropertyViewModel>();
 
         LogicalTreeSource = new HierarchicalTreeDataGridSource<LogicalViewModel>(_logicalTree)
         {
@@ -56,6 +57,17 @@ public partial class TreeViewModel : ObservableObject
                     isExpandedSelector: x => x.IsExpanded)
             }
         };
+
+        LogicalTreeSource.RowSelection!.SingleSelect = true;
+
+        LogicalTreeSource.RowSelection.SelectionChanged += (_, args) =>
+        {
+            SelectedLogical = args.SelectedItems.FirstOrDefault();
+
+            UpdateProperties();
+        };
+
+        _properties = new ObservableCollection<PropertyViewModel>();
 
         PropertiesSource = new HierarchicalTreeDataGridSource<PropertyViewModel>(_properties)
         {
@@ -105,23 +117,24 @@ public partial class TreeViewModel : ObservableObject
                     width: new GridLength(1, GridUnitType.Star))
             }
         };
-
-        LogicalTreeSource.RowSelection!.SingleSelect = true;
-
-        LogicalTreeSource.RowSelection.SelectionChanged += (_, args) =>
-        {
-            SelectedLogical = args.SelectedItems.FirstOrDefault();
-
-            UpdateProperties();
-        };
     }
 
     private void UpdateProperties()
     {
-        _properties.Clear();
-
         if (SelectedLogical?.Logical is not IAvaloniaObject logical)
         {
+            return;
+        }
+
+        if (_propertiesCache.TryGetValue(logical, out var cachedProperties))
+        {
+            _properties.Clear();
+
+            foreach (var property in cachedProperties)
+            {
+                _properties.Add(property);
+            }
+
             return;
         }
 
@@ -189,9 +202,21 @@ public partial class TreeViewModel : ObservableObject
             }
         }
 
-        _properties.Add(avaloniaProps);
-        _properties.Add(avaloniaAttachedProps);
-        _properties.Add(clrProps);
+        var properties = new ObservableCollection<PropertyViewModel>
+        {
+            avaloniaProps, 
+            avaloniaAttachedProps, 
+            clrProps
+        };
+
+        _propertiesCache[logical] = properties;
+
+        _properties.Clear();
+
+        foreach (var property in properties)
+        {
+            _properties.Add(property);
+        }
     }
 
     private void AddToLogicalTree(ILogical root, ObservableCollection<LogicalViewModel> tree)
