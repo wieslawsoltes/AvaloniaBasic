@@ -93,7 +93,7 @@
                   Height="600"
                   behaviors:DragSettings.IsDropArea="True">
             <Interaction.Behaviors>
-              <behaviors:ControlDragBehavior />
+              <behaviors:ControlDragBehavior PreviewCanvas="{Binding #PreviewCanvas}"/>
             </Interaction.Behaviors>
             <!--<Canvas.Styles>
               <Style Selector="Canvas#DropAreaCanvas :is(Control)">
