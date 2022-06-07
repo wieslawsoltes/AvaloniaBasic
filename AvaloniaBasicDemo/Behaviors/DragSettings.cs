@@ -5,19 +5,22 @@ namespace AvaloniaBasicDemo.Behaviors;
 public class DragSettings : AvaloniaObject
 {
     public static readonly AttachedProperty<bool> IsDropAreaProperty = 
-        AvaloniaProperty.RegisterAttached<IAvaloniaObject, bool>("IsDropArea", typeof(ToolboxDragBehavior));
+        AvaloniaProperty.RegisterAttached<IAvaloniaObject, bool>("IsDropArea", typeof(DragSettings));
+
+    public static readonly AttachedProperty<bool> IsDragAreaProperty = 
+        AvaloniaProperty.RegisterAttached<IAvaloniaObject, bool>("IsDragArea", typeof(DragSettings));
 
     public static readonly AttachedProperty<double> MinimumDragDeltaProperty = 
-        AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("MinimumDragDelta", typeof(ToolboxDragBehavior), defaultValue: 3d, inherits: true);
+        AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("MinimumDragDelta", typeof(DragSettings), defaultValue: 3d, inherits: true);
 
     public static readonly AttachedProperty<bool> SnapToGridProperty = 
-        AvaloniaProperty.RegisterAttached<IAvaloniaObject, bool>("SnapToGrid", typeof(ToolboxDragBehavior), defaultValue: false, inherits: true);
+        AvaloniaProperty.RegisterAttached<IAvaloniaObject, bool>("SnapToGrid", typeof(DragSettings), defaultValue: false, inherits: true);
 
     public static readonly AttachedProperty<double> SnapXProperty = 
-        AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("SnapX", typeof(ToolboxDragBehavior), defaultValue: 10d, inherits: true);
+        AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("SnapX", typeof(DragSettings), defaultValue: 10d, inherits: true);
 
     public static readonly AttachedProperty<double> SnapYProperty = 
-        AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("SnapY", typeof(ToolboxDragBehavior), defaultValue: 10d, inherits: true);
+        AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("SnapY", typeof(DragSettings), defaultValue: 10d, inherits: true);
 
     public static bool GetIsDropArea(IAvaloniaObject obj)
     {
@@ -27,6 +30,16 @@ public class DragSettings : AvaloniaObject
     public static void SetIsDropArea(IAvaloniaObject obj, bool value)
     {
         obj.SetValue(IsDropAreaProperty, value);
+    }
+
+    public static bool GetIsDragArea(IAvaloniaObject obj)
+    {
+        return obj.GetValue(IsDragAreaProperty);
+    }
+
+    public static void SetIsDragArea(IAvaloniaObject obj, bool value)
+    {
+        obj.SetValue(IsDragAreaProperty, value);
     }
 
     public static double GetMinimumDragDelta(IAvaloniaObject obj)
