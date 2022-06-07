@@ -91,7 +91,22 @@
                   Background="Transparent" 
                   Width="800"
                   Height="600"
-                  behaviors:DragSettings.IsDropArea="True" />
+                  behaviors:DragSettings.IsDropArea="True">
+            <Interaction.Behaviors>
+              <behaviors:ControlDragBehavior />
+            </Interaction.Behaviors>
+            <!--<Canvas.Styles>
+              <Style Selector="Canvas#DropAreaCanvas :is(Control)">
+                <Setter Property="(Interaction.Behaviors)">
+                  <BehaviorCollectionTemplate>
+                    <BehaviorCollection>
+                      <behaviors:ControlDragBehavior />
+                    </BehaviorCollection>
+                  </BehaviorCollectionTemplate>
+                </Setter>
+              </Style>
+            </Canvas.Styles>-->
+          </Canvas>
         </Panel>
       </Border>
 
