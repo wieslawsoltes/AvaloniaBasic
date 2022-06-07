@@ -115,7 +115,7 @@ public class ToolboxDragBehavior : Behavior<Control>
         {
             return;
         }
-        
+
         if (!_isDragging)
         {
             var point = e.GetPosition(PreviewCanvas);
