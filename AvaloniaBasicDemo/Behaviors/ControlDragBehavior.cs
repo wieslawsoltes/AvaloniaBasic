@@ -10,8 +10,17 @@ namespace AvaloniaBasicDemo.Behaviors;
 
 public class ControlDragBehavior : PointerEventsBehavior<Control>
 {
+    public static readonly StyledProperty<Canvas?> PreviewCanvasProperty = 
+        AvaloniaProperty.Register<ControlDragBehavior, Canvas?>(nameof(PreviewCanvas));
+
     private Control? _dragArea;
     private Point _start;
+
+    public Canvas? PreviewCanvas
+    {
+        get => GetValue(PreviewCanvasProperty);
+        set => SetValue(PreviewCanvasProperty, value);
+    }
 
     public ControlDragBehavior()
     {
