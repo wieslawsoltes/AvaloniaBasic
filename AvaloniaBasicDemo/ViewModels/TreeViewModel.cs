@@ -181,7 +181,7 @@ public partial class TreeViewModel : ObservableObject
             {
                 Debug.WriteLine(e);
             }
-        } 
+        }
 
         _properties.Add(avaloniaProps);
         _properties.Add(avaloniaAttachedProps);
