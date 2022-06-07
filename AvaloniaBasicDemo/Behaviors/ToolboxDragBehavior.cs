@@ -23,7 +23,7 @@ public class ToolboxDragBehavior : PointerEventsBehavior<Control>
     private bool _started;
     private bool _isDragging;
     private Control? _previewControl;
-    private IControl? _dropArea;
+    private Control? _dropArea;
 
     public Canvas? PreviewCanvas
     {
@@ -147,7 +147,7 @@ public class ToolboxDragBehavior : PointerEventsBehavior<Control>
             .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
             .Reverse();
 
-        var dropAreas = visuals.OfType<IControl>().Where(DragSettings.GetIsDropArea).ToList();
+        var dropAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDropArea).ToList();
 
         _dropArea = dropAreas.FirstOrDefault(DragSettings.GetIsDropArea);
     }
