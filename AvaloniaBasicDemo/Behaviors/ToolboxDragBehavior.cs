@@ -4,16 +4,14 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.VisualTree;
-using Avalonia.Xaml.Interactivity;
 using AvaloniaBasicDemo.Model;
 using AvaloniaBasicDemo.Utilities;
 using AvaloniaBasicDemo.ViewModels;
 
 namespace AvaloniaBasicDemo.Behaviors;
 
-public class ToolboxDragBehavior : Behavior<Control>
+public class ToolboxDragBehavior : PointerEventsBehavior<Control>
 {
     public static readonly StyledProperty<Canvas?> PreviewCanvasProperty = 
         AvaloniaProperty.Register<ToolboxDragBehavior, Canvas?>(nameof(PreviewCanvas));
@@ -39,27 +37,7 @@ public class ToolboxDragBehavior : Behavior<Control>
         set => SetValue(DropAreaCanvasProperty, value);
     }
 
-    protected override void OnAttachedToVisualTree()
-    {
-        if (AssociatedObject is { })
-        {
-            AssociatedObject.AddHandler(InputElement.PointerPressedEvent, PointerPressed, RoutingStrategies.Tunnel);
-            AssociatedObject.AddHandler(InputElement.PointerReleasedEvent, PointerReleased, RoutingStrategies.Tunnel);
-            AssociatedObject.AddHandler(InputElement.PointerMovedEvent, PointerMoved, RoutingStrategies.Tunnel);
-        }
-    }
-
-    protected override void OnDetachedFromVisualTree()
-    {
-        if (AssociatedObject is { })
-        {
-            AssociatedObject.RemoveHandler(InputElement.PointerPressedEvent, PointerPressed);
-            AssociatedObject.RemoveHandler(InputElement.PointerReleasedEvent, PointerReleased);
-            AssociatedObject.RemoveHandler(InputElement.PointerMovedEvent, PointerMoved);
-        }
-    }
-
-    private void PointerPressed(object? sender, PointerPressedEventArgs e)
+    protected override void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (AssociatedObject?.DataContext is not IDragItem)
         {
@@ -75,7 +53,7 @@ public class ToolboxDragBehavior : Behavior<Control>
         _started = true;
     }
 
-    private void PointerReleased(object? sender, PointerReleasedEventArgs e)
+    protected override void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         if (PreviewCanvas is null || AssociatedObject is null)
         {
@@ -104,7 +82,7 @@ public class ToolboxDragBehavior : Behavior<Control>
         e.Pointer.Capture(null);
     }
 
-    private void PointerMoved(object? sender, PointerEventArgs e)
+    protected override void OnPointerMoved(object? sender, PointerEventArgs e)
     {
         if (PreviewCanvas is null || AssociatedObject is null)
         {
