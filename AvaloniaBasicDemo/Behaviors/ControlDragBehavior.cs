@@ -64,10 +64,13 @@ public class ControlDragBehavior : PointerEventsBehavior<Control>
                 var delta = point - _start;
 
                 var left = Canvas.GetLeft(_dragArea);
-                var top = Canvas.GetTop(_dragArea); 
+                var top = Canvas.GetTop(_dragArea);
 
-                Canvas.SetLeft(_dragArea, left + delta.X);
-                Canvas.SetTop(_dragArea, top + delta.Y);
+                point = new Point(left + delta.X, top + delta.Y);
+                point = SnapPoint(point);
+
+                Canvas.SetLeft(_dragArea, point.X);
+                Canvas.SetTop(_dragArea, point.Y);
 
                 _start = point;
             }
