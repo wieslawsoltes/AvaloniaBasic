@@ -5,6 +5,7 @@ using Avalonia.Controls.Models.TreeDataGrid;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using AvaloniaBasicDemo.Model;
+using AvaloniaBasicDemo.Utilities;
 using AvaloniaBasicDemo.ViewModels.Toolbox;
 using AvaloniaBasicDemo.ViewModels.Toolbox.Shapes;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -186,7 +187,9 @@ public partial class ToolboxViewModel : ObservableObject
                         options: new ColumnOptions<IToolBoxItem>
                         {
                             CanUserResizeColumn = false,
-                            CanUserSortColumn = false,
+                            CanUserSortColumn = true,
+                            CompareAscending = SortHelper.SortAscending<string?, IToolBoxItem>(x => x.Name),
+                            CompareDescending = SortHelper.SortDescending<string?, IToolBoxItem>(x => x.Name)
                         },
                         width: new GridLength(1, GridUnitType.Star)), 
                     childSelector: x =>
