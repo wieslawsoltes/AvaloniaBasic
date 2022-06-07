@@ -11,6 +11,7 @@ using Avalonia.Data;
 using Avalonia.Layout;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
+using AvaloniaBasicDemo.Model;
 using AvaloniaBasicDemo.Utilities;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
@@ -18,6 +19,7 @@ namespace AvaloniaBasicDemo.ViewModels;
 
 public partial class TreeViewModel : ObservableObject
 {
+    private readonly Dictionary<Type, TypeProperties> _typePropertiesCache = new();
     private readonly Dictionary<IAvaloniaObject, ObservableCollection<PropertyViewModel>> _propertiesCache = new();
 
     [ObservableProperty] private ObservableCollection<LogicalViewModel> _logicalTree;
@@ -139,10 +141,11 @@ public partial class TreeViewModel : ObservableObject
         }
 
         var type = logical.GetType();
-
-        var avaloniaProperties = AvaloniaPropertyRegistry.Instance.GetRegistered(type);
-        var avaloniaAttachedProperties = AvaloniaPropertyRegistry.Instance.GetRegisteredAttached(type);
-        var clrProperties = type.GetProperties();
+        if (!_typePropertiesCache.TryGetValue(type, out var typeProperties))
+        {
+            typeProperties = new TypeProperties(type);
+            _typePropertiesCache[type] = typeProperties;
+        }
 
         var avaloniaProps = new PropertyViewModel
         {
@@ -150,7 +153,7 @@ public partial class TreeViewModel : ObservableObject
             Children = new ObservableCollection<PropertyViewModel>()
         };
 
-        foreach (var avaloniaProperty in avaloniaProperties)
+        foreach (var avaloniaProperty in typeProperties.Properties)
         {
             var value = logical.GetValue(avaloniaProperty);
             var property = new PropertyViewModel
@@ -167,7 +170,7 @@ public partial class TreeViewModel : ObservableObject
             Children = new ObservableCollection<PropertyViewModel>()
         };
 
-        foreach (var avaloniaAttachedProperty in avaloniaAttachedProperties)
+        foreach (var avaloniaAttachedProperty in typeProperties.AttachedProperties)
         {
             var value = logical.GetValue(avaloniaAttachedProperty);
             var property = new PropertyViewModel
@@ -184,7 +187,7 @@ public partial class TreeViewModel : ObservableObject
             Children = new ObservableCollection<PropertyViewModel>()
         };
 
-        foreach (var clrProperty in clrProperties)
+        foreach (var clrProperty in typeProperties.ClrProperties)
         {
             try
             {
