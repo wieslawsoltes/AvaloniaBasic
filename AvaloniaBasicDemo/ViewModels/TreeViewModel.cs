@@ -9,6 +9,7 @@ using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Layout;
 using Avalonia.LogicalTree;
+using Avalonia.Threading;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasicDemo.ViewModels;
@@ -212,8 +213,13 @@ public partial class TreeViewModel : ObservableObject
 
     public void UpdateLogicalTree(ILogical root)
     {
-        _logicalTree.Clear();
+        Dispatcher.UIThread.Post(
+            () =>
+            {
+                _logicalTree.Clear();
 
-        AddToLogicalTree(root, _logicalTree, 0);
+                AddToLogicalTree(root, _logicalTree);
+            }, 
+            DispatcherPriority.Layout);
     }
 }
