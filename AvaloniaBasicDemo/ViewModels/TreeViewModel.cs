@@ -10,6 +10,7 @@ using Avalonia.Data;
 using Avalonia.Layout;
 using Avalonia.LogicalTree;
 using Avalonia.Threading;
+using AvaloniaBasicDemo.Utilities;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasicDemo.ViewModels;
@@ -75,7 +76,9 @@ public partial class TreeViewModel : ObservableObject
                         options: new ColumnOptions<PropertyViewModel>
                         {
                             CanUserResizeColumn = true,
-                            CanUserSortColumn = false
+                            CanUserSortColumn = true,
+                            CompareAscending = SortHelper.SortAscending<string?, PropertyViewModel>(x => x.Name),
+                            CompareDescending = SortHelper.SortDescending<string?, PropertyViewModel>(x => x.Name)
                         },
                         width: new GridLength(1, GridUnitType.Star)), 
                     childSelector: x => x.Children,
@@ -95,7 +98,9 @@ public partial class TreeViewModel : ObservableObject
                     options: new ColumnOptions<PropertyViewModel>
                     {
                         CanUserResizeColumn = true,
-                        CanUserSortColumn = false,
+                        CanUserSortColumn = true,
+                        CompareAscending = SortHelper.SortAscending<object?, PropertyViewModel>(x => x.Value),
+                        CompareDescending = SortHelper.SortDescending<object?, PropertyViewModel>(x => x.Value)
                     },
                     width: new GridLength(1, GridUnitType.Star))
             }
