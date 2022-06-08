@@ -16,10 +16,10 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  <Panel behaviors:DragSettings.MinimumDragDelta="3"
-         behaviors:DragSettings.SnapToGrid="True"
-         behaviors:DragSettings.SnapX="10"
-         behaviors:DragSettings.SnapY="10">
+  <Panel behaviors:DragSettings.MinimumDragDelta="{Binding DragSettings.MinimumDragDelta}"
+         behaviors:DragSettings.SnapToGrid="{Binding DragSettings.SnapToGrid}"
+         behaviors:DragSettings.SnapX="{Binding DragSettings.SnapX}"
+         behaviors:DragSettings.SnapY="{Binding DragSettings.SnapY}">
 
     <Grid ColumnDefinitions="250, *, 400">
 
