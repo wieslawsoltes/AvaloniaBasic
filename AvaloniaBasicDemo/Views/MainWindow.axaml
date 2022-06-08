@@ -95,17 +95,6 @@
             <Interaction.Behaviors>
               <behaviors:ControlDragBehavior PreviewCanvas="{Binding #PreviewCanvas}"/>
             </Interaction.Behaviors>
-            <!--<Canvas.Styles>
-              <Style Selector="Canvas#DropAreaCanvas :is(Control)">
-                <Setter Property="(Interaction.Behaviors)">
-                  <BehaviorCollectionTemplate>
-                    <BehaviorCollection>
-                      <behaviors:ControlDragBehavior />
-                    </BehaviorCollection>
-                  </BehaviorCollectionTemplate>
-                </Setter>
-              </Style>
-            </Canvas.Styles>-->
           </Canvas>
         </Panel>
       </Border>
