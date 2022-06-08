@@ -31,57 +31,96 @@ public class ControlDragBehavior : PointerEventsBehavior<Control>
 
     protected override void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
+        if (AssociatedObject is null)
+        {
+            return;
+        }
+
         var root = AssociatedObject.GetVisualRoot();
         var point = e.GetPosition(root);
         var dragArea = FindDragArea(point);
-        if (dragArea is { })
+        if (dragArea is null)
         {
-            _dragArea = dragArea;
-
-            if (_dragArea.Parent is Canvas canvas)
-            {
-                _start = e.GetPosition(canvas);
-
-                var left = Canvas.GetLeft(_dragArea);
-                var top = Canvas.GetTop(_dragArea);
-                _position = new Point(left, top);
-            }
-
-            e.Pointer.Capture(AssociatedObject);
-            e.Handled = true;
-
-            Debug.WriteLine($"Control: {dragArea}, Parent: {dragArea.Parent}");
+            return;
         }
+
+        var enableDrag = DragSettings.GetEnableDrag(AssociatedObject);
+        if (!enableDrag)
+        {
+            return;
+        }
+
+        _dragArea = dragArea;
+
+        if (_dragArea.Parent is Canvas canvas)
+        {
+            _start = e.GetPosition(canvas);
+
+            var left = Canvas.GetLeft(_dragArea);
+            var top = Canvas.GetTop(_dragArea);
+            _position = new Point(left, top);
+        }
+
+        e.Pointer.Capture(AssociatedObject);
+        e.Handled = true;
+
+        Debug.WriteLine($"Control: {dragArea}, Parent: {dragArea.Parent}");
     }
 
     protected override void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        if (_dragArea is { })
+        if (AssociatedObject is null)
         {
-            _dragArea = null;
-            e.Handled = true;
-            e.Pointer.Capture(null);
+            return;
         }
+
+        if (_dragArea is null)
+        {
+            return;
+        }
+
+        var enableDrag = DragSettings.GetEnableDrag(AssociatedObject);
+        if (!enableDrag)
+        {
+            return;
+        }
+
+        _dragArea = null;
+        e.Handled = true;
+        e.Pointer.Capture(null);
     }
 
     protected override void OnPointerMoved(object? sender, PointerEventArgs e)
     {
-        if (_dragArea is { })
+        if (AssociatedObject is null)
         {
-            if (_dragArea.Parent is Canvas canvas)
-            {
-                var position = e.GetPosition(canvas);
-                var delta = position - _start;
-
-                position = new Point(_position.X + delta.X, _position.Y + delta.Y);
-                position = SnapPoint(position);
-
-                Canvas.SetLeft(_dragArea, position.X);
-                Canvas.SetTop(_dragArea, position.Y);
-            }
-
-            e.Handled = true;
+            return;
         }
+
+        if (_dragArea is null)
+        {
+            return;
+        }
+
+        var enableDrag = DragSettings.GetEnableDrag(AssociatedObject);
+        if (!enableDrag)
+        {
+            return;
+        }
+
+        if (_dragArea.Parent is Canvas canvas)
+        {
+            var position = e.GetPosition(canvas);
+            var delta = position - _start;
+
+            position = new Point(_position.X + delta.X, _position.Y + delta.Y);
+            position = SnapPoint(position);
+
+            Canvas.SetLeft(_dragArea, position.X);
+            Canvas.SetTop(_dragArea, position.Y);
+        }
+
+        e.Handled = true;
     }
 
     private Point SnapPoint(Point point)
