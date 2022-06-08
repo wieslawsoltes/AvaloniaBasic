@@ -22,6 +22,9 @@ public class DragSettings : AvaloniaObject
     public static readonly AttachedProperty<double> SnapYProperty = 
         AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("SnapY", typeof(DragSettings), defaultValue: 10d, inherits: true);
 
+    public static readonly AttachedProperty<bool> EnableDragProperty = 
+        AvaloniaProperty.RegisterAttached<IAvaloniaObject, bool>("EnableDrag", typeof(DragSettings));
+
     public static bool GetIsDropArea(IAvaloniaObject obj)
     {
         return obj.GetValue(IsDropAreaProperty);
@@ -80,5 +83,15 @@ public class DragSettings : AvaloniaObject
     public static void SetSnapY(IAvaloniaObject obj, double value)
     {
         obj.SetValue(SnapYProperty, value);
+    }
+
+    public static void SetEnableDrag(IAvaloniaObject obj, bool value)
+    {
+        obj.SetValue(EnableDragProperty, value);
+    }
+
+    public static bool GetEnableDrag(IAvaloniaObject obj)
+    {
+        return obj.GetValue(EnableDragProperty);
     }
 }
