@@ -18,6 +18,7 @@ public class ControlDragBehavior : PointerEventsBehavior<Control>
     private Point _start;
     private Point _position;
 
+    [ResolveByName]
     public Canvas? PreviewCanvas
     {
         get => GetValue(PreviewCanvasProperty);
