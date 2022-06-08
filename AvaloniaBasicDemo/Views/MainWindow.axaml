@@ -32,9 +32,7 @@
             <Setter Property="(Interaction.Behaviors)">
               <BehaviorCollectionTemplate>
                 <BehaviorCollection>
-                  <behaviors:ToolboxDragBehavior PreviewCanvas="{Binding #PreviewCanvas}"
-                                                 DropAreaCanvas="{Binding #DropAreaCanvas}"
-                                                 x:CompileBindings="False" />
+                  <behaviors:ToolboxDragBehavior PreviewCanvas="PreviewCanvas" DropAreaCanvas="DropAreaCanvas" />
                 </BehaviorCollection>
               </BehaviorCollectionTemplate>
             </Setter>
@@ -98,7 +96,7 @@
                   behaviors:DragSettings.IsDropArea="True"
                   behaviors:DragSettings.EnableDrag="{Binding DragSettings.EnableControlDrag}">
             <Interaction.Behaviors>
-              <behaviors:ControlDragBehavior PreviewCanvas="{Binding #PreviewCanvas}"/>
+              <behaviors:ControlDragBehavior PreviewCanvas="PreviewCanvas"/>
             </Interaction.Behaviors>
           </Canvas>
         </Panel>
