@@ -4,9 +4,7 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.VisualTree;
-using Avalonia.Xaml.Interactivity;
 using AvaloniaBasicDemo.Model;
 using AvaloniaBasicDemo.Utilities;
 using AvaloniaBasicDemo.ViewModels;
@@ -253,48 +251,53 @@ public class ToolboxDragBehavior : PointerEventsBehavior<Control>
         {
             var control = item.CreateControl();
 
-            DragSettings.SetIsDragArea(control, true);
-
             point = SnapPoint(point, false);
 
-            // TODO: Properly position in panel.
-
-            if (_dropArea is Canvas)
-            {
-                Canvas.SetLeft(control, point.X);
-                Canvas.SetTop(control, point.Y);
-            }
-
-            if (_dropArea is IPanel and not Canvas)
-            {
-                // TODO: control.Margin = new Thickness(point.X, point.Y, 0d, 0d);
-            }
-
-            // TODO: Use ContentAttribute to set content if applicable.
-
-            if (_dropArea is IPanel panel)
-            {
-                panel.Children.Add(control);
-            }
-            else if (_dropArea is IContentControl contentControl)
-            {
-                contentControl.Content = control;
-            }
-            else if (_dropArea is Decorator decorator)
-            {
-                decorator.Child = control;
-            }
-            else if (_dropArea is ItemsControl itemsControl)
-            {
-                if (itemsControl.Items is AvaloniaList<object> items)
-                {
-                    items.Add(control);
-                }
-            }
+            AddControl(control, _dropArea, point);
 
             if (DropAreaCanvas?.DataContext is MainViewModel mainViewModel)
             {
                 mainViewModel.Tree.UpdateLogicalTree(DropAreaCanvas);
+            }
+        }
+    }
+
+    internal static void AddControl(Control control, Control target, Point point)
+    {
+        DragSettings.SetIsDragArea(control, true);
+
+        // TODO: Properly position in panel.
+
+        if (target is Canvas)
+        {
+            Canvas.SetLeft(control, point.X);
+            Canvas.SetTop(control, point.Y);
+        }
+
+        if (target is IPanel and not Canvas)
+        {
+            // TODO: control.Margin = new Thickness(point.X, point.Y, 0d, 0d);
+        }
+
+        // TODO: Use ContentAttribute to set content if applicable.
+
+        if (target is IPanel panel)
+        {
+            panel.Children.Add(control);
+        }
+        else if (target is IContentControl contentControl)
+        {
+            contentControl.Content = control;
+        }
+        else if (target is Decorator decorator)
+        {
+            decorator.Child = control;
+        }
+        else if (target is ItemsControl itemsControl)
+        {
+            if (itemsControl.Items is AvaloniaList<object> items)
+            {
+                items.Add(control);
             }
         }
     }
