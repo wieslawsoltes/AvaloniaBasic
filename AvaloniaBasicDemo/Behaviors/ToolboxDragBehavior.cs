@@ -253,13 +253,6 @@ public class ToolboxDragBehavior : PointerEventsBehavior<Control>
 
             DragSettings.SetIsDragArea(control, true);
 
-            /*
-            control[Interaction.BehaviorsProperty] = new BehaviorCollection
-            {
-                new ControlDragBehavior()
-            };
-            //*/
-
             point = SnapPoint(point, false);
 
             // TODO: Properly position in panel.
