@@ -1,6 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace AvaloniaBasicDemo.ViewModels;
+namespace AvaloniaBasicDemo.ViewModels.Settings;
 
 public partial class GridSettingsViewModel : ObservableObject
 {

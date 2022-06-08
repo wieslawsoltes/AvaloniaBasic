@@ -1,3 +1,4 @@
+using AvaloniaBasicDemo.ViewModels.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasicDemo.ViewModels;
