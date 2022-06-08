@@ -86,7 +86,11 @@
               ZIndex="-1"
               Grid.Column="1">
         <Panel>
-          <controls:GridLines />
+          <controls:GridLines CellWidth="{Binding GridSettings.CellWidth}"
+                              CellHeight="{Binding GridSettings.CellHeight}"
+                              BoldSeparatorHorizontalSpacing="{Binding GridSettings.BoldSeparatorHorizontalSpacing}"
+                              BoldSeparatorVerticalSpacing="{Binding GridSettings.BoldSeparatorVerticalSpacing}"
+                              IsGridEnabled="{Binding GridSettings.IsGridEnabled}" />
           <Canvas Name="DropAreaCanvas"
                   Background="Transparent" 
                   Width="800"
