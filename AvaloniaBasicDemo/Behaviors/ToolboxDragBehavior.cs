@@ -27,12 +27,14 @@ public class ToolboxDragBehavior : PointerEventsBehavior<Control>
     private Control? _previewControl;
     private Control? _dropArea;
 
+    [ResolveByName]
     public Canvas? PreviewCanvas
     {
         get => GetValue(PreviewCanvasProperty);
         set => SetValue(PreviewCanvasProperty, value);
     }
 
+    [ResolveByName]
     public Canvas? DropAreaCanvas
     {
         get => GetValue(DropAreaCanvasProperty);
