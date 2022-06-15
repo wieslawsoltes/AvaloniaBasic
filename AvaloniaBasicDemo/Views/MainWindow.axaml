@@ -32,8 +32,8 @@
             <Setter Property="(Interaction.Behaviors)">
               <BehaviorCollectionTemplate>
                 <BehaviorCollection>
-                  <behaviors:ToolboxDragBehavior PreviewCanvas="PreviewCanvas" DropAreaCanvas="DropAreaCanvas" />
-                  <behaviors:ToolboxDoubleTappedBehavior TargetCanvas="DropAreaCanvas" />
+                  <behaviors:ToolboxDragBehavior PreviewCanvas="PreviewCanvas" DropAreaCanvas="DropAreaCanvas" RoutingStrategies="Tunnel" />
+                  <behaviors:ToolboxDoubleTappedBehavior TargetCanvas="DropAreaCanvas" RoutingStrategies="Tunnel, Bubble" />
                 </BehaviorCollection>
               </BehaviorCollectionTemplate>
             </Setter>

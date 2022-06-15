@@ -26,11 +26,6 @@ public class ControlDragBehavior : PointerEventsBehavior<Control>
         set => SetValue(PreviewCanvasProperty, value);
     }
 
-    public ControlDragBehavior()
-    {
-        RoutingStrategies = RoutingStrategies.Tunnel | RoutingStrategies.Bubble;
-    }
-
     protected override void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (AssociatedObject is null)

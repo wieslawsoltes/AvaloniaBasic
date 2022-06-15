@@ -8,7 +8,9 @@ namespace Avalonia.Xaml.Interactions.Events;
 public abstract class PointerEventsBehavior<T> : Behavior<T> where T : Control
 {
     public static readonly StyledProperty<RoutingStrategies> RoutingStrategiesProperty = 
-        AvaloniaProperty.Register<PointerEventsBehavior<T>, RoutingStrategies>(nameof(RoutingStrategies), RoutingStrategies.Tunnel);
+        AvaloniaProperty.Register<PointerEventsBehavior<T>, RoutingStrategies>(
+            nameof(RoutingStrategies), 
+            RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
 
     public RoutingStrategies RoutingStrategies
     {
