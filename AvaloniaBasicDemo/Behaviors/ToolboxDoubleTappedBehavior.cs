@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Xaml.Interactions.Events;
 using AvaloniaBasicDemo.Model;
 using AvaloniaBasicDemo.ViewModels;
 

@@ -1,10 +1,9 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
-namespace AvaloniaBasicDemo.Behaviors;
+namespace Avalonia.Xaml.Interactions.Events;
 
 public abstract class DoubleTappedBehavior<T> : Behavior<T> where T : Control
 {
@@ -19,18 +18,12 @@ public abstract class DoubleTappedBehavior<T> : Behavior<T> where T : Control
 
     protected override void OnAttachedToVisualTree()
     {
-        if (AssociatedObject is { })
-        {
-            AssociatedObject.AddHandler(Gestures.DoubleTappedEvent, DoubleTapped, RoutingStrategies);
-        } 
+        AssociatedObject?.AddHandler(Gestures.DoubleTappedEvent, DoubleTapped, RoutingStrategies);
     }
 
     protected override void OnDetachedFromVisualTree()
     {
-        if (AssociatedObject is { })
-        {
-            AssociatedObject.RemoveHandler(Gestures.DoubleTappedEvent, DoubleTapped);
-        }
+        AssociatedObject?.RemoveHandler(Gestures.DoubleTappedEvent, DoubleTapped);
     }
 
     private void DoubleTapped(object? sender, RoutedEventArgs e)

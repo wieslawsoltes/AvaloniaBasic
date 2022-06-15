@@ -5,6 +5,7 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
+using Avalonia.Xaml.Interactions.Events;
 using AvaloniaBasicDemo.Model;
 using AvaloniaBasicDemo.Utilities;
 using AvaloniaBasicDemo.ViewModels;
