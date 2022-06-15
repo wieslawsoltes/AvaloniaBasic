@@ -33,7 +33,7 @@
               <BehaviorCollectionTemplate>
                 <BehaviorCollection>
                   <behaviors:ToolboxDragBehavior PreviewCanvas="PreviewCanvas" DropAreaCanvas="DropAreaCanvas" RoutingStrategies="Tunnel" />
-                  <behaviors:ToolboxDoubleTappedBehavior TargetCanvas="DropAreaCanvas" RoutingStrategies="Tunnel, Bubble" />
+                  <behaviors:ToolboxDoubleTappedEventBehavior TargetCanvas="DropAreaCanvas" RoutingStrategies="Tunnel, Bubble" />
                 </BehaviorCollection>
               </BehaviorCollectionTemplate>
             </Setter>

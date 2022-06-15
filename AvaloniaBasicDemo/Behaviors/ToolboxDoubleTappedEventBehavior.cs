@@ -7,7 +7,7 @@ using AvaloniaBasicDemo.ViewModels;
 
 namespace AvaloniaBasicDemo.Behaviors;
 
-public class ToolboxDoubleTappedBehavior : DoubleTappedBehavior<Control>
+public class ToolboxDoubleTappedEventBehavior : DoubleTappedEventBehavior<Control>
 {
     public static readonly StyledProperty<Canvas?> TargetCanvasProperty = 
         AvaloniaProperty.Register<ToolboxDragBehavior, Canvas?>(nameof(TargetCanvas));
