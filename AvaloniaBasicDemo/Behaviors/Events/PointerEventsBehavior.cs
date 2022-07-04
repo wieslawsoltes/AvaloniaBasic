@@ -1,9 +1,10 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Xaml.Interactivity;
 
-namespace Avalonia.Xaml.Interactions.Events;
+namespace AvaloniaBasicDemo.Behaviors.Events;
 
 public abstract class PointerEventsBehavior<T> : Behavior<T> where T : Control
 {
