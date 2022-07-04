@@ -4,12 +4,12 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
-using AvaloniaBasicDemo.Behaviors.Events;
+using Avalonia.Xaml.Interactions.Events;
 using AvaloniaBasicDemo.Utilities;
 
 namespace AvaloniaBasicDemo.Behaviors;
 
-public class ControlDragBehavior : PointerEventsBehavior<Control>
+public class ControlDragBehavior : PointerEventsBehavior
 {
     public static readonly StyledProperty<Canvas?> PreviewCanvasProperty = 
         AvaloniaProperty.Register<ControlDragBehavior, Canvas?>(nameof(PreviewCanvas));
@@ -57,7 +57,7 @@ public class ControlDragBehavior : PointerEventsBehavior<Control>
             _position = new Point(left, top);
         }
 
-        e.Pointer.Capture(AssociatedObject);
+        e.Pointer.Capture((IInputElement?)AssociatedObject);
         e.Handled = true;
 
         Debug.WriteLine($"Control: {dragArea}, Parent: {dragArea.Parent}");

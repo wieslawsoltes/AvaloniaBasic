@@ -5,14 +5,14 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
-using AvaloniaBasicDemo.Behaviors.Events;
+using Avalonia.Xaml.Interactions.Events;
 using AvaloniaBasicDemo.Model;
 using AvaloniaBasicDemo.Utilities;
 using AvaloniaBasicDemo.ViewModels;
 
 namespace AvaloniaBasicDemo.Behaviors;
 
-public class ToolboxDragBehavior : PointerEventsBehavior<Control>
+public class ToolboxDragBehavior : PointerEventsBehavior
 {
     public static readonly StyledProperty<Canvas?> PreviewCanvasProperty = 
         AvaloniaProperty.Register<ToolboxDragBehavior, Canvas?>(nameof(PreviewCanvas));
@@ -116,7 +116,7 @@ public class ToolboxDragBehavior : PointerEventsBehavior<Control>
                 UpdatePreview();
 
                 _isDragging = true;
-                e.Pointer.Capture(AssociatedObject);
+                e.Pointer.Capture((IInputElement?)AssociatedObject);
             }
         }
         else
