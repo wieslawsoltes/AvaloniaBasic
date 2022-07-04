@@ -10,7 +10,7 @@ namespace AvaloniaBasicDemo.Behaviors;
 public class ToolboxDoubleTappedEventBehavior : DoubleTappedEventBehavior<Control>
 {
     public static readonly StyledProperty<Canvas?> TargetCanvasProperty = 
-        AvaloniaProperty.Register<ToolboxDragBehavior, Canvas?>(nameof(TargetCanvas));
+        AvaloniaProperty.Register<ToolboxDoubleTappedEventBehavior, Canvas?>(nameof(TargetCanvas));
 
     [ResolveByName]
     public Canvas? TargetCanvas
