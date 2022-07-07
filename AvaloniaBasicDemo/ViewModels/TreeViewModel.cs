@@ -134,7 +134,7 @@ public partial class TreeViewModel : ObservableObject
                             {
                                 var isReadOnly = avaloniaPropertyViewModel.IsReadOnly();
                                 var type = avaloniaPropertyViewModel.GetValueType();
-                                if (type == typeof(bool))
+                                if (type == typeof(bool) || type == typeof(bool?))
                                 {
                                     return new CheckBox
                                     {
