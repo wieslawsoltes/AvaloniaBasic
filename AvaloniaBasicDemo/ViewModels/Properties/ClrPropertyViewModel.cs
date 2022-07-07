@@ -17,4 +17,9 @@ public partial class ClrPropertyViewModel : PropertyViewModel
     {
         return _property.PropertyType;
     }
+
+    public bool IsReadOnly()
+    {
+        return !_property.CanWrite;
+    }
 }
