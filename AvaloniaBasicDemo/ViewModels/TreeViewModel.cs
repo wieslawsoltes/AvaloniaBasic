@@ -175,7 +175,7 @@ public partial class TreeViewModel : ObservableObject
                     options: new ColumnOptions<PropertyViewModel>
                     {
                         CanUserResizeColumn = true,
-                        CanUserSortColumn = true,
+                        CanUserSortColumn = false,
                         CompareAscending = SortHelper.SortAscending<object?, PropertyViewModel>(x => x.Value),
                         CompareDescending = SortHelper.SortDescending<object?, PropertyViewModel>(x => x.Value)
                     },
