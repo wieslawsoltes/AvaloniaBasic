@@ -132,6 +132,7 @@ public partial class TreeViewModel : ObservableObject
                             }
                             case AvaloniaPropertyViewModel avaloniaPropertyViewModel:
                             {
+                                var isReadOnly = avaloniaPropertyViewModel.IsReadOnly();
                                 var type = avaloniaPropertyViewModel.GetValueType();
                                 if (type == typeof(bool))
                                 {
@@ -139,7 +140,8 @@ public partial class TreeViewModel : ObservableObject
                                     {
                                         [!ToggleButton.IsCheckedProperty] = new Binding("Value"),
                                         HorizontalAlignment = HorizontalAlignment.Stretch,
-                                        HorizontalContentAlignment = HorizontalAlignment.Left
+                                        HorizontalContentAlignment = HorizontalAlignment.Left,
+                                        IsEnabled = !isReadOnly
                                     };
                                 }
                                 else if (type == typeof(string))
@@ -147,7 +149,8 @@ public partial class TreeViewModel : ObservableObject
                                     return new TextBox
                                     {
                                         [!TextBox.TextProperty] = new Binding("Value"),
-                                        HorizontalAlignment = HorizontalAlignment.Stretch
+                                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                                        IsReadOnly = isReadOnly
                                     };   
                                 }
                                 // TODO:
