@@ -53,7 +53,14 @@
                       ShowColumnHeaders="True"
                       Grid.Row="1">
           <TreeDataGrid.Styles>
+            <Style Selector="TreeDataGridRow">
+              <Setter Property="Height" Value="34" />
+            </Style>
+            <Style Selector="TreeDataGridCell">
+              <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
             <Style Selector="TreeDataGridExpanderCell">
+              <Setter Property="VerticalAlignment" Value="Center" />
               <Setter Property="Template">
                 <ControlTemplate>
                   <Border Background="{TemplateBinding Background}"
