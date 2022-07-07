@@ -6,6 +6,7 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
+using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Layout;
@@ -13,6 +14,7 @@ using Avalonia.LogicalTree;
 using Avalonia.Threading;
 using AvaloniaBasicDemo.Model;
 using AvaloniaBasicDemo.Utilities;
+using AvaloniaBasicDemo.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasicDemo.ViewModels;
@@ -21,6 +23,8 @@ public partial class TreeViewModel : ObservableObject
 {
     private readonly Dictionary<Type, TypeProperties> _typePropertiesCache = new();
     private readonly Dictionary<IAvaloniaObject, ObservableCollection<PropertyViewModel>> _propertiesCache = new();
+
+    private readonly PropertyEditor _editor = new ();
 
     [ObservableProperty] private ObservableCollection<LogicalViewModel> _logicalTree;
     [ObservableProperty] private ObservableCollection<PropertyViewModel> _properties;
@@ -95,20 +99,76 @@ public partial class TreeViewModel : ObservableObject
                             CompareDescending = SortHelper.SortDescending<string?, PropertyViewModel>(x => x.Name)
                         },
                         width: new GridLength(1, GridUnitType.Star)), 
-                    childSelector: x => x.Children,
-                    hasChildrenSelector: x => x.Children?.Count > 0,
+                    childSelector: x =>
+                    {
+                        if (x is GroupPropertyViewModel g)
+                        {
+                            return g.Children;
+                        }
+
+                        return null;
+                    },
+                    hasChildrenSelector: x =>
+                    {
+                        if (x is GroupPropertyViewModel g)
+                        {
+                            return g.Children?.Count > 0;
+                        }
+
+                        return false;
+                    },
                     isExpandedSelector: x => x.IsExpanded),
                 new TemplateColumn<PropertyViewModel>(
                     "Value",
-                    new FuncDataTemplate<PropertyViewModel>((_, _) =>
+                    new FuncDataTemplate<PropertyViewModel>((p, _) =>
                     {
-                        return new Label
+                        switch (p)
                         {
-                            [!ContentControl.ContentProperty] = new Binding("Value"),
-                            HorizontalAlignment = HorizontalAlignment.Left,
-                            HorizontalContentAlignment = HorizontalAlignment.Left
+                            case GroupPropertyViewModel groupPropertyViewModel:
+                            {
+                                // TODO:
+
+                                break;
+                            }
+                            case AvaloniaPropertyViewModel avaloniaPropertyViewModel:
+                            {
+                                var type = avaloniaPropertyViewModel.GetValueType();
+                                if (type == typeof(bool))
+                                {
+                                    return new CheckBox
+                                    {
+                                        [!ToggleButton.IsCheckedProperty] = new Binding("Value"),
+                                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                                        HorizontalContentAlignment = HorizontalAlignment.Left
+                                    };
+                                }
+                                else if (type == typeof(string))
+                                {
+                                    return new TextBox
+                                    {
+                                        [!TextBox.TextProperty] = new Binding("Value"),
+                                        HorizontalAlignment = HorizontalAlignment.Stretch
+                                    };   
+                                }
+                                // TODO:
+
+                                break;
+                            }
+                            case ClrPropertyViewModel clrPropertyViewModel:
+                            {
+                                // TODO:
+
+                                break;
+                            }
+                        }
+
+                        return new TextBlock()
+                        {
+                            [!TextBlock.TextProperty] = new Binding("Value"),
+                            HorizontalAlignment = HorizontalAlignment.Stretch,
+                            VerticalAlignment = VerticalAlignment.Center
                         };
-                    }, true),
+                    }, false),
                     options: new ColumnOptions<PropertyViewModel>
                     {
                         CanUserResizeColumn = true,
@@ -125,8 +185,11 @@ public partial class TreeViewModel : ObservableObject
     {
         if (SelectedLogical?.Logical is not IAvaloniaObject logical)
         {
+            _editor.Current = null;
             return;
         }
+
+        _editor.Current = logical;
 
         if (_propertiesCache.TryGetValue(logical, out var cachedProperties))
         {
@@ -147,7 +210,9 @@ public partial class TreeViewModel : ObservableObject
             _typePropertiesCache[type] = typeProperties;
         }
 
-        var avaloniaProps = new PropertyViewModel
+        // Properties
+
+        var avaloniaProps = new GroupPropertyViewModel(_editor)
         {
             Name = "Properties",
             Children = new ObservableCollection<PropertyViewModel>()
@@ -156,15 +221,17 @@ public partial class TreeViewModel : ObservableObject
         foreach (var avaloniaProperty in typeProperties.Properties)
         {
             var value = logical.GetValue(avaloniaProperty);
-            var property = new PropertyViewModel
+            var property = new AvaloniaPropertyViewModel(_editor, avaloniaProperty)
             {
                 Name = avaloniaProperty.Name,
-                Value = value?.ToString()
+                Value = value
             };
             avaloniaProps.Children.Add(property);
         }
 
-        var avaloniaAttachedProps = new PropertyViewModel
+        // Attached Properties
+
+        var avaloniaAttachedProps = new GroupPropertyViewModel(_editor)
         {
             Name = "Attached Properties",
             Children = new ObservableCollection<PropertyViewModel>()
@@ -173,15 +240,17 @@ public partial class TreeViewModel : ObservableObject
         foreach (var avaloniaAttachedProperty in typeProperties.AttachedProperties)
         {
             var value = logical.GetValue(avaloniaAttachedProperty);
-            var property = new PropertyViewModel
+            var property = new AvaloniaPropertyViewModel(_editor, avaloniaAttachedProperty)
             {
                 Name = avaloniaAttachedProperty.Name,
-                Value = value?.ToString()
+                Value = value
             };
             avaloniaAttachedProps.Children.Add(property);
         } 
 
-        var clrProps = new PropertyViewModel
+        // CLR Properties
+
+        var clrProps = new GroupPropertyViewModel(_editor)
         {
             Name = "CLR Properties",
             Children = new ObservableCollection<PropertyViewModel>()
@@ -192,10 +261,10 @@ public partial class TreeViewModel : ObservableObject
             try
             {
                 var value = clrProperty.GetValue(logical);
-                var property = new PropertyViewModel
+                var property = new ClrPropertyViewModel(_editor, clrProperty)
                 {
                     Name = clrProperty.Name,
-                    Value = value?.ToString()
+                    Value = value
                 };
                 clrProps.Children.Add(property);
             }
@@ -204,6 +273,8 @@ public partial class TreeViewModel : ObservableObject
                 Debug.WriteLine(e);
             }
         }
+
+        // Property Groups
 
         var properties = new ObservableCollection<PropertyViewModel>
         {
