@@ -141,6 +141,7 @@ public partial class TreeViewModel : ObservableObject
                                         [!ToggleButton.IsCheckedProperty] = new Binding("Value"),
                                         HorizontalAlignment = HorizontalAlignment.Stretch,
                                         HorizontalContentAlignment = HorizontalAlignment.Left,
+                                        VerticalAlignment = VerticalAlignment.Center,
                                         IsEnabled = !isReadOnly
                                     };
                                 }
@@ -157,6 +158,7 @@ public partial class TreeViewModel : ObservableObject
                                     {
                                         [!TextBox.TextProperty] = new Binding("Value"),
                                         HorizontalAlignment = HorizontalAlignment.Stretch,
+                                        VerticalAlignment = VerticalAlignment.Center,
                                         IsReadOnly = isReadOnly
                                     };   
                                 }
@@ -176,7 +178,7 @@ public partial class TreeViewModel : ObservableObject
                         {
                             [!TextBlock.TextProperty] = new Binding("Value"),
                             HorizontalAlignment = HorizontalAlignment.Stretch,
-                            VerticalAlignment = VerticalAlignment.Center
+                            VerticalAlignment = VerticalAlignment.Center,
                         };
                     }, false),
                     options: new ColumnOptions<PropertyViewModel>
