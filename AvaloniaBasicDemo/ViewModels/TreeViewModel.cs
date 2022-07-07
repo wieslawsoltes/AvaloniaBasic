@@ -144,7 +144,14 @@ public partial class TreeViewModel : ObservableObject
                                         IsEnabled = !isReadOnly
                                     };
                                 }
-                                else if (type == typeof(string))
+                                else if (type == typeof(string) 
+                                         || type == typeof(decimal) 
+                                         || type == typeof(double) 
+                                         || type == typeof(float) 
+                                         || type == typeof(long) 
+                                         || type == typeof(int) 
+                                         || type == typeof(short) 
+                                         || type == typeof(byte))
                                 {
                                     return new TextBox
                                     {
