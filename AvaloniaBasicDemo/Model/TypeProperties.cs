@@ -23,7 +23,7 @@ internal class TypeProperties
 
         AttachedProperties = AvaloniaPropertyRegistry.Instance
             .GetRegisteredAttached(type)
-            .OrderBy(x => x.Name)
+            .OrderBy(x => x.OwnerType.Name).ThenBy(x => x.Name)
             .ToList();
 
         ClrProperties = type
