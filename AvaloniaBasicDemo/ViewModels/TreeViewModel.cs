@@ -220,7 +220,7 @@ public partial class TreeViewModel : ObservableObject
 
         // Properties
 
-        var avaloniaProps = new GroupPropertyViewModel(_editor)
+        var avaloniaProps = new GroupPropertyViewModel()
         {
             Name = "Properties",
             Children = new ObservableCollection<PropertyViewModel>()
@@ -239,7 +239,7 @@ public partial class TreeViewModel : ObservableObject
 
         // Attached Properties
 
-        var avaloniaAttachedProps = new GroupPropertyViewModel(_editor)
+        var avaloniaAttachedProps = new GroupPropertyViewModel()
         {
             Name = "Attached Properties",
             Children = new ObservableCollection<PropertyViewModel>()
@@ -258,7 +258,7 @@ public partial class TreeViewModel : ObservableObject
 
         // CLR Properties
 
-        var clrProps = new GroupPropertyViewModel(_editor)
+        var clrProps = new GroupPropertyViewModel()
         {
             Name = "CLR Properties",
             Children = new ObservableCollection<PropertyViewModel>()

@@ -6,9 +6,4 @@ namespace AvaloniaBasicDemo.ViewModels.Properties;
 public partial class GroupPropertyViewModel : PropertyViewModel
 {
     [ObservableProperty] private ObservableCollection<PropertyViewModel>? _children;
-
-    public GroupPropertyViewModel(PropertyEditor editor) 
-        : base(editor)
-    {
-    }
 }
