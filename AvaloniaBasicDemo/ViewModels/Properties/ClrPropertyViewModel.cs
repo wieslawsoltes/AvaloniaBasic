@@ -15,6 +15,22 @@ public partial class ClrPropertyViewModel : PropertyViewModel
         _property = property;
     }
 
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.PropertyName == nameof(Value))
+        {
+            if (_property.CanWrite)
+            {
+                if (_editor.Current is not null)
+                {
+                    _property.SetValue(_editor.Current, Value);
+                }
+            }
+        }
+    }
+
     public Type GetValueType()
     {
         return _property.PropertyType;
