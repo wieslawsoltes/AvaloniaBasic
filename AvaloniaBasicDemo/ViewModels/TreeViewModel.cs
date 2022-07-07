@@ -242,7 +242,7 @@ public partial class TreeViewModel : ObservableObject
             var value = logical.GetValue(avaloniaAttachedProperty);
             var property = new AvaloniaPropertyViewModel(_editor, avaloniaAttachedProperty)
             {
-                Name = avaloniaAttachedProperty.Name,
+                Name = $"{avaloniaAttachedProperty.OwnerType.Name}.{avaloniaAttachedProperty.Name}",
                 Value = value
             };
             avaloniaAttachedProps.Children.Add(property);
