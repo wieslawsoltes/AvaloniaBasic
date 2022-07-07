@@ -145,13 +145,13 @@ public partial class TreeViewModel : ObservableObject
                                     };
                                 }
                                 else if (type == typeof(string) 
-                                         || type == typeof(decimal) 
-                                         || type == typeof(double) 
-                                         || type == typeof(float) 
-                                         || type == typeof(long) 
-                                         || type == typeof(int) 
-                                         || type == typeof(short) 
-                                         || type == typeof(byte))
+                                         || type == typeof(decimal) || type == typeof(decimal?) 
+                                         || type == typeof(double) || type == typeof(double?) 
+                                         || type == typeof(float) || type == typeof(float?) 
+                                         || type == typeof(long) || type == typeof(long?) 
+                                         || type == typeof(int) || type == typeof(int?) 
+                                         || type == typeof(short) || type == typeof(short?) 
+                                         || type == typeof(byte)|| type == typeof(byte?))
                                 {
                                     return new TextBox
                                     {
