@@ -15,6 +15,19 @@ public partial class AvaloniaPropertyViewModel : PropertyViewModel
         _property = property;
     }
 
+    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+
+        if (e.PropertyName == nameof(Value))
+        {
+            if (!_property.IsReadOnly)
+            {
+                _editor.Current?.SetValue(_property, Value);
+            }
+        }
+    }
+
     public Type GetValueType()
     {
         return _property.PropertyType;
