@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Reflection;
+using Avalonia.Utilities;
 
 namespace AvaloniaBasicDemo.ViewModels.Properties;
 
@@ -21,11 +23,21 @@ public partial class ClrPropertyViewModel : PropertyViewModel
 
         if (e.PropertyName == nameof(Value))
         {
-            if (_property.CanWrite)
+            if (!_property.CanWrite && _editor.Current is { })
             {
-                if (_editor.Current is not null)
+                if (Value is { })
                 {
-                    _property.SetValue(_editor.Current, Value);
+                    if (Value.GetType() == _property.PropertyType)
+                    {
+                        _property.SetValue(_editor.Current, Value);
+                    }
+                    else
+                    {
+                        if (TypeUtilities.TryConvert(_property.PropertyType, Value, CultureInfo.InvariantCulture, out var result))
+                        {
+                            _property.SetValue(_editor.Current, result);
+                        }
+                    }
                 }
             }
         }

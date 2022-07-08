@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel;
+using System.Globalization;
 using Avalonia;
+using Avalonia.Utilities;
 
 namespace AvaloniaBasicDemo.ViewModels.Properties;
 
@@ -21,9 +23,22 @@ public partial class AvaloniaPropertyViewModel : PropertyViewModel
 
         if (e.PropertyName == nameof(Value))
         {
-            if (!_property.IsReadOnly)
+            if (!_property.IsReadOnly && _editor.Current is { })
             {
-                _editor.Current?.SetValue(_property, Value);
+                if (Value is { })
+                {
+                    if (Value.GetType() == _property.PropertyType)
+                    {
+                        _editor.Current?.SetValue(_property, Value);
+                    }
+                    else
+                    {
+                        if (TypeUtilities.TryConvert(_property.PropertyType, Value, CultureInfo.InvariantCulture, out var result))
+                        {
+                            _editor.Current?.SetValue(_property, result);
+                        }
+                    }
+                }
             }
         }
     }
