@@ -4,5 +4,5 @@ namespace AvaloniaBasicDemo.ViewModels.Properties;
 
 public class PropertyEditor
 {
-    public IAvaloniaObject? Current { get; set; }
+    public AvaloniaObject? Current { get; set; }
 }

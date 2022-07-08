@@ -193,7 +193,7 @@ public partial class TreeViewModel : ObservableObject
 
     private void UpdateProperties()
     {
-        if (SelectedLogical?.Logical is not IAvaloniaObject logical)
+        if (SelectedLogical?.Logical is not AvaloniaObject logical)
         {
             _editor.Current = null;
             return;
