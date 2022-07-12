@@ -43,12 +43,12 @@ public partial class ClrPropertyViewModel : PropertyViewModel
         }
     }
 
-    public Type GetValueType()
+    public override Type GetValueType()
     {
         return _property.PropertyType;
     }
 
-    public bool IsReadOnly()
+    public override bool IsReadOnly()
     {
         return !_property.CanWrite;
     }

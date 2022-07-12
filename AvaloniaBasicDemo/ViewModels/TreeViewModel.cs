@@ -132,62 +132,27 @@ public partial class TreeViewModel : ObservableObject
                             }
                             case AvaloniaPropertyViewModel avaloniaPropertyViewModel:
                             {
-                                var isReadOnly = avaloniaPropertyViewModel.IsReadOnly();
-                                var type = avaloniaPropertyViewModel.GetValueType();
-                                if (type == typeof(bool) || type == typeof(bool?))
+                                var control = CreatePropertyEditor(avaloniaPropertyViewModel);
+                                if (control is { })
                                 {
-                                    return new CheckBox
-                                    {
-                                        [!ToggleButton.IsCheckedProperty] = new Binding("Value"),
-                                        HorizontalAlignment = HorizontalAlignment.Stretch,
-                                        HorizontalContentAlignment = HorizontalAlignment.Left,
-                                        VerticalAlignment = VerticalAlignment.Center,
-                                        IsEnabled = !isReadOnly
-                                    };
+                                    return control;
                                 }
-                                else if (type == typeof(string) 
-                                         || type == typeof(decimal) || type == typeof(decimal?) 
-                                         || type == typeof(double) || type == typeof(double?) 
-                                         || type == typeof(float) || type == typeof(float?) 
-                                         || type == typeof(long) || type == typeof(long?) 
-                                         || type == typeof(int) || type == typeof(int?) 
-                                         || type == typeof(short) || type == typeof(short?) 
-                                         || type == typeof(byte)|| type == typeof(byte?))
-                                {
-                                    return new TextBox
-                                    {
-                                        [!TextBox.TextProperty] = new Binding("Value"),
-                                        HorizontalAlignment = HorizontalAlignment.Stretch,
-                                        VerticalAlignment = VerticalAlignment.Center,
-                                        IsReadOnly = isReadOnly
-                                    };   
-                                }
-                                else if (type.IsEnum)
-                                {
-                                    var values = Enum.GetValues(type);
-
-                                    return new ComboBox
-                                    {
-                                        Items = values,
-                                        [!!SelectingItemsControl.SelectedItemProperty] = new Binding("Value"),
-                                        HorizontalAlignment = HorizontalAlignment.Stretch,
-                                        VerticalAlignment = VerticalAlignment.Center,
-                                        IsEnabled = !isReadOnly
-                                    };
-                                }
-                                // TODO:
 
                                 break;
                             }
                             case ClrPropertyViewModel clrPropertyViewModel:
                             {
-                                // TODO:
+                                var control = CreatePropertyEditor(clrPropertyViewModel);
+                                if (control is { })
+                                {
+                                    return control;
+                                }
 
                                 break;
                             }
                         }
 
-                        return new TextBlock()
+                        return new TextBlock
                         {
                             [!TextBlock.TextProperty] = new Binding("Value"),
                             HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -204,6 +169,56 @@ public partial class TreeViewModel : ObservableObject
         };
     }
 
+    private Control? CreatePropertyEditor(PropertyViewModel propertyViewModel)
+    {
+        var isReadOnly = propertyViewModel.IsReadOnly();
+        var type = propertyViewModel.GetValueType();
+
+        if (type == typeof(bool) || type == typeof(bool?))
+        {
+            return new CheckBox
+            {
+                [!ToggleButton.IsCheckedProperty] = new Binding("Value"),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                HorizontalContentAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                IsEnabled = !isReadOnly
+            };
+        }
+        else if (type == typeof(string) 
+                 || type == typeof(decimal) || type == typeof(decimal?) 
+                 || type == typeof(double) || type == typeof(double?) 
+                 || type == typeof(float) || type == typeof(float?) 
+                 || type == typeof(long) || type == typeof(long?) 
+                 || type == typeof(int) || type == typeof(int?) 
+                 || type == typeof(short) || type == typeof(short?) 
+                 || type == typeof(byte)|| type == typeof(byte?))
+        {
+            return new TextBox
+            {
+                [!TextBox.TextProperty] = new Binding("Value"),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
+                IsReadOnly = isReadOnly
+            };   
+        }
+        else if (type.IsEnum)
+        {
+            var values = Enum.GetValues(type);
+
+            return new ComboBox
+            {
+                Items = values,
+                [!!SelectingItemsControl.SelectedItemProperty] = new Binding("Value"),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
+                IsEnabled = !isReadOnly
+            };
+        }
+
+        return null;
+    }
+    
     private void UpdateProperties()
     {
         if (SelectedLogical?.Logical is not AvaloniaObject logical)

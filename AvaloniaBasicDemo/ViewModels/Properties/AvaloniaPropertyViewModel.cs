@@ -43,12 +43,12 @@ public partial class AvaloniaPropertyViewModel : PropertyViewModel
         }
     }
 
-    public Type GetValueType()
+    public override Type GetValueType()
     {
         return _property.PropertyType;
     }
 
-    public bool IsReadOnly()
+    public override bool IsReadOnly()
     {
         return _property.IsReadOnly;
     }
