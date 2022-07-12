@@ -162,6 +162,19 @@ public partial class TreeViewModel : ObservableObject
                                         IsReadOnly = isReadOnly
                                     };   
                                 }
+                                else if (type.IsEnum)
+                                {
+                                    var values = Enum.GetValues(type);
+
+                                    return new ComboBox
+                                    {
+                                        Items = values,
+                                        [!!SelectingItemsControl.SelectedItemProperty] = new Binding("Value"),
+                                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                                        VerticalAlignment = VerticalAlignment.Center,
+                                        IsEnabled = !isReadOnly
+                                    };
+                                }
                                 // TODO:
 
                                 break;
