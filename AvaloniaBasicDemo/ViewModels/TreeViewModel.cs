@@ -15,7 +15,7 @@ using Avalonia.Threading;
 using AvaloniaBasicDemo.Model;
 using AvaloniaBasicDemo.Utilities;
 using AvaloniaBasicDemo.ViewModels.Properties;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasicDemo.ViewModels;
 

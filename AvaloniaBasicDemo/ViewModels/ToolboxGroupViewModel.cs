@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using AvaloniaBasicDemo.Model;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasicDemo.ViewModels;
 

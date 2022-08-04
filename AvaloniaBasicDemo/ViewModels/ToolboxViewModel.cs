@@ -8,7 +8,7 @@ using AvaloniaBasicDemo.Model;
 using AvaloniaBasicDemo.Utilities;
 using AvaloniaBasicDemo.ViewModels.Toolbox;
 using AvaloniaBasicDemo.ViewModels.Toolbox.Shapes;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasicDemo.ViewModels;
 
