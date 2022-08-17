@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
-public class PathViewModel : DragItemViewModel
+public class PathViewModel : ToolBoxItemiewModel
 {
     public PathViewModel()
     {

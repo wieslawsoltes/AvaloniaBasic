@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class UniformGridViewModel : DragItemViewModel
+public class UniformGridViewModel : ToolBoxItemiewModel
 {
     public UniformGridViewModel()
     {

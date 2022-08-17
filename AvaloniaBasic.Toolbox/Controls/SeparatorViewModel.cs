@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class SeparatorViewModel : DragItemViewModel
+public class SeparatorViewModel : ToolBoxItemiewModel
 {
     public SeparatorViewModel()
     {

@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class DockPanelViewModel : DragItemViewModel
+public class DockPanelViewModel : ToolBoxItemiewModel
 {
     public DockPanelViewModel()
     {

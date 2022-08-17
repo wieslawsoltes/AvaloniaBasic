@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class ExpanderViewModel : DragItemViewModel
+public class ExpanderViewModel : ToolBoxItemiewModel
 {
     public ExpanderViewModel()
     {

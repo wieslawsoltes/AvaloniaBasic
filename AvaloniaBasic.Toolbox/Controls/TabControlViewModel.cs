@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class TabControlViewModel : DragItemViewModel
+public class TabControlViewModel : ToolBoxItemiewModel
 {
     public TabControlViewModel()
     {

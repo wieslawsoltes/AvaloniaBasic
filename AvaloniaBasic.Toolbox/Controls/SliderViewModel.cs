@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class SliderViewModel : DragItemViewModel
+public class SliderViewModel : ToolBoxItemiewModel
 {
     public SliderViewModel()
     {

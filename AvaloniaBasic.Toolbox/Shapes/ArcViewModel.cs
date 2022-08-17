@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
-public class ArcViewModel : DragItemViewModel
+public class ArcViewModel : ToolBoxItemiewModel
 {
     public ArcViewModel()
     {

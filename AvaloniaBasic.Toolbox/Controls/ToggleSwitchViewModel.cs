@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class ToggleSwitchViewModel : DragItemViewModel
+public class ToggleSwitchViewModel : ToolBoxItemiewModel
 {
     public ToggleSwitchViewModel()
     {

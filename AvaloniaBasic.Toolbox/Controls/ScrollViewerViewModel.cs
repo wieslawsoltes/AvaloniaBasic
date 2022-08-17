@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class ScrollViewerViewModel : DragItemViewModel
+public class ScrollViewerViewModel : ToolBoxItemiewModel
 {
     public ScrollViewerViewModel()
     {

@@ -6,7 +6,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
-public class PolylineViewModel : DragItemViewModel
+public class PolylineViewModel : ToolBoxItemiewModel
 {
     public PolylineViewModel()
     {

@@ -2,7 +2,7 @@ using Avalonia.Controls;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class TransitioningContentControlViewModel : DragItemViewModel
+public class TransitioningContentControlViewModel : ToolBoxItemiewModel
 {
     public TransitioningContentControlViewModel()
     {
