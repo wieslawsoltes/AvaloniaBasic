@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class TreeDataGridViewModel : ToolBoxItemiewModel
+public class TreeDataGridViewModel : ToolBoxItemViewModel
 {
     public TreeDataGridViewModel()
     {

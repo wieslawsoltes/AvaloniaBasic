@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class MenuItemViewModel : ToolBoxItemiewModel
+public class MenuItemViewModel : ToolBoxItemViewModel
 {
     public MenuItemViewModel()
     {

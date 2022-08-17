@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class TabStripViewModel : ToolBoxItemiewModel
+public class TabStripViewModel : ToolBoxItemViewModel
 {
     public TabStripViewModel()
     {

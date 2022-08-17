@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class WrapPanelViewModel : ToolBoxItemiewModel
+public class WrapPanelViewModel : ToolBoxItemViewModel
 {
     public WrapPanelViewModel()
     {

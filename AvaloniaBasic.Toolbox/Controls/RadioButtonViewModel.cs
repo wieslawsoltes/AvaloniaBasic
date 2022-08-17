@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class RadioButtonViewModel : ToolBoxItemiewModel
+public class RadioButtonViewModel : ToolBoxItemViewModel
 {
     public RadioButtonViewModel()
     {

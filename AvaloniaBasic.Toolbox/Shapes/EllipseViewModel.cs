@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
-public class EllipseViewModel : ToolBoxItemiewModel
+public class EllipseViewModel : ToolBoxItemViewModel
 {
     public EllipseViewModel()
     {
