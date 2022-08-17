@@ -1,3 +1,4 @@
+using Avalonia.Controls;
 using AvaloniaBasic.ViewModels.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -9,6 +10,8 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private TreeViewModel _tree;
     [ObservableProperty] private DragSettingsViewModel _dragSettings;
     [ObservableProperty] private GridSettingsViewModel _gridSettings;
+    [ObservableProperty] private Canvas? _previewCanvas;
+    [ObservableProperty] private Canvas? _dropAreaCanvas;
 
     public MainViewModel()
     {

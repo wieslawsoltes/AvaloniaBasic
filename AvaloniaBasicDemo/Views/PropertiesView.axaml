@@ -1,0 +1,43 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AvaloniaBasic.ViewModels;assembly=AvaloniaBasic.Core"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaBasicDemo.Views.PropertiesView"
+             x:DataType="vm:MainViewModel" x:CompileBindings="True">
+  <TreeDataGrid Source="{Binding PropertiesSource}" 
+                DataContext="{Binding Tree}"
+                ShowColumnHeaders="True">
+    <TreeDataGrid.Styles>
+      <Style Selector="TreeDataGridRow">
+        <Setter Property="Height" Value="34" />
+      </Style>
+      <Style Selector="TreeDataGridCell">
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+      <Style Selector="TreeDataGridExpanderCell">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+          <ControlTemplate>
+            <Border Background="{TemplateBinding Background}"
+                    Padding="0">
+              <DockPanel>
+                <Border DockPanel.Dock="Left"
+                        Margin="4 0"
+                        Width="12" Height="12">
+                  <ToggleButton Classes="ExpandCollapseChevron"
+                                Focusable="False"
+                                IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                                IsVisible="{TemplateBinding ShowExpander}"
+                                Cursor="Hand"/>
+                </Border>
+                <Decorator Name="PART_Content"/>
+              </DockPanel>
+            </Border>
+          </ControlTemplate>
+        </Setter>
+      </Style>
+    </TreeDataGrid.Styles>
+  </TreeDataGrid>
+</UserControl>

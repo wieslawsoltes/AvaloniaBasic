@@ -16,6 +16,8 @@ public partial class ToolboxViewModel : ObservableObject
 {
     [ObservableProperty] private ObservableCollection<IToolBoxItem> _toolboxes;
     [ObservableProperty] private IToolBoxItem? _selectedToolBoxItem;
+    [ObservableProperty] private Canvas? _previewCanvas;
+    [ObservableProperty] private Canvas? _dropAreaCanvas;
 
     public HierarchicalTreeDataGridSource<IToolBoxItem> ToolboxSource { get; }
 

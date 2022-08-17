@@ -1,0 +1,28 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:AvaloniaBasic.ViewModels;assembly=AvaloniaBasic.Core"
+             xmlns:behaviors="clr-namespace:AvaloniaBasic.Behaviors;assembly=AvaloniaBasic.Core"
+             xmlns:views="clr-namespace:AvaloniaBasicDemo.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AvaloniaBasicDemo.Views.MainView"
+             x:DataType="vm:MainViewModel" x:CompileBindings="True">
+  <Design.DataContext>
+    <vm:MainViewModel />
+  </Design.DataContext>
+  <Panel behaviors:DragSettings.MinimumDragDelta="{Binding DragSettings.MinimumDragDelta}"
+         behaviors:DragSettings.SnapToGrid="{Binding DragSettings.SnapToGrid}"
+         behaviors:DragSettings.SnapX="{Binding DragSettings.SnapX}"
+         behaviors:DragSettings.SnapY="{Binding DragSettings.SnapY}">
+    <Grid ColumnDefinitions="250,*,400">
+      <views:ToolboxView Grid.Column="0" />
+      <Grid RowDefinitions="*,*" Grid.Column="2">
+        <views:LogicalTreeView Grid.Row="0" />
+        <views:PropertiesView Grid.Row="1" />
+      </Grid>
+      <views:EditorCanvasView Grid.Column="1" />
+    </Grid>
+    <Canvas Name="PreviewCanvas" IsHitTestVisible="False" />
+  </Panel>
+</UserControl>
