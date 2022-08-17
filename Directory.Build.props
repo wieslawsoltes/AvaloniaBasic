@@ -1,0 +1,10 @@
+﻿<Project>
+  <PropertyGroup>
+    <AvaloniaVersion>0.10.18</AvaloniaVersion>
+    <AvaloniaXamlBehaviorsVersion>0.10.18</AvaloniaXamlBehaviorsVersion>
+    <AvaloniaControlsTreeDataGridVersion>0.10.14</AvaloniaControlsTreeDataGridVersion>
+    <CommunityToolkitMvvmVersion>8.0.0</CommunityToolkitMvvmVersion>
+    <ReactiveMarblesPropertyChangedVersion>2.0.27</ReactiveMarblesPropertyChangedVersion>
+    <XamlNameReferenceGeneratorVersion>1.3.4</XamlNameReferenceGeneratorVersion>
+  </PropertyGroup>
+</Project>

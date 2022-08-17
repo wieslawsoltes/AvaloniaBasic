@@ -1,6 +1,6 @@
 using System;
 using Avalonia.Controls;
-using AvaloniaBasicDemo.ViewModels;
+using AvaloniaBasic.ViewModels;
 
 namespace AvaloniaBasicDemo.Views;
 

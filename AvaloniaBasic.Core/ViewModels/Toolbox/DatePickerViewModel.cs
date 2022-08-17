@@ -1,0 +1,34 @@
+using System;
+using Avalonia.Controls;
+using Avalonia.Media;
+
+namespace AvaloniaBasic.ViewModels.Toolbox;
+
+public class DatePickerViewModel : DragItemViewModel
+{
+    public override Control CreatePreview()
+    {
+        var datePicker = new DatePicker();
+        datePicker.SelectedDate = DateTimeOffset.Now;
+        datePicker.Background = Brushes.Black;
+        return datePicker;
+    }
+
+    public override Control CreateControl()
+    {
+        var datePicker = new DatePicker();
+        datePicker.SelectedDate = DateTimeOffset.Now;
+        //textBox.Background = Brushes.Blue;
+        return datePicker;
+    }
+
+    public override void UpdatePreview(Control control, bool isPointerOver)
+    {
+        if (control is not DatePicker datePicker)
+        {
+            return;
+        }
+
+        datePicker.Background = isPointerOver ? Brushes.Green : Brushes.Red;
+    }
+}

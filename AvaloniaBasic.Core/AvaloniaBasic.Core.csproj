@@ -1,27 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <RootNamespace>AvaloniaBasic</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia.Desktop" Version="$(AvaloniaVersion)" />
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="$(AvaloniaVersion)" />
+    <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
     <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="$(AvaloniaControlsTreeDataGridVersion)" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="$(CommunityToolkitMvvmVersion)" />
     <PackageReference Include="ReactiveMarbles.PropertyChanged" Version="$(ReactiveMarblesPropertyChangedVersion)" />
     <PackageReference Include="XamlNameReferenceGenerator" Version="$(XamlNameReferenceGeneratorVersion)" />
-  </ItemGroup>
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\MainWindow.axaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AdditionalFiles Include="Views\MainWindow.axaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AvaloniaBasic.Core\AvaloniaBasic.Core.csproj" />
   </ItemGroup>
 </Project>

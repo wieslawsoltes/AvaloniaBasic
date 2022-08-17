@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using AvaloniaBasicDemo.ViewModels;
+using AvaloniaBasic.ViewModels;
 using AvaloniaBasicDemo.Views;
 
 namespace AvaloniaBasicDemo;

@@ -2,6 +2,18 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaBasicDemo", "AvaloniaBasicDemo\AvaloniaBasicDemo.csproj", "{BE9867D2-E9F8-4BA8-A712-5876C4E00E80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaBasic.Core", "AvaloniaBasic.Core\AvaloniaBasic.Core.csproj", "{7D31A1B4-90DD-4D5D-AAD0-1313C2D2DCA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8E3E08A4-896E-4DDC-9191-9DB6857BCB8B}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+		NuGet.Config = NuGet.Config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +24,9 @@ Global
 		{BE9867D2-E9F8-4BA8-A712-5876C4E00E80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE9867D2-E9F8-4BA8-A712-5876C4E00E80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE9867D2-E9F8-4BA8-A712-5876C4E00E80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D31A1B4-90DD-4D5D-AAD0-1313C2D2DCA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D31A1B4-90DD-4D5D-AAD0-1313C2D2DCA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D31A1B4-90DD-4D5D-AAD0-1313C2D2DCA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D31A1B4-90DD-4D5D-AAD0-1313C2D2DCA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
