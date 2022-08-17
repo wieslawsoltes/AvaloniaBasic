@@ -252,6 +252,12 @@ public class ToolboxDragBehavior : PointerEventsBehavior
         {
             var control = item.CreateControl();
 
+            if (item.IsDropArea())
+            {
+                DragSettings.SetIsDropArea(control, true);
+                DragSettings.SetSnapToGrid(control, false);
+            }
+
             point = SnapPoint(point, false);
 
             AddControl(control, _dropArea, point);

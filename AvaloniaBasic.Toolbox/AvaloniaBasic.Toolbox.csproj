@@ -9,14 +9,11 @@
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="$(AvaloniaVersion)" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="$(AvaloniaVersion)" />
-    <PackageReference Include="Avalonia.Xaml.Behaviors" Version="$(AvaloniaXamlBehaviorsVersion)" />
     <PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="$(AvaloniaControlsTreeDataGridVersion)" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="$(CommunityToolkitMvvmVersion)" />
     <PackageReference Include="ReactiveMarbles.PropertyChanged" Version="$(ReactiveMarblesPropertyChangedVersion)" />
-    <PackageReference Include="XamlNameReferenceGenerator" Version="$(XamlNameReferenceGeneratorVersion)" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AvaloniaBasic.Toolbox.Base\AvaloniaBasic.Toolbox.Base.csproj" />
-    <ProjectReference Include="..\AvaloniaBasic.Toolbox\AvaloniaBasic.Toolbox.csproj" />
   </ItemGroup>
 </Project>

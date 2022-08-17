@@ -30,6 +30,12 @@ public class ToolboxDoubleTappedEventBehavior : DoubleTappedEventBehavior
         {
             var control = item.CreateControl();
 
+            if (item.IsDropArea())
+            {
+                DragSettings.SetIsDropArea(control, true);
+                DragSettings.SetSnapToGrid(control, false);
+            }
+
             ToolboxDragBehavior.AddControl(control, TargetCanvas, new Point(0d, 0d));
 
             if (TargetCanvas?.DataContext is MainViewModel mainViewModel)
