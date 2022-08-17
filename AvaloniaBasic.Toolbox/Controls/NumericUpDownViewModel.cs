@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class NumericUpDownViewModel : ToolBoxItemViewModel
+public class NumericUpDownViewModel : ToolboxItemViewModel
 {
     public NumericUpDownViewModel()
     {

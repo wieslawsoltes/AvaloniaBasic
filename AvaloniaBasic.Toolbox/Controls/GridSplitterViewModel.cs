@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class GridSplitterViewModel : ToolBoxItemViewModel
+public class GridSplitterViewModel : ToolboxItemViewModel
 {
     public GridSplitterViewModel()
     {

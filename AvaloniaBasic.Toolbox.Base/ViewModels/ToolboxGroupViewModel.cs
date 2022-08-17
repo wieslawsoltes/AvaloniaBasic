@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels;
 
-public partial class ToolboxGroupViewModel : ObservableObject, IToolBoxItem
+public partial class ToolboxGroupViewModel : ObservableObject, IToolboxItem
 {
     [ObservableProperty] private string? _name;
     [ObservableProperty] private string? _group;

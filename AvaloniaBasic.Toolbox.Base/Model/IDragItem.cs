@@ -2,7 +2,7 @@
 
 namespace AvaloniaBasic.Model;
 
-public interface IDragItem : IToolBoxItem
+public interface IDragItem : IToolboxItem
 {
     Control CreatePreview();
 

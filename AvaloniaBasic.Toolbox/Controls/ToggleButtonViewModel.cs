@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class ToggleButtonViewModel : ToolBoxItemViewModel
+public class ToggleButtonViewModel : ToolboxItemViewModel
 {
     public ToggleButtonViewModel()
     {

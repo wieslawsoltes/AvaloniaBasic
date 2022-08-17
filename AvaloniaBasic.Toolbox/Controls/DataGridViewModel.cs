@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class DataGridViewModel : ToolBoxItemViewModel
+public class DataGridViewModel : ToolboxItemViewModel
 {
     public DataGridViewModel()
     {

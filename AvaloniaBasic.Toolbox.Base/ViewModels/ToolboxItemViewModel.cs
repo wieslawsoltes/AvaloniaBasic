@@ -4,7 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels;
 
-public abstract partial class ToolBoxItemViewModel : ObservableObject, IDragItem
+public abstract partial class ToolboxItemViewModel : ObservableObject, IDragItem
 {
     [ObservableProperty] private string? _name;
     [ObservableProperty] private string? _group;

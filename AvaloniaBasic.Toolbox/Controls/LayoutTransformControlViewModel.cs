@@ -2,7 +2,7 @@ using Avalonia.Controls;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class LayoutTransformControlViewModel : ToolBoxItemViewModel
+public class LayoutTransformControlViewModel : ToolboxItemViewModel
 {
     public LayoutTransformControlViewModel()
     {

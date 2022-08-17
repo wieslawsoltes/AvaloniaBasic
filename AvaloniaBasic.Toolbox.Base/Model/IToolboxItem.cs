@@ -1,6 +1,6 @@
 ﻿namespace AvaloniaBasic.Model;
 
-public interface IToolBoxItem
+public interface IToolboxItem
 {
     string? Name { get; set; }
 

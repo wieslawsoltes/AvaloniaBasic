@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class ProgressBarViewModel : ToolBoxItemViewModel
+public class ProgressBarViewModel : ToolboxItemViewModel
 {
     public ProgressBarViewModel()
     {

@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class AccessTextViewModel : ToolBoxItemViewModel
+public class AccessTextViewModel : ToolboxItemViewModel
 {
     public AccessTextViewModel()
     {

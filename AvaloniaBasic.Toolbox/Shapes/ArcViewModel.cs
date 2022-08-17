@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
-public class ArcViewModel : ToolBoxItemViewModel
+public class ArcViewModel : ToolboxItemViewModel
 {
     public ArcViewModel()
     {

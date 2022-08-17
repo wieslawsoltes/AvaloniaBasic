@@ -14,16 +14,16 @@ namespace AvaloniaBasic.ViewModels;
 
 public partial class ToolboxViewModel : ObservableObject
 {
-    [ObservableProperty] private ObservableCollection<IToolBoxItem> _toolboxes;
-    [ObservableProperty] private IToolBoxItem? _selectedToolBoxItem;
+    [ObservableProperty] private ObservableCollection<IToolboxItem> _toolboxes;
+    [ObservableProperty] private IToolboxItem? _selectedToolBoxItem;
     [ObservableProperty] private Canvas? _previewCanvas;
     [ObservableProperty] private Canvas? _dropAreaCanvas;
 
-    public HierarchicalTreeDataGridSource<IToolBoxItem> ToolboxSource { get; }
+    public HierarchicalTreeDataGridSource<IToolboxItem> ToolboxSource { get; }
 
     public ToolboxViewModel()
     {
-        _toolboxes = new ObservableCollection<IToolBoxItem>
+        _toolboxes = new ObservableCollection<IToolboxItem>
         {
             new ToolboxGroupViewModel
             {
@@ -172,26 +172,26 @@ public partial class ToolboxViewModel : ObservableObject
             },
         };
 
-        ToolboxSource = new HierarchicalTreeDataGridSource<IToolBoxItem>(_toolboxes)
+        ToolboxSource = new HierarchicalTreeDataGridSource<IToolboxItem>(_toolboxes)
         {
             Columns =
             {
-                new HierarchicalExpanderColumn<IToolBoxItem>(
-                    inner: new TemplateColumn<IToolBoxItem>(
+                new HierarchicalExpanderColumn<IToolboxItem>(
+                    inner: new TemplateColumn<IToolboxItem>(
                         "Toolbox",
-                        new FuncDataTemplate<IToolBoxItem>((_, _) =>
+                        new FuncDataTemplate<IToolboxItem>((_, _) =>
                         {
                             return new Label
                             {
                                 [!ContentControl.ContentProperty] = new Binding("Name")
                             };
                         }, true),
-                        options: new ColumnOptions<IToolBoxItem>
+                        options: new ColumnOptions<IToolboxItem>
                         {
                             CanUserResizeColumn = false,
                             CanUserSortColumn = true,
-                            CompareAscending = SortHelper.SortAscending<string?, IToolBoxItem>(x => x.Name),
-                            CompareDescending = SortHelper.SortDescending<string?, IToolBoxItem>(x => x.Name)
+                            CompareAscending = SortHelper.SortAscending<string?, IToolboxItem>(x => x.Name),
+                            CompareDescending = SortHelper.SortDescending<string?, IToolboxItem>(x => x.Name)
                         },
                         width: new GridLength(1, GridUnitType.Star)), 
                     childSelector: x =>

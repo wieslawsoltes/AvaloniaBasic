@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class SplitViewViewModel : ToolBoxItemViewModel
+public class SplitViewViewModel : ToolboxItemViewModel
 {
     public SplitViewViewModel()
     {
