@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class RelativePanelViewModel : DragItemViewModel
 {
+    public RelativePanelViewModel()
+    {
+        Name = "RelativePanel";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var relativePanel = new RelativePanel();

@@ -6,6 +6,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
 public class RectangleViewModel : DragItemViewModel
 {
+    public RectangleViewModel()
+    {
+        Name = "Rectangle";
+        Group = "Shapes";
+    }
+
     public override Control CreatePreview()
     {
         var rectangle = new Rectangle();

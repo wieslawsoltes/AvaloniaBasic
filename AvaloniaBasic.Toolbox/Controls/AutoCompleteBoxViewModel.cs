@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class AutoCompleteBoxViewModel : DragItemViewModel
 {
+    public AutoCompleteBoxViewModel()
+    {
+        Name = "AutoCompleteBox";
+        Group = "Text";
+    }
+
     public override Control CreatePreview()
     {
         var autoCompleteBox = new AutoCompleteBox();

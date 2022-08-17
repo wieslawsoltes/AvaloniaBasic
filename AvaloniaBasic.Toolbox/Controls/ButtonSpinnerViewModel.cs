@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ButtonSpinnerViewModel : DragItemViewModel
 {
+    public ButtonSpinnerViewModel()
+    {
+        Name = "ButtonSpinner";
+        Group = "Buttons";
+    }
+
     public override Control CreatePreview()
     {
         var buttonSpinner = new ButtonSpinner();

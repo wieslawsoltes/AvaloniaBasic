@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ExpanderViewModel : DragItemViewModel
 {
+    public ExpanderViewModel()
+    {
+        Name = "Expander";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var expander = new Expander();

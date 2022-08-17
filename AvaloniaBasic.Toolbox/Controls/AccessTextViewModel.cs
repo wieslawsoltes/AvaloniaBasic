@@ -6,6 +6,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class AccessTextViewModel : DragItemViewModel
 {
+    public AccessTextViewModel()
+    {
+        Name = "AccessText";
+        Group = "Text";
+    }
+
     public override Control CreatePreview()
     {
         var accessText = new AccessText();

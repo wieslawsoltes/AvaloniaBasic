@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class RadioButtonViewModel : DragItemViewModel
 {
+    public RadioButtonViewModel()
+    {
+        Name = "RadioButton";
+        Group = "Buttons";
+    }
+
     public override Control CreatePreview()
     {
         var radioButton = new RadioButton();

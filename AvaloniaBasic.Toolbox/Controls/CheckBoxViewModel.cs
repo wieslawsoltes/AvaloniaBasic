@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class CheckBoxViewModel : DragItemViewModel
 {
+    public CheckBoxViewModel()
+    {
+        Name = "CheckBox";
+        Group = "Value selectors";
+    }
+
     public override Control CreatePreview()
     {
         var checkBox = new CheckBox();

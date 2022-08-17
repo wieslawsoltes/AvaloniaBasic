@@ -4,6 +4,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ImageViewModel : DragItemViewModel
 {
+    public ImageViewModel()
+    {
+        Name = "Image";
+        Group = "Images";
+    }
+
     public override Control CreatePreview()
     {
         var image = new Image();

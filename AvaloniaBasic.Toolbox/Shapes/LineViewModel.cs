@@ -7,6 +7,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
 public class LineViewModel : DragItemViewModel
 {
+    public LineViewModel()
+    {
+        Name = "Line";
+        Group = "Shapes";
+    }
+
     public override Control CreatePreview()
     {
         var line = new Line();

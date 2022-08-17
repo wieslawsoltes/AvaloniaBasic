@@ -30,22 +30,22 @@ public partial class ToolboxViewModel : ObservableObject
                 Name = "Layout",
                 Items = new ObservableCollection<IDragItem>
                 {
-                    new BorderViewModel { Name = "Border" },
-                    new CanvasViewModel { Name = "Canvas" },
-                    new DecoratorViewModel { Name = "Decorator" },
-                    new DockPanelViewModel { Name = "DockPanel" },
-                    new ExpanderViewModel { Name = "Expander" },
-                    new GridViewModel { Name = "Grid" },
-                    new GridSplitterViewModel { Name = "GridSplitter" },
-                    new LayoutTransformControlViewModel { Name = "LayoutTransformControl" },
-                    new PanelViewModel { Name = "Panel" },
-                    new RelativePanelViewModel { Name = "RelativePanel" },
-                    new ScrollBarViewModel { Name = "ScrollBar" },
-                    new ScrollViewerViewModel { Name = "ScrollViewer" },
-                    new SplitViewViewModel { Name = "SplitView" },
-                    new StackPanelViewModel { Name = "StackPanel" },
-                    new UniformGridViewModel { Name = "UniformGrid" },
-                    new WrapPanelViewModel { Name = "WrapPanel" },
+                    new BorderViewModel(),
+                    new CanvasViewModel(),
+                    new DecoratorViewModel(),
+                    new DockPanelViewModel(),
+                    new ExpanderViewModel(),
+                    new GridViewModel(),
+                    new GridSplitterViewModel(),
+                    new LayoutTransformControlViewModel(),
+                    new PanelViewModel(),
+                    new RelativePanelViewModel(),
+                    new ScrollBarViewModel(),
+                    new ScrollViewerViewModel(),
+                    new SplitViewViewModel(),
+                    new StackPanelViewModel(),
+                    new UniformGridViewModel(),
+                    new WrapPanelViewModel(),
                 }
             },
             new ToolboxGroupViewModel
@@ -53,14 +53,14 @@ public partial class ToolboxViewModel : ObservableObject
                 Name = "Buttons",
                 Items = new ObservableCollection<IDragItem>
                 {
-                    new ButtonViewModel { Name = "Button" },
-                    new ButtonSpinnerViewModel { Name = "ButtonSpinner" },
-                    new RepeatButtonViewModel { Name = "RepeatButton" },
-                    new RadioButtonViewModel { Name = "RadioButton" },
+                    new ButtonViewModel(),
+                    new ButtonSpinnerViewModel(),
+                    new RepeatButtonViewModel(),
+                    new RadioButtonViewModel(),
                     // SplitButton
-                    new ToggleButtonViewModel { Name = "ToggleButton" },
+                    new ToggleButtonViewModel(),
                     // ToggleSplitButton
-                    new ToggleSwitchViewModel { Name = "ToggleSwitch" },
+                    new ToggleSwitchViewModel(),
                 }
             },
             new ToolboxGroupViewModel
@@ -68,15 +68,15 @@ public partial class ToolboxViewModel : ObservableObject
                 Name = "Data Display",
                 Items = new ObservableCollection<IDragItem>
                 {
-                    new CarouselViewModel { Name = "Carousel" },
-                    new DataGridViewModel { Name = "DataGrid" },
-                    new ItemsControlViewModel { Name = "ItemsControl" },
-                    new ItemsRepeaterViewModel { Name = "ItemsRepeater" },
-                    new ListBoxViewModel { Name = "ListBox" },
-                    new TabControlViewModel { Name = "TabControl" },
-                    new TabStripViewModel { Name = "TabStrip" },
-                    new TreeDataGridViewModel { Name = "TreeDataGrid" },
-                    new TreeViewViewModel { Name = "TreeView" },
+                    new CarouselViewModel(),
+                    new DataGridViewModel(),
+                    new ItemsControlViewModel(),
+                    new ItemsRepeaterViewModel(),
+                    new ListBoxViewModel(),
+                    new TabControlViewModel(),
+                    new TabStripViewModel(),
+                    new TreeDataGridViewModel(),
+                    new TreeViewViewModel(),
                 }
             },
             new ToolboxGroupViewModel
@@ -84,12 +84,12 @@ public partial class ToolboxViewModel : ObservableObject
                 Name = "Text",
                 Items = new ObservableCollection<IDragItem>
                 {
-                    new AccessTextViewModel { Name = "AccessText" },
-                    new AutoCompleteBoxViewModel { Name = "AutoCompleteBox" },
-                    new MaskedTextBoxViewModel { Name = "MaskedTextBoxViewModel" },
-                    new NumericUpDownViewModel { Name = "NumericUpDown" },
-                    new TextBlockViewModel { Name = "TextBlock" },
-                    new TextBoxViewModel { Name = "TextBox" },
+                    new AccessTextViewModel(),
+                    new AutoCompleteBoxViewModel(),
+                    new MaskedTextBoxViewModel(),
+                    new NumericUpDownViewModel(),
+                    new TextBlockViewModel(),
+                    new TextBoxViewModel(),
                     
                 }
             },
@@ -98,9 +98,9 @@ public partial class ToolboxViewModel : ObservableObject
                 Name = "Value selectors",
                 Items = new ObservableCollection<IDragItem>
                 {
-                    new CheckBoxViewModel { Name = "CheckBox" },
-                    new ComboBoxViewModel { Name = "ComboBox" },
-                    new SliderViewModel { Name = "Slider" },
+                    new CheckBoxViewModel(),
+                    new ComboBoxViewModel(),
+                    new SliderViewModel(),
                 }
             },
             new ToolboxGroupViewModel
@@ -108,10 +108,10 @@ public partial class ToolboxViewModel : ObservableObject
                 Name = "Content Display",
                 Items = new ObservableCollection<IDragItem>
                 {
-                    new ContentControlViewModel { Name = "ContentControl" },
-                    new LabelViewModel { Name = "Label" },
-                    new TransitioningContentControlViewModel { Name = "TransitioningContentControl" },
-                    new ViewboxViewModel { Name = "Viewbox" },
+                    new ContentControlViewModel(),
+                    new LabelViewModel(),
+                    new TransitioningContentControlViewModel(),
+                    new ViewboxViewModel(),
                 }
             },
             new ToolboxGroupViewModel
@@ -120,7 +120,7 @@ public partial class ToolboxViewModel : ObservableObject
                 Items = new ObservableCollection<IDragItem>
                 {
                     // DrawingImage
-                    new ImageViewModel { Name = "Image" },
+                    new ImageViewModel(),
                 }
             },
             new ToolboxGroupViewModel
@@ -128,10 +128,10 @@ public partial class ToolboxViewModel : ObservableObject
                 Name = "Date and Time",
                 Items = new ObservableCollection<IDragItem>
                 {
-                    new CalendarViewModel { Name = "Calendar" },
-                    new CalendarDatePickerViewModel { Name = "CalendarDatePicker" },
-                    new DatePickerViewModel { Name = "DatePicker" },
-                    new TimePickerViewModel { Name = "TimePicker" },
+                    new CalendarViewModel(),
+                    new CalendarDatePickerViewModel(),
+                    new DatePickerViewModel(),
+                    new TimePickerViewModel(),
                 }
             },
             new ToolboxGroupViewModel
@@ -139,12 +139,12 @@ public partial class ToolboxViewModel : ObservableObject
                 Name = "Menus",
                 Items = new ObservableCollection<IDragItem>
                 {
-                    new ContextMenuViewModel { Name = "ContextMenu" },
+                    new ContextMenuViewModel(),
                     // Flyout
-                    new MenuViewModel { Name = "Menu" },
+                    new MenuViewModel(),
                     // MenuFlyout
-                    new MenuItemViewModel { Name = "MenuItem" },
-                    new SeparatorViewModel { Name = "Separator" },
+                    new MenuItemViewModel(),
+                    new SeparatorViewModel(),
                     // NativeMenu
                 }
             },
@@ -153,13 +153,13 @@ public partial class ToolboxViewModel : ObservableObject
                 Name = "Shapes",
                 Items = new ObservableCollection<IDragItem>
                 {
-                    new ArcViewModel { Name = "Arc" },
-                    new EllipseViewModel { Name = "Ellipse" },
-                    new LineViewModel { Name = "Line" },
-                    new PathViewModel { Name = "Path" },
-                    new PolygonViewModel { Name = "Polygon" },
-                    new PolylineViewModel { Name = "Polyline" },
-                    new RectangleViewModel { Name = "Rectangle" },
+                    new ArcViewModel(),
+                    new EllipseViewModel(),
+                    new LineViewModel(),
+                    new PathViewModel(),
+                    new PolygonViewModel(),
+                    new PolylineViewModel(),
+                    new RectangleViewModel(),
                 }
             },
             new ToolboxGroupViewModel
@@ -167,7 +167,7 @@ public partial class ToolboxViewModel : ObservableObject
                 Name = "Status Display",
                 Items = new ObservableCollection<IDragItem>
                 {
-                    new ProgressBarViewModel { Name = "ProgressBar" },
+                    new ProgressBarViewModel(),
                 }
             },
         };

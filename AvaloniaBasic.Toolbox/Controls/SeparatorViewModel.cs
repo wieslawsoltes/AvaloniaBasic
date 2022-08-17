@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class SeparatorViewModel : DragItemViewModel
 {
+    public SeparatorViewModel()
+    {
+        Name = "Separator";
+        Group = "Menus";
+    }
+
     public override Control CreatePreview()
     {
         var separator = new Separator();

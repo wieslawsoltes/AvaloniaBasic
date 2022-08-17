@@ -6,6 +6,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
 public class EllipseViewModel : DragItemViewModel
 {
+    public EllipseViewModel()
+    {
+        Name = "Ellipse";
+        Group = "Shapes";
+    }
+
     public override Control CreatePreview()
     {
         var ellipse = new Ellipse();

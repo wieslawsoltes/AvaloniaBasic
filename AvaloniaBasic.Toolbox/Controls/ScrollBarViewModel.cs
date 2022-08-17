@@ -6,6 +6,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ScrollBarViewModel : DragItemViewModel
 {
+    public ScrollBarViewModel()
+    {
+        Name = "ScrollBar";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var scrollBar = new ScrollBar();

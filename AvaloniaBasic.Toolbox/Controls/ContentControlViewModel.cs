@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ContentControlViewModel : DragItemViewModel
 {
+    public ContentControlViewModel()
+    {
+        Name = "ContentControl";
+        Group = "Content Display";
+    }
+
     public override Control CreatePreview()
     {
         var contentControl = new ContentControl();

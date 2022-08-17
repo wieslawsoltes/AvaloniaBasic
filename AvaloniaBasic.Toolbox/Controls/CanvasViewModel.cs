@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class CanvasViewModel : DragItemViewModel
 {
+    public CanvasViewModel()
+    {
+        Name = "Canvas";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var canvas = new Canvas();

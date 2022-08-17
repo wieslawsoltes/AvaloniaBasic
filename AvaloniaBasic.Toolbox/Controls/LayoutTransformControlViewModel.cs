@@ -4,6 +4,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class LayoutTransformControlViewModel : DragItemViewModel
 {
+    public LayoutTransformControlViewModel()
+    {
+        Name = "LayoutTransformControl";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var layoutTransformControl = new LayoutTransformControl();

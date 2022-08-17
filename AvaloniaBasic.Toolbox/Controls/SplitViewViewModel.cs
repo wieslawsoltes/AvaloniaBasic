@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class SplitViewViewModel : DragItemViewModel
 {
+    public SplitViewViewModel()
+    {
+        Name = "SplitView";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var splitView = new SplitView();

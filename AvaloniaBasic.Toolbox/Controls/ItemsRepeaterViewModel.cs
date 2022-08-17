@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ItemsRepeaterViewModel : DragItemViewModel
 {
+    public ItemsRepeaterViewModel()
+    {
+        Name = "ItemsRepeater";
+        Group = "Data Display";
+    }
+
     public override Control CreatePreview()
     {
         var itemsRepeater = new ItemsRepeater();

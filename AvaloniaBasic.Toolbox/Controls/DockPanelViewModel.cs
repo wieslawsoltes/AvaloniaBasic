@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class DockPanelViewModel : DragItemViewModel
 {
+    public DockPanelViewModel()
+    {
+        Name = "DockPanel";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var dockPanel = new DockPanel();

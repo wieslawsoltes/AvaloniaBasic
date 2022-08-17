@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class LabelViewModel : DragItemViewModel
 {
+    public LabelViewModel()
+    {
+        Name = "Label";
+        Group = "Content Display";
+    }
+
     public override Control CreatePreview()
     {
         var label = new Label();

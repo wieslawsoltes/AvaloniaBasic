@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class TabControlViewModel : DragItemViewModel
 {
+    public TabControlViewModel()
+    {
+        Name = "TabControl";
+        Group = "Data Display";
+    }
+
     public override Control CreatePreview()
     {
         var tabControl = new TabControl();

@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class RepeatButtonViewModel : DragItemViewModel
 {
+    public RepeatButtonViewModel()
+    {
+        Name = "RepeatButton";
+        Group = "Buttons";
+    }
+
     public override Control CreatePreview()
     {
         var repeatButton = new RepeatButton();

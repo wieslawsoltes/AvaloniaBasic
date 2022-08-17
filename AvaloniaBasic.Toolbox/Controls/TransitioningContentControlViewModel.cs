@@ -4,6 +4,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class TransitioningContentControlViewModel : DragItemViewModel
 {
+    public TransitioningContentControlViewModel()
+    {
+        Name = "TransitioningContentControl";
+        Group = "Content Display";
+    }
+
     public override Control CreatePreview()
     {
         var transitioningContentControl = new TransitioningContentControl();

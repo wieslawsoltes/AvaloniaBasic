@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ButtonViewModel : DragItemViewModel
 {
+    public ButtonViewModel()
+    {
+        Name = "Button";
+        Group = "Buttons";
+    }
+
     public override Control CreatePreview()
     {
         var button = new Button();

@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class PanelViewModel : DragItemViewModel
 {
+    public PanelViewModel()
+    {
+        Name = "Panel";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var panel = new Panel();

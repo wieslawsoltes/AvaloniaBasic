@@ -8,6 +8,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
 public class PolylineViewModel : DragItemViewModel
 {
+    public PolylineViewModel()
+    {
+        Name = "Polyline";
+        Group = "Shapes";
+    }
+
     public override Control CreatePreview()
     {
         var polyline = new Polyline();

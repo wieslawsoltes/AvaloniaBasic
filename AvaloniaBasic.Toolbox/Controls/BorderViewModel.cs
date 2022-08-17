@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class BorderViewModel : DragItemViewModel
 {
+    public BorderViewModel()
+    {
+        Name = "Border";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var border = new Border();

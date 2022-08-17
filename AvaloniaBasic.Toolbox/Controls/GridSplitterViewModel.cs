@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class GridSplitterViewModel : DragItemViewModel
 {
+    public GridSplitterViewModel()
+    {
+        Name = "GridSplitter";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var gridSplitter = new GridSplitter();

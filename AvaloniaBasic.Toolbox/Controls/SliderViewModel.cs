@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class SliderViewModel : DragItemViewModel
 {
+    public SliderViewModel()
+    {
+        Name = "Slider";
+        Group = "Value selectors";
+    }
+
     public override Control CreatePreview()
     {
         var slider = new Slider();

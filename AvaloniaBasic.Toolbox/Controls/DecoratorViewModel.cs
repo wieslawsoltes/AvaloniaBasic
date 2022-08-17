@@ -4,6 +4,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class DecoratorViewModel : DragItemViewModel
 {
+    public DecoratorViewModel()
+    {
+        Name = "Decorator";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var decorator = new Decorator();

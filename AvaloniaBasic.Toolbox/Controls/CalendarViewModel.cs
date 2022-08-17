@@ -6,6 +6,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class CalendarViewModel : DragItemViewModel
 {
+    public CalendarViewModel()
+    {
+        Name = "Calendar";
+        Group = "Date and Time";
+    }
+
     public override Control CreatePreview()
     {
         var calendar = new Calendar();

@@ -6,6 +6,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
 public class PathViewModel : DragItemViewModel
 {
+    public PathViewModel()
+    {
+        Name = "Path";
+        Group = "Shapes";
+    }
+
     public override Control CreatePreview()
     {
         var path = new Path();

@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class TextBoxViewModel : DragItemViewModel
 {
+    public TextBoxViewModel()
+    {
+        Name = "TextBox";
+        Group = "Text";
+    }
+
     public override Control CreatePreview()
     {
         var textBox = new TextBox();

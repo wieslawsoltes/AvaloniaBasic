@@ -6,6 +6,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
 public class ArcViewModel : DragItemViewModel
 {
+    public ArcViewModel()
+    {
+        Name = "Arc";
+        Group = "Shapes";
+    }
+
     public override Control CreatePreview()
     {
         var arc = new Arc();

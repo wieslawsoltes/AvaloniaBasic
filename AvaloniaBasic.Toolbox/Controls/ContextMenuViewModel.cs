@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ContextMenuViewModel : DragItemViewModel
 {
+    public ContextMenuViewModel()
+    {
+        Name = "ContextMenu";
+        Group = "Menus";
+    }
+
     public override Control CreatePreview()
     {
         var contextMenu = new ContextMenu();

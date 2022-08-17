@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class MaskedTextBoxViewModel : DragItemViewModel
 {
+    public MaskedTextBoxViewModel()
+    {
+        Name = "MaskedTextBox";
+        Group = "Text";
+    }
+
     public override Control CreatePreview()
     {
         var maskedTextBox = new MaskedTextBox();

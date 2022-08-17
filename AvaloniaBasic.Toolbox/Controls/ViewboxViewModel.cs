@@ -4,6 +4,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ViewboxViewModel : DragItemViewModel
 {
+    public ViewboxViewModel()
+    {
+        Name = "Viewbox";
+        Group = "Content Display";
+    }
+
     public override Control CreatePreview()
     {
         var viewbox = new Viewbox();

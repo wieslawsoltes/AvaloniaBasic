@@ -1,13 +1,16 @@
-using System;
-using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-
 public class WrapPanelViewModel : DragItemViewModel
 {
+    public WrapPanelViewModel()
+    {
+        Name = "WrapPanel";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var wrapPanel = new WrapPanel();

@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class CarouselViewModel : DragItemViewModel
 {
+    public CarouselViewModel()
+    {
+        Name = "Carousel";
+        Group = "Data Display";
+    }
+
     public override Control CreatePreview()
     {
         var carousel = new Carousel();

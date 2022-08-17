@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class DataGridViewModel : DragItemViewModel
 {
+    public DataGridViewModel()
+    {
+        Name = "DataGrid";
+        Group = "Data Display";
+    }
+
     public override Control CreatePreview()
     {
         var dataGrid = new DataGrid();

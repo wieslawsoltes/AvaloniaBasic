@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ProgressBarViewModel : DragItemViewModel
 {
+    public ProgressBarViewModel()
+    {
+        Name = "ProgressBar";
+        Group = "Status Display";
+    }
+
     public override Control CreatePreview()
     {
         var progressBar = new ProgressBar();

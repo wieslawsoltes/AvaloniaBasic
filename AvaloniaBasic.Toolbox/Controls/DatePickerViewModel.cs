@@ -6,6 +6,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class DatePickerViewModel : DragItemViewModel
 {
+    public DatePickerViewModel()
+    {
+        Name = "DatePicker";
+        Group = "Date and Time";
+    }
+
     public override Control CreatePreview()
     {
         var datePicker = new DatePicker();

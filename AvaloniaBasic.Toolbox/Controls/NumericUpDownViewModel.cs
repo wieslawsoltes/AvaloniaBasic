@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class NumericUpDownViewModel : DragItemViewModel
 {
+    public NumericUpDownViewModel()
+    {
+        Name = "NumericUpDown";
+        Group = "Text";
+    }
+
     public override Control CreatePreview()
     {
         var numericUpDown = new NumericUpDown();

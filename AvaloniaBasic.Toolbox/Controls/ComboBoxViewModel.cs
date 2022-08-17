@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ComboBoxViewModel : DragItemViewModel
 {
+    public ComboBoxViewModel()
+    {
+        Name = "ComboBox";
+        Group = "Value selectors";
+    }
+
     public override Control CreatePreview()
     {
         var comboBox = new ComboBox();

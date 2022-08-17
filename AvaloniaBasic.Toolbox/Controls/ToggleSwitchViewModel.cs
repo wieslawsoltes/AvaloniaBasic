@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ToggleSwitchViewModel : DragItemViewModel
 {
+    public ToggleSwitchViewModel()
+    {
+        Name = "ToggleSwitch";
+        Group = "Buttons";
+    }
+
     public override Control CreatePreview()
     {
         var toggleSwitch = new ToggleSwitch();

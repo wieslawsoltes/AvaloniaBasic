@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class StackPanelViewModel : DragItemViewModel
 {
+    public StackPanelViewModel()
+    {
+        Name = "StackPanel";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var stackPanel = new StackPanel();

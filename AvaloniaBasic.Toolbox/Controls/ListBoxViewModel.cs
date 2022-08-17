@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class ListBoxViewModel : DragItemViewModel
 {
+    public ListBoxViewModel()
+    {
+        Name = "ListBox";
+        Group = "Data Display";
+    }
+
     public override Control CreatePreview()
     {
         var listBox = new ListBox();

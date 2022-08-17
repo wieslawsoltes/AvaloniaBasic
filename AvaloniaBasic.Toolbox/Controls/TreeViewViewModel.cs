@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class TreeViewViewModel : DragItemViewModel
 {
+    public TreeViewViewModel()
+    {
+        Name = "TreeView";
+        Group = "Data Display";
+    }
+
     public override Control CreatePreview()
     {
         var treeView = new TreeView();

@@ -6,6 +6,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class UniformGridViewModel : DragItemViewModel
 {
+    public UniformGridViewModel()
+    {
+        Name = "UniformGrid";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var uniformGrid = new UniformGrid();

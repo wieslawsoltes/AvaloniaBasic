@@ -6,6 +6,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class TimePickerViewModel : DragItemViewModel
 {
+    public TimePickerViewModel()
+    {
+        Name = "TimePicker";
+        Group = "Date and Time";
+    }
+
     public override Control CreatePreview()
     {
         var timePicker = new TimePicker();

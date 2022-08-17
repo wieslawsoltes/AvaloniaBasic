@@ -5,6 +5,12 @@ namespace AvaloniaBasic.ViewModels.Toolbox;
 
 public class GridViewModel : DragItemViewModel
 {
+    public GridViewModel()
+    {
+        Name = "Grid";
+        Group = "Layout";
+    }
+
     public override Control CreatePreview()
     {
         var grid = new Grid();
