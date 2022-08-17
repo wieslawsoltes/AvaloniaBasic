@@ -54,7 +54,6 @@ public class ToolboxDragBehavior : PointerEventsBehavior
 
         _start = e.GetPosition(PreviewCanvas);
         _started = true;
-        e.Pointer.Capture((IInputElement?)AssociatedObject);
     }
 
     protected override void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
@@ -65,10 +64,9 @@ public class ToolboxDragBehavior : PointerEventsBehavior
         }
 
         _started = false;
- 
+
         if (!_isDragging)
         {
-            e.Pointer.Capture(null);
             return;
         }
         
@@ -118,6 +116,7 @@ public class ToolboxDragBehavior : PointerEventsBehavior
                 UpdatePreview();
 
                 _isDragging = true;
+                e.Pointer.Capture((IInputElement?)AssociatedObject);
             }
         }
         else
