@@ -31,7 +31,7 @@ public class PreviewCanvasEditor
 
         var root = AssociatedObject.GetVisualRoot();
         var point = e.GetPosition(root);
-        var dragArea = FindDragArea(point);
+        var dragArea = ControlEditor.FindDragArea(AssociatedObject, point);
         if (dragArea is null)
         {
             return;
@@ -129,19 +129,5 @@ public class PreviewCanvasEditor
         var snappedPoint = Snap.SnapPoint(point, snapX, snapY, snapToGrid);
 
         return snappedPoint;
-    }
-
-    private Control? FindDragArea(Point point)
-    {
-        var visuals = AssociatedObject
-            .GetVisualDescendants()
-            .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
-            .Reverse();
-
-        var dragAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDragArea).ToList();
-
-        var dragArea = dragAreas.FirstOrDefault();
-
-        return dragArea;
     }
 }

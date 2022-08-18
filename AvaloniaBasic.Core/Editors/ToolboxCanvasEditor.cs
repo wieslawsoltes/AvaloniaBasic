@@ -91,7 +91,7 @@ public class ToolboxCanvasEditor
 
             if (Math.Abs(delta.X) > minimumDragDelta || Math.Abs(delta.Y) > minimumDragDelta)
             {
-                _dropArea = FindDropArea(AssociatedObject, point);
+                _dropArea = ControlEditor.FindDropArea(AssociatedObject, point);
                 if (_dropArea is { })
                 {
                     point = e.GetPosition(_dropArea);
@@ -108,7 +108,7 @@ public class ToolboxCanvasEditor
         {
             var point = e.GetPosition(PreviewCanvas);
 
-            _dropArea = FindDropArea(AssociatedObject, point);
+            _dropArea = ControlEditor.FindDropArea(AssociatedObject, point);
             if (_dropArea is { })
             {
                 point = e.GetPosition(_dropArea);
@@ -117,25 +117,6 @@ public class ToolboxCanvasEditor
             MovePreview(point);
             UpdatePreview();
         }
-    }
-
-    private static Control? FindDropArea(Interactive? canvas, Point point)
-    {
-        if (canvas is null)
-        {
-            return null;
-        }
-
-        var root = canvas.GetVisualRoot();
-
-        var visuals = (root as TopLevel)
-            .GetVisualDescendants()
-            .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
-            .Reverse();
-
-        var dropAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDropArea).ToList();
-
-        return dropAreas.FirstOrDefault(DragSettings.GetIsDropArea);
     }
 
     private void AddPreview(Point point)
