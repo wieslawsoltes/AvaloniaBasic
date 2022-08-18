@@ -67,6 +67,7 @@ public class ControlDragBehavior : PointerEventsBehavior
             _editor.DropAreaCanvas = change.NewValue.GetValueOrDefault<Canvas>();
         }
     }
+
     protected override void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         _editor.OnPointerPressed(e);
