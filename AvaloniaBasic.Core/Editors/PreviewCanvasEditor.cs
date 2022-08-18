@@ -107,7 +107,7 @@ public class PreviewCanvasEditor
             var delta = position - _start;
 
             position = new Point(_position.X + delta.X, _position.Y + delta.Y);
-            position = SnapPoint(position);
+            position = SnapPoint(AssociatedObject, position);
 
             Canvas.SetLeft(_dragArea, position.X);
             Canvas.SetTop(_dragArea, position.Y);
@@ -116,14 +116,12 @@ public class PreviewCanvasEditor
         e.Handled = true;
     }
 
-    private Point SnapPoint(Point point)
+    private static Point SnapPoint(AvaloniaObject? snapObject, Point point)
     {
-        if (AssociatedObject is null)
+        if (snapObject is null)
         {
             return point;
         }
-
-        AvaloniaObject snapObject = AssociatedObject;
 
         var snapToGrid = DragSettings.GetSnapToGrid(snapObject);
         var snapX = DragSettings.GetSnapX(snapObject);

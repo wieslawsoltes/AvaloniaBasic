@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Avalonia;
-using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -63,7 +62,7 @@ public class ToolboxCanvasEditor
         {
             var point = e.GetPosition(_dropArea);
 
-            AddControl(point);
+            AddControl(_dropArea, point);
 
             _dropArea = null;
         }
@@ -139,32 +138,6 @@ public class ToolboxCanvasEditor
         return dropAreas.FirstOrDefault(DragSettings.GetIsDropArea);
     }
 
-    private Point SnapPoint(Point point, bool isPreview)
-    {
-        if (AssociatedObject is null)
-        {
-            return point;
-        }
-
-        AvaloniaObject snapObject = _dropArea ?? AssociatedObject;
-
-        var snapToGrid = DragSettings.GetSnapToGrid(snapObject) && _dropArea is { };
-        var snapX = DragSettings.GetSnapX(snapObject);
-        var snapY = DragSettings.GetSnapY(snapObject);
-        var snappedPoint = Snap.SnapPoint(point, snapX, snapY, snapToGrid);
-
-        if (_dropArea is { } && isPreview)
-        {
-            var translatePoint = _dropArea.TranslatePoint(snappedPoint, PreviewCanvas);
-            if (translatePoint is { })
-            {
-                snappedPoint = translatePoint.Value;
-            }
-        }
-
-        return snappedPoint;
-    }
-    
     private void AddPreview(Point point)
     {
         if (PreviewCanvas is null)
@@ -225,71 +198,54 @@ public class ToolboxCanvasEditor
         _previewControl = null;
     }
 
-    private void AddControl(Point point)
+    private void AddControl(Control target, Point point)
     {
-        if (_dropArea is null)
+        if (AssociatedObject?.DataContext is not IDragItem item)
         {
             return;
         }
 
-        if (AssociatedObject?.DataContext is IDragItem item)
+        var control = item.CreateControl();
+
+        if (item.IsDropArea())
         {
-            var control = item.CreateControl();
+            DragSettings.SetIsDropArea(control, true);
+            DragSettings.SetSnapToGrid(control, false);
+        }
 
-            if (item.IsDropArea())
-            {
-                DragSettings.SetIsDropArea(control, true);
-                DragSettings.SetSnapToGrid(control, false);
-            }
+        point = SnapPoint(point, false);
 
-            point = SnapPoint(point, false);
+        ControlEditor.AddControl(control, target, point);
 
-            AddControl(control, _dropArea, point);
-
-            if (DropAreaCanvas?.DataContext is MainViewModel mainViewModel)
-            {
-                mainViewModel.Tree.UpdateLogicalTree(DropAreaCanvas);
-            }
+        if (DropAreaCanvas?.DataContext is MainViewModel mainViewModel)
+        {
+            mainViewModel.Tree.UpdateLogicalTree(DropAreaCanvas);
         }
     }
 
-    internal static void AddControl(Control control, Control target, Point point)
+    private Point SnapPoint(Point point, bool isPreview)
     {
-        DragSettings.SetIsDragArea(control, true);
-
-        // TODO: Properly position in panel.
-
-        if (target is Canvas)
+        if (AssociatedObject is null)
         {
-            Canvas.SetLeft(control, point.X);
-            Canvas.SetTop(control, point.Y);
+            return point;
         }
 
-        if (target is IPanel and not Canvas)
-        {
-            // TODO: control.Margin = new Thickness(point.X, point.Y, 0d, 0d);
-        }
+        AvaloniaObject snapObject = _dropArea ?? AssociatedObject;
 
-        // TODO: Use ContentAttribute to set content if applicable.
+        var snapToGrid = DragSettings.GetSnapToGrid(snapObject) && _dropArea is { };
+        var snapX = DragSettings.GetSnapX(snapObject);
+        var snapY = DragSettings.GetSnapY(snapObject);
+        var snappedPoint = Snap.SnapPoint(point, snapX, snapY, snapToGrid);
 
-        if (target is IPanel panel)
+        if (_dropArea is { } && isPreview)
         {
-            panel.Children.Add(control);
-        }
-        else if (target is IContentControl contentControl)
-        {
-            contentControl.Content = control;
-        }
-        else if (target is Decorator decorator)
-        {
-            decorator.Child = control;
-        }
-        else if (target is ItemsControl itemsControl)
-        {
-            if (itemsControl.Items is AvaloniaList<object> items)
+            var translatePoint = _dropArea.TranslatePoint(snappedPoint, PreviewCanvas);
+            if (translatePoint is { })
             {
-                items.Add(control);
+                snappedPoint = translatePoint.Value;
             }
         }
+
+        return snappedPoint;
     }
 }
