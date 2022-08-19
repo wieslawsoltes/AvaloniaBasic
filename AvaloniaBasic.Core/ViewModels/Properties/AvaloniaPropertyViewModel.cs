@@ -22,6 +22,11 @@ public partial class AvaloniaPropertyViewModel : PropertyViewModel
     {
         base.OnPropertyChanged(e);
 
+        if (_editor.IsUpdating)
+        {
+            return;
+        }
+
         if (e.PropertyName == nameof(Value))
         {
             if (!_property.IsReadOnly && _editor.Current is { })
