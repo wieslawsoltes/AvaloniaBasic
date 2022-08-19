@@ -28,6 +28,7 @@ internal class TypeProperties
 
         ClrProperties = type
             .GetProperties()
+            .Where(x => !x.GetIndexParameters().Any() && x.CanRead && x.CanWrite)
             .OrderBy(x => x.Name)
             .ToList();  
     }
