@@ -22,6 +22,11 @@ public partial class ClrPropertyViewModel : PropertyViewModel
     {
         base.OnPropertyChanged(e);
 
+        if (_editor.IsUpdating)
+        {
+            return;
+        }
+
         if (e.PropertyName == nameof(Value))
         {
             if (!_property.CanWrite && _editor.Current is { })
