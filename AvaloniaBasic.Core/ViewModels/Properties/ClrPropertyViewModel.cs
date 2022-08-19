@@ -29,13 +29,27 @@ public partial class ClrPropertyViewModel : PropertyViewModel
                 {
                     if (Value.GetType() == _property.PropertyType)
                     {
-                        _property.SetValue(_editor.Current, Value);
+                        try
+                        {
+                            _property.SetValue(_editor.Current, Value);
+                        }
+                        catch (Exception exception)
+                        {
+                            Debug.WriteLine(exception);
+                        }
                     }
                     else
                     {
-                        if (TypeUtilities.TryConvert(_property.PropertyType, Value, CultureInfo.InvariantCulture, out var result))
+                        try
                         {
-                            _property.SetValue(_editor.Current, result);
+                            if (TypeUtilities.TryConvert(_property.PropertyType, Value, CultureInfo.InvariantCulture, out var result))
+                            {
+                                _property.SetValue(_editor.Current, result);
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            Debug.WriteLine(exception);
                         }
                     }
                 }
