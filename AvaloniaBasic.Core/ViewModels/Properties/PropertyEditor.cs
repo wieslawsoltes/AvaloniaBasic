@@ -1,8 +1,12 @@
 using Avalonia;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels.Properties;
 
-public class PropertyEditor
+[ObservableObject]
+public partial class PropertyEditor
 {
-    public AvaloniaObject? Current { get; set; }
+    [ObservableProperty] private AvaloniaObject? _current;
+
+    [ObservableProperty] private bool _isUpdating;
 }
