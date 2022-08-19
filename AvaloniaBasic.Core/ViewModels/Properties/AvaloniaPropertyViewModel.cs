@@ -29,13 +29,27 @@ public partial class AvaloniaPropertyViewModel : PropertyViewModel
                 {
                     if (Value.GetType() == _property.PropertyType)
                     {
-                        _editor.Current?.SetValue(_property, Value);
+                        try
+                        {
+                            _editor.Current?.SetValue(_property, Value);
+                        }
+                        catch (Exception exception)
+                        {
+                            Debug.WriteLine(exception);
+                        }
                     }
                     else
                     {
-                        if (TypeUtilities.TryConvert(_property.PropertyType, Value, CultureInfo.InvariantCulture, out var result))
+                        try
                         {
-                            _editor.Current?.SetValue(_property, result);
+                            if (TypeUtilities.TryConvert(_property.PropertyType, Value, CultureInfo.InvariantCulture, out var result))
+                            {
+                                _editor.Current?.SetValue(_property, result);
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            Debug.WriteLine(exception);
                         }
                     }
                 }
