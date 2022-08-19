@@ -224,10 +224,13 @@ public partial class TreeViewModel
     {
         if (SelectedLogical?.Logical is not AvaloniaObject logical)
         {
+            _editor.IsUpdating = true;
             _editor.Current = null;
+            _editor.IsUpdating = false;
             return;
         }
 
+        _editor.IsUpdating = true;
         _editor.Current = logical;
 
         if (_propertiesCache.TryGetValue(logical, out var cachedProperties))
@@ -239,6 +242,7 @@ public partial class TreeViewModel
                 _properties.Add(property);
             }
 
+            _editor.IsUpdating = false;
             return;
         }
 
@@ -330,6 +334,8 @@ public partial class TreeViewModel
         {
             _properties.Add(property);
         }
+
+        _editor.IsUpdating = false;
     }
 
     private void AddToLogicalTree(ILogical root, ObservableCollection<LogicalViewModel> tree)
