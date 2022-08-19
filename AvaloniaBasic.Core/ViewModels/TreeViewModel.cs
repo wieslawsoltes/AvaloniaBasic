@@ -307,9 +307,9 @@ public partial class TreeViewModel
                 };
                 clrProps.Children.Add(property);
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                Debug.WriteLine(e);
+                Debug.WriteLine(exception);
             }
         }
 
