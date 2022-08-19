@@ -3,7 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels.Properties;
 
-public abstract partial class PropertyViewModel : ObservableObject
+[ObservableObject]
+public abstract partial class PropertyViewModel
 {
     [ObservableProperty] private string? _name;
     [ObservableProperty] private object? _value;

@@ -2,7 +2,8 @@
 
 namespace AvaloniaBasic.ViewModels.Settings;
 
-public partial class GridSettingsViewModel : ObservableObject
+[ObservableObject]
+public partial class GridSettingsViewModel
 {
     [ObservableProperty] private int _cellWidth;
     [ObservableProperty] private int _cellHeight;

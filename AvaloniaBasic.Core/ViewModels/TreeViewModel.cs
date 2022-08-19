@@ -19,7 +19,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels;
 
-public partial class TreeViewModel : ObservableObject
+[ObservableObject]
+public partial class TreeViewModel
 {
     private readonly Dictionary<Type, TypeProperties> _typePropertiesCache = new();
     private readonly Dictionary<IAvaloniaObject, ObservableCollection<PropertyViewModel>> _propertiesCache = new();

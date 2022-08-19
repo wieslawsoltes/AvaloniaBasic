@@ -4,7 +4,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels;
 
-public partial class LogicalViewModel : ObservableObject
+[ObservableObject]
+public partial class LogicalViewModel
 {
     [ObservableProperty] private string? _name;
     [ObservableProperty] private bool _isExpanded;

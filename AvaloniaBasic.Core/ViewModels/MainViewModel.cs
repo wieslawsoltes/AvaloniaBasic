@@ -4,7 +4,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels;
 
-public partial class MainViewModel : ObservableObject
+[ObservableObject]
+public partial class MainViewModel
 {
     [ObservableProperty] private ToolboxViewModel _toolbox;
     [ObservableProperty] private TreeViewModel _tree;
