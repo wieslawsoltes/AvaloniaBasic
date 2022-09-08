@@ -53,18 +53,18 @@ public class ToolboxDragBehavior : PointerEventsBehavior
         _editor.DropAreaCanvas = null;
     }
 
-    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
 
         if (change.Property == PreviewCanvasProperty)
         {
-            _editor.PreviewCanvas = change.NewValue.GetValueOrDefault<Canvas>();
+            _editor.PreviewCanvas = change.GetNewValue<Canvas>();
         }
 
         if (change.Property == DropAreaCanvasProperty)
         {
-            _editor.DropAreaCanvas = change.NewValue.GetValueOrDefault<Canvas>();
+            _editor.DropAreaCanvas = change.GetNewValue<Canvas>();
         }
     }
 
