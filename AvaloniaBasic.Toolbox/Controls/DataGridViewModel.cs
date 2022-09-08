@@ -37,7 +37,7 @@ public class DataGridViewModel : ToolboxItemViewModel
         return dataGrid;
     }
 
-    public override void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(object control, bool isPointerOver)
     {
         if (control is not DataGrid dataGrid)
         {

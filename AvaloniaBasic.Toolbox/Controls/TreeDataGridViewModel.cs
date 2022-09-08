@@ -29,7 +29,7 @@ public class TreeDataGridViewModel : ToolboxItemViewModel
         return treeDataGrid;
     }
 
-    public override void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(object control, bool isPointerOver)
     {
         if (control is not TreeDataGrid treeDataGrid)
         {

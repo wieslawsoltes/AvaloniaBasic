@@ -29,7 +29,7 @@ public class RelativePanelViewModel : ToolboxItemViewModel
         return relativePanel;
     }
 
-    public override void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(object control, bool isPointerOver)
     {
         if (control is not RelativePanel relativePanel)
         {

@@ -28,7 +28,10 @@ public class DoubleTappedEditor
             return;
         }
 
-        var control = item.CreateControl();
+        if (item.CreateControl() is not Control control)
+        {
+            return;
+        }
 
         if (item.IsDropArea())
         {
