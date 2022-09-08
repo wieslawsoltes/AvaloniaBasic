@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels.Properties;
@@ -13,4 +14,8 @@ public abstract partial class PropertyViewModel
     public abstract Type GetValueType();
 
     public abstract bool IsReadOnly();
+
+    public virtual bool HasChildren => false;
+
+    public virtual IEnumerable<PropertyViewModel>? GetChildren() => null;
 }

@@ -16,6 +16,7 @@
     <PackageReference Include="XamlNameReferenceGenerator" Version="$(XamlNameReferenceGeneratorVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AvaloniaBasic.Model\AvaloniaBasic.Model.csproj" />
     <ProjectReference Include="..\AvaloniaBasic.Toolbox.Base\AvaloniaBasic.Toolbox.Base.csproj" />
     <ProjectReference Include="..\AvaloniaBasic.Toolbox\AvaloniaBasic.Toolbox.csproj" />
   </ItemGroup>

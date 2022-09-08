@@ -195,24 +195,8 @@ public partial class ToolboxViewModel
                             CompareDescending = SortHelper.SortDescending<string?, IToolboxItem>(x => x.Name)
                         },
                         width: new GridLength(1, GridUnitType.Star)), 
-                    childSelector: x =>
-                    {
-                        if (x is ToolboxGroupViewModel toolboxGroupViewModel)
-                        {
-                            return toolboxGroupViewModel.Items;
-                        }
-
-                        return null;
-                    },
-                    hasChildrenSelector: x =>
-                    {
-                        if (x is ToolboxGroupViewModel toolboxGroupViewModel)
-                        {
-                            return toolboxGroupViewModel.Items?.Count > 0;
-                        }
-
-                        return false;
-                    },
+                    childSelector: x => x.GetChildren(),
+                    hasChildrenSelector: x => x.HasChildren,
                     isExpandedSelector: x => x.IsExpanded)
             }
         };

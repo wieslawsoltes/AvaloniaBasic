@@ -11,4 +11,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="$(CommunityToolkitMvvmVersion)" />
     <PackageReference Include="ReactiveMarbles.PropertyChanged" Version="$(ReactiveMarblesPropertyChangedVersion)" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AvaloniaBasic.Model\AvaloniaBasic.Model.csproj" />
+  </ItemGroup>
 </Project>

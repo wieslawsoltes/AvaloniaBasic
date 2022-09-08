@@ -59,8 +59,8 @@ public partial class TreeViewModel
                             CanUserSortColumn = false,
                         },
                         width: new GridLength(1, GridUnitType.Star)), 
-                    childSelector: x => x.Children,
-                    hasChildrenSelector: x => x.Children?.Count > 0,
+                    childSelector: x => x.GetChildren(),
+                    hasChildrenSelector: x => x.HasChildren,
                     isExpandedSelector: x => x.IsExpanded)
             }
         };
@@ -100,24 +100,8 @@ public partial class TreeViewModel
                             CompareDescending = SortHelper.SortDescending<string?, PropertyViewModel>(x => x.Name)
                         },
                         width: new GridLength(1, GridUnitType.Star)), 
-                    childSelector: x =>
-                    {
-                        if (x is GroupPropertyViewModel g)
-                        {
-                            return g.Children;
-                        }
-
-                        return null;
-                    },
-                    hasChildrenSelector: x =>
-                    {
-                        if (x is GroupPropertyViewModel g)
-                        {
-                            return g.Children?.Count > 0;
-                        }
-
-                        return false;
-                    },
+                    childSelector: x => x.GetChildren(),
+                    hasChildrenSelector: x => x.HasChildren,
                     isExpandedSelector: x => x.IsExpanded),
                 new TemplateColumn<PropertyViewModel>(
                     "Value",
