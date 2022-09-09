@@ -16,11 +16,12 @@ public partial class GroupPropertyViewModel : PropertyViewModel
 
     public override Type GetValueType()
     {
-        throw new NotImplementedException();
+        return typeof(string);
     }
 
     public override bool IsReadOnly()
     {
-        throw new NotImplementedException();
+        return true;
+    }
     }
 }
