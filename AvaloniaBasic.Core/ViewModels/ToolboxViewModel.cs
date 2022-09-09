@@ -20,8 +20,6 @@ public partial class ToolboxViewModel
     [ObservableProperty] private Canvas? _previewCanvas;
     [ObservableProperty] private Canvas? _dropAreaCanvas;
 
-    public HierarchicalTreeDataGridSource<IToolboxItem> ToolboxSource { get; }
-
     public ToolboxViewModel()
     {
         _toolboxes = new ObservableCollection<IToolboxItem>
@@ -173,7 +171,14 @@ public partial class ToolboxViewModel
             },
         };
 
-        ToolboxSource = new HierarchicalTreeDataGridSource<IToolboxItem>(_toolboxes)
+        ToolboxSource = CreateToolboxSource();
+    }
+
+    public HierarchicalTreeDataGridSource<IToolboxItem> ToolboxSource { get; }
+
+    private HierarchicalTreeDataGridSource<IToolboxItem> CreateToolboxSource()
+    {
+        var toolboxSource = new HierarchicalTreeDataGridSource<IToolboxItem>(_toolboxes)
         {
             Columns =
             {
@@ -201,11 +206,13 @@ public partial class ToolboxViewModel
             }
         };
 
-        ToolboxSource.RowSelection!.SingleSelect = true;
+        toolboxSource.RowSelection!.SingleSelect = true;
 
-        ToolboxSource.RowSelection.SelectionChanged += (_, args) =>
+        toolboxSource.RowSelection.SelectionChanged += (_, args) =>
         {
             SelectedToolBoxItem = args.SelectedItems.FirstOrDefault();
         };
+
+        return toolboxSource;
     }
 }

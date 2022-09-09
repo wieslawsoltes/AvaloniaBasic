@@ -22,24 +22,29 @@ namespace AvaloniaBasic.ViewModels;
 [ObservableObject]
 public partial class TreeViewModel
 {
-    private readonly Dictionary<Type, TypeProperties> _typePropertiesCache = new();
+    private readonly Dictionary<Type, TypePropertiesCache> _typePropertiesCache = new();
     private readonly Dictionary<IAvaloniaObject, ObservableCollection<PropertyViewModel>> _propertiesCache = new();
-
     private readonly PropertyEditor _editor = new ();
-
     [ObservableProperty] private ObservableCollection<LogicalViewModel> _logicalTree;
     [ObservableProperty] private ObservableCollection<PropertyViewModel> _properties;
     [ObservableProperty] private LogicalViewModel? _selectedLogical;
+
+    public TreeViewModel()
+    {
+        _logicalTree = new ObservableCollection<LogicalViewModel>();
+        _properties = new ObservableCollection<PropertyViewModel>();
+
+        LogicalTreeSource = CreateLogicalTreeSource();
+        PropertiesSource = CreatePropertiesSource();
+    }
 
     public HierarchicalTreeDataGridSource<LogicalViewModel> LogicalTreeSource { get; }
 
     public HierarchicalTreeDataGridSource<PropertyViewModel> PropertiesSource { get; }
 
-    public TreeViewModel()
+    private HierarchicalTreeDataGridSource<LogicalViewModel> CreateLogicalTreeSource()
     {
-        _logicalTree = new ObservableCollection<LogicalViewModel>();
-
-        LogicalTreeSource = new HierarchicalTreeDataGridSource<LogicalViewModel>(_logicalTree)
+        var logicalTreeSource = new HierarchicalTreeDataGridSource<LogicalViewModel>(_logicalTree)
         {
             Columns =
             {
@@ -65,18 +70,21 @@ public partial class TreeViewModel
             }
         };
 
-        LogicalTreeSource.RowSelection!.SingleSelect = true;
+        logicalTreeSource.RowSelection!.SingleSelect = true;
 
-        LogicalTreeSource.RowSelection.SelectionChanged += (_, args) =>
+        logicalTreeSource.RowSelection.SelectionChanged += (_, args) =>
         {
             SelectedLogical = args.SelectedItems.FirstOrDefault();
 
             UpdateProperties();
         };
 
-        _properties = new ObservableCollection<PropertyViewModel>();
+        return logicalTreeSource;
+    }
 
-        PropertiesSource = new HierarchicalTreeDataGridSource<PropertyViewModel>(_properties)
+    private HierarchicalTreeDataGridSource<PropertyViewModel> CreatePropertiesSource()
+    {
+        var propertiesSource = new HierarchicalTreeDataGridSource<PropertyViewModel>(_properties)
         {
             Columns =
             {
@@ -152,8 +160,10 @@ public partial class TreeViewModel
                     width: new GridLength(1, GridUnitType.Star))
             }
         };
-    }
 
+        return propertiesSource;
+    }
+    
     private Control? CreatePropertyEditor(PropertyViewModel propertyViewModel)
     {
         var isReadOnly = propertyViewModel.IsReadOnly();
@@ -170,14 +180,15 @@ public partial class TreeViewModel
                 IsEnabled = !isReadOnly
             };
         }
-        else if (type == typeof(string) 
-                 || type == typeof(decimal) || type == typeof(decimal?) 
-                 || type == typeof(double) || type == typeof(double?) 
-                 || type == typeof(float) || type == typeof(float?) 
-                 || type == typeof(long) || type == typeof(long?) 
-                 || type == typeof(int) || type == typeof(int?) 
-                 || type == typeof(short) || type == typeof(short?) 
-                 || type == typeof(byte)|| type == typeof(byte?))
+
+        if (type == typeof(string) 
+            || type == typeof(decimal) || type == typeof(decimal?) 
+            || type == typeof(double) || type == typeof(double?) 
+            || type == typeof(float) || type == typeof(float?) 
+            || type == typeof(long) || type == typeof(long?) 
+            || type == typeof(int) || type == typeof(int?) 
+            || type == typeof(short) || type == typeof(short?) 
+            || type == typeof(byte)|| type == typeof(byte?))
         {
             return new TextBox
             {
@@ -187,7 +198,8 @@ public partial class TreeViewModel
                 IsReadOnly = isReadOnly
             };   
         }
-        else if (type.IsEnum)
+
+        if (type.IsEnum)
         {
             var values = Enum.GetValues(type);
 
@@ -233,7 +245,7 @@ public partial class TreeViewModel
         var type = logical.GetType();
         if (!_typePropertiesCache.TryGetValue(type, out var typeProperties))
         {
-            typeProperties = new TypeProperties(type);
+            typeProperties = new TypePropertiesCache(type);
             _typePropertiesCache[type] = typeProperties;
         }
 
@@ -335,10 +347,7 @@ public partial class TreeViewModel
         var logicalDescendants = root.GetLogicalChildren();
         foreach (var logical in logicalDescendants)
         {
-            if (logicalViewModel.Children is null)
-            {
-                logicalViewModel.Children = new ObservableCollection<LogicalViewModel>();
-            }
+            logicalViewModel.Children ??= new ObservableCollection<LogicalViewModel>();
 
             AddToLogicalTree(logical, logicalViewModel.Children);
         }
