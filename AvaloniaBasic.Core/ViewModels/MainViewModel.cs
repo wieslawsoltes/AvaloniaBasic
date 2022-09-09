@@ -18,7 +18,7 @@ public partial class MainViewModel
     public MainViewModel()
     {
         _toolbox = new ToolboxViewModel(new DefaultToolboxItemProvider());
-        _tree = new TreeViewModel();
+        _tree = new TreeViewModel(new PropertyEditorFactory());
         _dragSettings = new DragSettingsViewModel();
         _gridSettings = new GridSettingsViewModel();
     }

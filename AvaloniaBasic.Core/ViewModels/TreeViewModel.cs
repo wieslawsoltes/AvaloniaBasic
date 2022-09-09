@@ -6,7 +6,6 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
-using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Layout;
@@ -22,6 +21,7 @@ namespace AvaloniaBasic.ViewModels;
 [ObservableObject]
 public partial class TreeViewModel
 {
+    private readonly IPropertyEditorFactory _propertyEditorFactory;
     private readonly Dictionary<Type, TypePropertiesCache> _typePropertiesCache = new();
     private readonly Dictionary<IAvaloniaObject, ObservableCollection<PropertyViewModel>> _propertiesCache = new();
     private readonly PropertyEditor _editor = new ();
@@ -29,8 +29,9 @@ public partial class TreeViewModel
     [ObservableProperty] private ObservableCollection<PropertyViewModel> _properties;
     [ObservableProperty] private LogicalViewModel? _selectedLogical;
 
-    public TreeViewModel()
+    public TreeViewModel(IPropertyEditorFactory propertyEditorFactory)
     {
+        _propertyEditorFactory = propertyEditorFactory;
         _logicalTree = new ObservableCollection<LogicalViewModel>();
         _properties = new ObservableCollection<PropertyViewModel>();
 
@@ -125,7 +126,7 @@ public partial class TreeViewModel
                             }
                             case AvaloniaPropertyViewModel avaloniaPropertyViewModel:
                             {
-                                var control = CreatePropertyEditor(avaloniaPropertyViewModel);
+                                var control = _propertyEditorFactory.CreateEditor(avaloniaPropertyViewModel);
                                 if (control is { })
                                 {
                                     return control;
@@ -135,7 +136,7 @@ public partial class TreeViewModel
                             }
                             case ClrPropertyViewModel clrPropertyViewModel:
                             {
-                                var control = CreatePropertyEditor(clrPropertyViewModel);
+                                var control = _propertyEditorFactory.CreateEditor(clrPropertyViewModel);
                                 if (control is { })
                                 {
                                     return control;
@@ -163,59 +164,7 @@ public partial class TreeViewModel
 
         return propertiesSource;
     }
-    
-    private Control? CreatePropertyEditor(PropertyViewModel propertyViewModel)
-    {
-        var isReadOnly = propertyViewModel.IsReadOnly();
-        var type = propertyViewModel.GetValueType();
 
-        if (type == typeof(bool) || type == typeof(bool?))
-        {
-            return new CheckBox
-            {
-                [!ToggleButton.IsCheckedProperty] = new Binding("Value"),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                HorizontalContentAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-                IsEnabled = !isReadOnly
-            };
-        }
-
-        if (type == typeof(string) 
-            || type == typeof(decimal) || type == typeof(decimal?) 
-            || type == typeof(double) || type == typeof(double?) 
-            || type == typeof(float) || type == typeof(float?) 
-            || type == typeof(long) || type == typeof(long?) 
-            || type == typeof(int) || type == typeof(int?) 
-            || type == typeof(short) || type == typeof(short?) 
-            || type == typeof(byte)|| type == typeof(byte?))
-        {
-            return new TextBox
-            {
-                [!TextBox.TextProperty] = new Binding("Value"),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Center,
-                IsReadOnly = isReadOnly
-            };   
-        }
-
-        if (type.IsEnum)
-        {
-            var values = Enum.GetValues(type);
-
-            return new ComboBox
-            {
-                Items = values,
-                [!!SelectingItemsControl.SelectedItemProperty] = new Binding("Value"),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Center,
-                IsEnabled = !isReadOnly
-            };
-        }
-
-        return null;
-    }
-    
     private void UpdateProperties()
     {
         if (SelectedLogical?.Logical is not AvaloniaObject logical)
