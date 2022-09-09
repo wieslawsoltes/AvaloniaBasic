@@ -127,35 +127,19 @@ public partial class TreeViewModel
         return propertiesSource;
     }
 
-    private Control CreatePropertyEditor(IProperty p)
+    private Control? CreatePropertyEditor(IProperty? p)
     {
-        switch (p)
+        if (p is null)
         {
-            case GroupPropertyViewModel _:
-            {
-                // TODO:
+            return null;
+        }
 
-                break;
-            }
-            case AvaloniaPropertyViewModel avaloniaPropertyViewModel:
+        if (p.IsEditable())
+        {
+            var editor = _propertyEditorFactory.CreateEditor(p);
+            if (editor is Control control)
             {
-                var editor = _propertyEditorFactory.CreateEditor(avaloniaPropertyViewModel);
-                if (editor is Control control)
-                {
-                    return control;
-                }
-
-                break;
-            }
-            case ClrPropertyViewModel clrPropertyViewModel:
-            {
-                var editor = _propertyEditorFactory.CreateEditor(clrPropertyViewModel);
-                if (editor is Control control)
-                {
-                    return control;
-                }
-
-                break;
+                return control;
             }
         }
 
