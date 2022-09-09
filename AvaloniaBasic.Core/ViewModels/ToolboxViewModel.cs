@@ -22,7 +22,16 @@ public partial class ToolboxViewModel
 
     public ToolboxViewModel()
     {
-        _toolboxes = new ObservableCollection<IToolboxItem>
+        _toolboxes = GenerateToolboxes();
+
+        ToolboxSource = CreateToolboxSource();
+    }
+
+    public HierarchicalTreeDataGridSource<IToolboxItem> ToolboxSource { get; }
+
+    private ObservableCollection<IToolboxItem> GenerateToolboxes()
+    {
+        return new ObservableCollection<IToolboxItem>
         {
             new ToolboxGroupViewModel
             {
@@ -170,11 +179,7 @@ public partial class ToolboxViewModel
                 }
             },
         };
-
-        ToolboxSource = CreateToolboxSource();
     }
-
-    public HierarchicalTreeDataGridSource<IToolboxItem> ToolboxSource { get; }
 
     private HierarchicalTreeDataGridSource<IToolboxItem> CreateToolboxSource()
     {
