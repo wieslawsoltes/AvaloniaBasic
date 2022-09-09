@@ -23,5 +23,9 @@ public partial class GroupPropertyViewModel : PropertyViewModel
     {
         return true;
     }
+
+    public override bool IsEditable()
+    {
+        return false;
     }
 }

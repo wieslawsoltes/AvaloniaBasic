@@ -72,4 +72,9 @@ public partial class ClrPropertyViewModel : PropertyViewModel
     {
         return !_property.CanWrite;
     }
+
+    public override bool IsEditable()
+    {
+        return true;
+    }
 }

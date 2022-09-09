@@ -13,4 +13,6 @@ public interface IProperty : ITreeItem<IProperty>
     Type GetValueType();
 
     bool IsReadOnly();
+
+    bool IsEditable();
 }

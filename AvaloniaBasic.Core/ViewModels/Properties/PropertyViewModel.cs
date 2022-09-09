@@ -16,6 +16,8 @@ public abstract partial class PropertyViewModel : IProperty
 
     public abstract bool IsReadOnly();
 
+    public abstract bool IsEditable();
+
     public virtual bool HasChildren => false;
 
     public virtual IEnumerable<IProperty>? GetChildren() => null;
