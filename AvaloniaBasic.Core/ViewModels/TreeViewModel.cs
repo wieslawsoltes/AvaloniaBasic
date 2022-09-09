@@ -23,17 +23,17 @@ public partial class TreeViewModel
 {
     private readonly IPropertyEditorFactory _propertyEditorFactory;
     private readonly Dictionary<Type, TypePropertiesCache> _typePropertiesCache = new();
-    private readonly Dictionary<IAvaloniaObject, ObservableCollection<PropertyViewModel>> _propertiesCache = new();
+    private readonly Dictionary<IAvaloniaObject, ObservableCollection<IProperty>> _propertiesCache = new();
     private readonly PropertyEditor _editor = new ();
     [ObservableProperty] private ObservableCollection<LogicalViewModel> _logicalTree;
-    [ObservableProperty] private ObservableCollection<PropertyViewModel> _properties;
+    [ObservableProperty] private ObservableCollection<IProperty> _properties;
     [ObservableProperty] private LogicalViewModel? _selectedLogical;
 
     public TreeViewModel(IPropertyEditorFactory propertyEditorFactory)
     {
         _propertyEditorFactory = propertyEditorFactory;
         _logicalTree = new ObservableCollection<LogicalViewModel>();
-        _properties = new ObservableCollection<PropertyViewModel>();
+        _properties = new ObservableCollection<IProperty>();
 
         LogicalTreeSource = CreateLogicalTreeSource();
         PropertiesSource = CreatePropertiesSource();
@@ -41,7 +41,7 @@ public partial class TreeViewModel
 
     public HierarchicalTreeDataGridSource<LogicalViewModel> LogicalTreeSource { get; }
 
-    public HierarchicalTreeDataGridSource<PropertyViewModel> PropertiesSource { get; }
+    public HierarchicalTreeDataGridSource<IProperty> PropertiesSource { get; }
 
     private HierarchicalTreeDataGridSource<LogicalViewModel> CreateLogicalTreeSource()
     {
@@ -83,16 +83,16 @@ public partial class TreeViewModel
         return logicalTreeSource;
     }
 
-    private HierarchicalTreeDataGridSource<PropertyViewModel> CreatePropertiesSource()
+    private HierarchicalTreeDataGridSource<IProperty> CreatePropertiesSource()
     {
-        var propertiesSource = new HierarchicalTreeDataGridSource<PropertyViewModel>(_properties)
+        var propertiesSource = new HierarchicalTreeDataGridSource<IProperty>(_properties)
         {
             Columns =
             {
-                new HierarchicalExpanderColumn<PropertyViewModel>(
-                    inner: new TemplateColumn<PropertyViewModel>(
+                new HierarchicalExpanderColumn<IProperty>(
+                    inner: new TemplateColumn<IProperty>(
                         "Property",
-                        new FuncDataTemplate<PropertyViewModel>((_, _) =>
+                        new FuncDataTemplate<IProperty>((_, _) =>
                         {
                             return new Label
                             {
@@ -101,24 +101,24 @@ public partial class TreeViewModel
                                 HorizontalContentAlignment = HorizontalAlignment.Left
                             };
                         }, true),
-                        options: new ColumnOptions<PropertyViewModel>
+                        options: new ColumnOptions<IProperty>
                         {
                             CanUserResizeColumn = true,
                             CanUserSortColumn = true,
-                            CompareAscending = SortHelper.SortAscending<string?, PropertyViewModel>(x => x.Name),
-                            CompareDescending = SortHelper.SortDescending<string?, PropertyViewModel>(x => x.Name)
+                            CompareAscending = SortHelper.SortAscending<string?, IProperty>(x => x.Name),
+                            CompareDescending = SortHelper.SortDescending<string?, IProperty>(x => x.Name)
                         },
                         width: new GridLength(1, GridUnitType.Star)), 
                     childSelector: x => x.GetChildren(),
                     hasChildrenSelector: x => x.HasChildren,
                     isExpandedSelector: x => x.IsExpanded),
-                new TemplateColumn<PropertyViewModel>(
+                new TemplateColumn<IProperty>(
                     "Value",
-                    new FuncDataTemplate<PropertyViewModel>((p, _) =>
+                    new FuncDataTemplate<IProperty>((p, _) =>
                     {
                         switch (p)
                         {
-                            case GroupPropertyViewModel groupPropertyViewModel:
+                            case GroupPropertyViewModel _:
                             {
                                 // TODO:
 
@@ -152,8 +152,8 @@ public partial class TreeViewModel
                             HorizontalAlignment = HorizontalAlignment.Stretch,
                             VerticalAlignment = VerticalAlignment.Center,
                         };
-                    }, false),
-                    options: new ColumnOptions<PropertyViewModel>
+                    }),
+                    options: new ColumnOptions<IProperty>
                     {
                         CanUserResizeColumn = true,
                         CanUserSortColumn = false
@@ -203,7 +203,7 @@ public partial class TreeViewModel
         var avaloniaProps = new GroupPropertyViewModel()
         {
             Name = "Properties",
-            Children = new ObservableCollection<PropertyViewModel>()
+            Children = new ObservableCollection<IProperty>()
         };
 
         foreach (var avaloniaProperty in typeProperties.Properties)
@@ -222,7 +222,7 @@ public partial class TreeViewModel
         var avaloniaAttachedProps = new GroupPropertyViewModel()
         {
             Name = "Attached Properties",
-            Children = new ObservableCollection<PropertyViewModel>()
+            Children = new ObservableCollection<IProperty>()
         };
 
         foreach (var avaloniaAttachedProperty in typeProperties.AttachedProperties)
@@ -241,7 +241,7 @@ public partial class TreeViewModel
         var clrProps = new GroupPropertyViewModel()
         {
             Name = "CLR Properties",
-            Children = new ObservableCollection<PropertyViewModel>()
+            Children = new ObservableCollection<IProperty>()
         };
 
         foreach (var clrProperty in typeProperties.ClrProperties)
@@ -264,7 +264,7 @@ public partial class TreeViewModel
 
         // Property Groups
 
-        var properties = new ObservableCollection<PropertyViewModel>
+        var properties = new ObservableCollection<IProperty>
         {
             avaloniaProps, 
             avaloniaAttachedProps, 

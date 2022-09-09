@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using AvaloniaBasic.Model;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels.Properties;
 
 [ObservableObject]
-public abstract partial class PropertyViewModel
+public abstract partial class PropertyViewModel : IProperty
 {
     [ObservableProperty] private string? _name;
     [ObservableProperty] private object? _value;
@@ -17,5 +18,5 @@ public abstract partial class PropertyViewModel
 
     public virtual bool HasChildren => false;
 
-    public virtual IEnumerable<PropertyViewModel>? GetChildren() => null;
+    public virtual IEnumerable<IProperty>? GetChildren() => null;
 }
