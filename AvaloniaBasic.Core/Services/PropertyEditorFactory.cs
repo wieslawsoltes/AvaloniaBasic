@@ -4,16 +4,15 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Layout;
 using AvaloniaBasic.Model;
-using AvaloniaBasic.ViewModels.Properties;
 
 namespace AvaloniaBasic.Services;
 
 public class PropertyEditorFactory : IPropertyEditorFactory
 {
-    public Control? CreateEditor(PropertyViewModel propertyViewModel)
+    public object? CreateEditor(IProperty property)
     {
-        var isReadOnly = propertyViewModel.IsReadOnly();
-        var type = propertyViewModel.GetValueType();
+        var isReadOnly = property.IsReadOnly();
+        var type = property.GetValueType();
 
         if (type == typeof(bool) || type == typeof(bool?))
         {

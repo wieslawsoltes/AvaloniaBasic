@@ -114,45 +114,7 @@ public partial class TreeViewModel
                     isExpandedSelector: x => x.IsExpanded),
                 new TemplateColumn<IProperty>(
                     "Value",
-                    new FuncDataTemplate<IProperty>((p, _) =>
-                    {
-                        switch (p)
-                        {
-                            case GroupPropertyViewModel _:
-                            {
-                                // TODO:
-
-                                break;
-                            }
-                            case AvaloniaPropertyViewModel avaloniaPropertyViewModel:
-                            {
-                                var control = _propertyEditorFactory.CreateEditor(avaloniaPropertyViewModel);
-                                if (control is { })
-                                {
-                                    return control;
-                                }
-
-                                break;
-                            }
-                            case ClrPropertyViewModel clrPropertyViewModel:
-                            {
-                                var control = _propertyEditorFactory.CreateEditor(clrPropertyViewModel);
-                                if (control is { })
-                                {
-                                    return control;
-                                }
-
-                                break;
-                            }
-                        }
-
-                        return new TextBlock
-                        {
-                            [!TextBlock.TextProperty] = new Binding("Value"),
-                            HorizontalAlignment = HorizontalAlignment.Stretch,
-                            VerticalAlignment = VerticalAlignment.Center,
-                        };
-                    }),
+                    new FuncDataTemplate<IProperty>((p, _) => CreatePropertyEditor(p)),
                     options: new ColumnOptions<IProperty>
                     {
                         CanUserResizeColumn = true,
@@ -163,6 +125,46 @@ public partial class TreeViewModel
         };
 
         return propertiesSource;
+    }
+
+    private Control CreatePropertyEditor(IProperty p)
+    {
+        switch (p)
+        {
+            case GroupPropertyViewModel _:
+            {
+                // TODO:
+
+                break;
+            }
+            case AvaloniaPropertyViewModel avaloniaPropertyViewModel:
+            {
+                var editor = _propertyEditorFactory.CreateEditor(avaloniaPropertyViewModel);
+                if (editor is Control control)
+                {
+                    return control;
+                }
+
+                break;
+            }
+            case ClrPropertyViewModel clrPropertyViewModel:
+            {
+                var editor = _propertyEditorFactory.CreateEditor(clrPropertyViewModel);
+                if (editor is Control control)
+                {
+                    return control;
+                }
+
+                break;
+            }
+        }
+
+        return new TextBlock
+        {
+            [!TextBlock.TextProperty] = new Binding("Value"),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Center,
+        };
     }
 
     private void UpdateProperties()
