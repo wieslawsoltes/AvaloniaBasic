@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.VisualTree;
 using AvaloniaBasic.Behaviors;
 using AvaloniaBasic.Model;
 using AvaloniaBasic.Utilities;
