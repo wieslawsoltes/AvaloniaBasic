@@ -41,13 +41,13 @@ public class ToolboxDoubleTappedEventBehavior : DoubleTappedEventBehavior
         _editor.TargetCanvas = null;
     }
 
-    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
 
         if (change.Property == TargetCanvasProperty)
         {
-            _editor.TargetCanvas = change.NewValue.GetValueOrDefault<Canvas>();
+            _editor.TargetCanvas = change.GetNewValue<Canvas>();
         }
     }
 
