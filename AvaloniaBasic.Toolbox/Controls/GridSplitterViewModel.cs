@@ -25,7 +25,7 @@ public class GridSplitterViewModel : ToolboxItemViewModel
         return gridSplitter;
     }
 
-    public override void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(object control, bool isPointerOver)
     {
         if (control is not GridSplitter gridSplitter)
         {

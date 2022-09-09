@@ -28,7 +28,7 @@ public class ViewboxViewModel : ToolboxItemViewModel
         return viewbox;
     }
 
-    public override void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(object control, bool isPointerOver)
     {
         if (control is not Viewbox viewbox)
         {

@@ -6,7 +6,7 @@ using Avalonia;
 
 namespace AvaloniaBasic.Model;
 
-internal class TypeProperties
+internal class TypePropertiesCache
 {
     public List<AvaloniaProperty> Properties { get; }
 
@@ -14,7 +14,7 @@ internal class TypeProperties
 
     public List<PropertyInfo> ClrProperties { get; }
 
-    public TypeProperties(Type type)
+    public TypePropertiesCache(Type type)
     {
         Properties = AvaloniaPropertyRegistry.Instance
             .GetRegistered(type)

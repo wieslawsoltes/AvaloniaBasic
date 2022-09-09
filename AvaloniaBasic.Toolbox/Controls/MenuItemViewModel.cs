@@ -26,7 +26,7 @@ public class MenuItemViewModel : ToolboxItemViewModel
         return menuItem;
     }
 
-    public override void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(object control, bool isPointerOver)
     {
         if (control is not MenuItem menuItem)
         {

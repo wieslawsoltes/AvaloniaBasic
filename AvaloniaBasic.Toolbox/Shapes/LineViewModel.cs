@@ -33,7 +33,7 @@ public class LineViewModel : ToolboxItemViewModel
         return line;
     }
 
-    public override void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(object control, bool isPointerOver)
     {
         if (control is not Line line)
         {

@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
@@ -6,8 +6,6 @@ using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using AvaloniaBasic.Model;
 using AvaloniaBasic.Utilities;
-using AvaloniaBasic.ViewModels.Toolbox;
-using AvaloniaBasic.ViewModels.Toolbox.Shapes;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels;
@@ -15,165 +13,23 @@ namespace AvaloniaBasic.ViewModels;
 [ObservableObject]
 public partial class ToolboxViewModel
 {
-    [ObservableProperty] private ObservableCollection<IToolboxItem> _toolboxes;
+    [ObservableProperty] private IEnumerable<IToolboxItem> _toolboxes;
     [ObservableProperty] private IToolboxItem? _selectedToolBoxItem;
     [ObservableProperty] private Canvas? _previewCanvas;
     [ObservableProperty] private Canvas? _dropAreaCanvas;
 
+    public ToolboxViewModel(IToolboxItemProvider toolboxItemProvider)
+    {
+        _toolboxes = toolboxItemProvider.GetToolboxItems();
+
+        ToolboxSource = CreateToolboxSource();
+    }
+
     public HierarchicalTreeDataGridSource<IToolboxItem> ToolboxSource { get; }
 
-    public ToolboxViewModel()
+    private HierarchicalTreeDataGridSource<IToolboxItem> CreateToolboxSource()
     {
-        _toolboxes = new ObservableCollection<IToolboxItem>
-        {
-            new ToolboxGroupViewModel
-            {
-                Name = "Layout",
-                Items = new ObservableCollection<IDragItem>
-                {
-                    new BorderViewModel(),
-                    new CanvasViewModel(),
-                    new DecoratorViewModel(),
-                    new DockPanelViewModel(),
-                    new ExpanderViewModel(),
-                    new GridViewModel(),
-                    new GridSplitterViewModel(),
-                    new LayoutTransformControlViewModel(),
-                    new PanelViewModel(),
-                    new RelativePanelViewModel(),
-                    new ScrollBarViewModel(),
-                    new ScrollViewerViewModel(),
-                    new SplitViewViewModel(),
-                    new StackPanelViewModel(),
-                    new UniformGridViewModel(),
-                    new WrapPanelViewModel(),
-                }
-            },
-            new ToolboxGroupViewModel
-            {
-                Name = "Buttons",
-                Items = new ObservableCollection<IDragItem>
-                {
-                    new ButtonViewModel(),
-                    new ButtonSpinnerViewModel(),
-                    new RepeatButtonViewModel(),
-                    new RadioButtonViewModel(),
-                    // SplitButton
-                    new ToggleButtonViewModel(),
-                    // ToggleSplitButton
-                    new ToggleSwitchViewModel(),
-                }
-            },
-            new ToolboxGroupViewModel
-            {
-                Name = "Data Display",
-                Items = new ObservableCollection<IDragItem>
-                {
-                    new CarouselViewModel(),
-                    new DataGridViewModel(),
-                    new ItemsControlViewModel(),
-                    new ItemsRepeaterViewModel(),
-                    new ListBoxViewModel(),
-                    new TabControlViewModel(),
-                    new TabStripViewModel(),
-                    new TreeDataGridViewModel(),
-                    new TreeViewViewModel(),
-                }
-            },
-            new ToolboxGroupViewModel
-            {
-                Name = "Text",
-                Items = new ObservableCollection<IDragItem>
-                {
-                    new AccessTextViewModel(),
-                    new AutoCompleteBoxViewModel(),
-                    new MaskedTextBoxViewModel(),
-                    new NumericUpDownViewModel(),
-                    new TextBlockViewModel(),
-                    new TextBoxViewModel(),
-                    
-                }
-            },
-            new ToolboxGroupViewModel
-            {
-                Name = "Value selectors",
-                Items = new ObservableCollection<IDragItem>
-                {
-                    new CheckBoxViewModel(),
-                    new ComboBoxViewModel(),
-                    new SliderViewModel(),
-                }
-            },
-            new ToolboxGroupViewModel
-            {
-                Name = "Content Display",
-                Items = new ObservableCollection<IDragItem>
-                {
-                    new ContentControlViewModel(),
-                    new LabelViewModel(),
-                    new TransitioningContentControlViewModel(),
-                    new ViewboxViewModel(),
-                }
-            },
-            new ToolboxGroupViewModel
-            {
-                Name = "Images",
-                Items = new ObservableCollection<IDragItem>
-                {
-                    // DrawingImage
-                    new ImageViewModel(),
-                }
-            },
-            new ToolboxGroupViewModel
-            {
-                Name = "Date and Time",
-                Items = new ObservableCollection<IDragItem>
-                {
-                    new CalendarViewModel(),
-                    new CalendarDatePickerViewModel(),
-                    new DatePickerViewModel(),
-                    new TimePickerViewModel(),
-                }
-            },
-            new ToolboxGroupViewModel
-            {
-                Name = "Menus",
-                Items = new ObservableCollection<IDragItem>
-                {
-                    new ContextMenuViewModel(),
-                    // Flyout
-                    new MenuViewModel(),
-                    // MenuFlyout
-                    new MenuItemViewModel(),
-                    new SeparatorViewModel(),
-                    // NativeMenu
-                }
-            },
-            new ToolboxGroupViewModel
-            {
-                Name = "Shapes",
-                Items = new ObservableCollection<IDragItem>
-                {
-                    new ArcViewModel(),
-                    new EllipseViewModel(),
-                    new LineViewModel(),
-                    new PathViewModel(),
-                    new PolygonViewModel(),
-                    new PolylineViewModel(),
-                    new RectangleViewModel(),
-                }
-            },
-            new ToolboxGroupViewModel
-            {
-                Name = "Status Display",
-                Items = new ObservableCollection<IDragItem>
-                {
-                    new ProgressBarViewModel(),
-                }
-            },
-        };
-
-        ToolboxSource = new HierarchicalTreeDataGridSource<IToolboxItem>(_toolboxes)
+        var toolboxSource = new HierarchicalTreeDataGridSource<IToolboxItem>(_toolboxes)
         {
             Columns =
             {
@@ -201,11 +57,13 @@ public partial class ToolboxViewModel
             }
         };
 
-        ToolboxSource.RowSelection!.SingleSelect = true;
+        toolboxSource.RowSelection!.SingleSelect = true;
 
-        ToolboxSource.RowSelection.SelectionChanged += (_, args) =>
+        toolboxSource.RowSelection.SelectionChanged += (_, args) =>
         {
             SelectedToolBoxItem = args.SelectedItems.FirstOrDefault();
         };
+
+        return toolboxSource;
     }
 }

@@ -6,7 +6,6 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Models.TreeDataGrid;
-using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Layout;
@@ -22,24 +21,31 @@ namespace AvaloniaBasic.ViewModels;
 [ObservableObject]
 public partial class TreeViewModel
 {
-    private readonly Dictionary<Type, TypeProperties> _typePropertiesCache = new();
-    private readonly Dictionary<IAvaloniaObject, ObservableCollection<PropertyViewModel>> _propertiesCache = new();
-
+    private readonly IPropertyEditorFactory _propertyEditorFactory;
+    private readonly Dictionary<Type, TypePropertiesCache> _typePropertiesCache = new();
+    private readonly Dictionary<IAvaloniaObject, ObservableCollection<IProperty>> _propertiesCache = new();
     private readonly PropertyEditor _editor = new ();
-
     [ObservableProperty] private ObservableCollection<LogicalViewModel> _logicalTree;
-    [ObservableProperty] private ObservableCollection<PropertyViewModel> _properties;
+    [ObservableProperty] private ObservableCollection<IProperty> _properties;
     [ObservableProperty] private LogicalViewModel? _selectedLogical;
+
+    public TreeViewModel(IPropertyEditorFactory propertyEditorFactory)
+    {
+        _propertyEditorFactory = propertyEditorFactory;
+        _logicalTree = new ObservableCollection<LogicalViewModel>();
+        _properties = new ObservableCollection<IProperty>();
+
+        LogicalTreeSource = CreateLogicalTreeSource();
+        PropertiesSource = CreatePropertiesSource();
+    }
 
     public HierarchicalTreeDataGridSource<LogicalViewModel> LogicalTreeSource { get; }
 
-    public HierarchicalTreeDataGridSource<PropertyViewModel> PropertiesSource { get; }
+    public HierarchicalTreeDataGridSource<IProperty> PropertiesSource { get; }
 
-    public TreeViewModel()
+    private HierarchicalTreeDataGridSource<LogicalViewModel> CreateLogicalTreeSource()
     {
-        _logicalTree = new ObservableCollection<LogicalViewModel>();
-
-        LogicalTreeSource = new HierarchicalTreeDataGridSource<LogicalViewModel>(_logicalTree)
+        var logicalTreeSource = new HierarchicalTreeDataGridSource<LogicalViewModel>(_logicalTree)
         {
             Columns =
             {
@@ -65,25 +71,28 @@ public partial class TreeViewModel
             }
         };
 
-        LogicalTreeSource.RowSelection!.SingleSelect = true;
+        logicalTreeSource.RowSelection!.SingleSelect = true;
 
-        LogicalTreeSource.RowSelection.SelectionChanged += (_, args) =>
+        logicalTreeSource.RowSelection.SelectionChanged += (_, args) =>
         {
             SelectedLogical = args.SelectedItems.FirstOrDefault();
 
             UpdateProperties();
         };
 
-        _properties = new ObservableCollection<PropertyViewModel>();
+        return logicalTreeSource;
+    }
 
-        PropertiesSource = new HierarchicalTreeDataGridSource<PropertyViewModel>(_properties)
+    private HierarchicalTreeDataGridSource<IProperty> CreatePropertiesSource()
+    {
+        var propertiesSource = new HierarchicalTreeDataGridSource<IProperty>(_properties)
         {
             Columns =
             {
-                new HierarchicalExpanderColumn<PropertyViewModel>(
-                    inner: new TemplateColumn<PropertyViewModel>(
+                new HierarchicalExpanderColumn<IProperty>(
+                    inner: new TemplateColumn<IProperty>(
                         "Property",
-                        new FuncDataTemplate<PropertyViewModel>((_, _) =>
+                        new FuncDataTemplate<IProperty>((_, _) =>
                         {
                             return new Label
                             {
@@ -92,59 +101,21 @@ public partial class TreeViewModel
                                 HorizontalContentAlignment = HorizontalAlignment.Left
                             };
                         }, true),
-                        options: new ColumnOptions<PropertyViewModel>
+                        options: new ColumnOptions<IProperty>
                         {
                             CanUserResizeColumn = true,
                             CanUserSortColumn = true,
-                            CompareAscending = SortHelper.SortAscending<string?, PropertyViewModel>(x => x.Name),
-                            CompareDescending = SortHelper.SortDescending<string?, PropertyViewModel>(x => x.Name)
+                            CompareAscending = SortHelper.SortAscending<string?, IProperty>(x => x.Name),
+                            CompareDescending = SortHelper.SortDescending<string?, IProperty>(x => x.Name)
                         },
                         width: new GridLength(1, GridUnitType.Star)), 
                     childSelector: x => x.GetChildren(),
                     hasChildrenSelector: x => x.HasChildren,
                     isExpandedSelector: x => x.IsExpanded),
-                new TemplateColumn<PropertyViewModel>(
+                new TemplateColumn<IProperty>(
                     "Value",
-                    new FuncDataTemplate<PropertyViewModel>((p, _) =>
-                    {
-                        switch (p)
-                        {
-                            case GroupPropertyViewModel groupPropertyViewModel:
-                            {
-                                // TODO:
-
-                                break;
-                            }
-                            case AvaloniaPropertyViewModel avaloniaPropertyViewModel:
-                            {
-                                var control = CreatePropertyEditor(avaloniaPropertyViewModel);
-                                if (control is { })
-                                {
-                                    return control;
-                                }
-
-                                break;
-                            }
-                            case ClrPropertyViewModel clrPropertyViewModel:
-                            {
-                                var control = CreatePropertyEditor(clrPropertyViewModel);
-                                if (control is { })
-                                {
-                                    return control;
-                                }
-
-                                break;
-                            }
-                        }
-
-                        return new TextBlock
-                        {
-                            [!TextBlock.TextProperty] = new Binding("Value"),
-                            HorizontalAlignment = HorizontalAlignment.Stretch,
-                            VerticalAlignment = VerticalAlignment.Center,
-                        };
-                    }, false),
-                    options: new ColumnOptions<PropertyViewModel>
+                    new FuncDataTemplate<IProperty>((p, _) => CreatePropertyEditor(p)),
+                    options: new ColumnOptions<IProperty>
                     {
                         CanUserResizeColumn = true,
                         CanUserSortColumn = false
@@ -152,58 +123,34 @@ public partial class TreeViewModel
                     width: new GridLength(1, GridUnitType.Star))
             }
         };
+
+        return propertiesSource;
     }
 
-    private Control? CreatePropertyEditor(PropertyViewModel propertyViewModel)
+    private Control? CreatePropertyEditor(IProperty? p)
     {
-        var isReadOnly = propertyViewModel.IsReadOnly();
-        var type = propertyViewModel.GetValueType();
-
-        if (type == typeof(bool) || type == typeof(bool?))
+        if (p is null)
         {
-            return new CheckBox
-            {
-                [!ToggleButton.IsCheckedProperty] = new Binding("Value"),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                HorizontalContentAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-                IsEnabled = !isReadOnly
-            };
-        }
-        else if (type == typeof(string) 
-                 || type == typeof(decimal) || type == typeof(decimal?) 
-                 || type == typeof(double) || type == typeof(double?) 
-                 || type == typeof(float) || type == typeof(float?) 
-                 || type == typeof(long) || type == typeof(long?) 
-                 || type == typeof(int) || type == typeof(int?) 
-                 || type == typeof(short) || type == typeof(short?) 
-                 || type == typeof(byte)|| type == typeof(byte?))
-        {
-            return new TextBox
-            {
-                [!TextBox.TextProperty] = new Binding("Value"),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Center,
-                IsReadOnly = isReadOnly
-            };   
-        }
-        else if (type.IsEnum)
-        {
-            var values = Enum.GetValues(type);
-
-            return new ComboBox
-            {
-                Items = values,
-                [!!SelectingItemsControl.SelectedItemProperty] = new Binding("Value"),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Center,
-                IsEnabled = !isReadOnly
-            };
+            return null;
         }
 
-        return null;
+        if (p.IsEditable())
+        {
+            var editor = _propertyEditorFactory.CreateEditor(p);
+            if (editor is Control control)
+            {
+                return control;
+            }
+        }
+
+        return new TextBlock
+        {
+            [!TextBlock.TextProperty] = new Binding("Value"),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Center,
+        };
     }
-    
+
     private void UpdateProperties()
     {
         if (SelectedLogical?.Logical is not AvaloniaObject logical)
@@ -233,7 +180,7 @@ public partial class TreeViewModel
         var type = logical.GetType();
         if (!_typePropertiesCache.TryGetValue(type, out var typeProperties))
         {
-            typeProperties = new TypeProperties(type);
+            typeProperties = new TypePropertiesCache(type);
             _typePropertiesCache[type] = typeProperties;
         }
 
@@ -242,7 +189,7 @@ public partial class TreeViewModel
         var avaloniaProps = new GroupPropertyViewModel()
         {
             Name = "Properties",
-            Children = new ObservableCollection<PropertyViewModel>()
+            Children = new ObservableCollection<IProperty>()
         };
 
         foreach (var avaloniaProperty in typeProperties.Properties)
@@ -261,7 +208,7 @@ public partial class TreeViewModel
         var avaloniaAttachedProps = new GroupPropertyViewModel()
         {
             Name = "Attached Properties",
-            Children = new ObservableCollection<PropertyViewModel>()
+            Children = new ObservableCollection<IProperty>()
         };
 
         foreach (var avaloniaAttachedProperty in typeProperties.AttachedProperties)
@@ -280,7 +227,7 @@ public partial class TreeViewModel
         var clrProps = new GroupPropertyViewModel()
         {
             Name = "CLR Properties",
-            Children = new ObservableCollection<PropertyViewModel>()
+            Children = new ObservableCollection<IProperty>()
         };
 
         foreach (var clrProperty in typeProperties.ClrProperties)
@@ -303,7 +250,7 @@ public partial class TreeViewModel
 
         // Property Groups
 
-        var properties = new ObservableCollection<PropertyViewModel>
+        var properties = new ObservableCollection<IProperty>
         {
             avaloniaProps, 
             avaloniaAttachedProps, 
@@ -335,10 +282,7 @@ public partial class TreeViewModel
         var logicalDescendants = root.GetLogicalChildren();
         foreach (var logical in logicalDescendants)
         {
-            if (logicalViewModel.Children is null)
-            {
-                logicalViewModel.Children = new ObservableCollection<LogicalViewModel>();
-            }
+            logicalViewModel.Children ??= new ObservableCollection<LogicalViewModel>();
 
             AddToLogicalTree(logical, logicalViewModel.Children);
         }

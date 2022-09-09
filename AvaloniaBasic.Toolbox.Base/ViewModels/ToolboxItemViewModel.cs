@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Avalonia.Controls;
 using AvaloniaBasic.Model;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -17,11 +16,11 @@ public abstract partial class ToolboxItemViewModel : IDragItem
 
     public IEnumerable<IToolboxItem>? GetChildren() => null;
 
-    public abstract Control CreatePreview();
+    public abstract object CreatePreview();
 
-    public abstract Control CreateControl();
+    public abstract object CreateControl();
 
-    public abstract void UpdatePreview(Control control, bool isPointerOver);
+    public abstract void UpdatePreview(object control, bool isPointerOver);
 
     public abstract bool IsDropArea();
 }

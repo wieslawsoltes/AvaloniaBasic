@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.VisualTree;
 using AvaloniaBasic.Behaviors;
 using AvaloniaBasic.Model;
 using AvaloniaBasic.Utilities;
@@ -130,7 +128,12 @@ public class ToolboxCanvasEditor
         {
             point = SnapPoint(point, _dropArea is null);
 
-            _previewControl = item.CreatePreview();
+            if (item.CreatePreview() is not Control control)
+            {
+                return;
+            }
+
+            _previewControl = control;
 
             Canvas.SetLeft(_previewControl, point.X);
             Canvas.SetTop(_previewControl, point.Y);
@@ -186,7 +189,10 @@ public class ToolboxCanvasEditor
             return;
         }
 
-        var control = item.CreateControl();
+        if (item.CreateControl() is not Control control)
+        {
+            return;
+        }
 
         if (item.IsDropArea())
         {

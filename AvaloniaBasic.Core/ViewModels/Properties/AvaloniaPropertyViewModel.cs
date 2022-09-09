@@ -72,4 +72,9 @@ public partial class AvaloniaPropertyViewModel : PropertyViewModel
     {
         return _property.IsReadOnly;
     }
+
+    public override bool IsEditable()
+    {
+        return true;
+    }
 }

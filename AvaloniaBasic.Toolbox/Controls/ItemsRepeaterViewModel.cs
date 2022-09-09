@@ -29,7 +29,7 @@ public class ItemsRepeaterViewModel : ToolboxItemViewModel
         return itemsRepeater;
     }
 
-    public override void UpdatePreview(Control control, bool isPointerOver)
+    public override void UpdatePreview(object control, bool isPointerOver)
     {
         if (control is not ItemsRepeater itemsRepeater)
         {

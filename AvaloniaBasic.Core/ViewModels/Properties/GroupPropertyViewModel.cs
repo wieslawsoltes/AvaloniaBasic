@@ -1,25 +1,31 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using AvaloniaBasic.Model;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels.Properties;
 
 public partial class GroupPropertyViewModel : PropertyViewModel
 {
-    [ObservableProperty] private ObservableCollection<PropertyViewModel>? _children;
+    [ObservableProperty] private ObservableCollection<IProperty>? _children;
 
     public override bool HasChildren => _children?.Count > 0;
 
-    public override IEnumerable<PropertyViewModel>? GetChildren() => _children;
+    public override IEnumerable<IProperty>? GetChildren() => _children;
 
     public override Type GetValueType()
     {
-        throw new NotImplementedException();
+        return typeof(string);
     }
 
     public override bool IsReadOnly()
     {
-        throw new NotImplementedException();
+        return true;
+    }
+
+    public override bool IsEditable()
+    {
+        return false;
     }
 }
