@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using AvaloniaBasic.Services;
 using AvaloniaBasic.ViewModels.Settings;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -16,7 +17,7 @@ public partial class MainViewModel
 
     public MainViewModel()
     {
-        _toolbox = new ToolboxViewModel();
+        _toolbox = new ToolboxViewModel(new DefaultToolboxItemProvider());
         _tree = new TreeViewModel();
         _dragSettings = new DragSettingsViewModel();
         _gridSettings = new GridSettingsViewModel();
