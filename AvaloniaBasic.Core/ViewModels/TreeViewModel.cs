@@ -212,6 +212,9 @@ public partial class TreeViewModel
                 Value = value,
                 DefaultValue = defaultValue
             };
+
+            // TODO: IsDirty
+
             avaloniaProps.Children.Add(property);
         }
 
@@ -243,6 +246,9 @@ public partial class TreeViewModel
                 Value = value,
                 DefaultValue = defaultValue
             };
+
+            // TODO: IsDirty
+
             avaloniaAttachedProps.Children.Add(property);
         } 
 
@@ -267,6 +273,9 @@ public partial class TreeViewModel
                     Name = clrProperty.Name,
                     Value = value
                 };
+
+                // TODO: IsDirty
+
                 clrProps.Children.Add(property);
             }
             catch (Exception exception)
