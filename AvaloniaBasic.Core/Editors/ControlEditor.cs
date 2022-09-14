@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -12,15 +13,29 @@ internal static class ControlEditor
 {
     public static Control? FindDragArea(Interactive? canvas, Point point)
     {
-        var visuals = canvas
-            .GetVisualDescendants()
-            .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
-            .Reverse();
+        if (canvas is null)
+        {
+            return null;
+        }
+
+        var root = canvas.GetVisualRoot();
+        if (root is null)
+        {
+            return null;
+        }
+
+        // var visuals = canvas
+        //     .GetVisualDescendants()
+        //     .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
+        //     .Where(x => x.Bounds.Contains(point))
+        //     .Reverse();
+        var visuals = root.Renderer.HitTest(point, canvas, x => true);
 
         var dragAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDragArea).ToList();
 
-        var dragArea = dragAreas.FirstOrDefault();
+        // Debug.WriteLine($"dragAreas:"); foreach (var x in dragAreas) Debug.WriteLine($"  {x}");
 
+        var dragArea = dragAreas.FirstOrDefault();
         return dragArea;
     }
 
@@ -32,15 +47,23 @@ internal static class ControlEditor
         }
 
         var root = canvas.GetVisualRoot();
+        if (root is null)
+        {
+            return null;
+        }
 
-        var visuals = (root as TopLevel)
-            .GetVisualDescendants()
-            .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
-            .Reverse();
+        // var visuals = (root as TopLevel)
+        //     .GetVisualDescendants()
+        //     .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
+        //     .Reverse();
+        var visuals = root.Renderer.HitTest(point, root, x => true);
 
         var dropAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDropArea).ToList();
 
-        return dropAreas.FirstOrDefault(DragSettings.GetIsDropArea);
+        // Debug.WriteLine($"dropAreas:"); foreach (var x in dropAreas) Debug.WriteLine($"  {x}");
+
+        var dropArea = dropAreas.FirstOrDefault(DragSettings.GetIsDropArea);
+        return dropArea;
     }
 
     public static void AddControl(Control control, Control target, Point point)
