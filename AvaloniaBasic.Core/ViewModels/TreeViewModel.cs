@@ -195,10 +195,22 @@ public partial class TreeViewModel
         foreach (var avaloniaProperty in typeProperties.Properties)
         {
             var value = logical.GetValue(avaloniaProperty);
+            var defaultValue = default(object);
+            var metadata = avaloniaProperty.GetMetadata(avaloniaProperty.PropertyType);
+            if (metadata is IStyledPropertyMetadata styledPropertyMetadata)
+            {
+                defaultValue = styledPropertyMetadata.DefaultValue;
+            }
+            else if (metadata is IDirectPropertyMetadata directPropertyMetadata)
+            {
+                defaultValue = directPropertyMetadata.UnsetValue;
+            }
+
             var property = new AvaloniaPropertyViewModel(_editor, avaloniaProperty)
             {
                 Name = avaloniaProperty.Name,
-                Value = value
+                Value = value,
+                DefaultValue = defaultValue
             };
             avaloniaProps.Children.Add(property);
         }
@@ -214,10 +226,22 @@ public partial class TreeViewModel
         foreach (var avaloniaAttachedProperty in typeProperties.AttachedProperties)
         {
             var value = logical.GetValue(avaloniaAttachedProperty);
+            var defaultValue = default(object);
+            var metadata = avaloniaAttachedProperty.GetMetadata(avaloniaAttachedProperty.PropertyType);
+            if (metadata is IStyledPropertyMetadata styledPropertyMetadata)
+            {
+                defaultValue = styledPropertyMetadata.DefaultValue;
+            }
+            else if (metadata is IDirectPropertyMetadata directPropertyMetadata)
+            {
+                defaultValue = directPropertyMetadata.UnsetValue;
+            }
+
             var property = new AvaloniaPropertyViewModel(_editor, avaloniaAttachedProperty)
             {
                 Name = $"{avaloniaAttachedProperty.OwnerType.Name}.{avaloniaAttachedProperty.Name}",
-                Value = value
+                Value = value,
+                DefaultValue = defaultValue
             };
             avaloniaAttachedProps.Children.Add(property);
         } 
@@ -235,6 +259,9 @@ public partial class TreeViewModel
             try
             {
                 var value = clrProperty.GetValue(logical);
+
+                // TODO: DefaultValue
+
                 var property = new ClrPropertyViewModel(_editor, clrProperty)
                 {
                     Name = clrProperty.Name,
