@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Rendering.Composition;
 using Avalonia.VisualTree;
 using AvaloniaBasic.Behaviors;
 
@@ -24,6 +25,17 @@ internal static class ControlEditor
             return null;
         }
 
+        
+        /*
+        var compositionVisual = ElementComposition.GetElementVisual(canvas);
+        if (compositionVisual is null)
+        {
+            return null;
+        }
+        compositionVisual.TransformMatrix.
+        */
+        
+        
         // var visuals = canvas
         //     .GetVisualDescendants()
         //     .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
