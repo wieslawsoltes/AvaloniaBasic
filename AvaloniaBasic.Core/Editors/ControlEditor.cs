@@ -45,7 +45,7 @@ internal static class ControlEditor
 
         var dragAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDragArea).ToList();
 
-        // Debug.WriteLine($"dragAreas:"); foreach (var x in dragAreas) Debug.WriteLine($"  {x}");
+        Debug.WriteLine($"dragAreas:"); foreach (var x in dragAreas) Debug.WriteLine($"  {x}");
 
         var dragArea = dragAreas.FirstOrDefault();
         return dragArea;
