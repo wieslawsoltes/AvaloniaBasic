@@ -10,7 +10,9 @@ public abstract partial class PropertyViewModel : IProperty
 {
     [ObservableProperty] private string? _name;
     [ObservableProperty] private object? _value;
+    [ObservableProperty] private object? _defaultValue;
     [ObservableProperty] private bool _isExpanded = true;
+    [ObservableProperty] private bool _isDirty;
 
     public abstract Type GetValueType();
 

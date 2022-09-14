@@ -8,7 +8,11 @@ public interface IProperty : ITreeItem<IProperty>
 
     object? Value { get; set; }
 
+    object? DefaultValue { get; set; }
+
     bool IsExpanded { get; set; }
+
+    bool IsDirty { get; set; }
 
     Type GetValueType();
 

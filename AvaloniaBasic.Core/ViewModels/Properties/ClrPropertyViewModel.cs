@@ -38,6 +38,8 @@ public partial class ClrPropertyViewModel : PropertyViewModel
                         try
                         {
                             _property.SetValue(_editor.Current, Value);
+
+                            // TODO: IsDirty, DefaultValue
                         }
                         catch (Exception exception)
                         {
@@ -51,6 +53,8 @@ public partial class ClrPropertyViewModel : PropertyViewModel
                             if (TypeUtilities.TryConvert(_property.PropertyType, Value, CultureInfo.InvariantCulture, out var result))
                             {
                                 _property.SetValue(_editor.Current, result);
+
+                                // TODO: IsDirty, DefaultValue
                             }
                         }
                         catch (Exception exception)

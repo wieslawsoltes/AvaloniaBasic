@@ -38,6 +38,8 @@ public partial class AvaloniaPropertyViewModel : PropertyViewModel
                         try
                         {
                             _editor.Current?.SetValue(_property, Value);
+
+                            // TODO: IsDirty, DefaultValue
                         }
                         catch (Exception exception)
                         {
@@ -51,6 +53,8 @@ public partial class AvaloniaPropertyViewModel : PropertyViewModel
                             if (TypeUtilities.TryConvert(_property.PropertyType, Value, CultureInfo.InvariantCulture, out var result))
                             {
                                 _editor.Current?.SetValue(_property, result);
+
+                                // TODO: IsDirty, DefaultValue
                             }
                         }
                         catch (Exception exception)
