@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Rendering;
 using Avalonia.Rendering.Composition;
 using Avalonia.VisualTree;
 using AvaloniaBasic.Behaviors;
@@ -25,23 +26,14 @@ internal static class ControlEditor
             return null;
         }
 
-        
-        /*
-        var compositionVisual = ElementComposition.GetElementVisual(canvas);
-        if (compositionVisual is null)
-        {
-            return null;
-        }
-        compositionVisual.TransformMatrix.
-        */
-        
-        
-        // var visuals = canvas
-        //     .GetVisualDescendants()
-        //     .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
-        //     .Where(x => x.Bounds.Contains(point))
-        //     .Reverse();
+#if true
+         var visuals = canvas
+             .GetVisualDescendants()
+             .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
+             .Reverse();
+#else
         var visuals = root.Renderer.HitTest(point, canvas, x => true);
+#endif
 
         var dragAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDragArea).ToList();
 
@@ -64,11 +56,14 @@ internal static class ControlEditor
             return null;
         }
 
-        // var visuals = (root as TopLevel)
-        //     .GetVisualDescendants()
-        //     .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
-        //     .Reverse();
+#if true
+        var visuals = root
+            .GetVisualDescendants()
+            .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
+            .Reverse();
+#else
         var visuals = root.Renderer.HitTest(point, root, x => true);
+#endif
 
         var dropAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDropArea).ToList();
 
