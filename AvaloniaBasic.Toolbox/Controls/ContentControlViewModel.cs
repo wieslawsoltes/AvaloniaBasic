@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class ContentControlViewModel : ToolboxItemViewModel
+public class ContentControlViewModel : ToolboxControlViewModel
 {
     public ContentControlViewModel()
     {

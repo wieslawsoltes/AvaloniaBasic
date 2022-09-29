@@ -2,7 +2,7 @@ using Avalonia.Controls;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class TransitioningContentControlViewModel : ToolboxItemViewModel
+public class TransitioningContentControlViewModel : ToolboxControlViewModel
 {
     public TransitioningContentControlViewModel()
     {

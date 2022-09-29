@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class CalendarViewModel : ToolboxItemViewModel
+public class CalendarViewModel : ToolboxControlViewModel
 {
     public CalendarViewModel()
     {

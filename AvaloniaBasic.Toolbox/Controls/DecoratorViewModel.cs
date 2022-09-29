@@ -2,7 +2,7 @@ using Avalonia.Controls;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class DecoratorViewModel : ToolboxItemViewModel
+public class DecoratorViewModel : ToolboxControlViewModel
 {
     public DecoratorViewModel()
     {

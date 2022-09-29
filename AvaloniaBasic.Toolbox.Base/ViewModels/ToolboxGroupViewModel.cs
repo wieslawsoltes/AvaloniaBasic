@@ -5,16 +5,16 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels;
 
-[ObservableObject]
-public partial class ToolboxGroupViewModel : IToolboxItem
+public partial class ToolboxGroupViewModel : ToolboxItemViewModel, IToolboxGroup
 {
-    [ObservableProperty] private string? _name;
-    [ObservableProperty] private string? _group;
-    [ObservableProperty] private string? _icon;
-    [ObservableProperty] private bool _isExpanded = true;
-    [ObservableProperty] private ObservableCollection<IDragItem>? _items;
+    [ObservableProperty] private ObservableCollection<IToolboxItem>? _items;
 
-    public bool HasChildren => _items?.Count > 0;
+    public ToolboxGroupViewModel()
+    {
+        IsExpanded = true;
+    }
 
-    public IEnumerable<IToolboxItem>? GetChildren() => _items;
+    public override bool HasChildren => _items?.Count > 0;
+
+    public override IEnumerable<IToolboxItem>? GetChildren() => _items;
 }

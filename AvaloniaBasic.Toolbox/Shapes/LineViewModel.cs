@@ -5,7 +5,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
-public class LineViewModel : ToolboxItemViewModel
+public class LineViewModel : ToolboxControlViewModel
 {
     public LineViewModel()
     {

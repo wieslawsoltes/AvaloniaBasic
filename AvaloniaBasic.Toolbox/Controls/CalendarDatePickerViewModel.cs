@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class CalendarDatePickerViewModel : ToolboxItemViewModel
+public class CalendarDatePickerViewModel : ToolboxControlViewModel
 {
     public CalendarDatePickerViewModel()
     {

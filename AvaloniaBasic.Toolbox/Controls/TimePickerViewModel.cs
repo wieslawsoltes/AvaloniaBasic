@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class TimePickerViewModel : ToolboxItemViewModel
+public class TimePickerViewModel : ToolboxControlViewModel
 {
     public TimePickerViewModel()
     {

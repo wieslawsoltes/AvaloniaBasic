@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class CheckBoxViewModel : ToolboxItemViewModel
+public class CheckBoxViewModel : ToolboxControlViewModel
 {
     public CheckBoxViewModel()
     {

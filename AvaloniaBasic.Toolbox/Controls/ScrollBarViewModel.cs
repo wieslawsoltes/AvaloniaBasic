@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class ScrollBarViewModel : ToolboxItemViewModel
+public class ScrollBarViewModel : ToolboxControlViewModel
 {
     public ScrollBarViewModel()
     {

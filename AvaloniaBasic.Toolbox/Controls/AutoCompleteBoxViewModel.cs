@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class AutoCompleteBoxViewModel : ToolboxItemViewModel
+public class AutoCompleteBoxViewModel : ToolboxControlViewModel
 {
     public AutoCompleteBoxViewModel()
     {

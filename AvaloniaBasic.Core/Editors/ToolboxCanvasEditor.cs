@@ -27,7 +27,7 @@ public class ToolboxCanvasEditor
 
     public void OnPointerPressed(PointerPressedEventArgs e)
     {
-        if (AssociatedObject?.DataContext is not IDragItem)
+        if (AssociatedObject?.DataContext is not IToolboxControl)
         {
             return;
         }
@@ -127,7 +127,7 @@ public class ToolboxCanvasEditor
             return;
         }
 
-        if (AssociatedObject?.DataContext is IDragItem item)
+        if (AssociatedObject?.DataContext is IToolboxControl item)
         {
             point = SnapPoint(point, _dropArea is null);
 
@@ -165,7 +165,7 @@ public class ToolboxCanvasEditor
             return;
         }
 
-        if (AssociatedObject?.DataContext is IDragItem item)
+        if (AssociatedObject?.DataContext is IToolboxControl item)
         {
             var isPointerOver = _dropArea is { };
 
@@ -187,7 +187,7 @@ public class ToolboxCanvasEditor
 
     private void AddControl(Control target, Point point)
     {
-        if (AssociatedObject?.DataContext is not IDragItem item)
+        if (AssociatedObject?.DataContext is not IToolboxControl item)
         {
             return;
         }

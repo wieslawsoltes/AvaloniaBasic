@@ -16,7 +16,7 @@ public class DefaultToolboxItemProvider : IToolboxItemProvider
             new ToolboxGroupViewModel
             {
                 Name = "Layout",
-                Items = new ObservableCollection<IDragItem>
+                Items = new ObservableCollection<IToolboxItem>
                 {
                     new BorderViewModel(),
                     new CanvasViewModel(),
@@ -39,7 +39,7 @@ public class DefaultToolboxItemProvider : IToolboxItemProvider
             new ToolboxGroupViewModel
             {
                 Name = "Buttons",
-                Items = new ObservableCollection<IDragItem>
+                Items = new ObservableCollection<IToolboxItem>
                 {
                     new ButtonViewModel(),
                     new ButtonSpinnerViewModel(),
@@ -54,7 +54,7 @@ public class DefaultToolboxItemProvider : IToolboxItemProvider
             new ToolboxGroupViewModel
             {
                 Name = "Data Display",
-                Items = new ObservableCollection<IDragItem>
+                Items = new ObservableCollection<IToolboxItem>
                 {
                     new CarouselViewModel(),
                     new DataGridViewModel(),
@@ -70,7 +70,7 @@ public class DefaultToolboxItemProvider : IToolboxItemProvider
             new ToolboxGroupViewModel
             {
                 Name = "Text",
-                Items = new ObservableCollection<IDragItem>
+                Items = new ObservableCollection<IToolboxItem>
                 {
                     new AccessTextViewModel(),
                     new AutoCompleteBoxViewModel(),
@@ -84,7 +84,7 @@ public class DefaultToolboxItemProvider : IToolboxItemProvider
             new ToolboxGroupViewModel
             {
                 Name = "Value selectors",
-                Items = new ObservableCollection<IDragItem>
+                Items = new ObservableCollection<IToolboxItem>
                 {
                     new CheckBoxViewModel(),
                     new ComboBoxViewModel(),
@@ -94,7 +94,7 @@ public class DefaultToolboxItemProvider : IToolboxItemProvider
             new ToolboxGroupViewModel
             {
                 Name = "Content Display",
-                Items = new ObservableCollection<IDragItem>
+                Items = new ObservableCollection<IToolboxItem>
                 {
                     new ContentControlViewModel(),
                     new LabelViewModel(),
@@ -105,7 +105,7 @@ public class DefaultToolboxItemProvider : IToolboxItemProvider
             new ToolboxGroupViewModel
             {
                 Name = "Images",
-                Items = new ObservableCollection<IDragItem>
+                Items = new ObservableCollection<IToolboxItem>
                 {
                     // DrawingImage
                     new ImageViewModel(),
@@ -114,7 +114,7 @@ public class DefaultToolboxItemProvider : IToolboxItemProvider
             new ToolboxGroupViewModel
             {
                 Name = "Date and Time",
-                Items = new ObservableCollection<IDragItem>
+                Items = new ObservableCollection<IToolboxItem>
                 {
                     new CalendarViewModel(),
                     new CalendarDatePickerViewModel(),
@@ -125,7 +125,7 @@ public class DefaultToolboxItemProvider : IToolboxItemProvider
             new ToolboxGroupViewModel
             {
                 Name = "Menus",
-                Items = new ObservableCollection<IDragItem>
+                Items = new ObservableCollection<IToolboxItem>
                 {
                     new ContextMenuViewModel(),
                     // Flyout
@@ -139,7 +139,7 @@ public class DefaultToolboxItemProvider : IToolboxItemProvider
             new ToolboxGroupViewModel
             {
                 Name = "Shapes",
-                Items = new ObservableCollection<IDragItem>
+                Items = new ObservableCollection<IToolboxItem>
                 {
                     new ArcViewModel(),
                     new EllipseViewModel(),
@@ -153,7 +153,7 @@ public class DefaultToolboxItemProvider : IToolboxItemProvider
             new ToolboxGroupViewModel
             {
                 Name = "Status Display",
-                Items = new ObservableCollection<IDragItem>
+                Items = new ObservableCollection<IToolboxItem>
                 {
                     new ProgressBarViewModel(),
                 }

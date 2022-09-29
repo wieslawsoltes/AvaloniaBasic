@@ -5,22 +5,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace AvaloniaBasic.ViewModels;
 
 [ObservableObject]
-public abstract partial class ToolboxItemViewModel : IDragItem
+public abstract partial class ToolboxItemViewModel : IToolboxItem
 {
     [ObservableProperty] private string? _name;
     [ObservableProperty] private string? _group;
     [ObservableProperty] private string? _icon;
     [ObservableProperty] private bool _isExpanded;
 
-    public bool HasChildren => false;
+    public virtual bool HasChildren => false;
 
-    public IEnumerable<IToolboxItem>? GetChildren() => null;
-
-    public abstract object CreatePreview();
-
-    public abstract object CreateControl();
-
-    public abstract void UpdatePreview(object control, bool isPointerOver);
-
-    public abstract bool IsDropArea();
+    public virtual IEnumerable<IToolboxItem>? GetChildren() => null;
 }

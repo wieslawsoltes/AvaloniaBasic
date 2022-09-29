@@ -23,7 +23,7 @@ public class DoubleTappedEditor
 
     private void AddControl(Control target, Point point)
     {
-        if (AssociatedObject?.DataContext is not IDragItem item)
+        if (AssociatedObject?.DataContext is not IToolboxControl item)
         {
             return;
         }

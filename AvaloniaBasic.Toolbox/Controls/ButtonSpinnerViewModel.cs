@@ -3,7 +3,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox;
 
-public class ButtonSpinnerViewModel : ToolboxItemViewModel
+public class ButtonSpinnerViewModel : ToolboxControlViewModel
 {
     public ButtonSpinnerViewModel()
     {

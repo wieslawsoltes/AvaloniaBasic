@@ -4,7 +4,7 @@ using Avalonia.Media;
 
 namespace AvaloniaBasic.ViewModels.Toolbox.Shapes;
 
-public class RectangleViewModel : ToolboxItemViewModel
+public class RectangleViewModel : ToolboxControlViewModel
 {
     public RectangleViewModel()
     {
