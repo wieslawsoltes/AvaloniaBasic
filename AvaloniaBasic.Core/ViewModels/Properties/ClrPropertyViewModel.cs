@@ -4,15 +4,16 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 using Avalonia.Utilities;
+using AvaloniaBasic.Model;
 
 namespace AvaloniaBasic.ViewModels.Properties;
 
 public partial class ClrPropertyViewModel : PropertyViewModel
 {
-    private readonly PropertyEditor _editor;
+    private readonly IPropertyEditorContext _editor;
     private readonly PropertyInfo _property;
     
-    public ClrPropertyViewModel(PropertyEditor editor, PropertyInfo property)
+    public ClrPropertyViewModel(IPropertyEditorContext editor, PropertyInfo property)
     {
         _editor = editor;
         _property = property;

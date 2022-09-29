@@ -18,13 +18,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels;
 
-[ObservableObject]
-public partial class TreeViewModel
+public partial class TreeViewModel : ViewModelBase
 {
     private readonly IPropertyEditorFactory _propertyEditorFactory;
     private readonly Dictionary<Type, TypePropertiesCache> _typePropertiesCache = new();
     private readonly Dictionary<IAvaloniaObject, ObservableCollection<IProperty>> _propertiesCache = new();
-    private readonly PropertyEditor _editor = new ();
+    private readonly IPropertyEditorContext _editor = new PropertyEditorContextViewModel();
     [ObservableProperty] private ObservableCollection<LogicalViewModel> _logicalTree;
     [ObservableProperty] private ObservableCollection<IProperty> _properties;
     [ObservableProperty] private LogicalViewModel? _selectedLogical;

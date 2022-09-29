@@ -17,8 +17,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace AvaloniaBasic.ViewModels;
 
-[ObservableObject]
-public partial class MainViewModel
+public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty] private ToolboxViewModel _toolbox;
     [ObservableProperty] private TreeViewModel _tree;

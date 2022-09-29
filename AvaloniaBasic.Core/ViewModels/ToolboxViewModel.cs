@@ -10,8 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels;
 
-[ObservableObject]
-public partial class ToolboxViewModel
+public partial class ToolboxViewModel : ViewModelBase
 {
     [ObservableProperty] private IEnumerable<IToolboxItem> _toolboxes;
     [ObservableProperty] private IToolboxItem? _selectedToolBoxItem;

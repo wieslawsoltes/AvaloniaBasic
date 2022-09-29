@@ -4,15 +4,16 @@ using System.Diagnostics;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Utilities;
+using AvaloniaBasic.Model;
 
 namespace AvaloniaBasic.ViewModels.Properties;
 
 public partial class AvaloniaPropertyViewModel : PropertyViewModel
 {
-    private readonly PropertyEditor _editor;
+    private readonly IPropertyEditorContext _editor;
     private readonly AvaloniaProperty _property;
     
-    public AvaloniaPropertyViewModel(PropertyEditor editor, AvaloniaProperty property)
+    public AvaloniaPropertyViewModel(IPropertyEditorContext editor, AvaloniaProperty property)
     {
         _editor = editor;
         _property = property;
@@ -37,7 +38,10 @@ public partial class AvaloniaPropertyViewModel : PropertyViewModel
                     {
                         try
                         {
-                            _editor.Current?.SetValue(_property, Value);
+                            if (_editor.Current is AvaloniaObject avaloniaObject)
+                            {
+                                avaloniaObject.SetValue(_property, Value);
+                            }
 
                             // TODO: IsDirty, DefaultValue
                         }
@@ -52,7 +56,10 @@ public partial class AvaloniaPropertyViewModel : PropertyViewModel
                         {
                             if (TypeUtilities.TryConvert(_property.PropertyType, Value, CultureInfo.InvariantCulture, out var result))
                             {
-                                _editor.Current?.SetValue(_property, result);
+                                if (_editor.Current is AvaloniaObject avaloniaObject)
+                                {
+                                    avaloniaObject.SetValue(_property, result);
+                                }
 
                                 // TODO: IsDirty, DefaultValue
                             }
