@@ -225,7 +225,7 @@ public class ToolboxCanvasEditor
         var snapToGrid = DragSettings.GetSnapToGrid(snapObject) && _dropArea is { };
         var snapX = DragSettings.GetSnapX(snapObject);
         var snapY = DragSettings.GetSnapY(snapObject);
-        var snappedPoint = Snap.SnapPoint(point, snapX, snapY, snapToGrid);
+        var snappedPoint = SnapHelper.SnapPoint(point, snapX, snapY, snapToGrid);
 
         if (_dropArea is { } && isPreview)
         {

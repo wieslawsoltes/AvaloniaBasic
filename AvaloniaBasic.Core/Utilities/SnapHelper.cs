@@ -2,7 +2,7 @@ using Avalonia;
 
 namespace AvaloniaBasic.Utilities;
 
-public static class Snap
+public static class SnapHelper
 {
     public static double SnapValue(double value, double snap)
     {

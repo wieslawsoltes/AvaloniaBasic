@@ -125,7 +125,7 @@ public class PreviewCanvasEditor
         var snapToGrid = DragSettings.GetSnapToGrid(snapObject);
         var snapX = DragSettings.GetSnapX(snapObject);
         var snapY = DragSettings.GetSnapY(snapObject);
-        var snappedPoint = Snap.SnapPoint(point, snapX, snapY, snapToGrid);
+        var snappedPoint = SnapHelper.SnapPoint(point, snapX, snapY, snapToGrid);
 
         return snappedPoint;
     }
