@@ -227,7 +227,7 @@ public class ToolboxCanvasEditor
         var snapY = DragSettings.GetSnapY(snapObject);
         var snappedPoint = SnapHelper.SnapPoint(point, snapX, snapY, snapToGrid);
 
-        if (_dropArea is { } && isPreview)
+        if (_dropArea is { } && isPreview && PreviewCanvas is { })
         {
             var translatePoint = _dropArea.TranslatePoint(snappedPoint, PreviewCanvas);
             if (translatePoint is { })
