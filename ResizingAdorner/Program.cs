@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace ResizingAdorner.Desktop;
+namespace ResizingAdorner;
 
 class Program
 {

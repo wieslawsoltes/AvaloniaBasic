@@ -22,10 +22,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaBasic.Model", "Aval
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResizingAdorner", "ResizingAdorner\ResizingAdorner.csproj", "{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResizingAdorner.Desktop", "ResizingAdorner.Desktop\ResizingAdorner.Desktop.csproj", "{FF8468A4-6938-4ED6-B68B-82338ADAB3C3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResizingAdorner.Web", "ResizingAdorner.Web\ResizingAdorner.Web.csproj", "{41994767-BF47-4BE4-AF9A-2EE7813E56FB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,13 +52,5 @@ Global
 		{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF8468A4-6938-4ED6-B68B-82338ADAB3C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF8468A4-6938-4ED6-B68B-82338ADAB3C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF8468A4-6938-4ED6-B68B-82338ADAB3C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF8468A4-6938-4ED6-B68B-82338ADAB3C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41994767-BF47-4BE4-AF9A-2EE7813E56FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41994767-BF47-4BE4-AF9A-2EE7813E56FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41994767-BF47-4BE4-AF9A-2EE7813E56FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41994767-BF47-4BE4-AF9A-2EE7813E56FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
