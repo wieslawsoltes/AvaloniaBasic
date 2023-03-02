@@ -2,8 +2,7 @@
 
 namespace AvaloniaBasic.ViewModels.Settings;
 
-[ObservableObject]
-public partial class DragSettingsViewModel
+public partial class DragSettingsViewModel : ObservableObject
 {
     [ObservableProperty] private double _minimumDragDelta;
     [ObservableProperty] private bool _snapToGrid;

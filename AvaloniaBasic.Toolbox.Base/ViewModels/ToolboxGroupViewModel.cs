@@ -14,7 +14,7 @@ public partial class ToolboxGroupViewModel : ToolboxItemViewModel, IToolboxGroup
         IsExpanded = true;
     }
 
-    public override bool HasChildren => _items?.Count > 0;
+    public override bool HasChildren => Items?.Count > 0;
 
-    public override IEnumerable<IToolboxItem>? GetChildren() => _items;
+    public override IEnumerable<IToolboxItem>? GetChildren() => Items;
 }

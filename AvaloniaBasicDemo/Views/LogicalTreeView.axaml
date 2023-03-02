@@ -6,7 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaBasicDemo.Views.LogicalTreeView"
              x:DataType="vm:MainViewModel" x:CompileBindings="True">
-  <TreeDataGrid Source="{Binding LogicalTreeSource}" 
+  <TreeDataGrid Source="{Binding LogicalSource}" 
                 DataContext="{Binding Tree}"
                 ShowColumnHeaders="False">
   </TreeDataGrid>

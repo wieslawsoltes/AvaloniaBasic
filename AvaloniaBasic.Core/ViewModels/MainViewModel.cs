@@ -106,7 +106,7 @@ public partial class MainViewModel : ViewModelBase
                     using var reader = new StreamReader(stream);
                     var xaml = await reader.ReadToEndAsync();
 
-                    _xaml.Text = xaml;
+                    Xaml.Text = xaml;
 
                     await Run(xaml);
                 }
@@ -146,7 +146,7 @@ public partial class MainViewModel : ViewModelBase
                         _openFile = file;
                         await using var stream = await _openFile.OpenWriteAsync();
                         await using var writer = new StreamWriter(stream);
-                        await writer.WriteAsync(_xaml.Text);
+                        await writer.WriteAsync(Xaml.Text);
                     }
                     catch (Exception exception)
                     {
@@ -159,7 +159,7 @@ public partial class MainViewModel : ViewModelBase
         {
             await using var stream = await _openFile.OpenWriteAsync();
             await using var writer = new StreamWriter(stream);
-            await writer.WriteAsync(_xaml.Text);
+            await writer.WriteAsync(Xaml.Text);
         }
     }
 }

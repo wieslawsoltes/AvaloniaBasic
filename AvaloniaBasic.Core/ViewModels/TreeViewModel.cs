@@ -24,27 +24,27 @@ public partial class TreeViewModel : ViewModelBase
     private readonly Dictionary<Type, TypePropertiesCache> _typePropertiesCache = new();
     private readonly Dictionary<IAvaloniaObject, ObservableCollection<IProperty>> _propertiesCache = new();
     private readonly IPropertyEditorContext _editor = new PropertyEditorContextViewModel();
-    [ObservableProperty] private ObservableCollection<LogicalViewModel> _logicalTree;
+    [ObservableProperty] private ObservableCollection<LogicalViewModel> _logical;
     [ObservableProperty] private ObservableCollection<IProperty> _properties;
     [ObservableProperty] private LogicalViewModel? _selectedLogical;
 
     public TreeViewModel(IPropertyEditorFactory propertyEditorFactory)
     {
         _propertyEditorFactory = propertyEditorFactory;
-        _logicalTree = new ObservableCollection<LogicalViewModel>();
+        _logical = new ObservableCollection<LogicalViewModel>();
         _properties = new ObservableCollection<IProperty>();
 
-        LogicalTreeSource = CreateLogicalTreeSource();
+        LogicalSource = CreateLogicalTreeSource();
         PropertiesSource = CreatePropertiesSource();
     }
 
-    public HierarchicalTreeDataGridSource<LogicalViewModel> LogicalTreeSource { get; }
+    public HierarchicalTreeDataGridSource<LogicalViewModel> LogicalSource { get; }
 
     public HierarchicalTreeDataGridSource<IProperty> PropertiesSource { get; }
 
     private HierarchicalTreeDataGridSource<LogicalViewModel> CreateLogicalTreeSource()
     {
-        var logicalTreeSource = new HierarchicalTreeDataGridSource<LogicalViewModel>(_logicalTree)
+        var logicalTreeSource = new HierarchicalTreeDataGridSource<LogicalViewModel>(Logical)
         {
             Columns =
             {
@@ -84,7 +84,7 @@ public partial class TreeViewModel : ViewModelBase
 
     private HierarchicalTreeDataGridSource<IProperty> CreatePropertiesSource()
     {
-        var propertiesSource = new HierarchicalTreeDataGridSource<IProperty>(_properties)
+        var propertiesSource = new HierarchicalTreeDataGridSource<IProperty>(Properties)
         {
             Columns =
             {
@@ -165,11 +165,11 @@ public partial class TreeViewModel : ViewModelBase
 
         if (_propertiesCache.TryGetValue(logical, out var cachedProperties))
         {
-            _properties.Clear();
+            Properties.Clear();
 
             foreach (var property in cachedProperties)
             {
-                _properties.Add(property);
+                Properties.Add(property);
             }
 
             _editor.IsUpdating = false;
@@ -294,11 +294,11 @@ public partial class TreeViewModel : ViewModelBase
 
         _propertiesCache[logical] = properties;
 
-        _properties.Clear();
+        Properties.Clear();
 
         foreach (var property in properties)
         {
-            _properties.Add(property);
+            Properties.Add(property);
         }
 
         _editor.IsUpdating = false;
@@ -328,9 +328,9 @@ public partial class TreeViewModel : ViewModelBase
         Dispatcher.UIThread.Post(
             () =>
             {
-                _logicalTree.Clear();
+                Logical.Clear();
 
-                AddToLogicalTree(root, _logicalTree);
+                AddToLogicalTree(root, Logical);
             }, 
             DispatcherPriority.Layout);
     }

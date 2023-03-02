@@ -10,9 +10,9 @@ public partial class GroupPropertyViewModel : PropertyViewModel
 {
     [ObservableProperty] private ObservableCollection<IProperty>? _children;
 
-    public override bool HasChildren => _children?.Count > 0;
+    public override bool HasChildren => Children?.Count > 0;
 
-    public override IEnumerable<IProperty>? GetChildren() => _children;
+    public override IEnumerable<IProperty>? GetChildren() => Children;
 
     public override Type GetValueType()
     {

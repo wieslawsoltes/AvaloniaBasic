@@ -28,7 +28,7 @@ public partial class ToolboxViewModel : ViewModelBase
 
     private HierarchicalTreeDataGridSource<IToolboxItem> CreateToolboxSource()
     {
-        var toolboxSource = new HierarchicalTreeDataGridSource<IToolboxItem>(_toolboxes)
+        var toolboxSource = new HierarchicalTreeDataGridSource<IToolboxItem>(Toolboxes)
         {
             Columns =
             {

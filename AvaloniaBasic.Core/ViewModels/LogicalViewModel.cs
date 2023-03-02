@@ -13,7 +13,7 @@ public partial class LogicalViewModel : ViewModelBase, ITreeItem<LogicalViewMode
     [ObservableProperty] private ILogical? _logical;
     [ObservableProperty] private ObservableCollection<LogicalViewModel>? _children;
 
-    public bool HasChildren => _children?.Count > 0;
+    public bool HasChildren => Children?.Count > 0;
 
-    public IEnumerable<LogicalViewModel>? GetChildren() => _children;
+    public IEnumerable<LogicalViewModel>? GetChildren() => Children;
 }
