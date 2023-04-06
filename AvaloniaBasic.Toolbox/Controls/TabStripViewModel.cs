@@ -15,7 +15,7 @@ public class TabStripViewModel : ToolboxControlViewModel
     public override Control CreatePreview()
     {
         var tabStrip = new TabStrip();
-        tabStrip.Items = new[] { "Item 1", "Item 2", "Item 3" };
+        tabStrip.ItemsSource = new[] { "Item 1", "Item 2", "Item 3" };
         tabStrip.SelectedIndex = 0;
         tabStrip.Foreground = Brushes.Black;
         return tabStrip;
@@ -24,7 +24,7 @@ public class TabStripViewModel : ToolboxControlViewModel
     public override Control CreateControl()
     {
         var tabStrip = new TabStrip();
-        tabStrip.Items = new[] { "Item 1", "Item 2", "Item 3" };
+        tabStrip.ItemsSource = new[] { "Item 1", "Item 2", "Item 3" };
         tabStrip.SelectedIndex = 0;
         //tabStrip.Foreground = Brushes.Blue;
         return tabStrip;

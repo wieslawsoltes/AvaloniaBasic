@@ -29,7 +29,7 @@ public class PreviewCanvasEditor
         }
 
         var root = AssociatedObject.GetVisualRoot();
-        var point = e.GetPosition(root);
+        var point = e.GetPosition(root as Visual);
         var dragArea = ControlEditor.FindDragArea(AssociatedObject, point);
         if (dragArea is null)
         {

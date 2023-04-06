@@ -14,7 +14,7 @@ public class ComboBoxViewModel : ToolboxControlViewModel
     public override Control CreatePreview()
     {
         var comboBox = new ComboBox();
-        comboBox.Items = new[] { "Item 1", "Item 2", "Item 3" };
+        comboBox.ItemsSource = new[] { "Item 1", "Item 2", "Item 3" };
         comboBox.SelectedIndex = 0;
         comboBox.Foreground = Brushes.Black;
         return comboBox;
@@ -23,7 +23,7 @@ public class ComboBoxViewModel : ToolboxControlViewModel
     public override Control CreateControl()
     {
         var comboBox = new ComboBox();
-        comboBox.Items = new[] { "Item 1", "Item 2", "Item 3" };
+        comboBox.ItemsSource = new[] { "Item 1", "Item 2", "Item 3" };
         comboBox.SelectedIndex = 0;
         //comboBox.Foreground = Brushes.Blue;
         return comboBox;

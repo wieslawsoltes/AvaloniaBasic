@@ -15,6 +15,7 @@
   </Style>
 
   <Style Selector="Canvas.resizing > :is(Control)">
+    <Setter Property="(AdornerLayer.IsClipEnabled)" Value="False" />
     <Setter Property="(AdornerLayer.Adorner)">
       <Template>
         <c:ResizingAdornerPresenter AdornedControl="{Binding $parent[Control]}"
@@ -35,6 +36,7 @@
   </Style>
 
   <Style Selector="Grid.resizing > :is(Control):not(c|GridAdorner)">
+    <Setter Property="(AdornerLayer.IsClipEnabled)" Value="False" />
     <Setter Property="(AdornerLayer.Adorner)">
       <Template>
         <c:ResizingAdornerPresenter AdornedControl="{Binding $parent[Control]}"
@@ -55,6 +57,7 @@
   </Style>
 
   <Style Selector="DockPanel.resizing > :is(Control)">
+    <Setter Property="(AdornerLayer.IsClipEnabled)" Value="False" />
     <Setter Property="(AdornerLayer.Adorner)">
       <Template>
         <c:ResizingAdornerPresenter AdornedControl="{Binding $parent[Control]}"
@@ -75,6 +78,7 @@
   </Style>
 
   <Style Selector="StackPanel.resizing > :is(Control)">
+    <Setter Property="(AdornerLayer.IsClipEnabled)" Value="False" />
     <Setter Property="(AdornerLayer.Adorner)">
       <Template>
         <c:ResizingAdornerPresenter AdornedControl="{Binding $parent[Control]}"
@@ -95,6 +99,7 @@
   </Style>
 
   <Style Selector="WrapPanel.resizing > :is(Control)">
+    <Setter Property="(AdornerLayer.IsClipEnabled)" Value="False" />
     <Setter Property="(AdornerLayer.Adorner)">
       <Template>
         <c:ResizingAdornerPresenter AdornedControl="{Binding $parent[Control]}"

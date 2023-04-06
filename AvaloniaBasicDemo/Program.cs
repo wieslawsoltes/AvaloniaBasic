@@ -14,21 +14,15 @@ class Program
             .UsePlatformDetect()
             .With(new Win32PlatformOptions
             {
-                UseCompositor = false,
-                UseDeferredRendering = true,
                 AllowEglInitialization = true,
                 UseWindowsUIComposition = true
             })
             .With(new X11PlatformOptions
             {
-                UseCompositor = false,
-                UseDeferredRendering = true,
                 UseGpu = true
             })
             .With(new AvaloniaNativePlatformOptions
             {
-                UseCompositor = false,
-                UseDeferredRendering = true,
                 UseGpu = true
             })
             .LogToTrace();

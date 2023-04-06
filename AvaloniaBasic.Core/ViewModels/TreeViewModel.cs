@@ -22,7 +22,7 @@ public partial class TreeViewModel : ViewModelBase
 {
     private readonly IPropertyEditorFactory _propertyEditorFactory;
     private readonly Dictionary<Type, TypePropertiesCache> _typePropertiesCache = new();
-    private readonly Dictionary<IAvaloniaObject, ObservableCollection<IProperty>> _propertiesCache = new();
+    private readonly Dictionary<AvaloniaObject, ObservableCollection<IProperty>> _propertiesCache = new();
     private readonly IPropertyEditorContext _editor = new PropertyEditorContextViewModel();
     [ObservableProperty] private ObservableCollection<LogicalViewModel> _logical;
     [ObservableProperty] private ObservableCollection<IProperty> _properties;

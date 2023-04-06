@@ -17,7 +17,6 @@
     <PackageReference Include="AvaloniaEdit.TextMate.Grammars" Version="$(AvaloniaEditTextMateGrammarsVersion)" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="$(CommunityToolkitMvvmVersion)" />
     <PackageReference Include="ReactiveMarbles.PropertyChanged" Version="$(ReactiveMarblesPropertyChangedVersion)" />
-    <PackageReference Include="XamlNameReferenceGenerator" Version="$(XamlNameReferenceGeneratorVersion)" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AvaloniaBasic.Model\AvaloniaBasic.Model.csproj" />
