@@ -26,7 +26,7 @@ internal static class ControlEditor
             return null;
         }
 
-#if true
+#if false
          var visuals = canvas
              .GetVisualDescendants()
              .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
@@ -56,13 +56,13 @@ internal static class ControlEditor
             return null;
         }
 
-#if true
-        var visuals = root
+#if false
+        var visuals = (root as Visual)
             .GetVisualDescendants()
             .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
             .Reverse();
 #else
-        var visuals = root.Renderer.HitTest(point, root, x => true);
+        var visuals = root.Renderer.HitTest(point, (root as Visual)!, x => true);
 #endif
 
         var dropAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDropArea).ToList();
@@ -85,14 +85,14 @@ internal static class ControlEditor
             Canvas.SetTop(control, point.Y);
         }
 
-        if (target is IPanel and not Canvas)
+        if (target is Panel and not Canvas)
         {
             // TODO: control.Margin = new Thickness(point.X, point.Y, 0d, 0d);
         }
 
         // TODO: Use ContentAttribute to set content if applicable.
 
-        if (target is IPanel panel)
+        if (target is Panel panel)
         {
             panel.Children.Add(control);
         }

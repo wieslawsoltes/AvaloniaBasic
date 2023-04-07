@@ -11,7 +11,6 @@ using Avalonia.Platform.Storage;
 using AvaloniaBasic.Services;
 using AvaloniaBasic.Services.PropertyEditors;
 using AvaloniaBasic.ViewModels.Settings;
-using AvaloniaEdit.Document;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -25,7 +24,7 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty] private GridSettingsViewModel _gridSettings;
     [ObservableProperty] private Canvas? _previewCanvas;
     [ObservableProperty] private Canvas? _dropAreaCanvas;
-    [ObservableProperty] private TextDocument _xaml;
+    [ObservableProperty] private string _xaml;
     private IStorageFile? _openFile;
 
     public MainViewModel()
@@ -45,8 +44,15 @@ public partial class MainViewModel : ViewModelBase
         _dragSettings = new DragSettingsViewModel();
         _gridSettings = new GridSettingsViewModel();
 
-        _xaml = new TextDocument { Text = "" };
-        _xaml.TextChanged += async (_, _) => await Run(_xaml.Text);
+        _xaml = "";
+
+        PropertyChanged += async (_, args) =>
+        {
+            if (args.PropertyName == nameof(Xaml))
+            {
+                await Run(Xaml);
+            }
+        };
 
         OpenFileCommand = new AsyncRelayCommand(async () => await OpenFile());
 
@@ -59,7 +65,7 @@ public partial class MainViewModel : ViewModelBase
 
     private async Task Run(string xaml)
     {
-        var control = AvaloniaRuntimeXamlLoader.Parse<IControl?>(xaml);
+        var control = AvaloniaRuntimeXamlLoader.Parse<Control?>(xaml);
         if (control is { })
         {
             // TODO:
@@ -96,24 +102,21 @@ public partial class MainViewModel : ViewModelBase
         var file = result.FirstOrDefault();
         if (file is not null)
         {
-            if (file.CanOpenRead)
+            try
             {
-                try
-                {
-                    _openFile = file;
+                _openFile = file;
 
-                    await using var stream = await _openFile.OpenReadAsync();
-                    using var reader = new StreamReader(stream);
-                    var xaml = await reader.ReadToEndAsync();
+                await using var stream = await _openFile.OpenReadAsync();
+                using var reader = new StreamReader(stream);
+                var xaml = await reader.ReadToEndAsync();
 
-                    Xaml.Text = xaml;
+                Xaml = xaml;
 
-                    await Run(xaml);
-                }
-                catch (Exception exception)
-                {
-                    Debug.WriteLine(exception);
-                }
+                await Run(xaml);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
             }
         }
     }
@@ -139,27 +142,24 @@ public partial class MainViewModel : ViewModelBase
 
             if (file is not null)
             {
-                if (file.CanOpenWrite)
+                try
                 {
-                    try
-                    {
-                        _openFile = file;
-                        await using var stream = await _openFile.OpenWriteAsync();
-                        await using var writer = new StreamWriter(stream);
-                        await writer.WriteAsync(Xaml.Text);
-                    }
-                    catch (Exception exception)
-                    {
-                        Console.WriteLine(exception);
-                    }
+                    _openFile = file;
+                    await using var stream = await _openFile.OpenWriteAsync();
+                    await using var writer = new StreamWriter(stream);
+                    await writer.WriteAsync(Xaml);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
                 }
             }
         }
-        else if (_openFile.CanOpenWrite)
+        else
         {
             await using var stream = await _openFile.OpenWriteAsync();
             await using var writer = new StreamWriter(stream);
-            await writer.WriteAsync(Xaml.Text);
+            await writer.WriteAsync(Xaml);
         }
     }
 }

@@ -14,7 +14,7 @@ public class TabControlViewModel : ToolboxControlViewModel
     public override Control CreatePreview()
     {
         var tabControl = new TabControl();
-        tabControl.Items = new[] { "Item 1", "Item 2", "Item 3" };
+        tabControl.ItemsSource = new[] { "Item 1", "Item 2", "Item 3" };
         tabControl.SelectedIndex = 0;
         tabControl.Foreground = Brushes.Black;
         return tabControl;
@@ -23,7 +23,7 @@ public class TabControlViewModel : ToolboxControlViewModel
     public override Control CreateControl()
     {
         var tabControl = new TabControl();
-        tabControl.Items = new[] { "Item 1", "Item 2", "Item 3" };
+        tabControl.ItemsSource = new[] { "Item 1", "Item 2", "Item 3" };
         tabControl.SelectedIndex = 0;
         //tabControl.Foreground = Brushes.Blue;
         return tabControl;
