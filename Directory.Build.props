@@ -2,8 +2,6 @@
   <PropertyGroup>
     <AvaloniaVersion>11.0.0-preview6</AvaloniaVersion>
     <AvaloniaXamlBehaviorsVersion>11.0.0-preview6</AvaloniaXamlBehaviorsVersion>
-    <AvaloniaEditVersion>11.0.0-preview6</AvaloniaEditVersion>
-    <AvaloniaEditTextMateGrammarsVersion>0.10.12</AvaloniaEditTextMateGrammarsVersion>
     <AvaloniaControlsTreeDataGridVersion>11.0.0-preview6</AvaloniaControlsTreeDataGridVersion>
     <CommunityToolkitMvvmVersion>8.1.0</CommunityToolkitMvvmVersion>
     <ReactiveMarblesPropertyChangedVersion>2.0.27</ReactiveMarblesPropertyChangedVersion>

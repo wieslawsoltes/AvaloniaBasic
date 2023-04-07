@@ -24,7 +24,7 @@ public class EnumPropertyEditor : IPropertyEditor
 
         return new ComboBox
         {
-            Items = values,
+            ItemsSource = values,
             [!!SelectingItemsControl.SelectedItemProperty] = new Binding("Value"),
             HorizontalAlignment = HorizontalAlignment.Stretch,
             VerticalAlignment = VerticalAlignment.Center,

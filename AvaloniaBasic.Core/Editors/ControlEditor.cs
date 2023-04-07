@@ -62,7 +62,7 @@ internal static class ControlEditor
             .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
             .Reverse();
 #else
-        var visuals = root.Renderer.HitTest(point, root as Visual, x => true);
+        var visuals = root.Renderer.HitTest(point, (root as Visual)!, x => true);
 #endif
 
         var dropAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDropArea).ToList();
