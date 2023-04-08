@@ -183,15 +183,38 @@ public partial class TreeViewModel : ObservableObject
             _typePropertiesCache[type] = typeProperties;
         }
 
-        // Properties
+        var avaloniaProps = CreateAvaloniaProperties(logical, typeProperties);
+        var avaloniaAttachedProps = CreateAttachedProperties(logical, typeProperties);
+        var clrProps = CreateClrProperties(logical, typeProperties);
 
-        var avaloniaProps = new GroupPropertyViewModel()
+        var properties = new ObservableCollection<IProperty>
+        {
+            avaloniaProps, 
+            avaloniaAttachedProps, 
+            clrProps
+        };
+
+        _propertiesCache[logical] = properties;
+
+        Properties.Clear();
+
+        foreach (var property in properties)
+        {
+            Properties.Add(property);
+        }
+
+        _editor.IsUpdating = false;
+    }
+
+    private GroupPropertyViewModel CreateAvaloniaProperties(AvaloniaObject logical, TypePropertiesCache typePropertiesCache)
+    {
+        var avaloniaProps = new GroupPropertyViewModel
         {
             Name = "Properties",
             Children = new ObservableCollection<IProperty>()
         };
 
-        foreach (var avaloniaProperty in typeProperties.Properties)
+        foreach (var avaloniaProperty in typePropertiesCache.Properties)
         {
             var value = logical.GetValue(avaloniaProperty);
             var defaultValue = default(object);
@@ -217,15 +240,18 @@ public partial class TreeViewModel : ObservableObject
             avaloniaProps.Children.Add(property);
         }
 
-        // Attached Properties
+        return avaloniaProps;
+    }
 
-        var avaloniaAttachedProps = new GroupPropertyViewModel()
+    private GroupPropertyViewModel CreateAttachedProperties(AvaloniaObject logical, TypePropertiesCache typePropertiesCache)
+    {
+        var avaloniaAttachedProps = new GroupPropertyViewModel
         {
             Name = "Attached Properties",
             Children = new ObservableCollection<IProperty>()
         };
 
-        foreach (var avaloniaAttachedProperty in typeProperties.AttachedProperties)
+        foreach (var avaloniaAttachedProperty in typePropertiesCache.AttachedProperties)
         {
             var value = logical.GetValue(avaloniaAttachedProperty);
             var defaultValue = default(object);
@@ -249,17 +275,20 @@ public partial class TreeViewModel : ObservableObject
             // TODO: IsDirty
 
             avaloniaAttachedProps.Children.Add(property);
-        } 
+        }
 
-        // CLR Properties
+        return avaloniaAttachedProps;
+    }
 
-        var clrProps = new GroupPropertyViewModel()
+    private GroupPropertyViewModel CreateClrProperties(AvaloniaObject logical, TypePropertiesCache typePropertiesCache)
+    {
+        var clrProps = new GroupPropertyViewModel
         {
             Name = "CLR Properties",
             Children = new ObservableCollection<IProperty>()
         };
 
-        foreach (var clrProperty in typeProperties.ClrProperties)
+        foreach (var clrProperty in typePropertiesCache.ClrProperties)
         {
             try
             {
@@ -283,25 +312,7 @@ public partial class TreeViewModel : ObservableObject
             }
         }
 
-        // Property Groups
-
-        var properties = new ObservableCollection<IProperty>
-        {
-            avaloniaProps, 
-            avaloniaAttachedProps, 
-            clrProps
-        };
-
-        _propertiesCache[logical] = properties;
-
-        Properties.Clear();
-
-        foreach (var property in properties)
-        {
-            Properties.Add(property);
-        }
-
-        _editor.IsUpdating = false;
+        return clrProps;
     }
 
     private void AddToLogicalTree(ILogical root, ObservableCollection<LogicalViewModel> tree)
