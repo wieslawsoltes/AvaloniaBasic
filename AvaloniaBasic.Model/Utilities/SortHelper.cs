@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AvaloniaBasic.Utilities;
 
-internal static class SortHelper
+public static class SortHelper
 {
     public static Comparison<TU?> SortAscending<T, TU>(Func<TU, T> selector)
     {

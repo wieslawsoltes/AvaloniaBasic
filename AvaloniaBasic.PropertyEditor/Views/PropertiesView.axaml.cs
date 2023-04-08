@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace AvaloniaBasicDemo.Views;
+namespace AvaloniaBasic.Views;
 
 public partial class PropertiesView : UserControl
 {

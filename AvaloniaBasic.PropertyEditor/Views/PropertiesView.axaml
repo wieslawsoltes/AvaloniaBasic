@@ -2,12 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="clr-namespace:AvaloniaBasic.ViewModels;assembly=AvaloniaBasic.Core"
+             xmlns:vm="clr-namespace:AvaloniaBasic.ViewModels;assembly=AvaloniaBasic.PropertyEditor"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="AvaloniaBasicDemo.Views.PropertiesView"
-             x:DataType="vm:MainViewModel" x:CompileBindings="True">
+             x:Class="AvaloniaBasic.Views.PropertiesView"
+             x:DataType="vm:TreeViewModel" x:CompileBindings="True">
   <TreeDataGrid Source="{Binding PropertiesSource}" 
-                DataContext="{Binding Tree}"
                 ShowColumnHeaders="True">
     <TreeDataGrid.Styles>
       <Style Selector="TreeDataGridRow">

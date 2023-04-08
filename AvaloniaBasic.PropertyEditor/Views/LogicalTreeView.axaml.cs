@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
 
-namespace AvaloniaBasicDemo.Views;
+namespace AvaloniaBasic.Views;
 
 public partial class LogicalTreeView : UserControl
 {

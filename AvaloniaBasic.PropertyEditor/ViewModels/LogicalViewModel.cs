@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AvaloniaBasic.ViewModels;
 
-public partial class LogicalViewModel : ViewModelBase, ITreeItem<LogicalViewModel>
+public partial class LogicalViewModel : ObservableObject, ITreeItem<LogicalViewModel>
 {
     [ObservableProperty] private string? _name;
     [ObservableProperty] private bool _isExpanded;

@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:AvaloniaBasic.ViewModels;assembly=AvaloniaBasic.Core"
              xmlns:behaviors="clr-namespace:AvaloniaBasic.Behaviors;assembly=AvaloniaBasic.Core"
              xmlns:views="clr-namespace:AvaloniaBasicDemo.Views"
+             xmlns:propertyEditor="clr-namespace:AvaloniaBasic.Views;assembly=AvaloniaBasic.PropertyEditor"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaBasicDemo.Views.MainView"
              x:DataType="vm:MainViewModel" x:CompileBindings="True">
@@ -18,8 +19,8 @@
     <Grid ColumnDefinitions="250,*,400">
       <views:ToolboxView Grid.Column="0" />
       <Grid RowDefinitions="*,*" Grid.Column="2">
-        <views:LogicalTreeView Grid.Row="0" />
-        <views:PropertiesView Grid.Row="1" />
+        <propertyEditor:LogicalTreeView DataContext="{Binding Tree}" Grid.Row="0" />
+        <propertyEditor:PropertiesView DataContext="{Binding Tree}" Grid.Row="1" />
       </Grid>
       <views:EditorCanvasView Grid.Column="1" />
     </Grid>
