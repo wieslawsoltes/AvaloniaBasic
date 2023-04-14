@@ -8,7 +8,8 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ResizingAdorner.Views.ToolboxView">
 
-  <ListBox Name="ControlTypes">
+  <ListBox Name="ControlTypes"
+           Background="Transparent">
     <ListBox.ItemTemplate>
       <DataTemplate DataType="system:Type">
         <TextBlock Text="{Binding Name}" ToolTip.Tip="{Binding FullName}" />
