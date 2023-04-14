@@ -22,7 +22,14 @@
 
     <GridSplitter Grid.Column="1" />
 
-    <TabControl Grid.Column="2" Padding="12,0,12,12">
+    <Border BoxShadow="4 11 30 1 #3F000000"
+            Background="White" 
+            Width="800"
+            Height="600"
+            ZIndex="-1"
+            Grid.Column="2">
+
+    <TabControl Padding="12,0,12,12">
 
       <!-- DockPanel -->
 
@@ -146,6 +153,8 @@
       </TabItem>
 
     </TabControl>
+
+    </Border>
 
   </Grid>
 
