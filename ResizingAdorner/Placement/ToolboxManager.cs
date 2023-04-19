@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 using ResizingAdorner.Model;
 using ResizingAdorner.Utilities;
 
@@ -71,8 +72,13 @@ public class ToolboxManager : IToolboxManager
 
         if (_isDragging && _dragListBoxItem is {DataContext: Type type})
         {
-            var p = e.GetPosition(_listBox);
-            var inputElement = _listBox.InputHitTest(p);
+            var topLevel = _listBox.GetVisualRoot() as TopLevel;
+            if (topLevel is null)
+            {
+                return;
+            }
+            var p = e.GetPosition(topLevel);
+            var inputElement = topLevel.InputHitTest(p);
             if (inputElement is Control control)
             {
                 var point = e.GetPosition(control);
@@ -111,7 +117,9 @@ public class ToolboxManager : IToolboxManager
             {
                 // TODO: Move preview
 
-                var inputElement = _listBox.InputHitTest(e.GetPosition(_listBox));
+                var topLevel = _listBox.GetVisualRoot() as TopLevel;
+                var p = e.GetPosition(topLevel);
+                var inputElement = topLevel.InputHitTest(p);
                 if (inputElement is { })
                 {
                     // TODO: Drop preview
