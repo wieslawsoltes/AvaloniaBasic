@@ -5,7 +5,7 @@
              Name="ResizingAdorner">
   <Application.Styles>
     <FluentTheme />
-    <StyleInclude Source="/Controls/ResizingAdornerPresenter.axaml" />
-    <StyleInclude Source="/Styles/Resizing.axaml" />
+    <StyleInclude Source="/Designer/Controls/ResizingAdornerPresenter.axaml" />
+    <StyleInclude Source="/Designer/Styles/Resizing.axaml" />
   </Application.Styles>
 </Application>
