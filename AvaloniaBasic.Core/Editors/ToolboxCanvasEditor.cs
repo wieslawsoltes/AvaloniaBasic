@@ -94,7 +94,7 @@ public class ToolboxCanvasEditor
                 if (_dropArea is { })
                 {
                     point = e.GetPosition(_dropArea);
-                    Debug.WriteLine($"_dropArea={_dropArea}");
+                    // Debug.WriteLine($"_dropArea={_dropArea}");
                 }
 
                 AddPreview(point);
@@ -112,7 +112,7 @@ public class ToolboxCanvasEditor
             if (_dropArea is { })
             {
                 point = e.GetPosition(_dropArea);
-                Debug.WriteLine($"_dropArea={_dropArea}");
+                // Debug.WriteLine($"_dropArea={_dropArea}");
             }
 
             MovePreview(point);
