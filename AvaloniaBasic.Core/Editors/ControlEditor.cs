@@ -37,9 +37,11 @@ internal static class ControlEditor
             .Reverse();
 #endif
 
+        // Debug.WriteLine($"visuals:"); foreach (var x in visuals) Debug.WriteLine($"  {x}");
+
         var dragAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDragArea).ToList();
 
-        Debug.WriteLine($"dragAreas:"); foreach (var x in dragAreas) Debug.WriteLine($"  {x}");
+        // Debug.WriteLine($"dragAreas:"); foreach (var x in dragAreas) Debug.WriteLine($"  {x}");
 
         var dragArea = dragAreas.FirstOrDefault();
         return dragArea;
@@ -68,6 +70,8 @@ internal static class ControlEditor
             .HitTest(point, (root as Visual)!, x => true)
             .Reverse();
 #endif
+
+        // Debug.WriteLine($"visuals:"); foreach (var x in visuals) Debug.WriteLine($"  {x}");
 
         var dropAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDropArea).ToList();
 
