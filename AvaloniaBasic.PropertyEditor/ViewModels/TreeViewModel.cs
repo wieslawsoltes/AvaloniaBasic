@@ -58,7 +58,7 @@ public partial class TreeViewModel : ObservableObject
                                 [!ContentControl.ContentProperty] = new Binding("Name")
                             };
                         }, true),
-                        options: new ColumnOptions<LogicalViewModel>
+                        options: new TemplateColumnOptions<LogicalViewModel>
                         {
                             CanUserResizeColumn = false,
                             CanUserSortColumn = false,
@@ -100,7 +100,7 @@ public partial class TreeViewModel : ObservableObject
                                 HorizontalContentAlignment = HorizontalAlignment.Left
                             };
                         }, true),
-                        options: new ColumnOptions<IProperty>
+                        options: new TemplateColumnOptions<IProperty>
                         {
                             CanUserResizeColumn = true,
                             CanUserSortColumn = true,
@@ -114,7 +114,7 @@ public partial class TreeViewModel : ObservableObject
                 new TemplateColumn<IProperty>(
                     "Value",
                     new FuncDataTemplate<IProperty>((p, _) => CreatePropertyEditor(p)),
-                    options: new ColumnOptions<IProperty>
+                    options: new TemplateColumnOptions<IProperty>
                     {
                         CanUserResizeColumn = true,
                         CanUserSortColumn = false

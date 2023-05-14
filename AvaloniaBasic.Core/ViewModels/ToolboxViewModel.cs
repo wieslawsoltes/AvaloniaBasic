@@ -42,7 +42,7 @@ public partial class ToolboxViewModel : ViewModelBase
                                 [!ContentControl.ContentProperty] = new Binding("Name")
                             };
                         }, true),
-                        options: new ColumnOptions<IToolboxItem>
+                        options: new TemplateColumnOptions<IToolboxItem>
                         {
                             CanUserResizeColumn = false,
                             CanUserSortColumn = true,

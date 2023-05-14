@@ -32,7 +32,9 @@ internal static class ControlEditor
              .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
              .Reverse();
 #else
-        var visuals = root.Renderer.HitTest(point, canvas, x => true);
+        var visuals = root.Renderer
+            .HitTest(point, canvas, x => true)
+            .Reverse();
 #endif
 
         var dragAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDragArea).ToList();
@@ -62,7 +64,9 @@ internal static class ControlEditor
             .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
             .Reverse();
 #else
-        var visuals = root.Renderer.HitTest(point, (root as Visual)!, x => true);
+        var visuals = root.Renderer
+            .HitTest(point, (root as Visual)!, x => true)
+            .Reverse();
 #endif
 
         var dropAreas = visuals.OfType<Control>().Where(DragSettings.GetIsDropArea).ToList();
@@ -106,7 +110,7 @@ internal static class ControlEditor
         }
         else if (target is ItemsControl itemsControl)
         {
-            if (itemsControl.Items is AvaloniaList<object> items)
+            if (itemsControl.ItemsSource is AvaloniaList<object> items)
             {
                 items.Add(control);
             }

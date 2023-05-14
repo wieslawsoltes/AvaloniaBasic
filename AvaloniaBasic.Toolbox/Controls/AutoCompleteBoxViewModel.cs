@@ -14,7 +14,7 @@ public class AutoCompleteBoxViewModel : ToolboxControlViewModel
     public override Control CreatePreview()
     {
         var autoCompleteBox = new AutoCompleteBox();
-        autoCompleteBox.Items = new[] { "Item 1", "Item 2", "Item 3" };
+        autoCompleteBox.ItemsSource = new[] { "Item 1", "Item 2", "Item 3" };
         autoCompleteBox.SelectedItem = "Item 1";
         autoCompleteBox.Foreground = Brushes.Black;
         return autoCompleteBox;
@@ -23,7 +23,7 @@ public class AutoCompleteBoxViewModel : ToolboxControlViewModel
     public override Control CreateControl()
     {
         var autoCompleteBox = new AutoCompleteBox();
-        autoCompleteBox.Items = new[] { "Item 1", "Item 2", "Item 3" };
+        autoCompleteBox.ItemsSource = new[] { "Item 1", "Item 2", "Item 3" };
         autoCompleteBox.SelectedItem = "Item 1";
         //autoCompleteBox.Foreground = Brushes.Blue;
         return autoCompleteBox;
