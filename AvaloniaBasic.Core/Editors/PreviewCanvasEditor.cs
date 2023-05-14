@@ -56,7 +56,7 @@ public class PreviewCanvasEditor
         e.Pointer.Capture((IInputElement?)AssociatedObject);
         e.Handled = true;
 
-        Debug.WriteLine($"Control: {dragArea}, Parent: {dragArea.Parent}");
+        // Debug.WriteLine($"Control: {dragArea}, Parent: {dragArea.Parent}");
     }
 
     public void OnPointerReleased(PointerReleasedEventArgs e)
