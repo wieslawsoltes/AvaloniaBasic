@@ -26,10 +26,14 @@ internal static class ControlEditor
             return null;
         }
 
-#if false
+#if true
          var visuals = canvas
              .GetVisualDescendants()
-             .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
+             .Where(x =>
+             {
+                 var tb = x.GetTransformedBounds();
+                 return tb is not null && tb.Value.Contains(point);
+             })
              .Reverse();
 #else
         var visuals = root.Renderer
@@ -60,10 +64,14 @@ internal static class ControlEditor
             return null;
         }
 
-#if false
-        var visuals = (root as Visual)
+#if true
+        var visuals = (root as Visual)!
             .GetVisualDescendants()
-            .Where(x => x.TransformedBounds is not null && x.TransformedBounds.Value.Contains(point))
+            .Where(x =>
+            {
+                var tb = x.GetTransformedBounds();
+                return tb is not null && tb.Value.Contains(point);
+            })
             .Reverse();
 #else
         var visuals = root.Renderer
@@ -114,7 +122,7 @@ internal static class ControlEditor
         }
         else if (target is ItemsControl itemsControl)
         {
-            if (itemsControl.ItemsSource is AvaloniaList<object> items)
+            if (itemsControl.Items is { } items)
             {
                 items.Add(control);
             }
