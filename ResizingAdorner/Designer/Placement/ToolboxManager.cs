@@ -119,7 +119,7 @@ public class ToolboxManager : IToolboxManager
 
                 var topLevel = _listBox.GetVisualRoot() as TopLevel;
                 var p = e.GetPosition(topLevel);
-                var inputElement = topLevel.InputHitTest(p);
+                var inputElement = topLevel?.InputHitTest(p);
                 if (inputElement is { })
                 {
                     // TODO: Drop preview
