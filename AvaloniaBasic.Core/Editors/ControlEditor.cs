@@ -112,7 +112,7 @@ internal static class ControlEditor
         {
             panel.Children.Add(control);
         }
-        else if (target is IContentControl contentControl)
+        else if (target is ContentControl contentControl)
         {
             contentControl.Content = control;
         }

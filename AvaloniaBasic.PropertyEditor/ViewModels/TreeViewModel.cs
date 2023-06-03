@@ -343,6 +343,6 @@ public partial class TreeViewModel : ObservableObject
 
                 AddToLogicalTree(root, Logical);
             }, 
-            DispatcherPriority.Layout);
+            DispatcherPriority.Normal);
     }
 }
