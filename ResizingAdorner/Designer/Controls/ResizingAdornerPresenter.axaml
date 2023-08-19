@@ -87,6 +87,7 @@
   <Style Selector="c|ResizingAdornerPresenter">
 
     <Setter Property="ClipToBounds" Value="False" />
+    <Setter Property="(AdornerLayer.IsClipEnabled)" Value="False" />
 
     <Setter Property="Template">
       <ControlTemplate>
