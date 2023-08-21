@@ -12,7 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8E3E08A4
 		NuGet.Config = NuGet.Config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResizingAdorner", "ResizingAdorner\ResizingAdorner.csproj", "{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResizingAdornerDemo", "ResizingAdornerDemo\ResizingAdornerDemo.csproj", "{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResizingAdorner", "ResizingAdorner\ResizingAdorner.csproj", "{8D55F1E9-3EA9-4CC6-870F-1F7719B0F21A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,5 +30,9 @@ Global
 		{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D55F1E9-3EA9-4CC6-870F-1F7719B0F21A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D55F1E9-3EA9-4CC6-870F-1F7719B0F21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D55F1E9-3EA9-4CC6-870F-1F7719B0F21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D55F1E9-3EA9-4CC6-870F-1F7719B0F21A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
