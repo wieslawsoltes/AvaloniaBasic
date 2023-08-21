@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaBasicDemo", "AvaloniaBasicDemo\AvaloniaBasicDemo.csproj", "{BE9867D2-E9F8-4BA8-A712-5876C4E00E80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaBasic.Core", "AvaloniaBasic.Core\AvaloniaBasic.Core.csproj", "{7D31A1B4-90DD-4D5D-AAD0-1313C2D2DCA6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8E3E08A4-896E-4DDC-9191-9DB6857BCB8B}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -14,15 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{8E3E08A4
 		NuGet.Config = NuGet.Config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaBasic.Toolbox", "AvaloniaBasic.Toolbox\AvaloniaBasic.Toolbox.csproj", "{25354D81-26DD-4C96-A022-674CB3B581FB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaBasic.Toolbox.Base", "AvaloniaBasic.Toolbox.Base\AvaloniaBasic.Toolbox.Base.csproj", "{C6B10CFA-D312-4918-9F9C-C421CDF16E49}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaBasic.Model", "AvaloniaBasic.Model\AvaloniaBasic.Model.csproj", "{D9ADFF38-0202-482F-AC7B-AFB1F57D85E3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResizingAdorner", "ResizingAdorner\ResizingAdorner.csproj", "{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaBasic.PropertyEditor", "AvaloniaBasic.PropertyEditor\AvaloniaBasic.PropertyEditor.csproj", "{F0F3CE99-55E8-47CA-9A5B-FE162C963A5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,29 +24,9 @@ Global
 		{BE9867D2-E9F8-4BA8-A712-5876C4E00E80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE9867D2-E9F8-4BA8-A712-5876C4E00E80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE9867D2-E9F8-4BA8-A712-5876C4E00E80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D31A1B4-90DD-4D5D-AAD0-1313C2D2DCA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D31A1B4-90DD-4D5D-AAD0-1313C2D2DCA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D31A1B4-90DD-4D5D-AAD0-1313C2D2DCA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D31A1B4-90DD-4D5D-AAD0-1313C2D2DCA6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25354D81-26DD-4C96-A022-674CB3B581FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25354D81-26DD-4C96-A022-674CB3B581FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25354D81-26DD-4C96-A022-674CB3B581FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25354D81-26DD-4C96-A022-674CB3B581FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C6B10CFA-D312-4918-9F9C-C421CDF16E49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6B10CFA-D312-4918-9F9C-C421CDF16E49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6B10CFA-D312-4918-9F9C-C421CDF16E49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6B10CFA-D312-4918-9F9C-C421CDF16E49}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D9ADFF38-0202-482F-AC7B-AFB1F57D85E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9ADFF38-0202-482F-AC7B-AFB1F57D85E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9ADFF38-0202-482F-AC7B-AFB1F57D85E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9ADFF38-0202-482F-AC7B-AFB1F57D85E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{359CF6E1-46E3-4CB4-88C1-06584A2FF4B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0F3CE99-55E8-47CA-9A5B-FE162C963A5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0F3CE99-55E8-47CA-9A5B-FE162C963A5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0F3CE99-55E8-47CA-9A5B-FE162C963A5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0F3CE99-55E8-47CA-9A5B-FE162C963A5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
