@@ -19,12 +19,14 @@
                           BoldSeparatorHorizontalSpacing="{Binding GridSettings.BoldSeparatorHorizontalSpacing}"
                           BoldSeparatorVerticalSpacing="{Binding GridSettings.BoldSeparatorVerticalSpacing}"
                           IsGridEnabled="{Binding GridSettings.IsGridEnabled}" />
+      <!-- Classes="resizing" -->
       <Canvas Name="DropAreaCanvas"
               Background="Transparent" 
               Width="800"
               Height="600"
               behaviors:DragSettings.IsDropArea="True"
-              behaviors:DragSettings.EnableDrag="{Binding DragSettings.EnableControlDrag}">
+              behaviors:DragSettings.EnableDrag="{Binding DragSettings.EnableControlDrag}"
+              >
         <Interaction.Behaviors>
           <behaviors:ControlDragBehavior PreviewCanvas="{Binding PreviewCanvas}"/>
         </Interaction.Behaviors>

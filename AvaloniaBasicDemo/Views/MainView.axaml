@@ -9,10 +9,18 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AvaloniaBasicDemo.Views.MainView"
              x:DataType="vm:MainViewModel" x:CompileBindings="True"
+             Background="Transparent"
+             Name="Editor"
              FontFamily="avares://Avalonia.Fonts.Inter/Assets#Inter">
   <Design.DataContext>
     <vm:MainViewModel />
   </Design.DataContext>
+  
+  <UserControl.KeyBindings>
+    <KeyBinding Command="{Binding #Editor.OnDelete}" Gesture="Delete" />
+    <KeyBinding Command="{Binding #Editor.OnDelete}" Gesture="Back" />
+  </UserControl.KeyBindings>
+
   <Panel behaviors:DragSettings.MinimumDragDelta="{Binding DragSettings.MinimumDragDelta}"
          behaviors:DragSettings.SnapToGrid="{Binding DragSettings.SnapToGrid}"
          behaviors:DragSettings.SnapX="{Binding DragSettings.SnapX}"
