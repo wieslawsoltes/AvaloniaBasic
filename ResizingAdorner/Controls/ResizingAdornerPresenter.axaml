@@ -3,7 +3,16 @@
         xmlns:c="clr-namespace:ResizingAdorner.Controls">
 
   <Design.PreviewWith>
-    <c:ResizingAdornerPresenter />
+    <Panel Width="100" Height="100">
+      <Border Name="Border" 
+              Background="WhiteSmoke" 
+              Width="80" 
+              Height="80" />
+      <c:ResizingAdornerPresenter ShowThumbs="True" 
+                                  AdornedWidth="80" 
+                                  AdornedHeight="80" 
+                                  AdornedControl="{Binding #Border}" />
+    </Panel>
   </Design.PreviewWith>
 
   <Styles.Resources>
