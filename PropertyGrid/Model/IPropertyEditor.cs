@@ -1,4 +1,4 @@
-﻿namespace AvaloniaBasic.Model;
+namespace AvaloniaBasic.Model;
 
 public interface IPropertyEditor
 {
