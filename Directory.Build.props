@@ -1,10 +1,9 @@
 ﻿<Project>
   <PropertyGroup>
     <AvaloniaVersion>11.0.4</AvaloniaVersion>
-    <AvaloniaXamlBehaviorsVersion>11.0.0</AvaloniaXamlBehaviorsVersion>
-    <AvaloniaControlsTreeDataGridVersion>11.0.0</AvaloniaControlsTreeDataGridVersion>
-    <CommunityToolkitMvvmVersion>8.1.0</CommunityToolkitMvvmVersion>
+    <AvaloniaXamlBehaviorsVersion>11.0.2</AvaloniaXamlBehaviorsVersion>
+    <AvaloniaControlsTreeDataGridVersion>11.0.1</AvaloniaControlsTreeDataGridVersion>
+    <CommunityToolkitMvvmVersion>8.2.1</CommunityToolkitMvvmVersion>
     <ReactiveMarblesPropertyChangedVersion>2.0.27</ReactiveMarblesPropertyChangedVersion>
-    <XamlNameReferenceGeneratorVersion>1.6.1</XamlNameReferenceGeneratorVersion>
   </PropertyGroup>
 </Project>
