@@ -89,18 +89,11 @@ public partial class TreeViewModel : ObservableObject
             Columns =
             {
                 new HierarchicalExpanderColumn<IProperty>(
-                    inner: new TemplateColumn<IProperty>(
+                    inner: new TextColumn<IProperty,string>(
                         "Property",
-                        new FuncDataTemplate<IProperty>((_, _) =>
-                        {
-                            return new Label
-                            {
-                                [!ContentControl.ContentProperty] = new Binding("Name"),
-                                HorizontalAlignment = HorizontalAlignment.Left,
-                                HorizontalContentAlignment = HorizontalAlignment.Left
-                            };
-                        }, true),
-                        options: new TemplateColumnOptions<IProperty>
+                        p => p.Name,
+                        (p, value) => p.Name = value,
+                        options: new TextColumnOptions<IProperty>
                         {
                             CanUserResizeColumn = true,
                             CanUserSortColumn = true,
