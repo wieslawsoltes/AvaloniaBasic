@@ -15,6 +15,8 @@ using AvaloniaBasic.Model;
 using AvaloniaBasic.Utilities;
 using AvaloniaBasic.ViewModels.Properties;
 using CommunityToolkit.Mvvm.ComponentModel;
+using DynamicData;
+using DynamicData.Binding;
 
 namespace AvaloniaBasic.ViewModels;
 
@@ -25,14 +27,19 @@ public partial class TreeViewModel : ObservableObject
     private readonly Dictionary<AvaloniaObject, ObservableCollection<IProperty>> _propertiesCache = new();
     private readonly IPropertyEditorContext _editor = new PropertyEditorContextViewModel();
     [ObservableProperty] private ObservableCollection<LogicalViewModel> _logical;
-    [ObservableProperty] private ObservableCollection<IProperty> _properties;
     [ObservableProperty] private LogicalViewModel? _selectedLogical;
+    private readonly SourceList<IProperty> _propertiesList;
 
     public TreeViewModel(IPropertyEditorFactory propertyEditorFactory)
     {
         _propertyEditorFactory = propertyEditorFactory;
         _logical = new ObservableCollection<LogicalViewModel>();
-        _properties = new ObservableCollection<IProperty>();
+
+        _propertiesList = new SourceList<IProperty>();
+        _propertiesList
+            .Connect()
+            .Bind(Properties)
+            .Subscribe();
 
         LogicalSource = CreateLogicalTreeSource();
         PropertiesSource = CreatePropertiesSource();
@@ -41,6 +48,8 @@ public partial class TreeViewModel : ObservableObject
     public HierarchicalTreeDataGridSource<LogicalViewModel> LogicalSource { get; }
 
     public HierarchicalTreeDataGridSource<IProperty> PropertiesSource { get; }
+
+    public ObservableCollectionExtended<IProperty> Properties { get; } = new();
 
     private HierarchicalTreeDataGridSource<LogicalViewModel> CreateLogicalTreeSource()
     {
@@ -158,12 +167,15 @@ public partial class TreeViewModel : ObservableObject
 
         if (_propertiesCache.TryGetValue(logical, out var cachedProperties))
         {
-            Properties.Clear();
-
-            foreach (var property in cachedProperties)
+            _propertiesList.Edit(x =>
             {
-                Properties.Add(property);
-            }
+                x.Clear();
+
+                foreach (var property in cachedProperties)
+                {
+                    x.Add(property);
+                }
+            });
 
             _editor.IsUpdating = false;
             return;
@@ -189,12 +201,15 @@ public partial class TreeViewModel : ObservableObject
 
         _propertiesCache[logical] = properties;
 
-        Properties.Clear();
-
-        foreach (var property in properties)
+        _propertiesList.Edit(x =>
         {
-            Properties.Add(property);
-        }
+            x.Clear();
+
+            foreach (var property in properties)
+            {
+                x.Add(property);
+            }
+        });
 
         _editor.IsUpdating = false;
     }

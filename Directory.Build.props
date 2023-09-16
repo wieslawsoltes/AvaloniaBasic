@@ -5,5 +5,6 @@
     <AvaloniaControlsTreeDataGridVersion>11.0.1</AvaloniaControlsTreeDataGridVersion>
     <CommunityToolkitMvvmVersion>8.2.1</CommunityToolkitMvvmVersion>
     <ReactiveMarblesPropertyChangedVersion>2.0.27</ReactiveMarblesPropertyChangedVersion>
+    <DynamicDataVersion>7.14.2</DynamicDataVersion>
   </PropertyGroup>
 </Project>
