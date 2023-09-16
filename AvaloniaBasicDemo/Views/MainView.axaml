@@ -34,11 +34,16 @@
       </Grid>
       <Grid Grid.Column="1" RowDefinitions="*,Auto">
         <views:EditorCanvasView Grid.Row="0" />
-        <CheckBox Grid.Row="1" 
-                  Content="Enable Resizing"
-                  Margin="4"
-                  HorizontalAlignment="Center"
-                  IsChecked="{Binding EnableResizing}" />
+        <StackPanel Grid.Row="1" 
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal" 
+                    Spacing="4">
+          <CheckBox Content="Enable Resizing"
+                    IsChecked="{Binding EnableResizing}" />
+          <CheckBox Content="Enable Control Drag"
+                    IsChecked="{Binding DragSettings.EnableControlDrag}" />
+        </StackPanel>
+        
       </Grid>
     </Grid>
     <Canvas Name="PreviewCanvas" IsHitTestVisible="False" />
