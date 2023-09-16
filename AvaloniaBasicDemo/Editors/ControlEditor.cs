@@ -127,5 +127,8 @@ internal static class ControlEditor
                 items.Add(control);
             }
         }
+      
+        control.ApplyTemplate();
+        control.UpdateLayout();
     }
 }
