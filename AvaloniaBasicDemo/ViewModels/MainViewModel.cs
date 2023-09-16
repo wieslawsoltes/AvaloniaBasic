@@ -25,6 +25,7 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty] private Canvas? _previewCanvas;
     [ObservableProperty] private Canvas? _dropAreaCanvas;
     [ObservableProperty] private string _xaml;
+    [ObservableProperty] private bool _enableResizing;
     private IStorageFile? _openFile;
 
     public MainViewModel()

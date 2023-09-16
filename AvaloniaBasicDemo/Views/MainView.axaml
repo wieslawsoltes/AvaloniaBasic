@@ -32,7 +32,14 @@
         <propertyEditor:LogicalTreeView DataContext="{Binding Tree}" Grid.Row="0" />
         <propertyGrid:PropertiesView DataContext="{Binding Tree}" Grid.Row="1" />
       </Grid>
-      <views:EditorCanvasView Grid.Column="1" />
+      <Grid Grid.Column="1" RowDefinitions="*,Auto">
+        <views:EditorCanvasView Grid.Row="0" />
+        <CheckBox Grid.Row="1" 
+                  Content="Enable Resizing"
+                  Margin="4"
+                  HorizontalAlignment="Center"
+                  IsChecked="{Binding EnableResizing}" />
+      </Grid>
     </Grid>
     <Canvas Name="PreviewCanvas" IsHitTestVisible="False" />
   </Panel>

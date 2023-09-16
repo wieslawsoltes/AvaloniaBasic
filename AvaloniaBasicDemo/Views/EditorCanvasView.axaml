@@ -26,7 +26,7 @@
               Height="600"
               behaviors:DragSettings.IsDropArea="True"
               behaviors:DragSettings.EnableDrag="{Binding DragSettings.EnableControlDrag}"
-              Classes="resizing">
+              Classes.resizing="{Binding EnableResizing}">
         <Interaction.Behaviors>
           <behaviors:ControlDragBehavior PreviewCanvas="{Binding PreviewCanvas}"/>
         </Interaction.Behaviors>
