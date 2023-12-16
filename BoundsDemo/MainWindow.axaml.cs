@@ -71,7 +71,7 @@ public partial class MainWindow : Window
         if (result is Visual visual)
         {
             var transformedBounds = visual.GetTransformedBounds();
-            // Console.WriteLine($"[{point}] {visual} {transformedBounds}");
+            Console.WriteLine($"[{point}] {visual} {transformedBounds}");
             OverlayControl.Result = visual;
             OverlayControl.InvalidateVisual();
             //AdornerLayer.GetAdornerLayer(this).InvalidateVisual();
