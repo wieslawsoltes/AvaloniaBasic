@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Avalonia;
@@ -43,6 +44,24 @@ public partial class MainWindow : Window
         OverlayControl.InvalidateVisual();
     }
 
+    protected override void OnKeyDown(KeyEventArgs e)
+    {
+        base.OnKeyDown(e);
+
+        if (e.Key == Key.V)
+        {
+            OverlayControl.HitTestMode = HitTestMode.Visual;
+            OverlayControl.Result = null;
+            OverlayControl.InvalidateVisual();
+        }
+        if (e.Key == Key.L)
+        {
+            OverlayControl.HitTestMode = HitTestMode.Logical;
+            OverlayControl.Result = null;
+            OverlayControl.InvalidateVisual();
+        }
+    }
+
     private void HitTest(Interactive interactive, Point point)
     {
         var root = interactive.GetVisualRoot();
@@ -51,8 +70,17 @@ public partial class MainWindow : Window
             return;
         }
 
-        var descendants = interactive.GetVisualDescendants();
-        //var descendants = interactive.GetLogicalDescendants();
+        var descendants = new List<Visual>();
+
+        if (OverlayControl.HitTestMode == HitTestMode.Visual)
+        {
+            descendants.AddRange(interactive.GetVisualDescendants());
+        }
+
+        if (OverlayControl.HitTestMode == HitTestMode.Logical)
+        {
+            descendants.AddRange(interactive.GetLogicalDescendants().Cast<Visual>());
+        }
 
         var visuals = descendants
             .Where(x =>
@@ -96,14 +124,17 @@ public partial class MainWindow : Window
     }
 }
 
+public enum HitTestMode
+{
+    Visual,
+    Logical
+}
+
 public class Overlay : Control
 {
     public Visual? Result;
 
-    public Overlay()
-    {
-        
-    }
+    public HitTestMode HitTestMode = HitTestMode.Visual;
 
     public override void Render(DrawingContext context)
     {
@@ -123,5 +154,8 @@ public class Overlay : Control
             var formattedText = new FormattedText(Result.GetType().Name, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 12, Brushes.Red);
             context.DrawText(formattedText, new Point(5, 5));
         }
+    
+        var formattedTextMode = new FormattedText($"Mode: {HitTestMode}", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 12, Brushes.Blue);
+        context.DrawText(formattedTextMode, new Point(5, Bounds.Height - 20));
     }
 }
