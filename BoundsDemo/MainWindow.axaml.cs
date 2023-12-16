@@ -155,7 +155,7 @@ public class Overlay : Control
             context.DrawText(formattedText, new Point(5, 5));
         }
     
-        var formattedTextMode = new FormattedText($"Mode: {HitTestMode}", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 12, Brushes.Blue);
+        var formattedTextMode = new FormattedText($"[V] [L] Mode: {HitTestMode}", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 12, Brushes.Blue);
         context.DrawText(formattedTextMode, new Point(5, Bounds.Height - 20));
     }
 }
