@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -118,6 +119,9 @@ public class Overlay : Control
                 using var _ = context.PushTransform(transformedBounds.Value.Transform);
                 context.DrawRectangle(null, pen, transformedBounds.Value.Bounds);
             }
+            
+            var formattedText = new FormattedText(Result.GetType().Name, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 12, Brushes.Red);
+            context.DrawText(formattedText, new Point(5, 5));
         }
     }
 }
