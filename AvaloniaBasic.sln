@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResizingAdorner", "Resizing
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyGrid", "PropertyGrid\PropertyGrid.csproj", "{541A2577-0DDD-42CD-B2DB-55DEB3CB487C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoundsDemo", "BoundsDemo\BoundsDemo.csproj", "{561FE864-1D55-43B3-8653-90341E14E537}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,5 +42,9 @@ Global
 		{541A2577-0DDD-42CD-B2DB-55DEB3CB487C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{541A2577-0DDD-42CD-B2DB-55DEB3CB487C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{541A2577-0DDD-42CD-B2DB-55DEB3CB487C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{561FE864-1D55-43B3-8653-90341E14E537}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{561FE864-1D55-43B3-8653-90341E14E537}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{561FE864-1D55-43B3-8653-90341E14E537}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{561FE864-1D55-43B3-8653-90341E14E537}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

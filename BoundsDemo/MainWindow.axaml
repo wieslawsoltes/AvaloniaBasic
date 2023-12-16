@@ -1,0 +1,35 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:boundsDemo="clr-namespace:BoundsDemo"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="800" Height="450"
+        WindowStartupLocation="CenterScreen"
+        x:Class="BoundsDemo.MainWindow"
+        Title="BoundsDemo">
+  <AdornerLayer.Adorner>
+      <!-- <boundsDemo:Overlay Name="OverlayControl" IsHitTestVisible="False" /> -->
+  </AdornerLayer.Adorner>
+  <Panel>
+    <StackPanel Width="200">
+      <TextBlock Text="Text" />
+      <TextBox Text="Text" />
+      <LayoutTransformControl>
+        <LayoutTransformControl.LayoutTransform>
+          <RotateTransform Angle="45" />
+        </LayoutTransformControl.LayoutTransform>
+        <TextBox Text="Text" />
+      </LayoutTransformControl>
+      <CheckBox Content="Text">
+        <CheckBox.RenderTransform>
+          <RotateTransform Angle="0" />
+        </CheckBox.RenderTransform>
+      </CheckBox>
+      <Button Content="Text" />
+      <ProgressBar />
+      <Slider />
+    </StackPanel>
+    <boundsDemo:Overlay Name="OverlayControl" IsHitTestVisible="False" />
+  </Panel>
+</Window>
