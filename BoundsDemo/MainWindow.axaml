@@ -2,45 +2,221 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:boundsDemo="clr-namespace:BoundsDemo"
+        xmlns:c="clr-namespace:BoundsDemo"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         Width="800" Height="450"
         WindowStartupLocation="CenterScreen"
         x:Class="BoundsDemo.MainWindow"
         Title="BoundsDemo">
-  <AdornerLayer.Adorner>
-      <!-- <boundsDemo:Overlay Name="OverlayControl" IsHitTestVisible="False" /> -->
-  </AdornerLayer.Adorner>
   <Panel>
-    <StackPanel Width="350">
-      <TextBlock Text="Text" />
-      <TextBox Text="Text" />
-      <LayoutTransformControl>
-        <LayoutTransformControl.LayoutTransform>
-          <RotateTransform Angle="45" />
-        </LayoutTransformControl.LayoutTransform>
+
+    <Grid ColumnDefinitions="*,Auto">
+
+      <StackPanel c:Overlay.EnableHitTest="True"
+                  Name="EditablePanel"
+                  Grid.Column="0" 
+                  Width="350"
+                  IsHitTestVisible="False">
+        <TextBlock Text="Text" />
         <TextBox Text="Text" />
-      </LayoutTransformControl>
-      <CheckBox Content="Text">
-        <CheckBox.RenderTransform>
-          <RotateTransform Angle="0" />
-        </CheckBox.RenderTransform>
-      </CheckBox>
-      <Button Content="Text" />
-      <ProgressBar />
-      <ComboBox SelectedIndex="0">
-        <ComboBoxItem>0</ComboBoxItem>
-        <ComboBoxItem>1</ComboBoxItem>
-        <ComboBoxItem>2</ComboBoxItem>
-      </ComboBox>
-      <ListBox>
-        <ListBoxItem>0</ListBoxItem>
-        <ListBoxItem>1</ListBoxItem>
-        <ListBoxItem>2</ListBoxItem>
-      </ListBox>
-      <Slider />
-      <DatePicker />
-    </StackPanel>
-    <boundsDemo:Overlay Name="OverlayControl" IsHitTestVisible="False" />
+        <LayoutTransformControl>
+          <LayoutTransformControl.LayoutTransform>
+            <RotateTransform Angle="45" />
+          </LayoutTransformControl.LayoutTransform>
+          <TextBox Text="Text" />
+        </LayoutTransformControl>
+        <CheckBox Content="Text">
+          <CheckBox.RenderTransform>
+            <RotateTransform Angle="0" />
+          </CheckBox.RenderTransform>
+        </CheckBox>
+        <Button Content="Text" />
+        <ProgressBar />
+        <ComboBox SelectedIndex="0">
+          <ComboBoxItem>0</ComboBoxItem>
+          <ComboBoxItem>1</ComboBoxItem>
+          <ComboBoxItem>2</ComboBoxItem>
+        </ComboBox>
+        <ListBox>
+          <ListBoxItem>0</ListBoxItem>
+          <ListBoxItem>1</ListBoxItem>
+          <ListBoxItem>2</ListBoxItem>
+        </ListBox>
+        <Slider />
+        <DatePicker />
+      </StackPanel>
+
+      <StackPanel Grid.Column="1">
+
+        <!-- Layoutable -->
+        <StackPanel Orientation="Horizontal">
+          <!-- Align Horizontal -->
+          <Button Name="ButtonAlignHorizontalLeft"
+                  Click="ButtonAlignHorizontalLeft_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Align left">
+            <Svg Path="/Assets/Icons/ic_fluent_align_left_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonAlignHorizontalCenter"
+                  Click="ButtonAlignHorizontalCenter_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Align horizontal centers">
+            <Svg Path="/Assets/Icons/ic_fluent_align_center_horizontal_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonAlignHorizontalRight"
+                  Click="ButtonAlignHorizontalRight_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Align right">
+            <Svg Path="/Assets/Icons/ic_fluent_align_right_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonAlignHorizontalStretch"
+                  Click="ButtonAlignHorizontalStretch_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Align horizontal stretches">
+            <Svg Path="/Assets/Icons/ic_fluent_auto_fit_width_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+        </StackPanel>
+        <!-- Layoutable -->
+        <StackPanel Orientation="Horizontal">
+          <!-- Align Vertical -->
+          <Button Name="ButtonAlignVerticalTop"
+                  Click="ButtonAlignVerticalTop_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Align top">
+            <Svg Path="/Assets/Icons/ic_fluent_align_top_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonAlignVerticalCenter"
+                  Click="ButtonAlignVerticalCenter_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Align vertical centers">
+            <Svg Path="/Assets/Icons/ic_fluent_align_center_vertical_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonAlignVerticalBottom"
+                  Click="ButtonAlignVerticalBottom_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Align bottom">
+            <Svg Path="/Assets/Icons/ic_fluent_align_bottom_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonAlignVerticalStretch"
+                  Click="ButtonAlignVerticalStretch_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Align vertical stretches">
+            <Svg Path="/Assets/Icons/ic_fluent_auto_fit_height_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+        </StackPanel>
+
+        <!-- ContentControl -->
+        <StackPanel Orientation="Horizontal">
+          <!-- Align Horizontal -->
+          <Button Name="ButtonAlignContentHorizontalLeft"
+                  Click="ButtonAlignContentHorizontalLeft_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Content align left">
+            <Svg Path="/Assets/Icons/ic_fluent_textbox_align_bottom_rotate_90_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonAlignContentHorizontalCenter"
+                  Click="ButtonAlignContentHorizontalCenter_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Content align horizontal centers">
+            <Svg Path="/Assets/Icons/ic_fluent_textbox_align_middle_rotate_90_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonAlignContentHorizontalRight"
+                  Click="ButtonAlignContentHorizontalRight_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Content align right">
+            <Svg Path="/Assets/Icons/ic_fluent_textbox_align_top_rotate_90_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonAlignContentHorizontalStretch"
+                  Click="ButtonAlignContentHorizontalStretch_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Content align horizontal stretches">
+            <Svg Path="/Assets/Icons/ic_fluent_arrow_autofit_width_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+        </StackPanel>
+
+        <!-- ContentControl -->
+        <StackPanel Orientation="Horizontal">
+          <!-- Align Vertical -->
+          <Button Name="ButtonAlignContentVerticalTop"
+                  Click="ButtonAlignContentVerticalTop_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Content align top">
+            <Svg Path="/Assets/Icons/ic_fluent_textbox_align_top_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonAlignContentVerticalCenter"
+                  Click="ButtonAlignContentVerticalCenter_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Content align vertical centers">
+            <Svg Path="/Assets/Icons/ic_fluent_textbox_align_middle_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonAlignContentVerticalBottom"
+                  Click="ButtonAlignContentVerticalBottom_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Content align bottom">
+            <Svg Path="/Assets/Icons/ic_fluent_textbox_align_bottom_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonAlignContentVerticalStretch"
+                  Click="ButtonAlignContentVerticalStretch_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Content align vertical stretches">
+            <Svg Path="/Assets/Icons/ic_fluent_arrow_autofit_height_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+        </StackPanel>
+
+        <!-- TextBlock, TextBox -->
+        <StackPanel Orientation="Horizontal">
+          <!-- Align Text -->
+          <Button Name="ButtonTextAlignLeft"
+                  Click="ButtonTextAlignLeft_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Text align left">
+            <Svg Path="/Assets/Icons/ic_fluent_text_align_left_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonTextAlignCenter"
+                  Click="ButtonTextAlignCenter_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Text align center">
+            <Svg Path="/Assets/Icons/ic_fluent_text_align_center_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonTextAlignRight"
+                  Click="ButtonTextAlignRight_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Text align right">
+            <Svg Path="/Assets/Icons/ic_fluent_text_align_right_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+          <Button Name="ButtonTextAlignJustified"
+                  Click="ButtonTextAlignJustified_OnClick"
+                  Background="Transparent"
+                  ToolTip.Tip="Text align justified">
+            <Svg Path="/Assets/Icons/ic_fluent_text_align_justify_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+        </StackPanel>
+
+      </StackPanel>
+      
+    </Grid>
+
+    <c:Overlay Name="OverlayControl" IsHitTestVisible="False" />
+
   </Panel>
 </Window>
