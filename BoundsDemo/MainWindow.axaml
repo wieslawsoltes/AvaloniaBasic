@@ -48,6 +48,7 @@
 
       <StackPanel Grid.Column="1">
 
+        <TextBlock Text="Layout" />
         <!-- Layoutable -->
         <StackPanel Orientation="Horizontal">
           <!-- Align Horizontal -->
@@ -113,6 +114,7 @@
           </Button>
         </StackPanel>
 
+        <TextBlock Text="Content" />
         <!-- ContentControl -->
         <StackPanel Orientation="Horizontal">
           <!-- Align Horizontal -->
@@ -145,7 +147,6 @@
                  Width="16" Height="16" />
           </Button>
         </StackPanel>
-
         <!-- ContentControl -->
         <StackPanel Orientation="Horizontal">
           <!-- Align Vertical -->
@@ -180,6 +181,7 @@
         </StackPanel>
 
         <!-- TextBlock, TextBox -->
+        <TextBlock Text="Text" />
         <StackPanel Orientation="Horizontal">
           <!-- Align Text -->
           <Button Name="ButtonTextAlignLeft"
