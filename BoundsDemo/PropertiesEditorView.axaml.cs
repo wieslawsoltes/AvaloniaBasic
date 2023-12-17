@@ -425,7 +425,7 @@ public partial class PropertiesEditorView : UserControl
 
         if (Selected is Layoutable layoutable)
         {
-            var result = double.TryParse(TextBoxMinHeight.Text, CultureInfo.InvariantCulture, out var value);
+            var result = double.TryParse(TextBoxMaxHeight.Text, CultureInfo.InvariantCulture, out var value);
             if (result)
             {
                 layoutable.MaxHeight = value;
