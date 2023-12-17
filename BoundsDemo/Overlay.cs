@@ -47,11 +47,23 @@ public class Overlay : Control
         {
             RenderVisual(Hover, context,  new ImmutablePen(Colors.Red.ToUInt32()));
 
-            var formattedText = new FormattedText(Hover.GetType().Name, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 12, Brushes.Red);
+            var formattedText = new FormattedText(
+                Hover.GetType().Name, 
+                CultureInfo.CurrentCulture, 
+                FlowDirection.LeftToRight, 
+                Typeface.Default, 
+                12, 
+                Brushes.Red);
             context.DrawText(formattedText, new Point(5, 5));
         }
 
-        var formattedTextMode = new FormattedText($"[V] [L] Mode: {HitTestMode}, [H] Toggle HitTest", CultureInfo.CurrentCulture, FlowDirection.LeftToRight, Typeface.Default, 12, Brushes.Blue);
+        var formattedTextMode = new FormattedText(
+            $"[V] [L] Mode: {HitTestMode}, [H] Toggle HitTest, [R] Toggle Reverse Order", 
+            CultureInfo.CurrentCulture, 
+            FlowDirection.LeftToRight, 
+            Typeface.Default, 
+            12, 
+            Brushes.Blue);
         context.DrawText(formattedTextMode, new Point(5, Bounds.Height - 20));
     }
 

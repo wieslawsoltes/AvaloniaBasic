@@ -4,22 +4,23 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Layout;
 using Avalonia.LogicalTree;
-using Avalonia.Media;
 using Avalonia.VisualTree;
-using ContentControl = Avalonia.Controls.ContentControl;
 
 namespace BoundsDemo;
 
 public partial class MainWindow : Window
 {
     private readonly HashSet<Visual> _ignored;
+    private bool _reverseOrder = true;
 
     public MainWindow()
     {
         InitializeComponent();
+
         _ignored = new HashSet<Visual>(new Visual[] {OverlayControl});
+
+        UpdatePropertiesEditor(null);
     }
 
     protected override void OnLoaded(RoutedEventArgs e)
@@ -35,6 +36,8 @@ public partial class MainWindow : Window
         var visuals = HitTest(this, e.GetPosition(this), OverlayControl.HitTestMode, _ignored);
         OverlayControl.Selected = visuals.FirstOrDefault();
         OverlayControl.InvalidateVisual();
+
+        UpdatePropertiesEditor(OverlayControl.Selected);
     }
 
     protected override void OnPointerMoved(PointerEventArgs e)
@@ -72,19 +75,31 @@ public partial class MainWindow : Window
                 OverlayControl.Hover = null;
                 OverlayControl.Selected = null;
                 OverlayControl.InvalidateVisual();
+                UpdatePropertiesEditor(null);
                 break;
             case Key.L:
                 OverlayControl.HitTestMode = HitTestMode.Logical;
                 OverlayControl.Hover = null;
+                OverlayControl.Selected = null;
                 OverlayControl.InvalidateVisual();
+                UpdatePropertiesEditor(null);
                 break;
             case Key.V:
                 OverlayControl.HitTestMode = HitTestMode.Visual;
                 OverlayControl.Hover = null;
+                OverlayControl.Selected = null;
                 OverlayControl.InvalidateVisual();
+                UpdatePropertiesEditor(null);
                 break;
             case Key.H:
                 EditablePanel.IsHitTestVisible = !EditablePanel.IsHitTestVisible;
+                break;
+            case Key.R:
+                _reverseOrder = !_reverseOrder;
+                OverlayControl.Hover = null;
+                OverlayControl.Selected = null;
+                OverlayControl.InvalidateVisual();
+                UpdatePropertiesEditor(null);
                 break;
         }
     }
@@ -120,189 +135,16 @@ public partial class MainWindow : Window
                 }
 
                 return false;
-            })
-            .Reverse();
+            });
 
-        return visuals;
+        return _reverseOrder 
+            ? visuals.Reverse() 
+            : visuals;
     }
 
-    private void ButtonAlignHorizontalLeft_OnClick(object? sender, RoutedEventArgs e)
+    private void UpdatePropertiesEditor(Visual? selected)
     {
-        if (OverlayControl.Selected is Layoutable layoutable)
-        {
-            layoutable.HorizontalAlignment = HorizontalAlignment.Left;
-        }
-    }
-
-    private void ButtonAlignHorizontalCenter_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is Layoutable layoutable)
-        {
-            layoutable.HorizontalAlignment = HorizontalAlignment.Center;
-        }
-    }
-
-    private void ButtonAlignHorizontalRight_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is Layoutable layoutable)
-        {
-            layoutable.HorizontalAlignment = HorizontalAlignment.Right;
-        }
-    }
-
-    private void ButtonAlignHorizontalStretch_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is Layoutable layoutable)
-        {
-            layoutable.HorizontalAlignment = HorizontalAlignment.Stretch;
-        }
-    }
-
-    private void ButtonAlignVerticalTop_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is Layoutable layoutable)
-        {
-            layoutable.VerticalAlignment = VerticalAlignment.Top;
-        }
-    }
-
-    private void ButtonAlignVerticalCenter_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is Layoutable layoutable)
-        {
-            layoutable.VerticalAlignment = VerticalAlignment.Center;
-        }
-    }
-
-    private void ButtonAlignVerticalBottom_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is Layoutable layoutable)
-        {
-            layoutable.VerticalAlignment = VerticalAlignment.Bottom;
-        }
-    }
-
-    private void ButtonAlignVerticalStretch_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is Layoutable layoutable)
-        {
-            layoutable.VerticalAlignment = VerticalAlignment.Stretch;
-        }
-    }
-
-    private void ButtonTextAlignLeft_OnClick(object? sender, RoutedEventArgs e)
-    {
-        switch (OverlayControl.Selected)
-        {
-            case TextBlock textBlock:
-                textBlock.TextAlignment = TextAlignment.Left;
-                break;
-            case TextBox textBox:
-                textBox.TextAlignment = TextAlignment.Left;
-                break;
-        }
-    }
-
-    private void ButtonTextAlignCenter_OnClick(object? sender, RoutedEventArgs e)
-    {
-        switch (OverlayControl.Selected)
-        {
-            case TextBlock textBlock:
-                textBlock.TextAlignment = TextAlignment.Center;
-                break;
-            case TextBox textBox:
-                textBox.TextAlignment = TextAlignment.Center;
-                break;
-        }
-    }
-
-    private void ButtonTextAlignRight_OnClick(object? sender, RoutedEventArgs e)
-    {
-        switch (OverlayControl.Selected)
-        {
-            case TextBlock textBlock:
-                textBlock.TextAlignment = TextAlignment.Right;
-                break;
-            case TextBox textBox:
-                textBox.TextAlignment = TextAlignment.Right;
-                break;
-        }
-    }
-
-    private void ButtonTextAlignJustified_OnClick(object? sender, RoutedEventArgs e)
-    {
-        switch (OverlayControl.Selected)
-        {
-            case TextBlock textBlock:
-                textBlock.TextAlignment = TextAlignment.Justify;
-                break;
-            case TextBox textBox:
-                textBox.TextAlignment = TextAlignment.Justify;
-                break;
-        }
-    }
-
-    private void ButtonAlignContentHorizontalLeft_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is ContentControl contentControl)
-        {
-            contentControl.HorizontalContentAlignment = HorizontalAlignment.Left;
-        }
-    }
-
-    private void ButtonAlignContentHorizontalCenter_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is ContentControl contentControl)
-        {
-            contentControl.HorizontalContentAlignment = HorizontalAlignment.Center;
-        }
-    }
-
-    private void ButtonAlignContentHorizontalRight_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is ContentControl contentControl)
-        {
-            contentControl.HorizontalContentAlignment = HorizontalAlignment.Right;
-        }
-    }
-
-    private void ButtonAlignContentHorizontalStretch_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is ContentControl contentControl)
-        {
-            contentControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-        }
-    }
-
-    private void ButtonAlignContentVerticalTop_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is ContentControl contentControl)
-        {
-            contentControl.VerticalContentAlignment = VerticalAlignment.Top;
-        }
-    }
-
-    private void ButtonAlignContentVerticalCenter_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is ContentControl contentControl)
-        {
-            contentControl.VerticalContentAlignment = VerticalAlignment.Center;
-        }
-    }
-
-    private void ButtonAlignContentVerticalBottom_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is ContentControl contentControl)
-        {
-            contentControl.VerticalContentAlignment = VerticalAlignment.Bottom;
-        }
-    }
-
-    private void ButtonAlignContentVerticalStretch_OnClick(object? sender, RoutedEventArgs e)
-    {
-        if (OverlayControl.Selected is ContentControl contentControl)
-        {
-            contentControl.VerticalContentAlignment = VerticalAlignment.Stretch;
-        }
+        PropertiesEditor.Selected = selected;
+        PropertiesEditor.UpdatePropertiesEditor();
     }
 }
