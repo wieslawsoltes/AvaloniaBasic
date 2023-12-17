@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -12,6 +14,8 @@ public partial class PropertiesEditorView : UserControl
     public static readonly StyledProperty<Visual?> SelectedProperty = 
         AvaloniaProperty.Register<PropertiesEditorView, Visual?>(nameof(Selected));
 
+    private bool _isUpdating;
+    
     public Visual? Selected
     {
         get => GetValue(SelectedProperty);
@@ -30,11 +34,20 @@ public partial class PropertiesEditorView : UserControl
 
     public void UpdatePropertiesEditor()
     {
+        _isUpdating = true;
+
         if (Selected is Layoutable layoutable)
         {
             LayoutStackPanel.IsVisible = true;
             SetHorizontalAlignment(layoutable.HorizontalAlignment);
             SetVerticalAlignment(layoutable.VerticalAlignment);
+            TextBoWidth.Text = layoutable.Width.ToString(CultureInfo.InvariantCulture);
+            TextBoxHeight.Text = layoutable.Height.ToString(CultureInfo.InvariantCulture);
+            TextBoxMinWidth.Text = layoutable.MinWidth.ToString(CultureInfo.InvariantCulture);
+            TextBoxMinHeight.Text = layoutable.MinHeight.ToString(CultureInfo.InvariantCulture);
+            TextBoxMaxWidth.Text = layoutable.MaxWidth.ToString(CultureInfo.InvariantCulture);
+            TextBoxMaxHeight.Text = layoutable.MaxHeight.ToString(CultureInfo.InvariantCulture);
+            TextBoxMargin.Text = layoutable.Margin.ToString();
         }
         else
         {
@@ -70,6 +83,8 @@ public partial class PropertiesEditorView : UserControl
         {
             TextLayoutStackPanel.IsVisible = false;
         }
+
+        _isUpdating = false;
     }
 
     private void SetHorizontalAlignment(HorizontalAlignment horizontalAlignment)
@@ -313,6 +328,132 @@ public partial class PropertiesEditorView : UserControl
                 textBox.TextAlignment = TextAlignment.Justify;
                 SetTextAlignment(TextAlignment.Justify);
                 break;
+        }
+    }
+
+    private void TextBoWidth_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        if (Selected is Layoutable layoutable)
+        {
+            var result = double.TryParse(TextBoWidth.Text, CultureInfo.InvariantCulture, out var value);
+            if (result)
+            {
+                layoutable.Width = value;
+            }
+        }
+    }
+
+    private void TextBoxHeight_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        if (Selected is Layoutable layoutable)
+        {
+            var result = double.TryParse(TextBoxHeight.Text, CultureInfo.InvariantCulture, out var value);
+            if (result)
+            {
+                layoutable.Height = value;
+            }
+        }
+    }
+
+    private void TextBoxMinWidth_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        if (Selected is Layoutable layoutable)
+        {
+            var result = double.TryParse(TextBoxMinWidth.Text, CultureInfo.InvariantCulture, out var value);
+            if (result)
+            {
+                layoutable.MinWidth = value;
+            }
+        }
+    }
+
+    private void TextBoxMinHeight_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        if (Selected is Layoutable layoutable)
+        {
+            var result = double.TryParse(TextBoxMinHeight.Text, CultureInfo.InvariantCulture, out var value);
+            if (result)
+            {
+                layoutable.MinHeight = value;
+            }
+        }
+    }
+
+    private void TextBoxMaxWidth_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        if (Selected is Layoutable layoutable)
+        {
+            var result = double.TryParse(TextBoxMaxWidth.Text, CultureInfo.InvariantCulture, out var value);
+            if (result)
+            {
+                layoutable.MaxWidth = value;
+            }
+        }
+    }
+
+    private void TextBoxMaxHeight_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        if (Selected is Layoutable layoutable)
+        {
+            var result = double.TryParse(TextBoxMinHeight.Text, CultureInfo.InvariantCulture, out var value);
+            if (result)
+            {
+                layoutable.MaxHeight = value;
+            }
+        }
+    }
+
+    private void TextBoxMargin_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        if (Selected is Layoutable layoutable)
+        {
+            if (TextBoxMargin.Text is not null)
+            {
+                try
+                {
+                    var thickness = Thickness.Parse(TextBoxMargin.Text);
+                    layoutable.Margin = thickness;
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
         }
     }
 }
