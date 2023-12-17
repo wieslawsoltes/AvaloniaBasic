@@ -105,20 +105,20 @@ public partial class MainWindow : Window
         if (result is Visual visual)
         {
             var transformedBounds = visual.GetTransformedBounds();
-            Console.WriteLine($"[{point}] {visual} {transformedBounds}");
             OverlayControl.Result = visual;
             OverlayControl.InvalidateVisual();
-            //AdornerLayer.GetAdornerLayer(this).InvalidateVisual();
-            //var adornerLayer = this.FindDescendantOfType<VisualLayerManager>(true).AdornerLayer;
-            //adornerLayer.InvalidateVisual();
+            // AdornerLayer.GetAdornerLayer(this).InvalidateVisual();
+            // var adornerLayer = this.FindDescendantOfType<VisualLayerManager>(true).AdornerLayer;
+            // adornerLayer.InvalidateVisual();
+            // Console.WriteLine($"[{point}] {visual} {transformedBounds}");
         }
         else
         {
             OverlayControl.Result = null;
             OverlayControl.InvalidateVisual();
-            //AdornerLayer.GetAdornerLayer(this).InvalidateVisual();
-            //var adornerLayer = this.FindDescendantOfType<VisualLayerManager>(true).AdornerLayer;
-            //adornerLayer.InvalidateVisual();
+            // AdornerLayer.GetAdornerLayer(this).InvalidateVisual();
+            // var adornerLayer = this.FindDescendantOfType<VisualLayerManager>(true).AdornerLayer;
+            // adornerLayer.InvalidateVisual();
         }
 
         // Console.WriteLine($"[{point}]");
@@ -150,7 +150,6 @@ public class Overlay : Control
             var transformedBounds = Result.GetTransformedBounds();
             if (transformedBounds is not null)
             {
-                // Console.WriteLine($"{transformedBounds}");
                 var pen = new ImmutablePen(Colors.Red.ToUInt32(), 1);
                 using var _ = context.PushTransform(transformedBounds.Value.Transform);
                 context.DrawRectangle(null, pen, transformedBounds.Value.Bounds);
