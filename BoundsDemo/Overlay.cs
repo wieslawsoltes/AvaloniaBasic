@@ -40,15 +40,17 @@ public class Overlay : Control
 
         if (Selected is not null)
         {
-            RenderVisual(Selected, context,  new ImmutablePen(Colors.Blue.ToUInt32()));
+            RenderVisual(Selected, context, new ImmutablePen(Colors.Blue.ToUInt32()));
         }
 
         if (Hover is not null)
         {
-            RenderVisual(Hover, context,  new ImmutablePen(Colors.Red.ToUInt32()));
+            RenderVisual(Hover, context, new ImmutablePen(Colors.Red.ToUInt32()));
+
+            var selectedName = Hover.GetType().Name;
 
             var formattedText = new FormattedText(
-                Hover.GetType().Name, 
+                selectedName, 
                 CultureInfo.CurrentCulture, 
                 FlowDirection.LeftToRight, 
                 Typeface.Default, 
@@ -57,14 +59,16 @@ public class Overlay : Control
             context.DrawText(formattedText, new Point(5, 5));
         }
 
+        var helpText = $"[V] [L] Mode: {HitTestMode}, [H] Toggle HitTest, [R] Toggle Reverse Order";
+
         var formattedTextMode = new FormattedText(
-            $"[V] [L] Mode: {HitTestMode}, [H] Toggle HitTest, [R] Toggle Reverse Order", 
+            helpText, 
             CultureInfo.CurrentCulture, 
             FlowDirection.LeftToRight, 
             Typeface.Default, 
             12, 
             Brushes.Blue);
-        context.DrawText(formattedTextMode, new Point(5, Bounds.Height - 20));
+        context.DrawText(formattedTextMode, new Point(5, Bounds.Height - 12 - 5));
     }
 
     private static void RenderVisual(Visual visual, DrawingContext context, IPen? pen)
