@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
@@ -19,6 +18,12 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+    }
+
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+        Focus();
     }
 
     protected override void OnPointerMoved(PointerEventArgs e)
@@ -126,15 +131,15 @@ public partial class MainWindow : Window
 
 public enum HitTestMode
 {
+    Logical,
     Visual,
-    Logical
 }
 
 public class Overlay : Control
 {
     public Visual? Result;
 
-    public HitTestMode HitTestMode = HitTestMode.Visual;
+    public HitTestMode HitTestMode = HitTestMode.Logical;
 
     public override void Render(DrawingContext context)
     {
