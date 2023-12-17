@@ -6,7 +6,8 @@
              x:Class="BoundsDemo.PropertiesEditorView">
   <StackPanel>
 
-    <StackPanel Name="LayoutStackPanel">
+    <StackPanel Name="LayoutStackPanel"
+                Grid.IsSharedSizeScope="True">
       <TextBlock Text="Layout" />
       <!-- Layoutable -->
       <StackPanel Orientation="Horizontal">
@@ -72,6 +73,76 @@
                Width="16" Height="16" />
         </ToggleButton>
       </StackPanel>
+      <!-- Width -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Width" VerticalAlignment="Center" Grid.Column="0" />
+        <TextBox Name="TextBoWidth" BorderBrush="Transparent" Grid.Column="1"
+                 TextChanged="TextBoWidth_OnTextChanged" />
+      </Grid>
+      <!-- Height -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Height" VerticalAlignment="Center" Grid.Column="0" />
+        <TextBox Name="TextBoxHeight" BorderBrush="Transparent" Grid.Column="1"
+                 TextChanged="TextBoxHeight_OnTextChanged" />
+      </Grid>
+      <!-- MinWidth -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="MinWidth" VerticalAlignment="Center" Grid.Column="0" />
+        <TextBox Name="TextBoxMinWidth" BorderBrush="Transparent" Grid.Column="1"
+                 TextChanged="TextBoxMinWidth_OnTextChanged"  />
+      </Grid>
+      <!-- MinHeight -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="MinHeight" VerticalAlignment="Center" Grid.Column="0" />
+        <TextBox Name="TextBoxMinHeight" BorderBrush="Transparent" Grid.Column="1"
+                 TextChanged="TextBoxMinHeight_OnTextChanged"  />
+      </Grid>
+      <!-- MaxWidth -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="MaxWidth" VerticalAlignment="Center" Grid.Column="0" />
+        <TextBox Name="TextBoxMaxWidth" BorderBrush="Transparent" Grid.Column="1"
+                 TextChanged="TextBoxMaxWidth_OnTextChanged"  />
+      </Grid>
+      <!-- MaxHeight -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="MaxHeight" VerticalAlignment="Center" Grid.Column="0" />
+        <TextBox Name="TextBoxMaxHeight" BorderBrush="Transparent" Grid.Column="1"
+                 TextChanged="TextBoxMaxHeight_OnTextChanged"  />
+      </Grid>
+      <!-- Margin -->
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Margin" VerticalAlignment="Center" Grid.Column="0" />
+        <TextBox Name="TextBoxMargin" BorderBrush="Transparent" Grid.Column="1"
+                 TextChanged="TextBoxMargin_OnTextChanged"  />
+      </Grid>
     </StackPanel>
 
     <StackPanel Name="ContentLayoutStackPanel">
