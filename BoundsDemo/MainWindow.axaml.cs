@@ -142,8 +142,23 @@ public partial class MainWindow : Window
             : visuals;
     }
 
+    private void SelectedOnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    {
+        OverlayControl.InvalidateVisual();
+    }
+
     private void UpdatePropertiesEditor(Visual? selected)
     {
+        if (PropertiesEditor.Selected is not null)
+        {
+            PropertiesEditor.Selected.PropertyChanged -= SelectedOnPropertyChanged;
+        }
+
+        if (selected is not null)
+        {
+            selected.PropertyChanged += SelectedOnPropertyChanged;
+        }
+
         PropertiesEditor.Selected = selected;
         PropertiesEditor.UpdatePropertiesEditor();
     }
