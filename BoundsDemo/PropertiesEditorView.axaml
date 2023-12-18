@@ -9,7 +9,8 @@
     <!-- Layoutable -->
     <StackPanel Name="LayoutStackPanel"
                 Grid.IsSharedSizeScope="True">
-      <TextBlock Text="Layout" Margin="6" />
+
+      <TextBlock Text="Layout" Margin="12" />
 
       <!-- Align Horizontal -->
       <StackPanel Orientation="Horizontal"
@@ -207,7 +208,8 @@
 
     <!-- ContentControl -->
     <StackPanel Name="ContentLayoutStackPanel">
-      <TextBlock Text="Content" Margin="6" />
+
+      <TextBlock Text="Content" Margin="12" />
 
       <!-- Align Horizontal -->
       <StackPanel Orientation="Horizontal"
@@ -281,7 +283,9 @@
 
     <!-- TextBlock, TextBox -->
     <StackPanel Name="TextLayoutStackPanel">
-      <TextBlock Text="Text" Margin="6" />
+
+      <TextBlock Text="Text" Margin="12" />
+
       <StackPanel Orientation="Horizontal"
                   Margin="6,0,6,0">
         <!-- Align Text -->
