@@ -475,6 +475,8 @@ public partial class PropertiesEditorView : UserControl
             return;
         }
 
+        _isUpdating = true;
+
         if (Selected is Layoutable layoutable)
         {
             if (TextBoxMargin.Text is not null)
@@ -490,6 +492,8 @@ public partial class PropertiesEditorView : UserControl
                 }
             }
         }
+
+        _isUpdating = false;
     }
 
     private void TextBoxBackground_OnTextChanged(object? sender, TextChangedEventArgs e)
@@ -499,6 +503,8 @@ public partial class PropertiesEditorView : UserControl
             return;
         }
 
+        _isUpdating = true;
+
         if (Selected is TemplatedControl templatedControl)
         {
             if (TextBoxBackground.Text is not null)
@@ -507,6 +513,8 @@ public partial class PropertiesEditorView : UserControl
                 {
                     var color = Color.Parse(TextBoxBackground.Text);
                     templatedControl.Background = new ImmutableSolidColorBrush(color);
+
+                    SetBackground(color);
                 }
                 catch (Exception)
                 {
@@ -514,6 +522,8 @@ public partial class PropertiesEditorView : UserControl
                 }
             }
         }
+
+        _isUpdating = false;
     }
 
     private void BackgroundColorView_OnColorChanged(object? sender, ColorChangedEventArgs e)
@@ -523,18 +533,24 @@ public partial class PropertiesEditorView : UserControl
             return;
         }
 
+        _isUpdating = true;
+
         if (Selected is TemplatedControl templatedControl)
         {
             try
             {
                 var color = e.NewColor;
                 templatedControl.Background = new ImmutableSolidColorBrush(color);
+
+                SetBackground(color);
             }
             catch (Exception)
             {
                 // ignored
             }
         }
+
+        _isUpdating = false;
     }
 
     private void TextBoxForeground_OnTextChanged(object? sender, TextChangedEventArgs e)
@@ -544,6 +560,8 @@ public partial class PropertiesEditorView : UserControl
             return;
         }
 
+        _isUpdating = true;
+
         if (Selected is TemplatedControl templatedControl)
         {
             if (TextBoxForeground.Text is not null)
@@ -552,6 +570,8 @@ public partial class PropertiesEditorView : UserControl
                 {
                     var color = Color.Parse(TextBoxForeground.Text);
                     templatedControl.Foreground = new ImmutableSolidColorBrush(color);
+
+                    SetForeground(color);
                 }
                 catch (Exception)
                 {
@@ -559,6 +579,8 @@ public partial class PropertiesEditorView : UserControl
                 }
             }
         }
+
+        _isUpdating = false;
     }
 
     private void ForegroundColorView_OnColorChanged(object? sender, ColorChangedEventArgs e)
@@ -574,12 +596,16 @@ public partial class PropertiesEditorView : UserControl
             {
                 var color = e.NewColor;
                 templatedControl.Foreground = new ImmutableSolidColorBrush(color);
+
+                SetForeground(color);
             }
             catch (Exception)
             {
                 // ignored
             }
         }
+
+        _isUpdating = false;
     }
 }
 
