@@ -58,7 +58,7 @@ public partial class PropertiesEditorView : UserControl
         {
             ContentLayoutStackPanel.IsVisible = true;
             SetHorizontalContentAlignment(contentControl.HorizontalContentAlignment);
-            SetVerticalContentAlignment(contentControl.VerticalAlignment);
+            SetVerticalContentAlignment(contentControl.VerticalContentAlignment);
         }
         else
         {
