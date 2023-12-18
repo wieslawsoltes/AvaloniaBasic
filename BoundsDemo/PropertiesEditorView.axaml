@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="700"
+             mc:Ignorable="d" d:DesignWidth="210" d:DesignHeight="700"
              x:Class="BoundsDemo.PropertiesEditorView">
   <StackPanel>
 
@@ -94,10 +94,10 @@
         </TextBox.InnerLeftContent>
         <TextBox.InnerRightContent>
           <Button Background="Transparent"
-                        ToolTip.Tip="Min/Max Width">
+                  ToolTip.Tip="Min/Max Width">
             <Button.Flyout>
               <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
-                <StackPanel Width="200">
+                <StackPanel Width="210">
                   <!-- MinWidth -->
                   <TextBox Name="TextBoxMinWidth" BorderBrush="Transparent"
                            TextChanged="TextBoxMinWidth_OnTextChanged"
@@ -132,6 +132,7 @@
           </Button>
         </TextBox.InnerRightContent>
       </TextBox>
+
       <!-- Height -->
       <TextBox Name="TextBoxHeight" BorderBrush="Transparent"
                TextChanged="TextBoxHeight_OnTextChanged"
@@ -149,7 +150,7 @@
                   ToolTip.Tip="Min/Max Height">
             <Button.Flyout>
               <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
-                <StackPanel Width="200">
+                <StackPanel Width="210">
                   <!-- MinHeight -->
                   <TextBox Name="TextBoxMinHeight" BorderBrush="Transparent"
                            TextChanged="TextBoxMinHeight_OnTextChanged"
