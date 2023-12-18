@@ -10,7 +10,7 @@
         Title="BoundsDemo">
   <Panel>
 
-    <Grid ColumnDefinitions="*,150">
+    <Grid ColumnDefinitions="*,200">
 
       <StackPanel c:Overlay.EnableHitTest="True"
                   Name="EditablePanel"
@@ -46,7 +46,11 @@
         <DatePicker />
       </StackPanel>
 
-      <c:PropertiesEditorView Name="PropertiesEditor" Grid.Column="1" />
+      <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto"
+                    Grid.Column="1">
+        <c:PropertiesEditorView Name="PropertiesEditor" />
+      </ScrollViewer>
 
     </Grid>
 
