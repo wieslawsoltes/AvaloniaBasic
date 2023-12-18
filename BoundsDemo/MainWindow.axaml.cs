@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
@@ -32,6 +33,11 @@ public partial class MainWindow : Window
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
         base.OnPointerPressed(e);
+
+        if (e.Source is LightDismissOverlayLayer)
+        {
+            return;
+        }
 
         var visuals = HitTest(this, e.GetPosition(this), OverlayControl.HitTestMode, _ignored);
         OverlayControl.Selected = visuals.FirstOrDefault();
