@@ -2,9 +2,11 @@ using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
+using Avalonia.Media.Immutable;
 using Avalonia.Reactive;
 
 namespace BoundsDemo;
@@ -84,6 +86,25 @@ public partial class PropertiesEditorView : UserControl
             TextLayoutStackPanel.IsVisible = false;
         }
 
+        if (Selected is TemplatedControl templatedControl)
+        {
+            TemplatedControlStackPanel.IsVisible = true;
+
+            if (templatedControl.Background is ISolidColorBrush backgroundSolidColorBrush)
+            {
+                SetBackground(backgroundSolidColorBrush.Color);
+            }
+
+            if (templatedControl.Foreground is ISolidColorBrush foregroundSolidColorBrush)
+            {
+                SetForeground(foregroundSolidColorBrush.Color);
+            }
+        }
+        else
+        {
+            TemplatedControlStackPanel.IsVisible = false;
+        }
+
         _isUpdating = false;
     }
 
@@ -125,6 +146,20 @@ public partial class PropertiesEditorView : UserControl
         ButtonTextAlignCenter.IsChecked = textAlignment == TextAlignment.Center;
         ButtonTextAlignRight.IsChecked = textAlignment == TextAlignment.Right;
         ButtonTextAlignJustified.IsChecked = textAlignment == TextAlignment.Justify;
+    }
+
+    private void SetBackground(Color color)
+    {
+        TextBoxBackground.Text = $"#{color.ToUInt32():X8}";
+        BackgroundColorView.Color = color;
+        RectangleBackground.Fill = new ImmutableSolidColorBrush(color);
+    }
+
+    private void SetForeground(Color color)
+    {
+        TextBoxForeground.Text = $"#{color.ToUInt32():X8}";
+        ForegroundColorView.Color = color;
+        RectangleForeground.Fill = new ImmutableSolidColorBrush(color);
     }
 
     private void ButtonAlignHorizontalLeft_OnClick(object? sender, RoutedEventArgs e)
@@ -453,6 +488,96 @@ public partial class PropertiesEditorView : UserControl
                 {
                     // ignored
                 }
+            }
+        }
+    }
+
+    private void TextBoxBackground_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        if (Selected is TemplatedControl templatedControl)
+        {
+            if (TextBoxBackground.Text is not null)
+            {
+                try
+                {
+                    var color = Color.Parse(TextBoxBackground.Text);
+                    templatedControl.Background = new ImmutableSolidColorBrush(color);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+        }
+    }
+
+    private void BackgroundColorView_OnColorChanged(object? sender, ColorChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        if (Selected is TemplatedControl templatedControl)
+        {
+            try
+            {
+                var color = e.NewColor;
+                templatedControl.Background = new ImmutableSolidColorBrush(color);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+    }
+
+    private void TextBoxForeground_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        if (Selected is TemplatedControl templatedControl)
+        {
+            if (TextBoxForeground.Text is not null)
+            {
+                try
+                {
+                    var color = Color.Parse(TextBoxForeground.Text);
+                    templatedControl.Foreground = new ImmutableSolidColorBrush(color);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+        }
+    }
+
+    private void ForegroundColorView_OnColorChanged(object? sender, ColorChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        if (Selected is TemplatedControl templatedControl)
+        {
+            try
+            {
+                var color = e.NewColor;
+                templatedControl.Foreground = new ImmutableSolidColorBrush(color);
+            }
+            catch (Exception)
+            {
+                // ignored
             }
         }
     }
