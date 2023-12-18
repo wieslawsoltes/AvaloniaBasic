@@ -12,7 +12,8 @@
       <TextBlock Text="Layout" Margin="6" />
 
       <!-- Align Horizontal -->
-      <StackPanel Orientation="Horizontal">
+      <StackPanel Orientation="Horizontal"
+                  Margin="6,0,6,0">
         <ToggleButton Name="ButtonAlignHorizontalLeft"
                       Click="ButtonAlignHorizontalLeft_OnClick"
                       Background="Transparent"
@@ -44,7 +45,8 @@
       </StackPanel>
 
       <!-- Align Vertical -->
-      <StackPanel Orientation="Horizontal">
+      <StackPanel Orientation="Horizontal"
+                  Margin="6,0,6,0">
         <ToggleButton Name="ButtonAlignVerticalTop"
                       Click="ButtonAlignVerticalTop_OnClick"
                       Background="Transparent"
@@ -79,7 +81,8 @@
 
       <!-- Width -->
       <TextBox Name="TextBoWidth" BorderBrush="Transparent"
-               TextChanged="TextBoWidth_OnTextChanged">
+               TextChanged="TextBoWidth_OnTextChanged"
+               Margin="6,0,6,0">
         <TextBox.InnerLeftContent>
           <Grid>
             <Grid.ColumnDefinitions>
@@ -96,7 +99,8 @@
                 <StackPanel Width="200">
                   <!-- MinWidth -->
                   <TextBox Name="TextBoxMinWidth" BorderBrush="Transparent"
-                           TextChanged="TextBoxMinWidth_OnTextChanged">
+                           TextChanged="TextBoxMinWidth_OnTextChanged"
+                           Margin="6,0,6,0">
                     <TextBox.InnerLeftContent>
                       <Grid>
                         <Grid.ColumnDefinitions>
@@ -108,7 +112,8 @@
                   </TextBox>
                   <!-- MaxWidth -->
                   <TextBox Name="TextBoxMaxWidth" BorderBrush="Transparent" 
-                           TextChanged="TextBoxMaxWidth_OnTextChanged">
+                           TextChanged="TextBoxMaxWidth_OnTextChanged"
+                           Margin="6,0,6,0">
                     <TextBox.InnerLeftContent>
                       <Grid>
                         <Grid.ColumnDefinitions>
@@ -128,7 +133,8 @@
       </TextBox>
       <!-- Height -->
       <TextBox Name="TextBoxHeight" BorderBrush="Transparent"
-               TextChanged="TextBoxHeight_OnTextChanged">
+               TextChanged="TextBoxHeight_OnTextChanged"
+               Margin="6,0,6,0">
         <TextBox.InnerLeftContent>
           <Grid>
             <Grid.ColumnDefinitions>
@@ -145,7 +151,8 @@
                 <StackPanel Width="200">
                   <!-- MinHeight -->
                   <TextBox Name="TextBoxMinHeight" BorderBrush="Transparent"
-                           TextChanged="TextBoxMinHeight_OnTextChanged">
+                           TextChanged="TextBoxMinHeight_OnTextChanged"
+                           Margin="6,0,6,0">
                     <TextBox.InnerLeftContent>
                       <Grid>
                         <Grid.ColumnDefinitions>
@@ -158,6 +165,7 @@
                   <!-- MaxHeight -->
                   <TextBox Name="TextBoxMaxHeight" BorderBrush="Transparent"
                            TextChanged="TextBoxMaxHeight_OnTextChanged">
+                    Margin="6,0,6,0"
                     <TextBox.InnerLeftContent>
                       <Grid>
                         <Grid.ColumnDefinitions>
@@ -180,7 +188,8 @@
 
       <!-- Margin -->
       <TextBox Name="TextBoxMargin" BorderBrush="Transparent" 
-               TextChanged="TextBoxMargin_OnTextChanged">
+               TextChanged="TextBoxMargin_OnTextChanged"
+               Margin="6,0,6,0">
         <TextBox.InnerLeftContent>
           <Grid>
             <Grid.ColumnDefinitions>
@@ -201,7 +210,8 @@
       <TextBlock Text="Content" Margin="6" />
 
       <!-- Align Horizontal -->
-      <StackPanel Orientation="Horizontal">
+      <StackPanel Orientation="Horizontal"
+                  Margin="6,0,6,0">
         <ToggleButton Name="ButtonAlignContentHorizontalLeft"
                       Click="ButtonAlignContentHorizontalLeft_OnClick"
                       Background="Transparent"
@@ -233,7 +243,8 @@
       </StackPanel>
 
       <!-- Align Vertical -->
-      <StackPanel Orientation="Horizontal">
+      <StackPanel Orientation="Horizontal"
+                  Margin="6,0,6,0">
         <ToggleButton Name="ButtonAlignContentVerticalTop"
                       Click="ButtonAlignContentVerticalTop_OnClick"
                       Background="Transparent"
@@ -271,7 +282,8 @@
     <!-- TextBlock, TextBox -->
     <StackPanel Name="TextLayoutStackPanel">
       <TextBlock Text="Text" Margin="6" />
-      <StackPanel Orientation="Horizontal">
+      <StackPanel Orientation="Horizontal"
+                  Margin="6,0,6,0">
         <!-- Align Text -->
         <ToggleButton Name="ButtonTextAlignLeft"
                       Click="ButtonTextAlignLeft_OnClick"
