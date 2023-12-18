@@ -2,16 +2,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="700"
              x:Class="BoundsDemo.PropertiesEditorView">
   <StackPanel>
 
+    <!-- Layoutable -->
     <StackPanel Name="LayoutStackPanel"
                 Grid.IsSharedSizeScope="True">
-      <TextBlock Text="Layout" />
-      <!-- Layoutable -->
+      <TextBlock Text="Layout" Margin="6" />
+
+      <!-- Align Horizontal -->
       <StackPanel Orientation="Horizontal">
-        <!-- Align Horizontal -->
         <ToggleButton Name="ButtonAlignHorizontalLeft"
                       Click="ButtonAlignHorizontalLeft_OnClick"
                       Background="Transparent"
@@ -41,9 +42,9 @@
                Width="16" Height="16" />
         </ToggleButton>
       </StackPanel>
-      <!-- Layoutable -->
+
+      <!-- Align Vertical -->
       <StackPanel Orientation="Horizontal">
-        <!-- Align Vertical -->
         <ToggleButton Name="ButtonAlignVerticalTop"
                       Click="ButtonAlignVerticalTop_OnClick"
                       Background="Transparent"
@@ -73,83 +74,134 @@
                Width="16" Height="16" />
         </ToggleButton>
       </StackPanel>
+
+      <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6" />
+
       <!-- Width -->
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <TextBlock Text="Width" VerticalAlignment="Center" Grid.Column="0" />
-        <TextBox Name="TextBoWidth" BorderBrush="Transparent" Grid.Column="1"
-                 TextChanged="TextBoWidth_OnTextChanged" />
-      </Grid>
+      <TextBox Name="TextBoWidth" BorderBrush="Transparent"
+               TextChanged="TextBoWidth_OnTextChanged">
+        <TextBox.InnerLeftContent>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Width" Margin="6" Opacity="0.6" HorizontalAlignment="Left" VerticalAlignment="Center" />
+          </Grid>
+        </TextBox.InnerLeftContent>
+        <TextBox.InnerRightContent>
+          <Button Background="Transparent"
+                        ToolTip.Tip="Min/Max Width">
+            <Button.Flyout>
+              <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
+                <StackPanel Width="200">
+                  <!-- MinWidth -->
+                  <TextBox Name="TextBoxMinWidth" BorderBrush="Transparent"
+                           TextChanged="TextBoxMinWidth_OnTextChanged">
+                    <TextBox.InnerLeftContent>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="MinWidth" Margin="6" Opacity="0.6" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                      </Grid>
+                    </TextBox.InnerLeftContent>
+                  </TextBox>
+                  <!-- MaxWidth -->
+                  <TextBox Name="TextBoxMaxWidth" BorderBrush="Transparent" 
+                           TextChanged="TextBoxMaxWidth_OnTextChanged">
+                    <TextBox.InnerLeftContent>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="MaxWidth" Margin="6" Opacity="0.6" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                      </Grid>
+                    </TextBox.InnerLeftContent>
+                  </TextBox>
+                </StackPanel>
+              </Flyout>
+            </Button.Flyout>
+            <Svg Path="/Assets/Icons/ic_fluent_options_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+        </TextBox.InnerRightContent>
+      </TextBox>
       <!-- Height -->
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <TextBlock Text="Height" VerticalAlignment="Center" Grid.Column="0" />
-        <TextBox Name="TextBoxHeight" BorderBrush="Transparent" Grid.Column="1"
-                 TextChanged="TextBoxHeight_OnTextChanged" />
-      </Grid>
-      <!-- MinWidth -->
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <TextBlock Text="MinWidth" VerticalAlignment="Center" Grid.Column="0" />
-        <TextBox Name="TextBoxMinWidth" BorderBrush="Transparent" Grid.Column="1"
-                 TextChanged="TextBoxMinWidth_OnTextChanged"  />
-      </Grid>
-      <!-- MinHeight -->
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <TextBlock Text="MinHeight" VerticalAlignment="Center" Grid.Column="0" />
-        <TextBox Name="TextBoxMinHeight" BorderBrush="Transparent" Grid.Column="1"
-                 TextChanged="TextBoxMinHeight_OnTextChanged"  />
-      </Grid>
-      <!-- MaxWidth -->
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <TextBlock Text="MaxWidth" VerticalAlignment="Center" Grid.Column="0" />
-        <TextBox Name="TextBoxMaxWidth" BorderBrush="Transparent" Grid.Column="1"
-                 TextChanged="TextBoxMaxWidth_OnTextChanged"  />
-      </Grid>
-      <!-- MaxHeight -->
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <TextBlock Text="MaxHeight" VerticalAlignment="Center" Grid.Column="0" />
-        <TextBox Name="TextBoxMaxHeight" BorderBrush="Transparent" Grid.Column="1"
-                 TextChanged="TextBoxMaxHeight_OnTextChanged"  />
-      </Grid>
+      <TextBox Name="TextBoxHeight" BorderBrush="Transparent"
+               TextChanged="TextBoxHeight_OnTextChanged">
+        <TextBox.InnerLeftContent>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Height" Margin="6" Opacity="0.6" HorizontalAlignment="Left" VerticalAlignment="Center" />
+          </Grid>
+        </TextBox.InnerLeftContent>
+        <TextBox.InnerRightContent>
+          <Button Background="Transparent"
+                  ToolTip.Tip="Min/Max Height">
+            <Button.Flyout>
+              <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
+                <StackPanel Width="200">
+                  <!-- MinHeight -->
+                  <TextBox Name="TextBoxMinHeight" BorderBrush="Transparent"
+                           TextChanged="TextBoxMinHeight_OnTextChanged">
+                    <TextBox.InnerLeftContent>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="MinHeight" Margin="6" Opacity="0.6" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                      </Grid>
+                    </TextBox.InnerLeftContent>
+                  </TextBox>
+                  <!-- MaxHeight -->
+                  <TextBox Name="TextBoxMaxHeight" BorderBrush="Transparent"
+                           TextChanged="TextBoxMaxHeight_OnTextChanged">
+                    <TextBox.InnerLeftContent>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="MaxHeight" Margin="6" Opacity="0.6" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                      </Grid>
+                    </TextBox.InnerLeftContent>
+                  </TextBox>
+                </StackPanel>
+              </Flyout>
+            </Button.Flyout>
+            <Svg Path="/Assets/Icons/ic_fluent_options_24_regular.svg"
+                 Width="16" Height="16" />
+          </Button>
+        </TextBox.InnerRightContent>
+      </TextBox>
+
+      <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6" />
+
       <!-- Margin -->
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <TextBlock Text="Margin" VerticalAlignment="Center" Grid.Column="0" />
-        <TextBox Name="TextBoxMargin" BorderBrush="Transparent" Grid.Column="1"
-                 TextChanged="TextBoxMargin_OnTextChanged"  />
-      </Grid>
+      <TextBox Name="TextBoxMargin" BorderBrush="Transparent" 
+               TextChanged="TextBoxMargin_OnTextChanged">
+        <TextBox.InnerLeftContent>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Margin" Margin="6" Opacity="0.6" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+          </Grid>
+        </TextBox.InnerLeftContent>
+      </TextBox>
+
     </StackPanel>
 
+    <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6"
+               IsVisible="{Binding #ContentLayoutStackPanel.IsVisible}" />
+
+    <!-- ContentControl -->
     <StackPanel Name="ContentLayoutStackPanel">
-      <TextBlock Text="Content Layout " />
-      <!-- ContentControl -->
+      <TextBlock Text="Content" Margin="6" />
+
+      <!-- Align Horizontal -->
       <StackPanel Orientation="Horizontal">
-        <!-- Align Horizontal -->
         <ToggleButton Name="ButtonAlignContentHorizontalLeft"
                       Click="ButtonAlignContentHorizontalLeft_OnClick"
                       Background="Transparent"
@@ -179,9 +231,9 @@
                Width="16" Height="16" />
         </ToggleButton>
       </StackPanel>
-      <!-- ContentControl -->
+
+      <!-- Align Vertical -->
       <StackPanel Orientation="Horizontal">
-        <!-- Align Vertical -->
         <ToggleButton Name="ButtonAlignContentVerticalTop"
                       Click="ButtonAlignContentVerticalTop_OnClick"
                       Background="Transparent"
@@ -213,9 +265,12 @@
       </StackPanel>
     </StackPanel>
 
+    <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6"
+               IsVisible="{Binding #TextLayoutStackPanel.IsVisible}"  />
+
+    <!-- TextBlock, TextBox -->
     <StackPanel Name="TextLayoutStackPanel">
-      <!-- TextBlock, TextBox -->
-      <TextBlock Text="Text" />
+      <TextBlock Text="Text" Margin="6" />
       <StackPanel Orientation="Horizontal">
         <!-- Align Text -->
         <ToggleButton Name="ButtonTextAlignLeft"
