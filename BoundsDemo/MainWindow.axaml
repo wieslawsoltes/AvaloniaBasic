@@ -10,7 +10,7 @@
         Title="BoundsDemo">
   <Panel>
 
-    <Grid ColumnDefinitions="*,210">
+    <Grid ColumnDefinitions="*,220">
 
       <StackPanel c:Overlay.EnableHitTest="True"
                   Name="EditablePanel"
