@@ -97,7 +97,8 @@
                   ToolTip.Tip="Min/Max Width">
             <Button.Flyout>
               <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
-                <StackPanel Width="220">
+                <StackPanel Width="220"
+                            Grid.IsSharedSizeScope="True">
                   <!-- MinWidth -->
                   <TextBox Name="TextBoxMinWidth" BorderBrush="Transparent"
                            TextChanged="TextBoxMinWidth_OnTextChanged"
@@ -150,7 +151,8 @@
                   ToolTip.Tip="Min/Max Height">
             <Button.Flyout>
               <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
-                <StackPanel Width="220">
+                <StackPanel Width="220"
+                            Grid.IsSharedSizeScope="True">
                   <!-- MinHeight -->
                   <TextBox Name="TextBoxMinHeight" BorderBrush="Transparent"
                            TextChanged="TextBoxMinHeight_OnTextChanged"
@@ -166,8 +168,8 @@
                   </TextBox>
                   <!-- MaxHeight -->
                   <TextBox Name="TextBoxMaxHeight" BorderBrush="Transparent"
-                           TextChanged="TextBoxMaxHeight_OnTextChanged">
-                    Margin="6,0,6,0"
+                           TextChanged="TextBoxMaxHeight_OnTextChanged"
+                           Margin="6,0,6,0">
                     <TextBox.InnerLeftContent>
                       <Grid>
                         <Grid.ColumnDefinitions>
