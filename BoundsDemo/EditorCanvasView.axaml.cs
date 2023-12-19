@@ -53,19 +53,19 @@ public partial class EditorCanvasView : UserControl
     {
         var visuals = HitTest(this, e.GetPosition(this), OverlayControl.HitTestMode, _ignored);
 
-        OverlayControl.Hover = visuals.FirstOrDefault();
+        OverlayControl.Hovered = visuals.FirstOrDefault();
         OverlayControl.InvalidateVisual();
     }
 
     private void OnPointerExited(object? sender, PointerEventArgs e)
     {
-        OverlayControl.Hover = null;
+        OverlayControl.Hovered = null;
         OverlayControl.InvalidateVisual();
     }
 
     private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
-        OverlayControl.Hover = null;
+        OverlayControl.Hovered = null;
         OverlayControl.InvalidateVisual();
     }
 

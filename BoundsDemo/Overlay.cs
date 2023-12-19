@@ -29,24 +29,38 @@ public class Overlay : Control
         element.SetValue(EnableHitTestProperty, value);
     }
 
-    public event EventHandler<EventArgs>? SelectionChanged;
+    public event EventHandler<EventArgs>? HoveredChanged;
 
-    public Visual? Hover { get; set; }
+    public event EventHandler<EventArgs>? SelectedChanged;
+
+    public Visual? Hovered { get; set; }
 
     public Visual? Selected { get; set; }
 
     public HitTestMode HitTestMode  { get; set; } = HitTestMode.Logical;
 
-    protected virtual void OnSelectionChanged(EventArgs e)
+    protected virtual void OnHoveredChanged(EventArgs e)
     {
-        SelectionChanged?.Invoke(this, e);
+        HoveredChanged?.Invoke(this, e);
+    }
+
+    protected virtual void OnSelectedChanged(EventArgs e)
+    {
+        SelectedChanged?.Invoke(this, e);
+    }
+
+    public void Hover(Visual? visual)
+    {
+        Hovered = visual;
+        InvalidateVisual();
+        OnHoveredChanged(EventArgs.Empty);
     }
 
     public void Select(Visual? visual)
     {
         Selected = visual;
         InvalidateVisual();
-        OnSelectionChanged(EventArgs.Empty);
+        OnSelectedChanged(EventArgs.Empty);
     }
 
     public override void Render(DrawingContext context)
@@ -56,24 +70,24 @@ public class Overlay : Control
         if (Selected is not null)
         {
             RenderVisual(Selected, context, new ImmutablePen(Colors.Blue.ToUInt32()));
+
+            if (Hovered is null)
+            {
+                DrawName(context, Selected.GetType().Name);
+            }
         }
 
-        if (Hover is not null)
+        if (Hovered is not null)
         {
-            RenderVisual(Hover, context, new ImmutablePen(Colors.Red.ToUInt32()));
-
-            var selectedName = Hover.GetType().Name;
-
-            var formattedText = new FormattedText(
-                selectedName, 
-                CultureInfo.CurrentCulture, 
-                FlowDirection.LeftToRight, 
-                Typeface.Default, 
-                12, 
-                Brushes.Red);
-            context.DrawText(formattedText, new Point(5, 5));
+            RenderVisual(Hovered, context, new ImmutablePen(Colors.Red.ToUInt32()));
+            DrawName(context, Hovered.GetType().Name);
         }
 
+        DrawHelp(context);
+    }
+
+    private void DrawHelp(DrawingContext context)
+    {
         var helpText = $"[V] [L] Mode: {HitTestMode}, [H] Toggle HitTest, [R] Toggle Reverse Order";
 
         var formattedTextMode = new FormattedText(
@@ -84,6 +98,18 @@ public class Overlay : Control
             12, 
             Brushes.Blue);
         context.DrawText(formattedTextMode, new Point(5, Bounds.Height - 12 - 5));
+    }
+
+    private static void DrawName(DrawingContext context, string name)
+    {
+        var formattedText = new FormattedText(
+            name, 
+            CultureInfo.CurrentCulture, 
+            FlowDirection.LeftToRight, 
+            Typeface.Default, 
+            12, 
+            Brushes.Red);
+        context.DrawText(formattedText, new Point(5, 5));
     }
 
     private static void RenderVisual(Visual visual, DrawingContext context, IPen? pen)

@@ -11,7 +11,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        OverlayControl.SelectionChanged += (_, _) =>
+        OverlayControl.SelectedChanged += (_, _) =>
         {
             UpdatePropertiesEditor(OverlayControl.Selected);
         };
@@ -32,17 +32,17 @@ public partial class MainWindow : Window
         switch (e.Key)
         {
             case Key.Escape:
-                OverlayControl.Hover = null;
+                OverlayControl.Hover(null);
                 OverlayControl.Select(null);
                 break;
             case Key.L:
                 OverlayControl.HitTestMode = HitTestMode.Logical;
-                OverlayControl.Hover = null;
+                OverlayControl.Hover(null);
                 OverlayControl.Select(null);
                 break;
             case Key.V:
                 OverlayControl.HitTestMode = HitTestMode.Visual;
-                OverlayControl.Hover = null;
+                OverlayControl.Hover(null);
                 OverlayControl.Select(null);
                 break;
             case Key.H:
@@ -50,7 +50,7 @@ public partial class MainWindow : Window
                 break;
             case Key.R:
                 EditorCanvas.ReverseOrder = !EditorCanvas.ReverseOrder;
-                OverlayControl.Hover = null;
+                OverlayControl.Hover(null);
                 OverlayControl.Select(null);
                 break;
         }
