@@ -12,39 +12,10 @@
 
     <Grid ColumnDefinitions="*,220">
 
-      <StackPanel c:Overlay.EnableHitTest="True"
-                  Name="EditablePanel"
-                  Grid.Column="0" 
-                  Width="350"
-                  IsHitTestVisible="False">
-        <TextBlock Text="Text" />
-        <TextBox Text="Text" />
-        <LayoutTransformControl>
-          <LayoutTransformControl.LayoutTransform>
-            <RotateTransform Angle="45" />
-          </LayoutTransformControl.LayoutTransform>
-          <TextBox Text="Text" />
-        </LayoutTransformControl>
-        <CheckBox Content="Text">
-          <CheckBox.RenderTransform>
-            <RotateTransform Angle="0" />
-          </CheckBox.RenderTransform>
-        </CheckBox>
-        <Button Content="Text" />
-        <ProgressBar />
-        <ComboBox SelectedIndex="0">
-          <ComboBoxItem>0</ComboBoxItem>
-          <ComboBoxItem>1</ComboBoxItem>
-          <ComboBoxItem>2</ComboBoxItem>
-        </ComboBox>
-        <ListBox>
-          <ListBoxItem>0</ListBoxItem>
-          <ListBoxItem>1</ListBoxItem>
-          <ListBoxItem>2</ListBoxItem>
-        </ListBox>
-        <Slider />
-        <DatePicker />
-      </StackPanel>
+      <c:EditorCanvasView Name="EditorCanvas"
+                          OverlayControl="{Binding #OverlayControl}" 
+                          Grid.Column="0"
+                          Background="Transparent" />
 
       <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto"

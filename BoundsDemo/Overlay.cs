@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
@@ -28,11 +29,25 @@ public class Overlay : Control
         element.SetValue(EnableHitTestProperty, value);
     }
 
-    public Visual? Hover;
+    public event EventHandler<EventArgs>? SelectionChanged;
 
-    public Visual? Selected;
+    public Visual? Hover { get; set; }
 
-    public HitTestMode HitTestMode = HitTestMode.Logical;
+    public Visual? Selected { get; set; }
+
+    public HitTestMode HitTestMode  { get; set; } = HitTestMode.Logical;
+
+    protected virtual void OnSelectionChanged(EventArgs e)
+    {
+        SelectionChanged?.Invoke(this, e);
+    }
+
+    public void Select(Visual? visual)
+    {
+        Selected = visual;
+        InvalidateVisual();
+        OnSelectionChanged(EventArgs.Empty);
+    }
 
     public override void Render(DrawingContext context)
     {
