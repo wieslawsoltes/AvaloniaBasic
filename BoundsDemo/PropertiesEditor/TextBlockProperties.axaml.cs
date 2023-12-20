@@ -1,7 +1,9 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Media.Immutable;
 
 namespace BoundsDemo;
 
@@ -28,6 +30,16 @@ public partial class TextBlockProperties : UserControl
         if (Selected is TextBlock textBlock)
         {
             SetTextAlignment(textBlock.TextAlignment);
+
+            if (textBlock.Background is ISolidColorBrush backgroundSolidColorBrush)
+            {
+                SetBackground(backgroundSolidColorBrush.Color);
+            }
+
+            if (textBlock.Foreground is ISolidColorBrush foregroundSolidColorBrush)
+            {
+                SetForeground(foregroundSolidColorBrush.Color);
+            }
         }
     }
 
@@ -37,6 +49,20 @@ public partial class TextBlockProperties : UserControl
         ButtonTextAlignCenter.IsChecked = textAlignment == TextAlignment.Center;
         ButtonTextAlignRight.IsChecked = textAlignment == TextAlignment.Right;
         ButtonTextAlignJustified.IsChecked = textAlignment == TextAlignment.Justify;
+    }
+
+    private void SetBackground(Color color)
+    {
+        TextBoxBackground.Text = $"#{color.ToUInt32():X8}";
+        BackgroundColorView.Color = color;
+        RectangleBackground.Fill = new ImmutableSolidColorBrush(color);
+    }
+
+    private void SetForeground(Color color)
+    {
+        TextBoxForeground.Text = $"#{color.ToUInt32():X8}";
+        ForegroundColorView.Color = color;
+        RectangleForeground.Fill = new ImmutableSolidColorBrush(color);
     }
 
     private void ButtonTextAlignLeft_OnClick(object? sender, RoutedEventArgs e)
@@ -73,6 +99,119 @@ public partial class TextBlockProperties : UserControl
             textBlock.TextAlignment = TextAlignment.Justify;
             SetTextAlignment(TextAlignment.Justify);
         }
+    }
+    
+    
+    private void TextBoxBackground_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        _isUpdating = true;
+
+        if (Selected is TextBlock textBlock)
+        {
+            if (TextBoxBackground.Text is not null)
+            {
+                try
+                {
+                    var color = Color.Parse(TextBoxBackground.Text);
+                    textBlock.Background = new ImmutableSolidColorBrush(color);
+
+                    SetBackground(color);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+        }
+
+        _isUpdating = false;
+    }
+
+    private void BackgroundColorView_OnColorChanged(object? sender, ColorChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        _isUpdating = true;
+
+        if (Selected is TextBlock textBlock)
+        {
+            try
+            {
+                var color = e.NewColor;
+                textBlock.Background = new ImmutableSolidColorBrush(color);
+
+                SetBackground(color);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+
+        _isUpdating = false;
+    }
+
+    private void TextBoxForeground_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        _isUpdating = true;
+
+        if (Selected is TextBlock textBlock)
+        {
+            if (TextBoxForeground.Text is not null)
+            {
+                try
+                {
+                    var color = Color.Parse(TextBoxForeground.Text);
+                    textBlock.Foreground = new ImmutableSolidColorBrush(color);
+
+                    SetForeground(color);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+        }
+
+        _isUpdating = false;
+    }
+
+    private void ForegroundColorView_OnColorChanged(object? sender, ColorChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        if (Selected is TextBlock textBlock)
+        {
+            try
+            {
+                var color = e.NewColor;
+                textBlock.Foreground = new ImmutableSolidColorBrush(color);
+
+                SetForeground(color);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+
+        _isUpdating = false;
     }
 }
 

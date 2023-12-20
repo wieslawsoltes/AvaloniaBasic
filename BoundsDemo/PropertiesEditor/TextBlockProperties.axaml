@@ -42,6 +42,73 @@
              Width="16" Height="16" />
       </ToggleButton>
     </StackPanel>
+
+    <TextBlock Text="Background" Margin="12" />
+
+    <!-- Background -->
+    <TextBox Name="TextBoxBackground" BorderBrush="Transparent"
+             TextChanged="TextBoxBackground_OnTextChanged"
+             Margin="6,0,6,0">
+      <TextBox.InnerLeftContent>
+        <Button Background="Transparent"
+                ToolTip.Tip="Min/Max Width">
+          <Button.Flyout>
+            <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
+              <Panel Width="350">
+                <ColorView Name="BackgroundColorView" 
+                           SelectedIndex="2"
+                           ColorChanged="BackgroundColorView_OnColorChanged"/>
+              </Panel>
+            </Flyout>
+          </Button.Flyout>
+          <Rectangle Name="RectangleBackground"
+                     Width="16" Height="16"
+                     Margin="6,0,6,0"
+                     Fill="Transparent"
+                     Stroke="Black"
+                     StrokeThickness="0.55">
+          </Rectangle>
+        </Button>
+      </TextBox.InnerLeftContent>
+      <TextBox.InnerRightContent>
+        <TextBox Text="100%"
+                 BorderBrush="Transparent"/>
+      </TextBox.InnerRightContent>
+    </TextBox>
+
+    <TextBlock Text="Foreground" Margin="12" />
+
+    <!-- Foreground -->
+    <TextBox Name="TextBoxForeground" BorderBrush="Transparent"
+             TextChanged="TextBoxForeground_OnTextChanged"
+             Margin="6,0,6,0">
+      <TextBox.InnerLeftContent>
+        <Button Background="Transparent"
+                ToolTip.Tip="Min/Max Width">
+          <Button.Flyout>
+            <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
+              <Panel Width="350">
+                <ColorView Name="ForegroundColorView" 
+                           SelectedIndex="2"
+                           ColorChanged="ForegroundColorView_OnColorChanged"/>
+              </Panel>
+            </Flyout>
+          </Button.Flyout>
+          <Rectangle Name="RectangleForeground"
+                     Width="16" Height="16"
+                     Margin="6,0,6,0"
+                     Fill="Transparent"
+                     Stroke="Black"
+                     StrokeThickness="0.55">
+          </Rectangle>
+        </Button>
+      </TextBox.InnerLeftContent>
+      <TextBox.InnerRightContent>
+        <TextBox Text="100%"
+                 BorderBrush="Transparent"/>
+      </TextBox.InnerRightContent>
+    </TextBox>
+
   </StackPanel>
 
 </UserControl>
