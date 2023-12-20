@@ -44,7 +44,7 @@ public partial class ShapeProperties : UserControl
     private void SetFill(Color color)
     {
         TextBoxFill.Text = $"#{color.ToUInt32():X8}";
-        BackgroundColorView.Color = color;
+        FillColorView.Color = color;
         RectangleFill.Fill = new ImmutableSolidColorBrush(color);
     }
 
