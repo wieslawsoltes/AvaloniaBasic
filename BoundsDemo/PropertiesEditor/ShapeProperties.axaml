@@ -20,7 +20,7 @@
           <Button.Flyout>
             <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
               <Panel Width="350">
-                <ColorView Name="BackgroundColorView" 
+                <ColorView Name="FillColorView" 
                            SelectedIndex="2"
                            ColorChanged="FillColorView_OnColorChanged"/>
               </Panel>
