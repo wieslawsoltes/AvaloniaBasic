@@ -31,7 +31,12 @@
     <c:TemplatedControlProperties Name="TemplatedControlProperties"
                                   Selected="{Binding #PropertiesEditor.Selected}" />
 
+    <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6"
+               IsVisible="{Binding #ShapeProperties.IsVisible}"  />
+    <c:ShapeProperties Name="ShapeProperties"
+                       Selected="{Binding #PropertiesEditor.Selected}" />
+
   </StackPanel>
-  
+
 </UserControl>
 

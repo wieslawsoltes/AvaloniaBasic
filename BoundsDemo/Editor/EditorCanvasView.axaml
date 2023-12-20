@@ -11,12 +11,21 @@
               IsHitTestVisible="False">
     <TextBlock Text="Text" />
     <TextBox Text="Text" />
+    <Label Content="Label" />
     <LayoutTransformControl>
       <LayoutTransformControl.LayoutTransform>
         <RotateTransform Angle="45" />
       </LayoutTransformControl.LayoutTransform>
       <TextBox Text="Text" />
     </LayoutTransformControl>
+    <Border Height="24" Background="LightGray" />
+    <StackPanel Orientation="Horizontal"
+                Margin="0,4,0,4"
+                Spacing="4">
+      <Rectangle Width="24" Height="24" Fill="DarkGray" />
+      <Ellipse Width="24" Height="24" Fill="DarkGray" />
+      <Line StartPoint="0,12" EndPoint="24,12" Stroke="DarkGray" />
+    </StackPanel>
     <CheckBox Content="Text">
       <CheckBox.RenderTransform>
         <RotateTransform Angle="0" />

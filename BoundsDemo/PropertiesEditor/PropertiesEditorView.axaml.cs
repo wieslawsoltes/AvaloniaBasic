@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Shapes;
 using Avalonia.Layout;
 
 namespace BoundsDemo;
@@ -71,6 +72,16 @@ public partial class PropertiesEditorView : UserControl
         else
         {
             TemplatedControlProperties.IsVisible = false;
+        }
+
+        if (Selected is Shape)
+        {
+            ShapeProperties.UpdateShapeProperties();
+            ShapeProperties.IsVisible = true;
+        }
+        else
+        {
+            ShapeProperties.IsVisible = false;
         }
     }
 }
