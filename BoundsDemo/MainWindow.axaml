@@ -13,7 +13,7 @@
     <Grid ColumnDefinitions="*,220">
 
       <c:EditorCanvasView Name="EditorCanvas"
-                          OverlayControl="{Binding #OverlayControl}" 
+                          OverlayView="{Binding #OverlayView}" 
                           Grid.Column="0"
                           Background="Transparent" />
 
@@ -25,7 +25,7 @@
 
     </Grid>
 
-    <c:Overlay Name="OverlayControl" IsHitTestVisible="False" />
+    <c:OverlayView Name="OverlayView" IsHitTestVisible="False" />
 
   </Panel>
 </Window>

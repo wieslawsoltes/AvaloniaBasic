@@ -11,9 +11,9 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        OverlayControl.SelectedChanged += (_, _) =>
+        OverlayView.SelectedChanged += (_, _) =>
         {
-            UpdatePropertiesEditor(OverlayControl.Selected);
+            UpdatePropertiesEditor(OverlayView.Selected);
         };
 
         UpdatePropertiesEditor(null);
@@ -32,33 +32,33 @@ public partial class MainWindow : Window
         switch (e.Key)
         {
             case Key.Escape:
-                OverlayControl.Hover(null);
-                OverlayControl.Select(null);
+                OverlayView.Hover(null);
+                OverlayView.Select(null);
                 break;
             case Key.L:
-                OverlayControl.HitTestMode = HitTestMode.Logical;
-                OverlayControl.Hover(null);
-                OverlayControl.Select(null);
+                OverlayView.HitTestMode = HitTestMode.Logical;
+                OverlayView.Hover(null);
+                OverlayView.Select(null);
                 break;
             case Key.V:
-                OverlayControl.HitTestMode = HitTestMode.Visual;
-                OverlayControl.Hover(null);
-                OverlayControl.Select(null);
+                OverlayView.HitTestMode = HitTestMode.Visual;
+                OverlayView.Hover(null);
+                OverlayView.Select(null);
                 break;
             case Key.H:
                 EditorCanvas.EditablePanel.IsHitTestVisible = !EditorCanvas.EditablePanel.IsHitTestVisible;
                 break;
             case Key.R:
                 EditorCanvas.ReverseOrder = !EditorCanvas.ReverseOrder;
-                OverlayControl.Hover(null);
-                OverlayControl.Select(null);
+                OverlayView.Hover(null);
+                OverlayView.Select(null);
                 break;
         }
     }
 
     private void SelectedOnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
     {
-        OverlayControl.InvalidateVisual();
+        OverlayView.InvalidateVisual();
     }
 
     private void UpdatePropertiesEditor(Visual? selected)

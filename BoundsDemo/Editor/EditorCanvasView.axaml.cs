@@ -12,15 +12,15 @@ namespace BoundsDemo;
 
 public partial class EditorCanvasView : UserControl
 {
-    public static readonly StyledProperty<Overlay> OverlayControlProperty = 
-        AvaloniaProperty.Register<EditorCanvasView, Overlay>(nameof(OverlayControl));
+    public static readonly StyledProperty<OverlayView> OverlayViewProperty = 
+        AvaloniaProperty.Register<EditorCanvasView, OverlayView>(nameof(OverlayView));
 
     private readonly HashSet<Visual> _ignored;
 
-    public Overlay OverlayControl
+    public OverlayView OverlayView
     {
-        get => GetValue(OverlayControlProperty);
-        set => SetValue(OverlayControlProperty, value);
+        get => GetValue(OverlayViewProperty);
+        set => SetValue(OverlayViewProperty, value);
     }
 
     public bool ReverseOrder { get; set; } = true;
@@ -29,7 +29,7 @@ public partial class EditorCanvasView : UserControl
     {
         InitializeComponent();
 
-        _ignored = new HashSet<Visual>(new Visual[] {OverlayControl});
+        _ignored = new HashSet<Visual>(new Visual[] {OverlayView});
 
         AddHandler(PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         AddHandler(PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
@@ -44,29 +44,29 @@ public partial class EditorCanvasView : UserControl
             return;
         }
 
-        var visuals = HitTest(this, e.GetPosition(this), OverlayControl.HitTestMode, _ignored);
+        var visuals = HitTest(this, e.GetPosition(this), OverlayView.HitTestMode, _ignored);
 
-        OverlayControl.Select(visuals.FirstOrDefault());
+        OverlayView.Select(visuals.FirstOrDefault());
     }
 
     private void OnPointerMoved(object? sender, PointerEventArgs e)
     {
-        var visuals = HitTest(this, e.GetPosition(this), OverlayControl.HitTestMode, _ignored);
+        var visuals = HitTest(this, e.GetPosition(this), OverlayView.HitTestMode, _ignored);
 
-        OverlayControl.Hovered = visuals.FirstOrDefault();
-        OverlayControl.InvalidateVisual();
+        OverlayView.Hovered = visuals.FirstOrDefault();
+        OverlayView.InvalidateVisual();
     }
 
     private void OnPointerExited(object? sender, PointerEventArgs e)
     {
-        OverlayControl.Hovered = null;
-        OverlayControl.InvalidateVisual();
+        OverlayView.Hovered = null;
+        OverlayView.InvalidateVisual();
     }
 
     private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
-        OverlayControl.Hovered = null;
-        OverlayControl.InvalidateVisual();
+        OverlayView.Hovered = null;
+        OverlayView.InvalidateVisual();
     }
 
     private IEnumerable<Visual> HitTest(Interactive interactive, Point point, HitTestMode hitTestMode, HashSet<Visual> ignored)
@@ -92,7 +92,7 @@ public partial class EditorCanvasView : UserControl
         var visuals = descendants
             .Where(visual =>
             {
-                if (!ignored.Contains(visual) && Overlay.GetEnableHitTest(visual))
+                if (!ignored.Contains(visual) && OverlayView.GetEnableHitTest(visual))
                 {
                     var transformedBounds = visual.GetTransformedBounds();
                     return transformedBounds is not null

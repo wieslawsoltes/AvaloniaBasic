@@ -14,10 +14,10 @@ public enum HitTestMode
     Visual,
 }
 
-public class Overlay : Control
+public class OverlayView : Control
 {
     public static readonly AttachedProperty<bool> EnableHitTestProperty =
-        AvaloniaProperty.RegisterAttached<Overlay, Visual, bool>("EnableHitTest", false, true);
+        AvaloniaProperty.RegisterAttached<OverlayView, Visual, bool>("EnableHitTest", false, true);
 
     public static bool GetEnableHitTest(Visual element)
     {
