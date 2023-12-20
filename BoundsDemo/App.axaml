@@ -2,10 +2,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="BoundsDemo.App"
              RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
-    <Application.Styles>
+  <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" /> 
+        
+        <Style Selector="Button.ColorView /template/ ContentPresenter#PART_ContentPresenter">
+          <Setter Property="Background" Value="Transparent" />
+        </Style>    
+        <Style Selector="Button:pointerover.ColorView /template/ ContentPresenter#PART_ContentPresenter">
+          <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="Button:pressed.ColorView /template/ ContentPresenter#PART_ContentPresenter">
+          <Setter Property="Background" Value="Transparent" />
+        </Style> 
+        <Style Selector="Button:pressed:pointerover.ColorView /template/ ContentPresenter#PART_ContentPresenter">
+          <Setter Property="Background" Value="Transparent" />
+        </Style>
+
+
     </Application.Styles>
+  
 </Application>

@@ -15,8 +15,8 @@
              TextChanged="TextBoxBackground_OnTextChanged"
              Margin="6,0,6,0">
       <TextBox.InnerLeftContent>
-        <Button Background="Transparent"
-                ToolTip.Tip="Min/Max Width">
+        <Button Classes="ColorView"
+                ToolTip.Tip="Background">
           <Button.Flyout>
             <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
               <Panel Width="350">
@@ -48,8 +48,8 @@
              TextChanged="TextBoxForeground_OnTextChanged"
              Margin="6,0,6,0">
       <TextBox.InnerLeftContent>
-        <Button Background="Transparent"
-                ToolTip.Tip="Min/Max Width">
+        <Button Classes="ColorView"
+                ToolTip.Tip="Foreground">
           <Button.Flyout>
             <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
               <Panel Width="350">
