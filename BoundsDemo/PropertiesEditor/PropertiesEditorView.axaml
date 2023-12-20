@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:c="clr-namespace:BoundsDemo"
+             mc:Ignorable="d" d:DesignWidth="220" d:DesignHeight="700"
+             x:Class="BoundsDemo.PropertiesEditorView"
+             Name="PropertiesEditor">
+  <StackPanel>
+
+    <c:LayoutableProperties Name="LayoutableProperties"
+                            Selected="{Binding #PropertiesEditor.Selected}" />
+
+    <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6"
+               IsVisible="{Binding #ContentControlProperties.IsVisible}" />
+
+    <c:ContentControlProperties Name="ContentControlProperties"
+                                Selected="{Binding #PropertiesEditor.Selected}" />
+
+    <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6"
+               IsVisible="{Binding #TextLayoutStackPanel.IsVisible}"  />
+
+    <!-- TextBlock, TextBox -->
+    <StackPanel Name="TextLayoutStackPanel">
+
+      <TextBlock Text="Text" Margin="12" />
+
+      <!-- Align Text -->
+      <StackPanel Orientation="Horizontal"
+                  Margin="6,0,6,0">
+        <ToggleButton Name="ButtonTextAlignLeft"
+                      Click="ButtonTextAlignLeft_OnClick"
+                      Background="Transparent"
+                      ToolTip.Tip="Text align left">
+          <Svg Path="/Assets/Icons/ic_fluent_text_align_left_24_regular.svg"
+               Width="16" Height="16" />
+        </ToggleButton>
+        <ToggleButton Name="ButtonTextAlignCenter"
+                      Click="ButtonTextAlignCenter_OnClick"
+                      Background="Transparent"
+                      ToolTip.Tip="Text align center">
+          <Svg Path="/Assets/Icons/ic_fluent_text_align_center_24_regular.svg"
+               Width="16" Height="16" />
+        </ToggleButton>
+        <ToggleButton Name="ButtonTextAlignRight"
+                      Click="ButtonTextAlignRight_OnClick"
+                      Background="Transparent"
+                      ToolTip.Tip="Text align right">
+          <Svg Path="/Assets/Icons/ic_fluent_text_align_right_24_regular.svg"
+               Width="16" Height="16" />
+        </ToggleButton>
+        <ToggleButton Name="ButtonTextAlignJustified"
+                      Click="ButtonTextAlignJustified_OnClick"
+                      Background="Transparent"
+                      ToolTip.Tip="Text align justified">
+          <Svg Path="/Assets/Icons/ic_fluent_text_align_justify_24_regular.svg"
+               Width="16" Height="16" />
+        </ToggleButton>
+      </StackPanel>
+    </StackPanel>
+
+    <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6"
+               IsVisible="{Binding #TemplatedControlProperties.IsVisible}"  />
+
+    <c:TemplatedControlProperties Name="TemplatedControlProperties"
+                                  Selected="{Binding #PropertiesEditor.Selected}" />
+
+  </StackPanel>
+  
+</UserControl>
+
