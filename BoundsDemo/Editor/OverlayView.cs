@@ -14,6 +14,53 @@ public enum HitTestMode
     Visual,
 }
 
+public class VisualSelection
+{
+    public VisualSelection(Rect bounds, double thickness)
+    {
+        TopLeft = new Rect(
+            bounds.TopLeft, 
+            bounds.TopLeft).Inflate(thickness);
+        TopRight = new Rect(
+            bounds.TopRight,
+            bounds.TopRight).Inflate(thickness);
+        BottomLeft = new Rect(
+            bounds.BottomLeft, 
+            bounds.BottomLeft).Inflate(thickness);
+        BottomRight = new Rect(
+            bounds.BottomRight,
+            bounds.BottomRight).Inflate(thickness);
+        Left = new Rect(
+            new Point(bounds.Left, bounds.Center.Y), 
+            new Point(bounds.Left, bounds.Center.Y)).Inflate(thickness);
+       Right = new Rect(
+            new Point(bounds.Right, bounds.Center.Y), 
+            new Point(bounds.Right, bounds.Center.Y)).Inflate(thickness);
+       Top = new Rect(
+            new Point(bounds.Center.X, bounds.Top), 
+            new Point(bounds.Center.X, bounds.Top)).Inflate(thickness);
+        Bottom = new Rect(
+            new Point(bounds.Center.X, bounds.Bottom), 
+            new Point(bounds.Center.X, bounds.Bottom)).Inflate(thickness);
+    }
+
+    public Rect TopLeft { get; set; }
+
+    public Rect TopRight { get; set; }
+
+    public Rect BottomLeft { get; set; }
+
+    public Rect BottomRight { get; set; }
+
+    public Rect Left { get; set; }
+
+    public Rect Right { get; set; }
+
+    public Rect Top { get; set; }
+
+    public Rect Bottom { get; set; }
+}
+
 public class OverlayView : Control
 {
     public static readonly AttachedProperty<bool> EnableHitTestProperty =
@@ -51,13 +98,18 @@ public class OverlayView : Control
 
     public void Hover(Visual? visual)
     {
-        Hovered = visual;
-        InvalidateVisual();
-        OnHoveredChanged(EventArgs.Empty);
+        if (visual is null || visual != Selected)
+        {
+            Hovered = visual;
+            InvalidateVisual();
+            OnHoveredChanged(EventArgs.Empty);
+        }
     }
 
     public void Select(Visual? visual)
     {
+        Hovered = null;
+        OnHoveredChanged(EventArgs.Empty);
         Selected = visual;
         InvalidateVisual();
         OnSelectedChanged(EventArgs.Empty);
@@ -70,6 +122,7 @@ public class OverlayView : Control
         if (Selected is not null)
         {
             RenderVisual(Selected, context, new ImmutablePen(Colors.Blue.ToUInt32()));
+            RenderVisualThumbs(Selected, context, new ImmutableSolidColorBrush(Colors.White), new ImmutablePen(Colors.Blue.ToUInt32()));
 
             if (Hovered is null)
             {
@@ -119,6 +172,25 @@ public class OverlayView : Control
         {
             using var _ = context.PushTransform(transformedBounds.Value.Transform);
             context.DrawRectangle(null, pen, transformedBounds.Value.Bounds);
+        }
+    }
+
+    private static void RenderVisualThumbs(Visual visual, DrawingContext context, IBrush? brush, IPen? pen)
+    {
+        var transformedBounds = visual.GetTransformedBounds();
+        if (transformedBounds is not null)
+        {
+            using var _ = context.PushTransform(transformedBounds.Value.Transform);
+            var bounds = transformedBounds.Value.Bounds;
+            var selection = new VisualSelection(bounds, 3);
+            context.DrawRectangle(brush, pen, selection.TopLeft);
+            context.DrawRectangle(brush, pen, selection.TopRight);
+            context.DrawRectangle(brush, pen, selection.BottomLeft);
+            context.DrawRectangle(brush, pen, selection.BottomRight);
+            context.DrawRectangle(brush, pen, selection.Left);
+            context.DrawRectangle(brush, pen, selection.Right);
+            context.DrawRectangle(brush, pen, selection.Top);
+            context.DrawRectangle(brush, pen, selection.Bottom);
         }
     }
 }
