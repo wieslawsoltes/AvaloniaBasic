@@ -43,6 +43,8 @@
       </ToggleButton>
     </StackPanel>
 
+    <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6" />
+
     <TextBlock Text="Background" Margin="12" />
 
     <!-- Background -->
