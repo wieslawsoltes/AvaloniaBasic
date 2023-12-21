@@ -18,47 +18,34 @@ public class VisualSelection
 {
     public VisualSelection(Rect bounds, double thickness)
     {
-        TopLeft = new Rect(
-            bounds.TopLeft, 
-            bounds.TopLeft).Inflate(thickness);
-        TopRight = new Rect(
-            bounds.TopRight,
-            bounds.TopRight).Inflate(thickness);
-        BottomLeft = new Rect(
-            bounds.BottomLeft, 
-            bounds.BottomLeft).Inflate(thickness);
-        BottomRight = new Rect(
-            bounds.BottomRight,
-            bounds.BottomRight).Inflate(thickness);
-        Left = new Rect(
-            new Point(bounds.Left, bounds.Center.Y), 
-            new Point(bounds.Left, bounds.Center.Y)).Inflate(thickness);
-       Right = new Rect(
-            new Point(bounds.Right, bounds.Center.Y), 
-            new Point(bounds.Right, bounds.Center.Y)).Inflate(thickness);
-       Top = new Rect(
-            new Point(bounds.Center.X, bounds.Top), 
-            new Point(bounds.Center.X, bounds.Top)).Inflate(thickness);
-        Bottom = new Rect(
-            new Point(bounds.Center.X, bounds.Bottom), 
-            new Point(bounds.Center.X, bounds.Bottom)).Inflate(thickness);
+        TopLeft = CreateCornerRect(bounds.TopLeft, thickness);
+        TopRight = CreateCornerRect(bounds.TopRight, thickness);
+        BottomLeft = CreateCornerRect(bounds.BottomLeft, thickness);
+        BottomRight = CreateCornerRect(bounds.BottomRight, thickness);
+        Left = CreateEdgeRect(bounds.Left, bounds.Center.Y, thickness);
+        Right = CreateEdgeRect(bounds.Right, bounds.Center.Y, thickness);
+        Top = CreateEdgeRect(bounds.Center.X, bounds.Top, thickness);
+        Bottom = CreateEdgeRect(bounds.Center.X, bounds.Bottom, thickness);
     }
 
-    public Rect TopLeft { get; set; }
+    public Rect TopLeft { get; }
+    public Rect TopRight { get; }
+    public Rect BottomLeft { get; }
+    public Rect BottomRight { get; }
+    public Rect Left { get; }
+    public Rect Right { get; }
+    public Rect Top { get; }
+    public Rect Bottom { get; }
 
-    public Rect TopRight { get; set; }
+    private Rect CreateCornerRect(Point cornerPoint, double thickness)
+    {
+        return new Rect(cornerPoint, cornerPoint).Inflate(thickness);
+    }
 
-    public Rect BottomLeft { get; set; }
-
-    public Rect BottomRight { get; set; }
-
-    public Rect Left { get; set; }
-
-    public Rect Right { get; set; }
-
-    public Rect Top { get; set; }
-
-    public Rect Bottom { get; set; }
+    private Rect CreateEdgeRect(double x, double y, double thickness)
+    {
+        return new Rect(new Point(x, y), new Point(x, y)).Inflate(thickness);
+    }
 }
 
 public class OverlayView : Control
