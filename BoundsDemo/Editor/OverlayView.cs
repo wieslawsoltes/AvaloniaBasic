@@ -150,10 +150,10 @@ public class OverlayView : Control
             Typeface.Default, 
             12, 
             Brushes.CornflowerBlue);
-        context.DrawText(formattedTextMode, new Point(5, Bounds.Height - 12 - 5));
+        context.DrawText(formattedTextMode, new Point(10, Bounds.Height - 12 - 5));
     }
 
-    private static void DrawName(DrawingContext context, string name)
+    private void DrawName(DrawingContext context, string name)
     {
         var formattedText = new FormattedText(
             name, 
@@ -162,7 +162,7 @@ public class OverlayView : Control
             Typeface.Default, 
             12, 
             Brushes.CornflowerBlue);
-        context.DrawText(formattedText, new Point(5, 5));
+        context.DrawText(formattedText, new Point(Bounds.Width - formattedText.Width - 10, Bounds.Height - 12 - 5));
     }
 
     private static void RenderVisual(Visual visual, DrawingContext context, IPen? pen)
