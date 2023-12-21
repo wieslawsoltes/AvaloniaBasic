@@ -121,8 +121,8 @@ public class OverlayView : Control
 
         if (Selected is not null)
         {
-            RenderVisual(Selected, context, new ImmutablePen(Colors.Blue.ToUInt32()));
-            RenderVisualThumbs(Selected, context, new ImmutableSolidColorBrush(Colors.White), new ImmutablePen(Colors.Blue.ToUInt32()));
+            RenderVisual(Selected, context, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
+            RenderVisualThumbs(Selected, context, new ImmutableSolidColorBrush(Colors.White), new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
 
             if (Hovered is null)
             {
@@ -132,7 +132,7 @@ public class OverlayView : Control
 
         if (Hovered is not null)
         {
-            RenderVisual(Hovered, context, new ImmutablePen(Colors.Red.ToUInt32()));
+            RenderVisual(Hovered, context, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
             DrawName(context, Hovered.GetType().Name);
         }
 
@@ -149,7 +149,7 @@ public class OverlayView : Control
             FlowDirection.LeftToRight, 
             Typeface.Default, 
             12, 
-            Brushes.Blue);
+            Brushes.CornflowerBlue);
         context.DrawText(formattedTextMode, new Point(5, Bounds.Height - 12 - 5));
     }
 
@@ -161,7 +161,7 @@ public class OverlayView : Control
             FlowDirection.LeftToRight, 
             Typeface.Default, 
             12, 
-            Brushes.Red);
+            Brushes.CornflowerBlue);
         context.DrawText(formattedText, new Point(5, 5));
     }
 
