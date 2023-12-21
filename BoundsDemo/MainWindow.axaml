@@ -10,16 +10,27 @@
         Title="BoundsDemo">
   <Panel>
 
-    <Grid ColumnDefinitions="*,220">
+    <Grid ColumnDefinitions="220,0.5,*,0.5,220">
+
+      <ListBox Grid.Column="0" Background="Transparent">
+        <ListBoxItem>TextBlock</ListBoxItem>
+        <ListBoxItem>TextBox</ListBoxItem>
+        <ListBoxItem>Button</ListBoxItem>
+        <ListBoxItem>Label</ListBoxItem>
+      </ListBox>
+
+      <Separator Grid.Column="1" Opacity="0.6" Width="0.5" Height="NaN" Margin="0" />
 
       <c:EditorCanvasView Name="EditorCanvas"
                           OverlayView="{Binding #OverlayView}" 
-                          Grid.Column="0"
+                          Grid.Column="2"
                           Background="Transparent" />
+
+      <Separator Grid.Column="3" Opacity="0.6" Width="0.5" Height="NaN" Margin="0" />
 
       <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto"
-                    Grid.Column="1">
+                    Grid.Column="4">
         <c:PropertiesEditorView Name="PropertiesEditor" />
       </ScrollViewer>
 
