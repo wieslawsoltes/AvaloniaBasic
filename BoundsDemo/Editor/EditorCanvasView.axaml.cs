@@ -44,14 +44,14 @@ public partial class EditorCanvasView : UserControl
             return;
         }
 
-        var visuals = HitTest(this, e.GetPosition(this), OverlayView.HitTestMode, _ignored);
+        var visuals = HitTest(this, e.GetPosition(null), OverlayView.HitTestMode, _ignored);
 
         OverlayView.Select(visuals.FirstOrDefault());
     }
 
     private void OnPointerMoved(object? sender, PointerEventArgs e)
     {
-        var visuals = HitTest(this, e.GetPosition(this), OverlayView.HitTestMode, _ignored);
+        var visuals = HitTest(this, e.GetPosition(null), OverlayView.HitTestMode, _ignored);
 
         OverlayView.Hover(visuals.FirstOrDefault());
     }
