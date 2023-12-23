@@ -31,6 +31,8 @@ public partial class TextBlockProperties : UserControl
         {
             SetTextAlignment(textBlock.TextAlignment);
 
+            SetText(textBlock.Text);
+   
             if (textBlock.Background is ISolidColorBrush backgroundSolidColorBrush)
             {
                 SetBackground(backgroundSolidColorBrush.Color);
@@ -49,6 +51,11 @@ public partial class TextBlockProperties : UserControl
         ButtonTextAlignCenter.IsChecked = textAlignment == TextAlignment.Center;
         ButtonTextAlignRight.IsChecked = textAlignment == TextAlignment.Right;
         ButtonTextAlignJustified.IsChecked = textAlignment == TextAlignment.Justify;
+    }
+
+    private void SetText(string? text)
+    {
+        TextBoxText.Text = text;
     }
 
     private void SetBackground(Color color)
@@ -100,7 +107,34 @@ public partial class TextBlockProperties : UserControl
             SetTextAlignment(TextAlignment.Justify);
         }
     }
-    
+
+    private void TextBoxText_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        _isUpdating = true;
+
+        if (Selected is TextBlock textBlock)
+        {
+            if (TextBoxText.Text is not null)
+            {
+                try
+                {
+                    var text = TextBoxText.Text;
+                    textBlock.Text = text;
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+        }
+
+        _isUpdating = false;
+    }
     
     private void TextBoxBackground_OnTextChanged(object? sender, TextChangedEventArgs e)
     {

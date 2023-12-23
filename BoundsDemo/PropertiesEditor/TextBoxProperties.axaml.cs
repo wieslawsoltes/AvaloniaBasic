@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -28,6 +29,8 @@ public partial class TextBoxProperties : UserControl
         if (Selected is TextBox textBox)
         {
             SetTextAlignment(textBox.TextAlignment);
+
+            SetText(textBox.Text);
         }
     }
 
@@ -37,6 +40,11 @@ public partial class TextBoxProperties : UserControl
         ButtonTextAlignCenter.IsChecked = textAlignment == TextAlignment.Center;
         ButtonTextAlignRight.IsChecked = textAlignment == TextAlignment.Right;
         ButtonTextAlignJustified.IsChecked = textAlignment == TextAlignment.Justify;
+    }
+
+    private void SetText(string? text)
+    {
+        TextBoxText.Text = text;
     }
 
     private void ButtonTextAlignLeft_OnClick(object? sender, RoutedEventArgs e)
@@ -73,6 +81,34 @@ public partial class TextBoxProperties : UserControl
             textBox.TextAlignment = TextAlignment.Justify;
             SetTextAlignment(TextAlignment.Justify);
         }
+    }
+
+    private void TextBoxText_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        if (_isUpdating)
+        {
+            return;
+        }
+
+        _isUpdating = true;
+
+        if (Selected is TextBox textBox)
+        {
+            if (TextBoxText.Text is not null)
+            {
+                try
+                {
+                    var text = TextBoxText.Text;
+                    textBox.Text = text;
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+        }
+
+        _isUpdating = false;
     }
 }
 
