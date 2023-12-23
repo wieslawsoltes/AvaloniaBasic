@@ -8,7 +8,7 @@ namespace BoundsDemo;
 
 public partial class MainWindow : Window
 {
-    public List<ToolBoxItem> ToolBoxItems { get; set; }
+    public List<XamlItem> ToolBoxItems { get; set; }
     
     public MainWindow()
     {
@@ -21,7 +21,7 @@ public partial class MainWindow : Window
 
         UpdatePropertiesEditor(null);
 
-        ToolBoxItems = new List<ToolBoxItem>
+        ToolBoxItems = new List<XamlItem>
         {
             //
             new ("TextBlock", new Dictionary<string, object> { ["Text"] = "TextBlock" }),

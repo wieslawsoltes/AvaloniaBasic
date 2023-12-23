@@ -123,11 +123,9 @@ public partial class Toolbox : UserControl
             {
                 if (_control is null)
                 {
-                    var toolBoxItem = (sender as ListBoxItem).Content as ToolBoxItem;
+                    var toolBoxItem = (sender as ListBoxItem).Content as XamlItem;
 
-                    var xamlItem = new XamlItem(
-                        toolBoxItem.Name,
-                        toolBoxItem.Properties.ToDictionary(x => x.Key, x => x.Value));
+                    var xamlItem = toolBoxItem.Clone();
 
                     try
                     {

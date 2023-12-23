@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +30,30 @@ public class XamlItem
         var obj = AvaloniaRuntimeXamlLoader.Load(xaml, null, null, null, designMode: false);
 
         return obj as Control;
+    }
+
+    public XamlItem Clone()
+    {
+        return new XamlItem(
+            Name, 
+            Properties.ToDictionary(
+                x => x.Key, 
+                x => Clone(x)));
+    }
+
+    private static object Clone(KeyValuePair<string, object> kvp)
+    {
+        switch (kvp.Value)
+        {
+            case string str:
+                return str;
+            case XamlItem xamlItem:
+                return xamlItem.Clone();
+            case List<XamlItem> xamlItems:
+                return xamlItems.Select(y => y.Clone()).ToList();
+            default:
+                throw new NotSupportedException();
+        }
     }
 
     private static void Write(XamlItem xamlItem, bool isRoot, StringBuilder sb)
