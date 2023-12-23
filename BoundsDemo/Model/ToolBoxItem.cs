@@ -4,7 +4,7 @@ namespace BoundsDemo;
 
 public class ToolBoxItem
 {
-    public ToolBoxItem(string name, Dictionary<string, string> properties)
+    public ToolBoxItem(string name, Dictionary<string, object> properties)
     {
         Name = name;
         Properties = properties;
@@ -12,5 +12,5 @@ public class ToolBoxItem
 
     public string Name { get; }
 
-    public Dictionary<string, string> Properties { get; }
+    public Dictionary<string, object> Properties { get; }
 }

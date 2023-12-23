@@ -24,42 +24,42 @@ public partial class MainWindow : Window
         ToolBoxItems = new List<ToolBoxItem>
         {
             //
-            new ("TextBlock", new Dictionary<string, string> { ["Text"] = "TextBlock" }),
-            new ("Label", new Dictionary<string, string> { ["Content"] = "Label" }),
-            new ("TextBox", new Dictionary<string, string> { ["Text"] = "TextBox" }),
+            new ("TextBlock", new Dictionary<string, object> { ["Text"] = "TextBlock" }),
+            new ("Label", new Dictionary<string, object> { ["Content"] = "Label" }),
+            new ("TextBox", new Dictionary<string, object> { ["Text"] = "TextBox" }),
             //
-            new ("Button", new Dictionary<string, string> { ["Content"] = "Button" }),
-            new ("CheckBox", new Dictionary<string, string> { ["Content"] = "CheckBox" }),
-            new ("RadioButton", new Dictionary<string, string> { ["Content"] = "RadioButton" }),
+            new ("Button", new Dictionary<string, object> { ["Content"] = "Button" }),
+            new ("CheckBox", new Dictionary<string, object> { ["Content"] = "CheckBox" }),
+            new ("RadioButton", new Dictionary<string, object> { ["Content"] = "RadioButton" }),
             //
-            new ("Border", new Dictionary<string, string>()),
-            new ("Decorator", new Dictionary<string, string>()),
+            new ("Border", new Dictionary<string, object>()),
+            new ("Decorator", new Dictionary<string, object>()),
             //
-            new ("Panel", new Dictionary<string, string>()),
-            new ("StackPanel", new Dictionary<string, string>()),
-            new ("DockPanel", new Dictionary<string, string>()),
-            new ("WrapPanel", new Dictionary<string, string>()),
-            new ("Grid", new Dictionary<string, string>()),
+            new ("Panel", new Dictionary<string, object>()),
+            new ("StackPanel", new Dictionary<string, object>()),
+            new ("DockPanel", new Dictionary<string, object>()),
+            new ("WrapPanel", new Dictionary<string, object>()),
+            new ("Grid", new Dictionary<string, object>()),
             //
-            new ("ItemsControl", new Dictionary<string, string>()),
-            new ("ListBox", new Dictionary<string, string>()),
-            new ("ListBoxItem", new Dictionary<string, string>()),
-            new ("ComboBox", new Dictionary<string, string>()),
-            new ("ComboBoxItem", new Dictionary<string, string>()),
+            new ("ItemsControl", new Dictionary<string, object>()),
+            new ("ListBox", new Dictionary<string, object>()),
+            new ("ListBoxItem", new Dictionary<string, object>()),
+            new ("ComboBox", new Dictionary<string, object>()),
+            new ("ComboBoxItem", new Dictionary<string, object>()),
             //
-            new ("ProgressBar", new Dictionary<string, string>()),
-            new ("Slider", new Dictionary<string, string>()),
-            new ("DatePicker", new Dictionary<string, string>()),
+            new ("ProgressBar", new Dictionary<string, object>()),
+            new ("Slider", new Dictionary<string, object>()),
+            new ("DatePicker", new Dictionary<string, object>()),
             //
-            new ("Rectangle", new Dictionary<string, string>()),
-            new ("Ellipse", new Dictionary<string, string>()),
-            new ("Line", new Dictionary<string, string>()),
-            new ("Path", new Dictionary<string, string>()),
+            new ("Rectangle", new Dictionary<string, object>()),
+            new ("Ellipse", new Dictionary<string, object>()),
+            new ("Line", new Dictionary<string, object>()),
+            new ("Path", new Dictionary<string, object>()),
             //
-            new ("Image", new Dictionary<string, string>()),
-            new ("PathIcon", new Dictionary<string, string>()),
+            new ("Image", new Dictionary<string, object>()),
+            new ("PathIcon", new Dictionary<string, object>()),
             //
-            new ("ScrollViewer", new Dictionary<string, string>()),
+            new ("ScrollViewer", new Dictionary<string, object>()),
         };
 
         DataContext = this;
