@@ -103,10 +103,12 @@ public partial class Toolbox : UserControl
 
         if (insert)
         {
-            if (target is StackPanel stackPanel)
+            if (_control is not null)
             {
-                (OverlayView.Child as Canvas).Children.Remove(_control);
-                stackPanel.Children.Add(_control);
+                if (target is StackPanel stackPanel)
+                {
+                    stackPanel.Children.Add(_control);
+                }
             }
         }
     }
