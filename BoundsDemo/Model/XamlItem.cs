@@ -26,6 +26,9 @@ public class XamlItem
         Write(this, isRoot, sb);
 
         var xaml = sb.ToString();
+        
+        Console.WriteLine($"Create {Name}:");
+        Console.WriteLine(xaml);
 
         var obj = AvaloniaRuntimeXamlLoader.Load(xaml, null, null, null, designMode: false);
 
@@ -82,8 +85,11 @@ public class XamlItem
 
         if (isComplex)
         {
+            sb.Append('>');
+
             foreach (var property in xamlItem.Properties.Where(x => x.Value is not string))
             {
+                sb.AppendLine();
                 sb.Append('<');
                 sb.Append(xamlItem.Name);
                 sb.Append('.');
@@ -94,6 +100,7 @@ public class XamlItem
                 {
                     case XamlItem childXamlItem:
                     {
+                        sb.AppendLine();
                         Write(childXamlItem, false, sb);
                         break;
                     }
@@ -101,6 +108,7 @@ public class XamlItem
                     {
                         foreach (var childXamlItem in childXamlItems)
                         {
+                            sb.AppendLine();
                             Write(childXamlItem, false, sb);
                         }
 
@@ -108,6 +116,7 @@ public class XamlItem
                     }
                 }
 
+                sb.AppendLine();
                 sb.Append("</");
                 sb.Append(xamlItem.Name);
                 sb.Append('.');
@@ -115,6 +124,7 @@ public class XamlItem
                 sb.Append('>');
             }
 
+            sb.AppendLine();
             sb.Append("</");
             sb.Append(xamlItem.Name);
             sb.Append('>');

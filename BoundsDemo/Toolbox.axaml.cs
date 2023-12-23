@@ -99,7 +99,7 @@ public partial class Toolbox : UserControl
 
         var target = visuals.FirstOrDefault();
 
-        Console.WriteLine($"Drop: {target}");
+        //Console.WriteLine($"Drop: {target}");
 
         if (insert)
         {
@@ -157,7 +157,7 @@ public partial class Toolbox : UserControl
                 Drop(e, _ignored, false);
             }
 
-            Console.WriteLine($"PointerMoved: {sender}");
+            //Console.WriteLine($"PointerMoved: {sender}");
         }
     }
 

@@ -33,10 +33,20 @@ public partial class MainWindow : Window
             new ("RadioButton", new Dictionary<string, object> { ["Content"] = "RadioButton" }),
             //
             new ("Border", new Dictionary<string, object>()),
-            new ("Decorator", new Dictionary<string, object>()),
+            new ("Decorator", new Dictionary<string, object>
+            {
+                ["Child"] = new XamlItem("Button", new Dictionary<string, object> { ["Content"] = "Button" })
+            }),
             //
             new ("Panel", new Dictionary<string, object>()),
-            new ("StackPanel", new Dictionary<string, object>()),
+            new ("StackPanel", new Dictionary<string, object>()
+            {
+                ["Children"] = new List<XamlItem>
+                {
+                    new ("TextBlock", new Dictionary<string, object> { ["Text"] = "TextBlock" }),
+                    new ("TextBox", new Dictionary<string, object> { ["Text"] = "TextBox" }),
+                }
+            }),
             new ("DockPanel", new Dictionary<string, object>()),
             new ("WrapPanel", new Dictionary<string, object>()),
             new ("Grid", new Dictionary<string, object>()),
