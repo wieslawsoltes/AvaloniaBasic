@@ -114,39 +114,27 @@ public partial class Toolbox : UserControl
             {
                 if (_control is null)
                 {
-                    var type = (sender as ListBoxItem).Content as string;
+                    var toolBoxItem = (sender as ListBoxItem).Content as ToolBoxItem;
 
-                    switch (type)
+                    var xamlItem = new XamlItem(
+                        toolBoxItem.Name,
+                        toolBoxItem.Properties.ToDictionary(x => x.Key, x => x.Value));
+
+                    try
                     {
-                        case "TextBlock":
-                            _control = new TextBlock
-                            {
-                                Text = "TextBlock"
-                            };
-                            break;
-                        case "TextBox":
-                            _control = new TextBox
-                            {
-                                Text = "TextBox"
-                            };
-                            break;
-                        case "Button":
-                            _control = new Button
-                            {
-                                Content = "Button"
-                            };
-                            break;
-                        case "Label":
-                            _control = new Label
-                            {
-                                Content = "Button"
-                            };
-                            break;
+                        _control = xamlItem.Create();
+                    }
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine(exception);
                     }
 
-                    (OverlayView.Child as Canvas).Children.Add(_control);
+                    if (_control is not null)
+                    {
+                        (OverlayView.Child as Canvas).Children.Add(_control);
 
-                    _ignored = new HashSet<Visual>(new Visual[] {OverlayView, _control});
+                        _ignored = new HashSet<Visual>(new Visual[] {OverlayView, _control});
+                    }
                 }
             }
 

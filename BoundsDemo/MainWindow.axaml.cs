@@ -1,5 +1,4 @@
-using System;
-using System.Linq;
+using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -9,6 +8,8 @@ namespace BoundsDemo;
 
 public partial class MainWindow : Window
 {
+    public List<ToolBoxItem> ToolBoxItems { get; set; }
+    
     public MainWindow()
     {
         InitializeComponent();
@@ -19,6 +20,49 @@ public partial class MainWindow : Window
         };
 
         UpdatePropertiesEditor(null);
+
+        ToolBoxItems = new List<ToolBoxItem>
+        {
+            //
+            new ("TextBlock", new Dictionary<string, string> { ["Text"] = "TextBlock" }),
+            new ("Label", new Dictionary<string, string> { ["Content"] = "Label" }),
+            new ("TextBox", new Dictionary<string, string> { ["Text"] = "TextBox" }),
+            //
+            new ("Button", new Dictionary<string, string> { ["Content"] = "Button" }),
+            new ("CheckBox", new Dictionary<string, string> { ["Content"] = "CheckBox" }),
+            new ("RadioButton", new Dictionary<string, string> { ["Content"] = "RadioButton" }),
+            //
+            new ("Border", new Dictionary<string, string>()),
+            new ("Decorator", new Dictionary<string, string>()),
+            //
+            new ("Panel", new Dictionary<string, string>()),
+            new ("StackPanel", new Dictionary<string, string>()),
+            new ("DockPanel", new Dictionary<string, string>()),
+            new ("WrapPanel", new Dictionary<string, string>()),
+            new ("Grid", new Dictionary<string, string>()),
+            //
+            new ("ItemsControl", new Dictionary<string, string>()),
+            new ("ListBox", new Dictionary<string, string>()),
+            new ("ListBoxItem", new Dictionary<string, string>()),
+            new ("ComboBox", new Dictionary<string, string>()),
+            new ("ComboBoxItem", new Dictionary<string, string>()),
+            //
+            new ("ProgressBar", new Dictionary<string, string>()),
+            new ("Slider", new Dictionary<string, string>()),
+            new ("DatePicker", new Dictionary<string, string>()),
+            //
+            new ("Rectangle", new Dictionary<string, string>()),
+            new ("Ellipse", new Dictionary<string, string>()),
+            new ("Line", new Dictionary<string, string>()),
+            new ("Path", new Dictionary<string, string>()),
+            //
+            new ("Image", new Dictionary<string, string>()),
+            new ("PathIcon", new Dictionary<string, string>()),
+            //
+            new ("ScrollViewer", new Dictionary<string, string>()),
+        };
+
+        DataContext = this;
     }
 
     protected override void OnLoaded(RoutedEventArgs e)
