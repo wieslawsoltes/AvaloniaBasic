@@ -46,7 +46,7 @@ public partial class Toolbox : UserControl
 
     private void ContainerOnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        Console.WriteLine($"PointerPressed: {sender}");
+        //Console.WriteLine($"PointerPressed: {sender}");
 
         _captured = true;
         _start = e.GetPosition(e.Source as Control);
@@ -54,7 +54,7 @@ public partial class Toolbox : UserControl
 
     private void ContainerOnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        Console.WriteLine($"PointerReleased: {sender}");
+        //Console.WriteLine($"PointerReleased: {sender}");
         
         if (_control is not null)
         {
@@ -165,7 +165,7 @@ public partial class Toolbox : UserControl
 
     private void ToolboxListBoxOnContainerClearing(object? sender, ContainerClearingEventArgs e)
     {
-        Console.WriteLine($"ContainerClearing: {e.Container}");
+        //Console.WriteLine($"ContainerClearing: {e.Container}");
 
         e.Container.RemoveHandler(Control.PointerPressedEvent, ContainerOnPointerPressed);
         e.Container.RemoveHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased);
@@ -174,7 +174,7 @@ public partial class Toolbox : UserControl
 
     private void ToolboxListBoxOnContainerIndexChanged(object? sender, ContainerIndexChangedEventArgs e)
     {
-        Console.WriteLine($"ContainerIndexChanged: {e.Container}");
+        //Console.WriteLine($"ContainerIndexChanged: {e.Container}");
     }
 }
 
