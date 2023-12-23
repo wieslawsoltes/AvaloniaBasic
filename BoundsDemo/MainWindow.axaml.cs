@@ -39,7 +39,7 @@ public partial class MainWindow : Window
             }),
             //
             new ("Panel", new Dictionary<string, object>()),
-            new ("StackPanel", new Dictionary<string, object>()
+            new ("StackPanel", new Dictionary<string, object>
             {
                 ["Children"] = new List<XamlItem>
                 {
