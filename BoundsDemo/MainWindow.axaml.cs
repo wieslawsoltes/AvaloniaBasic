@@ -31,6 +31,11 @@ public partial class MainWindow : Window
     {
         base.OnKeyDown(e);
 
+        if (e.Source is TextBox)
+        {
+            return;
+        }
+
         switch (e.Key)
         {
             case Key.Escape:
