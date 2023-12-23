@@ -12,12 +12,8 @@
 
     <Grid ColumnDefinitions="220,0.5,*,0.5,220">
 
-      <ListBox Grid.Column="0" Background="Transparent">
-        <ListBoxItem>TextBlock</ListBoxItem>
-        <ListBoxItem>TextBox</ListBoxItem>
-        <ListBoxItem>Button</ListBoxItem>
-        <ListBoxItem>Label</ListBoxItem>
-      </ListBox>
+      <c:Toolbox OverlayView="{Binding #OverlayView}" 
+                 Grid.Column="0" />
 
       <Separator Grid.Column="1" Opacity="0.6" Width="0.5" Height="NaN" Margin="0" />
 

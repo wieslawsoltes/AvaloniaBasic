@@ -1,0 +1,183 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
+using Avalonia.VisualTree;
+
+namespace BoundsDemo;
+
+public partial class Toolbox : UserControl
+{
+    public static readonly StyledProperty<OverlayView> OverlayViewProperty = 
+        AvaloniaProperty.Register<Toolbox, OverlayView>(nameof(OverlayView));
+
+    public OverlayView OverlayView
+    {
+        get => GetValue(OverlayViewProperty);
+        set => SetValue(OverlayViewProperty, value);
+    }
+
+    public Toolbox()
+    {
+        InitializeComponent();
+
+        ToolboxListBox.ContainerPrepared += ToolboxListBoxOnContainerPrepared;
+        ToolboxListBox.ContainerClearing += ToolboxListBoxOnContainerClearing;
+        ToolboxListBox.ContainerIndexChanged += ToolboxListBoxOnContainerIndexChanged;
+    }
+
+    private void ToolboxListBoxOnContainerPrepared(object? sender, ContainerPreparedEventArgs e)
+    {
+        Console.WriteLine($"ContainerPrepared: {e.Container}");
+
+        e.Container.AddHandler(Control.PointerPressedEvent, ContainerOnPointerPressed, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        e.Container.AddHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        e.Container.AddHandler(Control.PointerMovedEvent, ContainerOnPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+    }
+
+    private bool _captured;
+    private Point _start;
+    private Control? _control;
+    private HashSet<Visual> _ignored;
+
+    private void ContainerOnPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        Console.WriteLine($"PointerPressed: {sender}");
+
+        _captured = true;
+        _start = e.GetPosition(e.Source as Control);
+    }
+
+    private void ContainerOnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    {
+        Console.WriteLine($"PointerReleased: {sender}");
+        
+        if (_control is not null)
+        {
+            Drop(e, _ignored, true);
+        }
+        _captured = false;
+        _control = null;
+    }
+
+    private void Drop(PointerEventArgs e, HashSet<Visual> ignored, bool insert)
+    {
+        
+        var root = this.GetVisualRoot() as Interactive;
+        if (root is null)
+        {
+            return;
+        }
+        var descendants = root.GetLogicalDescendants().Cast<Visual>();
+
+        var position = e.GetPosition(root);
+
+        var visuals = descendants
+            .Where(visual =>
+            {
+                if (!ignored.Contains(visual) && OverlayView.GetEnableHitTest(visual))
+                {
+                    var transformedBounds = visual.GetTransformedBounds();
+                    return transformedBounds is not null
+                           && transformedBounds.Value.Contains(position);
+                }
+
+                return false;
+            })
+            .Reverse();
+
+        var target = visuals.FirstOrDefault();
+
+        Console.WriteLine($"Drop: {target}");
+
+        if (insert)
+        {
+            if (target is StackPanel stackPanel)
+            {
+                (OverlayView.Child as Canvas).Children.Remove(_control);
+                stackPanel.Children.Add(_control);
+            }
+        }
+    }
+
+    private void ContainerOnPointerMoved(object? sender, PointerEventArgs e)
+    {
+        if (_captured)
+        {
+            var position = e.GetPosition(e.Source as Control);
+            var delta = _start - position;
+            if (Math.Abs(delta.X) > 3 || Math.Abs(delta.Y) > 3)
+            {
+                if (_control is null)
+                {
+                    var type = (sender as ListBoxItem).Content as string;
+
+                    switch (type)
+                    {
+                        case "TextBlock":
+                            _control = new TextBlock
+                            {
+                                Text = "TextBlock"
+                            };
+                            break;
+                        case "TextBox":
+                            _control = new TextBox
+                            {
+                                Text = "TextBox"
+                            };
+                            break;
+                        case "Button":
+                            _control = new Button
+                            {
+                                Content = "Button"
+                            };
+                            break;
+                        case "Label":
+                            _control = new Label
+                            {
+                                Content = "Button"
+                            };
+                            break;
+                    }
+
+                    (OverlayView.Child as Canvas).Children.Add(_control);
+                    
+                    _ignored = new HashSet<Visual>(new Visual[] {OverlayView, _control});
+                }
+            }
+
+            if (_control is not null)
+            {
+                var location = (e.Source as Control).TranslatePoint(position, OverlayView.Child as Canvas);
+                Canvas.SetLeft(_control, location.Value.X);
+                Canvas.SetTop(_control, location.Value.Y);
+            }
+
+            if (_control is not null)
+            {
+                Drop(e, _ignored, false);
+            }
+
+            Console.WriteLine($"PointerMoved: {sender}");
+        }
+    }
+
+    private void ToolboxListBoxOnContainerClearing(object? sender, ContainerClearingEventArgs e)
+    {
+        Console.WriteLine($"ContainerClearing: {e.Container}");
+
+        e.Container.RemoveHandler(Control.PointerPressedEvent, ContainerOnPointerPressed);
+        e.Container.RemoveHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased);
+        e.Container.RemoveHandler(Control.PointerMovedEvent, ContainerOnPointerMoved);
+    }
+
+    private void ToolboxListBoxOnContainerIndexChanged(object? sender, ContainerIndexChangedEventArgs e)
+    {
+        Console.WriteLine($"ContainerIndexChanged: {e.Container}");
+    }
+}
+

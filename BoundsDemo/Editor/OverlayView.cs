@@ -48,7 +48,7 @@ public class VisualSelection
     }
 }
 
-public class OverlayView : Control
+public class OverlayView : Decorator
 {
     public static readonly AttachedProperty<bool> EnableHitTestProperty =
         AvaloniaProperty.RegisterAttached<OverlayView, Visual, bool>("EnableHitTest", false, true);
@@ -61,6 +61,11 @@ public class OverlayView : Control
     public static void SetEnableHitTest(Visual element, bool value)
     {
         element.SetValue(EnableHitTestProperty, value);
+    }
+
+    public OverlayView()
+    {
+        Child = new Canvas();
     }
 
     public event EventHandler<EventArgs>? HoveredChanged;
