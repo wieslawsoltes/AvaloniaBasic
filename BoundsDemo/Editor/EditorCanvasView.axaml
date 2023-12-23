@@ -10,6 +10,7 @@
                 Background="White"
                 Name="EditablePanel"
                 Width="350"
+                Height="500"
                 IsHitTestVisible="False">
       <!--
       <TextBlock Text="Text" />
