@@ -32,7 +32,7 @@ public partial class Toolbox : UserControl
 
     private void ToolboxListBoxOnContainerPrepared(object? sender, ContainerPreparedEventArgs e)
     {
-        Console.WriteLine($"ContainerPrepared: {e.Container}");
+        //Console.WriteLine($"ContainerPrepared: {e.Container}");
 
         e.Container.AddHandler(Control.PointerPressedEvent, ContainerOnPointerPressed, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         e.Container.AddHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
