@@ -105,6 +105,7 @@ public partial class MainWindow : Window
                 OverlayView.Select(null);
                 break;
             case Key.Delete:
+            case Key.Back:
             {
                 if (OverlayView.Selected is Control control)
                 {
