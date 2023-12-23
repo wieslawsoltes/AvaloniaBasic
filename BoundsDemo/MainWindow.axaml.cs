@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -54,6 +55,16 @@ public partial class MainWindow : Window
                 OverlayView.Hover(null);
                 OverlayView.Select(null);
                 break;
+            case Key.Delete:
+            {
+                if (OverlayView.Selected is Control control)
+                {
+                    OverlayView.Hover(null);
+                    OverlayView.Select(null);
+                    EditorCanvas.EditablePanel.Children.Remove(control);
+                }
+                break;
+            }
         }
     }
 
