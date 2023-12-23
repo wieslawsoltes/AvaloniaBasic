@@ -66,7 +66,14 @@ public partial class Toolbox : UserControl
 
     private void Drop(PointerEventArgs e, HashSet<Visual> ignored, bool insert)
     {
-        
+        if (insert)
+        {
+            if (_control is not null)
+            {
+                (OverlayView.Child as Canvas).Children.Remove(_control);
+            }
+        }
+
         var root = this.GetVisualRoot() as Interactive;
         if (root is null)
         {
