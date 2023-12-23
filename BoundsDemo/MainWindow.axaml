@@ -7,7 +7,7 @@
         Width="1000" Height="700"
         WindowStartupLocation="CenterScreen"
         x:Class="BoundsDemo.MainWindow"
-        Title="BoundsDemo">
+        Title="Form Builder">
   <Panel>
 
     <Grid ColumnDefinitions="220,0.5,*,0.5,220">
