@@ -35,6 +35,8 @@ public partial class EditorCanvasView : UserControl
         AddHandler(PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         AddHandler(PointerExitedEvent, OnPointerExited, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         AddHandler(PointerCaptureLostEvent, OnPointerCaptureLost, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+
+        Focusable = true;
     }
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
@@ -47,6 +49,7 @@ public partial class EditorCanvasView : UserControl
         var visuals = HitTest(this, e.GetPosition(null), OverlayView.HitTestMode, _ignored);
 
         OverlayView.Select(visuals.FirstOrDefault());
+        Focus();
     }
 
     private void OnPointerMoved(object? sender, PointerEventArgs e)
