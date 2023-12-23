@@ -145,7 +145,7 @@ public partial class Toolbox : UserControl
                     }
 
                     (OverlayView.Child as Canvas).Children.Add(_control);
-                    
+
                     _ignored = new HashSet<Visual>(new Visual[] {OverlayView, _control});
                 }
             }
