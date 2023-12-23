@@ -52,7 +52,14 @@ public partial class MainWindow : Window
             new ("Grid", new Dictionary<string, object>()),
             //
             new ("ItemsControl", new Dictionary<string, object>()),
-            new ("ListBox", new Dictionary<string, object>()),
+            new ("ListBox", new Dictionary<string, object>
+            {
+                ["Items"] = new List<XamlItem>
+                {
+                    new ("ListBoxItem", new Dictionary<string, object> { ["Content"] = "ListBoxItem 0" }),
+                    new ("ListBoxItem", new Dictionary<string, object> { ["Content"] = "ListBoxItem 1" }),
+                }
+            }),
             new ("ListBoxItem", new Dictionary<string, object>()),
             new ("ComboBox", new Dictionary<string, object>()),
             new ("ComboBoxItem", new Dictionary<string, object>()),
