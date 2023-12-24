@@ -263,7 +263,8 @@ public class ToolBoxViewModel
 
         var xaml = sb.ToString();
 
-        Console.WriteLine("[XAML]");
+        Console.Clear();
+        // Console.WriteLine("[XAML]");
         Console.WriteLine(xaml);
     }
 }
