@@ -118,11 +118,11 @@ public partial class TextBoxProperties : UserControl
 
         if (Selected is TextBox textBox)
         {
-            if (TextBoxText.Text is not null)
+            var text = TextBoxText.Text;
+            if (text is not null)
             {
                 try
                 {
-                    var text = TextBoxText.Text;
                     textBox.Text = text;
 
                     if (DataContext is ToolBoxViewModel toolBoxViewModel)
