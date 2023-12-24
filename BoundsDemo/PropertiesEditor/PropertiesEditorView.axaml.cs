@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -17,9 +18,16 @@ public partial class PropertiesEditorView : UserControl
         set => SetValue(SelectedProperty, value);
     }
 
+    public event EventHandler? EnableEditing;
+
     public PropertiesEditorView()
     {
         InitializeComponent();
+    }
+
+    public virtual void OnEnableEditing()
+    {
+        EnableEditing?.Invoke(this, EventArgs.Empty);
     }
 
     public void UpdatePropertiesEditor()

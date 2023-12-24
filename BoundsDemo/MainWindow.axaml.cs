@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Threading;
 
 namespace BoundsDemo;
 
@@ -14,6 +15,15 @@ public partial class MainWindow : Window
         OverlayView.SelectedChanged += (_, _) =>
         {
             UpdatePropertiesEditor(OverlayView.Selected);
+            Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
+        };
+
+        PropertiesEditor.EnableEditing += (_, _) =>
+        {
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.EnableEditing = true;
+            }
         };
 
         UpdatePropertiesEditor(null);
@@ -95,6 +105,11 @@ public partial class MainWindow : Window
         if (selected is not null)
         {
             selected.PropertyChanged += SelectedOnPropertyChanged;
+        }
+
+        if (DataContext is ToolBoxViewModel toolBoxViewModel)
+        {
+            toolBoxViewModel.EnableEditing = false;
         }
 
         PropertiesEditor.Selected = selected;

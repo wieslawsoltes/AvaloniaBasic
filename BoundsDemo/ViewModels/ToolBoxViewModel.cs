@@ -220,6 +220,8 @@ public class ToolBoxViewModel
 
     public List<XamlItem> ToolBoxItems { get; set; }
 
+    public bool EnableEditing { get; set; }
+
     public void Add(Control control, XamlItem xamlItem)
     {
         _controlsDictionary[control] = xamlItem;
@@ -237,6 +239,11 @@ public class ToolBoxViewModel
 
     public void UpdatePropertyValue(Control control, string propertyName, string propertyValue)
     {
+        if (!EnableEditing)
+        {
+            return;
+        }
+
         if (TryGetXamlItem(control, out var xamlItem))
         {
             xamlItem.Properties[propertyName] = propertyValue;
