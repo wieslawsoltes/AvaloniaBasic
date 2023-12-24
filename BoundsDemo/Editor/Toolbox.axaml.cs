@@ -116,7 +116,7 @@ public partial class Toolbox : UserControl
 
         //Console.WriteLine($"Drop: {target}");
 
-        if (insert && _control is not null)
+        if (insert && target is not null && _control is not null)
         {
             if (!toolBoxViewModel.TryGetXamlItem(target, out var targetXamlItem))
             {
