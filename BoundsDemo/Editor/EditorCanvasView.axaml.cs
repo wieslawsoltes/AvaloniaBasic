@@ -60,6 +60,8 @@ public partial class EditorCanvasView : UserControl
 
             toolBoxViewModel.Add(stackPanel, stackPanelXamlItem);
 
+            toolBoxViewModel.RootXamlItem = stackPanelXamlItem;
+
             RootPanel.Children.Add(stackPanel);
         }
     }

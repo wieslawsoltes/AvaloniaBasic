@@ -117,7 +117,6 @@ public class XamlItem
             sb.Append('"');
             sb.Append(property.Value);
             sb.Append('"');
-            sb.Append(' ');
         }
 
         if (isComplex)

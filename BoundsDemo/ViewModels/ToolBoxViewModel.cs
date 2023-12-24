@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Text;
 using Avalonia.Controls;
 
 namespace BoundsDemo;
@@ -214,6 +216,8 @@ public class ToolBoxViewModel
         _controlsDictionary = new Dictionary<Control, XamlItem>();
     }
 
+    public XamlItem? RootXamlItem { get; set; }
+
     public List<XamlItem> ToolBoxItems { get; set; }
 
     public void Add(Control control, XamlItem xamlItem)
@@ -229,5 +233,29 @@ public class ToolBoxViewModel
     public bool TryGetXamlItem(Control control, out XamlItem? xamlItem)
     {
         return _controlsDictionary.TryGetValue(control, out xamlItem);
+    }
+
+    public void UpdatePropertyValue(Control control, string propertyName, string propertyValue)
+    {
+        if (TryGetXamlItem(control, out var xamlItem))
+        {
+            xamlItem.Properties[propertyName] = propertyValue;
+
+            // TODO:
+            Debug(xamlItem);
+        }
+    }
+    
+    public void Debug(XamlItem xamlItem)
+    {
+        // TODO:
+        var sb = new StringBuilder();
+
+        XamlItem.WriteXaml(xamlItem, isRoot: true, sb);
+
+        var xaml = sb.ToString();
+
+        Console.WriteLine("[XAML]");
+        Console.WriteLine(xaml);
     }
 }

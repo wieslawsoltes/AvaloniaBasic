@@ -26,12 +26,16 @@ public partial class TextBoxProperties : UserControl
     
     public void UpdateTextBoxProperties()
     {
+        _isUpdating = true;
+
         if (Selected is TextBox textBox)
         {
             SetTextAlignment(textBox.TextAlignment);
 
             SetText(textBox.Text);
         }
+
+        _isUpdating = false;
     }
 
     private void SetTextAlignment(TextAlignment textAlignment)
@@ -53,6 +57,11 @@ public partial class TextBoxProperties : UserControl
         {
             textBox.TextAlignment = TextAlignment.Left;
             SetTextAlignment(TextAlignment.Left);
+
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Left");
+            }
         }
     }
 
@@ -62,6 +71,11 @@ public partial class TextBoxProperties : UserControl
         {
             textBox.TextAlignment = TextAlignment.Center;
             SetTextAlignment(TextAlignment.Center);
+
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Center");
+            }
         }
     }
 
@@ -71,6 +85,11 @@ public partial class TextBoxProperties : UserControl
         {
             textBox.TextAlignment = TextAlignment.Right;
             SetTextAlignment(TextAlignment.Right);
+
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Right");
+            }
         }
     }
 
@@ -80,6 +99,11 @@ public partial class TextBoxProperties : UserControl
         {
             textBox.TextAlignment = TextAlignment.Justify;
             SetTextAlignment(TextAlignment.Justify);
+
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Justify");
+            }
         }
     }
 
@@ -100,6 +124,11 @@ public partial class TextBoxProperties : UserControl
                 {
                     var text = TextBoxText.Text;
                     textBox.Text = text;
+
+                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    {
+                        toolBoxViewModel.UpdatePropertyValue(textBox, "Text", text);
+                    }
                 }
                 catch (Exception)
                 {

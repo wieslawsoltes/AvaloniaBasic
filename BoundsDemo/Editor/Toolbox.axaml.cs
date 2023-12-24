@@ -140,19 +140,8 @@ public partial class Toolbox : UserControl
                     children.Add(xamlItem);
                 }
 
-                
-                
                 // TODO:
-                var sb = new StringBuilder();
-
-                XamlItem.WriteXaml(targetXamlItem, isRoot: true, sb);
-
-                var xaml = sb.ToString();
-
-                Console.WriteLine("[XAML]");
-                Console.WriteLine(xaml);
-                
-                
+                toolBoxViewModel.Debug(targetXamlItem);
             }
             else
             {
