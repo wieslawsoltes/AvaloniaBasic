@@ -249,7 +249,8 @@ public class ToolBoxViewModel
             xamlItem.Properties[propertyName] = propertyValue;
 
             // TODO:
-            Debug(xamlItem);
+            // Debug(xamlItem);
+            Debug(RootXamlItem);
         }
     }
     
