@@ -118,17 +118,17 @@ public class OverlayView : Decorator
 
             if (Hovered is null)
             {
-                DrawName(context, Selected.GetType().Name);
+                //DrawName(context, Selected.GetType().Name);
             }
         }
 
         if (Hovered is not null)
         {
             RenderVisual(Hovered, context, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
-            DrawName(context, Hovered.GetType().Name);
+            //DrawName(context, Hovered.GetType().Name);
         }
 
-        DrawHelp(context);
+        //DrawHelp(context);
     }
 
     private void DrawHelp(DrawingContext context)

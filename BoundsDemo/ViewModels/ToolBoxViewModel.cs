@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using Avalonia.Controls;
 
 namespace BoundsDemo;
 
 public class ToolBoxViewModel
 {
+    private readonly Dictionary<Control, XamlItem> _controlsDictionary;
+
     public ToolBoxViewModel()
     {
         ToolBoxItems = new List<XamlItem>
@@ -207,7 +210,24 @@ public class ToolBoxViewModel
                 contentProperty: "Content", 
                 childrenProperty: "Content"),
         };
+
+        _controlsDictionary = new Dictionary<Control, XamlItem>();
     }
 
     public List<XamlItem> ToolBoxItems { get; set; }
+
+    public void Add(Control control, XamlItem xamlItem)
+    {
+        _controlsDictionary[control] = xamlItem;
+    }
+
+    public void Remove(Control control)
+    {
+        _controlsDictionary.Remove(control);
+    }
+
+    public bool TryGetXamlItem(Control control, out XamlItem? xamlItem)
+    {
+        return _controlsDictionary.TryGetValue(control, out xamlItem);
+    }
 }

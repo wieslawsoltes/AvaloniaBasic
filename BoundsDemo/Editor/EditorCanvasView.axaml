@@ -5,13 +5,15 @@
              xmlns:c="clr-namespace:BoundsDemo"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="BoundsDemo.EditorCanvasView">
-  <Panel Background="LightGray">
-    <StackPanel c:OverlayView.EnableHitTest="True"
+  <Panel Name="RootPanel" 
+         Background="LightGray"
+         IsHitTestVisible="False">
+    <!--<StackPanel c:OverlayView.EnableHitTest="True"
                 Background="White"
                 Name="EditablePanel"
                 Width="350"
                 Height="500"
-                IsHitTestVisible="False">
+                IsHitTestVisible="False">-->
       <!--
       <TextBlock Text="Text" />
       <TextBox Text="Text" />
@@ -50,7 +52,7 @@
       <Slider />
       <DatePicker />
       -->
-    </StackPanel>
+    <!--</StackPanel>-->
   </Panel>
 </UserControl>
 

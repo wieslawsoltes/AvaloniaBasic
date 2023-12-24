@@ -39,6 +39,31 @@ public partial class EditorCanvasView : UserControl
         Focusable = true;
     }
 
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+
+        if (DataContext is ToolBoxViewModel toolBoxViewModel)
+        {
+            var stackPanelXamlItem = new XamlItem(name: "StackPanel",
+                properties: new Dictionary<string, object>
+                {
+                    ["Children"] = new List<XamlItem>(),
+                    ["Background"] = "White",
+                    ["Width"] = "350",
+                    ["Height"] = "500",
+                },
+                contentProperty: "Children", 
+                childrenProperty: "Children");
+
+            var stackPanel = stackPanelXamlItem.Create();
+
+            toolBoxViewModel.Add(stackPanel, stackPanelXamlItem);
+
+            RootPanel.Children.Add(stackPanel);
+        }
+    }
+
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (e.Source is LightDismissOverlayLayer)
@@ -89,10 +114,23 @@ public partial class EditorCanvasView : UserControl
             descendants.AddRange(interactive.GetLogicalDescendants().Cast<Visual>());
         }
 
+        var toolBoxViewModel = DataContext as ToolBoxViewModel;
+        if (toolBoxViewModel is null)
+        {
+            return Enumerable.Empty<Visual>();
+        }
+
         var visuals = descendants
+            .OfType<Control>()
             .Where(visual =>
             {
-                if (!ignored.Contains(visual) && OverlayView.GetEnableHitTest(visual))
+                if (!toolBoxViewModel.TryGetXamlItem(visual, out _))
+                {
+                    return false;
+                }
+
+                //if (!ignored.Contains(visual) && OverlayView.GetEnableHitTest(visual))
+                if (!ignored.Contains(visual))
                 {
                     var transformedBounds = visual.GetTransformedBounds();
                     return transformedBounds is not null

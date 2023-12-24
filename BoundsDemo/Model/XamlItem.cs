@@ -62,7 +62,7 @@ public class XamlItem
 
         var xaml = sb.ToString();
         
-        Console.WriteLine($"Create {Name}:");
+        Console.WriteLine($"[XAML {Name}]");
         Console.WriteLine(xaml);
 
         var obj = AvaloniaRuntimeXamlLoader.Load(xaml, null, null, null, designMode: false);
@@ -96,7 +96,7 @@ public class XamlItem
         }
     }
 
-    private static void WriteXaml(XamlItem xamlItem, bool isRoot, StringBuilder sb)
+    public static void WriteXaml(XamlItem xamlItem, bool isRoot, StringBuilder sb)
     {
         sb.Append('<');
         sb.Append(xamlItem.Name);

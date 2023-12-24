@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -60,6 +61,7 @@ public partial class Toolbox : UserControl
         {
             Drop(e, _ignored, true);
         }
+
         _captured = false;
         _control = null;
     }
@@ -83,10 +85,23 @@ public partial class Toolbox : UserControl
 
         var position = e.GetPosition(root);
 
+        var toolBoxViewModel = DataContext as ToolBoxViewModel;
+        if (toolBoxViewModel is null)
+        {
+            return;
+        }
+
         var visuals = descendants
+            .OfType<Control>()
             .Where(visual =>
             {
-                if (!ignored.Contains(visual) && OverlayView.GetEnableHitTest(visual))
+                if (!toolBoxViewModel.TryGetXamlItem(visual, out _))
+                {
+                    return false;
+                }
+
+                //if (!ignored.Contains(visual) && OverlayView.GetEnableHitTest(visual))
+                if (!ignored.Contains(visual))
                 {
                     var transformedBounds = visual.GetTransformedBounds();
                     return transformedBounds is not null
@@ -97,68 +112,109 @@ public partial class Toolbox : UserControl
             })
             .Reverse();
 
-        var target = visuals.FirstOrDefault();
+        var target = visuals.FirstOrDefault() as Control;
 
         //Console.WriteLine($"Drop: {target}");
 
-        if (insert)
+        if (insert && _control is not null)
         {
-            if (_control is not null)
+            if (!toolBoxViewModel.TryGetXamlItem(target, out var targetXamlItem))
             {
-                if (target is StackPanel stackPanel)
-                {
-                    stackPanel.Children.Add(_control);
-                }
+                toolBoxViewModel.Remove(_control);
+                return;
             }
+
+            if (!toolBoxViewModel.TryGetXamlItem(_control, out var xamlItem))
+            {
+                toolBoxViewModel.Remove(_control);
+                return;
+            }
+
+            if (target is StackPanel stackPanel)
+            {
+                // TODO:
+                stackPanel.Children.Add(_control);
+
+                if (targetXamlItem.Properties[targetXamlItem.ChildrenProperty] is List<XamlItem> children)
+                {
+                    children.Add(xamlItem);
+                }
+
+                
+                
+                // TODO:
+                var sb = new StringBuilder();
+
+                XamlItem.WriteXaml(targetXamlItem, isRoot: true, sb);
+
+                var xaml = sb.ToString();
+
+                Console.WriteLine("[XAML]");
+                Console.WriteLine(xaml);
+                
+                
+            }
+            else
+            {
+                // TODO:
+                toolBoxViewModel.Remove(_control);
+            }
+
         }
     }
 
     private void ContainerOnPointerMoved(object? sender, PointerEventArgs e)
     {
-        if (_captured)
+        if (!_captured)
         {
-            var position = e.GetPosition(e.Source as Control);
-            var delta = _start - position;
-            if (Math.Abs(delta.X) > 3 || Math.Abs(delta.Y) > 3)
+            return;
+        }
+
+        var position = e.GetPosition(e.Source as Control);
+        var delta = _start - position;
+        if (Math.Abs(delta.X) > 3 || Math.Abs(delta.Y) > 3)
+        {
+            if (_control is null)
             {
-                if (_control is null)
+                var toolBoxItem = (sender as ListBoxItem).Content as XamlItem;
+
+                var xamlItem = toolBoxItem.Clone();
+
+                try
                 {
-                    var toolBoxItem = (sender as ListBoxItem).Content as XamlItem;
+                    _control = xamlItem.Create();
 
-                    var xamlItem = toolBoxItem.Clone();
+                    var toolBoxViewModel = DataContext as ToolBoxViewModel;
 
-                    try
-                    {
-                        _control = xamlItem.Create();
-                    }
-                    catch (Exception exception)
-                    {
-                        Console.WriteLine(exception);
-                    }
+                    toolBoxViewModel.Add(_control, xamlItem);
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
 
-                    if (_control is not null)
-                    {
-                        (OverlayView.Child as Canvas).Children.Add(_control);
+                if (_control is not null)
+                {
+                    (OverlayView.Child as Canvas).Children.Add(_control);
 
-                        _ignored = new HashSet<Visual>(new Visual[] {OverlayView, _control});
-                    }
+                    _ignored = new HashSet<Visual>(new Visual[] {OverlayView, _control});
                 }
             }
-
-            if (_control is not null)
-            {
-                var location = (e.Source as Control).TranslatePoint(position, OverlayView.Child as Canvas);
-                Canvas.SetLeft(_control, location.Value.X);
-                Canvas.SetTop(_control, location.Value.Y);
-            }
-
-            if (_control is not null)
-            {
-                Drop(e, _ignored, false);
-            }
-
-            //Console.WriteLine($"PointerMoved: {sender}");
         }
+
+        if (_control is not null)
+        {
+            var location = (e.Source as Control).TranslatePoint(position, OverlayView.Child as Canvas);
+            Canvas.SetLeft(_control, location.Value.X);
+            Canvas.SetTop(_control, location.Value.Y);
+        }
+
+        if (_control is not null)
+        {
+            Drop(e, _ignored, false);
+        }
+
+        //Console.WriteLine($"PointerMoved: {sender}");
     }
 
     private void ToolboxListBoxOnContainerClearing(object? sender, ContainerClearingEventArgs e)

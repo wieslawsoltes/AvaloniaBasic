@@ -53,7 +53,7 @@ public partial class MainWindow : Window
                 OverlayView.Select(null);
                 break;
             case Key.H:
-                EditorCanvas.EditablePanel.IsHitTestVisible = !EditorCanvas.EditablePanel.IsHitTestVisible;
+                EditorCanvas.RootPanel.IsHitTestVisible = !EditorCanvas.RootPanel.IsHitTestVisible;
                 break;
             case Key.R:
                 EditorCanvas.ReverseOrder = !EditorCanvas.ReverseOrder;
@@ -67,7 +67,13 @@ public partial class MainWindow : Window
                 {
                     OverlayView.Hover(null);
                     OverlayView.Select(null);
-                    EditorCanvas.EditablePanel.Children.Remove(control);
+
+                    // TODO:
+                    //EditorCanvas.EditablePanel.Children.Remove(control);
+
+                    // TODO:
+                    var toolBoxViewModel = DataContext as ToolBoxViewModel;
+                    toolBoxViewModel.Remove(control);
                 }
                 break;
             }
