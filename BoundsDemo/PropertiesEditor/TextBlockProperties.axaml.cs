@@ -64,14 +64,14 @@ public partial class TextBlockProperties : UserControl
 
     private void SetBackground(Color color)
     {
-        TextBoxBackground.Text = $"#{color.ToUInt32():X8}";
+        TextBoxBackground.Text = color.ToString(); // $"#{color.ToUInt32():X8}";
         BackgroundColorView.Color = color;
         RectangleBackground.Fill = new ImmutableSolidColorBrush(color);
     }
 
     private void SetForeground(Color color)
     {
-        TextBoxForeground.Text = $"#{color.ToUInt32():X8}";
+        TextBoxForeground.Text = color.ToString(); // $"#{color.ToUInt32():X8}";
         ForegroundColorView.Color = color;
         RectangleForeground.Fill = new ImmutableSolidColorBrush(color);
     }
@@ -143,11 +143,11 @@ public partial class TextBlockProperties : UserControl
 
         if (Selected is TextBlock textBlock)
         {
-            if (TextBoxText.Text is not null)
+            var text = TextBoxText.Text;
+            if (text is not null)
             {
                 try
                 {
-                    var text = TextBoxText.Text;
                     textBlock.Text = text;
             
                     if (DataContext is ToolBoxViewModel toolBoxViewModel)
@@ -176,14 +176,20 @@ public partial class TextBlockProperties : UserControl
 
         if (Selected is TextBlock textBlock)
         {
-            if (TextBoxBackground.Text is not null)
+            var text = TextBoxBackground.Text;
+            if (text is not null)
             {
                 try
                 {
-                    var color = Color.Parse(TextBoxBackground.Text);
+                    var color = Color.Parse(text);
                     textBlock.Background = new ImmutableSolidColorBrush(color);
 
                     SetBackground(color);
+            
+                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    {
+                        toolBoxViewModel.UpdatePropertyValue(textBlock, "Background", text);
+                    }
                 }
                 catch (Exception)
                 {
@@ -212,6 +218,11 @@ public partial class TextBlockProperties : UserControl
                 textBlock.Background = new ImmutableSolidColorBrush(color);
 
                 SetBackground(color);
+            
+                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                {
+                    toolBoxViewModel.UpdatePropertyValue(textBlock, "Foreground", color.ToString());
+                }
             }
             catch (Exception)
             {
@@ -233,14 +244,20 @@ public partial class TextBlockProperties : UserControl
 
         if (Selected is TextBlock textBlock)
         {
-            if (TextBoxForeground.Text is not null)
+            var text = TextBoxForeground.Text;
+            if (text is not null)
             {
                 try
                 {
-                    var color = Color.Parse(TextBoxForeground.Text);
+                    var color = Color.Parse(text);
                     textBlock.Foreground = new ImmutableSolidColorBrush(color);
 
                     SetForeground(color);
+            
+                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    {
+                        toolBoxViewModel.UpdatePropertyValue(textBlock, "Foreground", text);
+                    }
                 }
                 catch (Exception)
                 {
@@ -267,6 +284,11 @@ public partial class TextBlockProperties : UserControl
                 textBlock.Foreground = new ImmutableSolidColorBrush(color);
 
                 SetForeground(color);
+            
+                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                {
+                    toolBoxViewModel.UpdatePropertyValue(textBlock, "Foreground", color.ToString());
+                }
             }
             catch (Exception)
             {
