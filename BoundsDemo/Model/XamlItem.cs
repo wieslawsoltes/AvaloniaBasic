@@ -61,8 +61,9 @@ public class XamlItem
         WriteXaml(this, isRoot, sb);
 
         var xaml = sb.ToString();
-        
-        Console.WriteLine($"[XAML {Name}]");
+
+        Console.Clear();
+        // Console.WriteLine($"[XAML {Name}]");
         Console.WriteLine(xaml);
 
         var obj = AvaloniaRuntimeXamlLoader.Load(xaml, null, null, null, designMode: false);
