@@ -47,14 +47,14 @@ public partial class TemplatedControlProperties : UserControl
 
     private void SetBackground(Color color)
     {
-        TextBoxBackground.Text = $"#{color.ToUInt32():X8}";
+        TextBoxBackground.Text = color.ToString(); // $"#{color.ToUInt32():X8}";
         BackgroundColorView.Color = color;
         RectangleBackground.Fill = new ImmutableSolidColorBrush(color);
     }
 
     private void SetForeground(Color color)
     {
-        TextBoxForeground.Text = $"#{color.ToUInt32():X8}";
+        TextBoxForeground.Text = color.ToString(); // $"#{color.ToUInt32():X8}";
         ForegroundColorView.Color = color;
         RectangleForeground.Fill = new ImmutableSolidColorBrush(color);
     }
@@ -70,14 +70,20 @@ public partial class TemplatedControlProperties : UserControl
 
         if (Selected is TemplatedControl templatedControl)
         {
-            if (TextBoxBackground.Text is not null)
+            var text = TextBoxBackground.Text;
+            if (text is not null)
             {
                 try
                 {
-                    var color = Color.Parse(TextBoxBackground.Text);
+                    var color = Color.Parse(text);
                     templatedControl.Background = new ImmutableSolidColorBrush(color);
 
                     SetBackground(color);
+
+                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    {
+                        toolBoxViewModel.UpdatePropertyValue(templatedControl, "Background", text);
+                    }
                 }
                 catch (Exception)
                 {
@@ -106,6 +112,11 @@ public partial class TemplatedControlProperties : UserControl
                 templatedControl.Background = new ImmutableSolidColorBrush(color);
 
                 SetBackground(color);
+
+                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                {
+                    toolBoxViewModel.UpdatePropertyValue(templatedControl, "Background", color.ToString());
+                }
             }
             catch (Exception)
             {
@@ -127,14 +138,20 @@ public partial class TemplatedControlProperties : UserControl
 
         if (Selected is TemplatedControl templatedControl)
         {
-            if (TextBoxForeground.Text is not null)
+            var text = TextBoxForeground.Text;
+            if (text is not null)
             {
                 try
                 {
-                    var color = Color.Parse(TextBoxForeground.Text);
+                    var color = Color.Parse(text);
                     templatedControl.Foreground = new ImmutableSolidColorBrush(color);
 
                     SetForeground(color);
+
+                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    {
+                        toolBoxViewModel.UpdatePropertyValue(templatedControl, "Background", text);
+                    }
                 }
                 catch (Exception)
                 {
@@ -161,6 +178,11 @@ public partial class TemplatedControlProperties : UserControl
                 templatedControl.Foreground = new ImmutableSolidColorBrush(color);
 
                 SetForeground(color);
+
+                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                {
+                    toolBoxViewModel.UpdatePropertyValue(templatedControl, "Background", color.ToString());
+                }
             }
             catch (Exception)
             {

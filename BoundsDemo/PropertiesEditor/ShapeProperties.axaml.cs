@@ -47,14 +47,14 @@ public partial class ShapeProperties : UserControl
 
     private void SetFill(Color color)
     {
-        TextBoxFill.Text = $"#{color.ToUInt32():X8}";
+        TextBoxFill.Text = color.ToString(); // $"#{color.ToUInt32():X8}";
         FillColorView.Color = color;
         RectangleFill.Fill = new ImmutableSolidColorBrush(color);
     }
 
     private void SetStroke(Color color)
     {
-        TextBoxStroke.Text = $"#{color.ToUInt32():X8}";
+        TextBoxStroke.Text = color.ToString(); // $"#{color.ToUInt32():X8}";
         StrokeColorView.Color = color;
         RectangleStroke.Fill = new ImmutableSolidColorBrush(color);
     }
@@ -70,14 +70,20 @@ public partial class ShapeProperties : UserControl
 
         if (Selected is Shape shape)
         {
-            if (TextBoxFill.Text is not null)
+            var text = TextBoxFill.Text;
+            if (text is not null)
             {
                 try
                 {
-                    var color = Color.Parse(TextBoxFill.Text);
+                    var color = Color.Parse(text);
                     shape.Fill = new ImmutableSolidColorBrush(color);
 
                     SetFill(color);
+
+                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    {
+                        toolBoxViewModel.UpdatePropertyValue(shape, "Fill", text);
+                    }
                 }
                 catch (Exception)
                 {
@@ -106,6 +112,11 @@ public partial class ShapeProperties : UserControl
                 shape.Fill = new ImmutableSolidColorBrush(color);
 
                 SetFill(color);
+
+                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                {
+                    toolBoxViewModel.UpdatePropertyValue(shape, "Fill", color.ToString());
+                }
             }
             catch (Exception)
             {
@@ -127,14 +138,20 @@ public partial class ShapeProperties : UserControl
 
         if (Selected is Shape shape)
         {
-            if (TextBoxStroke.Text is not null)
+            var text = TextBoxStroke.Text;
+            if (text is not null)
             {
                 try
                 {
-                    var color = Color.Parse(TextBoxStroke.Text);
+                    var color = Color.Parse(text);
                     shape.Stroke = new ImmutableSolidColorBrush(color);
 
                     SetStroke(color);
+
+                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    {
+                        toolBoxViewModel.UpdatePropertyValue(shape, "Stroke", text);
+                    }
                 }
                 catch (Exception)
                 {
@@ -161,6 +178,11 @@ public partial class ShapeProperties : UserControl
                 shape.Stroke = new ImmutableSolidColorBrush(color);
 
                 SetStroke(color);
+
+                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                {
+                    toolBoxViewModel.UpdatePropertyValue(shape, "Stroke", color.ToString());
+                }
             }
             catch (Exception)
             {

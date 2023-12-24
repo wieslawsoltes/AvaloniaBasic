@@ -82,6 +82,11 @@ public partial class TextBlockProperties : UserControl
         {
             textBlock.TextAlignment = TextAlignment.Left;
             SetTextAlignment(TextAlignment.Left);
+
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Left");
+            }
         }
     }
 
@@ -91,6 +96,11 @@ public partial class TextBlockProperties : UserControl
         {
             textBlock.TextAlignment = TextAlignment.Center;
             SetTextAlignment(TextAlignment.Center);
+
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Center");
+            }
         }
     }
 
@@ -100,6 +110,11 @@ public partial class TextBlockProperties : UserControl
         {
             textBlock.TextAlignment = TextAlignment.Right;
             SetTextAlignment(TextAlignment.Right);
+            
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Right");
+            }
         }
     }
 
@@ -109,6 +124,11 @@ public partial class TextBlockProperties : UserControl
         {
             textBlock.TextAlignment = TextAlignment.Justify;
             SetTextAlignment(TextAlignment.Justify);
+            
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Justify");
+            }
         }
     }
 
@@ -129,6 +149,11 @@ public partial class TextBlockProperties : UserControl
                 {
                     var text = TextBoxText.Text;
                     textBlock.Text = text;
+            
+                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    {
+                        toolBoxViewModel.UpdatePropertyValue(textBlock, "Text", text);
+                    }
                 }
                 catch (Exception)
                 {

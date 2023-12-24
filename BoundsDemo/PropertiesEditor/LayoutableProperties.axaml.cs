@@ -69,6 +69,11 @@ public partial class LayoutableProperties : UserControl
         {
             layoutable.HorizontalAlignment = HorizontalAlignment.Left;
             SetHorizontalAlignment(HorizontalAlignment.Left);
+            
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "HorizontalAlignment", "Left");
+            }
         }
     }
 
@@ -78,6 +83,11 @@ public partial class LayoutableProperties : UserControl
         {
             layoutable.HorizontalAlignment = HorizontalAlignment.Center;
             SetHorizontalAlignment(HorizontalAlignment.Center);
+            
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "HorizontalAlignment", "Center");
+            }
         }
     }
 
@@ -87,6 +97,11 @@ public partial class LayoutableProperties : UserControl
         {
             layoutable.HorizontalAlignment = HorizontalAlignment.Right;
             SetHorizontalAlignment(HorizontalAlignment.Right);
+            
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "HorizontalAlignment", "Right");
+            }
         }
     }
 
@@ -96,6 +111,11 @@ public partial class LayoutableProperties : UserControl
         {
             layoutable.HorizontalAlignment = HorizontalAlignment.Stretch;
             SetHorizontalAlignment(HorizontalAlignment.Stretch);
+            
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "HorizontalAlignment", "Stretch");
+            }
         }
     }
 
@@ -105,6 +125,11 @@ public partial class LayoutableProperties : UserControl
         {
             layoutable.VerticalAlignment = VerticalAlignment.Top;
             SetVerticalAlignment(VerticalAlignment.Top);
+            
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "VerticalAlignment", "Top");
+            }
         }
     }
 
@@ -114,6 +139,11 @@ public partial class LayoutableProperties : UserControl
         {
             layoutable.VerticalAlignment = VerticalAlignment.Center;
             SetVerticalAlignment(VerticalAlignment.Center);
+            
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "VerticalAlignment", "Center");
+            }
         }
     }
 
@@ -123,6 +153,11 @@ public partial class LayoutableProperties : UserControl
         {
             layoutable.VerticalAlignment = VerticalAlignment.Bottom;
             SetVerticalAlignment(VerticalAlignment.Bottom);
+            
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "VerticalAlignment", "Bottom");
+            }
         }
     }
 
@@ -132,6 +167,11 @@ public partial class LayoutableProperties : UserControl
         {
             layoutable.VerticalAlignment = VerticalAlignment.Stretch;
             SetVerticalAlignment(VerticalAlignment.Stretch);
+            
+            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            {
+                toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "VerticalAlignment", "Stretch");
+            }
         }
     }
 
@@ -144,10 +184,16 @@ public partial class LayoutableProperties : UserControl
 
         if (Selected is Layoutable layoutable)
         {
-            var result = double.TryParse(TextBoWidth.Text, CultureInfo.InvariantCulture, out var value);
+            var text = TextBoWidth.Text;
+            var result = double.TryParse(text, CultureInfo.InvariantCulture, out var value);
             if (result)
             {
                 layoutable.Width = value;
+            
+                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                {
+                    toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "Width", text);
+                }
             }
         }
     }
@@ -161,10 +207,16 @@ public partial class LayoutableProperties : UserControl
 
         if (Selected is Layoutable layoutable)
         {
-            var result = double.TryParse(TextBoxHeight.Text, CultureInfo.InvariantCulture, out var value);
+            var text = TextBoxHeight.Text;
+            var result = double.TryParse(text, CultureInfo.InvariantCulture, out var value);
             if (result)
             {
                 layoutable.Height = value;
+            
+                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                {
+                    toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "Height", text);
+                }
             }
         }
     }
@@ -178,10 +230,16 @@ public partial class LayoutableProperties : UserControl
 
         if (Selected is Layoutable layoutable)
         {
-            var result = double.TryParse(TextBoxMinWidth.Text, CultureInfo.InvariantCulture, out var value);
+            var text = TextBoxMinWidth.Text;
+            var result = double.TryParse(text, CultureInfo.InvariantCulture, out var value);
             if (result)
             {
                 layoutable.MinWidth = value;
+            
+                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                {
+                    toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "MinWidth", text);
+                }
             }
         }
     }
@@ -195,10 +253,16 @@ public partial class LayoutableProperties : UserControl
 
         if (Selected is Layoutable layoutable)
         {
-            var result = double.TryParse(TextBoxMinHeight.Text, CultureInfo.InvariantCulture, out var value);
+            var text = TextBoxMinHeight.Text;
+            var result = double.TryParse(text, CultureInfo.InvariantCulture, out var value);
             if (result)
             {
                 layoutable.MinHeight = value;
+            
+                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                {
+                    toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "MinHeight", text);
+                }
             }
         }
     }
@@ -212,10 +276,16 @@ public partial class LayoutableProperties : UserControl
 
         if (Selected is Layoutable layoutable)
         {
-            var result = double.TryParse(TextBoxMaxWidth.Text, CultureInfo.InvariantCulture, out var value);
+            var text = TextBoxMaxWidth.Text;
+            var result = double.TryParse(text, CultureInfo.InvariantCulture, out var value);
             if (result)
             {
                 layoutable.MaxWidth = value;
+            
+                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                {
+                    toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "MaxWidth", text);
+                }
             }
         }
     }
@@ -229,10 +299,16 @@ public partial class LayoutableProperties : UserControl
 
         if (Selected is Layoutable layoutable)
         {
-            var result = double.TryParse(TextBoxMaxHeight.Text, CultureInfo.InvariantCulture, out var value);
+            var text = TextBoxMaxHeight.Text;
+            var result = double.TryParse(text, CultureInfo.InvariantCulture, out var value);
             if (result)
             {
                 layoutable.MaxHeight = value;
+            
+                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                {
+                    toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "MaxHeight", text);
+                }
             }
         }
     }
@@ -248,12 +324,18 @@ public partial class LayoutableProperties : UserControl
 
         if (Selected is Layoutable layoutable)
         {
-            if (TextBoxMargin.Text is not null)
+            var text = TextBoxMargin.Text;
+            if (text is not null)
             {
                 try
                 {
-                    var thickness = Thickness.Parse(TextBoxMargin.Text);
+                    var thickness = Thickness.Parse(text);
                     layoutable.Margin = thickness;
+
+                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    {
+                        toolBoxViewModel.UpdatePropertyValue(layoutable as Control, "Margin", text);
+                    }
                 }
                 catch (Exception)
                 {
