@@ -9,59 +9,203 @@ public class ToolBoxViewModel
         ToolBoxItems = new List<XamlItem>
         {
             //
-            new ("TextBlock", new Dictionary<string, object> { ["Text"] = "TextBlock" }),
-            new ("Label", new Dictionary<string, object> { ["Content"] = "Label" }),
-            new ("TextBox", new Dictionary<string, object> { ["Text"] = "TextBox" }),
             //
-            new ("Button", new Dictionary<string, object> { ["Content"] = "Button" }),
-            new ("CheckBox", new Dictionary<string, object> { ["Content"] = "CheckBox" }),
-            new ("RadioButton", new Dictionary<string, object> { ["Content"] = "RadioButton" }),
             //
-            new ("Border", new Dictionary<string, object>()),
-            new ("Decorator", new Dictionary<string, object>
-            {
-                ["Child"] = new XamlItem("Button", new Dictionary<string, object> { ["Content"] = "Button" })
-            }),
-            //
-            new ("Panel", new Dictionary<string, object>()),
-            new ("StackPanel", new Dictionary<string, object>
-            {
-                ["Children"] = new List<XamlItem>
+            new(name: "TextBlock", 
+                properties: new Dictionary<string, object>
                 {
-                    new ("TextBlock", new Dictionary<string, object> { ["Text"] = "TextBlock" }),
-                    new ("TextBox", new Dictionary<string, object> { ["Text"] = "TextBox" }),
-                }
-            }),
-            new ("DockPanel", new Dictionary<string, object>()),
-            new ("WrapPanel", new Dictionary<string, object>()),
-            new ("Grid", new Dictionary<string, object>()),
-            //
-            new ("ItemsControl", new Dictionary<string, object>()),
-            new ("ListBox", new Dictionary<string, object>
-            {
-                ["Items"] = new List<XamlItem>
+                    ["Text"] = "TextBlock"
+                }, 
+                contentProperty: "Text", 
+                childrenProperty: null),
+            new(name: "Label", 
+                properties: new Dictionary<string, object>
                 {
-                    new ("ListBoxItem", new Dictionary<string, object> { ["Content"] = "ListBoxItem 0" }),
-                    new ("ListBoxItem", new Dictionary<string, object> { ["Content"] = "ListBoxItem 1" }),
-                }
-            }),
-            new ("ListBoxItem", new Dictionary<string, object>()),
-            new ("ComboBox", new Dictionary<string, object>()),
-            new ("ComboBoxItem", new Dictionary<string, object>()),
+                    ["Content"] = "Label"
+                }, 
+                contentProperty: "Content", 
+                childrenProperty: null),
+            new(name: "TextBox", 
+                properties: new Dictionary<string, object>
+                {
+                    ["Text"] = "TextBox"
+                }, 
+                contentProperty: "Text", 
+                childrenProperty: null),
             //
-            new ("ProgressBar", new Dictionary<string, object>()),
-            new ("Slider", new Dictionary<string, object>()),
-            new ("DatePicker", new Dictionary<string, object>()),
             //
-            new ("Rectangle", new Dictionary<string, object>()),
-            new ("Ellipse", new Dictionary<string, object>()),
-            new ("Line", new Dictionary<string, object>()),
-            new ("Path", new Dictionary<string, object>()),
             //
-            new ("Image", new Dictionary<string, object>()),
-            new ("PathIcon", new Dictionary<string, object>()),
+            new(name: "Button", 
+                properties: new Dictionary<string, object>
+                {
+                    ["Content"] = "Button"
+                }, 
+                contentProperty: "Content", 
+                childrenProperty: null),
+            new(name: "CheckBox", 
+                properties: new Dictionary<string, object>
+                {
+                    ["Content"] = "CheckBox"
+                }, 
+                contentProperty: "Content", 
+                childrenProperty: null),
+            new(name: "RadioButton", 
+                properties: new Dictionary<string, object>
+                {
+                    ["Content"] = "RadioButton"
+                }, 
+                contentProperty: "Content", 
+                childrenProperty: null),
             //
-            new ("ScrollViewer", new Dictionary<string, object>()),
+            //
+            //
+            new(name: "Border",
+                properties: new Dictionary<string, object>(),
+                contentProperty: "Child",
+                childrenProperty: "Child"
+            ),
+            new(name: "Decorator",
+                properties: new Dictionary<string, object>
+                {
+                    ["Child"] = new XamlItem(
+                        name: "Button", 
+                        properties: new Dictionary<string, object>
+                        {
+                            ["Content"] = "Button"
+                        }, 
+                        contentProperty: "Content", 
+                        childrenProperty: null)
+                },
+                contentProperty: "Child",
+                childrenProperty: "Child"),
+            //
+            //
+            //
+            new(name: "Panel", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: "Children", 
+                childrenProperty: "Children"),
+            new(name: "StackPanel",
+                properties: new Dictionary<string, object>
+                {
+                    ["Children"] = new List<XamlItem>
+                    {
+                        new(name: "TextBlock", 
+                            properties: new Dictionary<string, object>
+                            {
+                                ["Text"] = "TextBlock"
+                            }, 
+                            contentProperty: "Text", 
+                            childrenProperty: null),
+                        new(name: "TextBox", 
+                            properties: new Dictionary<string, object>
+                            {
+                                ["Text"] = "TextBox"
+                            },
+                            contentProperty: "Text", 
+                            childrenProperty: null),
+                    }
+                }, 
+                contentProperty: "Children", 
+                childrenProperty: "Children"),
+            new(name: "DockPanel", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: "Children", 
+                childrenProperty: "Children"),
+            new(name: "WrapPanel", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: "Children", 
+                childrenProperty: "Children"),
+            new(name: "Grid", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: "Children", 
+                childrenProperty: "Children"),
+            //
+            //
+            //
+            new(name: "ItemsControl", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: "Items", 
+                childrenProperty: "Items"),
+            new(name: "ListBox",
+                properties: new Dictionary<string, object>
+                {
+                    ["Items"] = new List<XamlItem>
+                    {
+                        new(name: "ListBoxItem", 
+                            properties: new Dictionary<string, object>
+                            {
+                                ["Content"] = "ListBoxItem 0"
+                            }),
+                        new(name: "ListBoxItem", 
+                            properties: new Dictionary<string, object>
+                            {
+                                ["Content"] = "ListBoxItem 1"
+                            }),
+                    }
+                }, 
+                contentProperty: "Items", 
+                childrenProperty: "Items"),
+            new(name: "ListBoxItem", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: "Content", 
+                childrenProperty: null),
+            new(name: "ComboBox", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: "ItemsSource", 
+                childrenProperty: "Items"),
+            new(name: "ComboBoxItem", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: "Content", 
+                childrenProperty: null),
+            //
+            //
+            //
+            new(name: "ProgressBar", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: null, 
+                childrenProperty: null),
+            new(name: "Slider", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: null, 
+                childrenProperty: null),
+            new(name: "DatePicker", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: null, 
+                childrenProperty: null),
+            //
+            //
+            //
+            new(name: "Rectangle", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: null, 
+                childrenProperty: null),
+            new(name: "Ellipse", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: null, 
+                childrenProperty: null),
+            new(name: "Line", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: null, 
+                childrenProperty: null),
+            new(name: "Path", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: null, 
+                childrenProperty: null),
+            //
+            new(name: "Image", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: "Source", 
+                childrenProperty: null),
+            new(name: "PathIcon", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: null, 
+                childrenProperty: null),
+            //
+            new(name: "ScrollViewer", 
+                properties: new Dictionary<string, object>(), 
+                contentProperty: "Content", 
+                childrenProperty: "Content"),
         };
     }
 
