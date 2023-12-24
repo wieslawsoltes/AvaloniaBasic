@@ -25,11 +25,15 @@ public partial class ContentControlProperties : UserControl
     
     public void UpdateContentControlProperties()
     {
+        _isUpdating = true;
+        
         if (Selected is ContentControl contentControl)
         {
             SetHorizontalContentAlignment(contentControl.HorizontalContentAlignment);
             SetVerticalContentAlignment(contentControl.VerticalContentAlignment);
         }
+
+        _isUpdating = false;
     }
 
     private void SetHorizontalContentAlignment(HorizontalAlignment horizontalAlignment)

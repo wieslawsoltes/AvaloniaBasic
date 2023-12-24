@@ -27,10 +27,13 @@ public partial class LayoutableProperties : UserControl
 
     public void UpdateLayoutableProperties()
     {
+        _isUpdating = true;
+        
         if (Selected is Layoutable layoutable)
         {
             SetHorizontalAlignment(layoutable.HorizontalAlignment);
             SetVerticalAlignment(layoutable.VerticalAlignment);
+            
             TextBoWidth.Text = layoutable.Width.ToString(CultureInfo.InvariantCulture);
             TextBoxHeight.Text = layoutable.Height.ToString(CultureInfo.InvariantCulture);
             TextBoxMinWidth.Text = layoutable.MinWidth.ToString(CultureInfo.InvariantCulture);
@@ -39,6 +42,8 @@ public partial class LayoutableProperties : UserControl
             TextBoxMaxHeight.Text = layoutable.MaxHeight.ToString(CultureInfo.InvariantCulture);
             TextBoxMargin.Text = layoutable.Margin.ToString();
         }
+
+        _isUpdating = false;
     }
 
     private void SetHorizontalAlignment(HorizontalAlignment horizontalAlignment)

@@ -27,6 +27,8 @@ public partial class ShapeProperties : UserControl
     
     public void UpdateShapeProperties()
     {
+        _isUpdating = true;
+        
         if (Selected is Shape shape)
         {
             if (shape.Fill is ISolidColorBrush fillSolidColorBrush)
@@ -39,6 +41,8 @@ public partial class ShapeProperties : UserControl
                 SetStroke(strokeSolidColorBrush.Color);
             }
         }
+
+        _isUpdating = false;
     }
 
     private void SetFill(Color color)

@@ -27,6 +27,8 @@ public partial class TemplatedControlProperties : UserControl
     
     public void UpdateTemplatedControlProperties()
     {
+        _isUpdating = true;
+        
         if (Selected is TemplatedControl templatedControl)
         {
             if (templatedControl.Background is ISolidColorBrush backgroundSolidColorBrush)
@@ -39,6 +41,8 @@ public partial class TemplatedControlProperties : UserControl
                 SetForeground(foregroundSolidColorBrush.Color);
             }
         }
+
+        _isUpdating = false;
     }
 
     private void SetBackground(Color color)

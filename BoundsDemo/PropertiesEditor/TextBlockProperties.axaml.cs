@@ -27,6 +27,8 @@ public partial class TextBlockProperties : UserControl
     
     public void UpdateTextBlockProperties()
     {
+        _isUpdating = true;
+        
         if (Selected is TextBlock textBlock)
         {
             SetTextAlignment(textBlock.TextAlignment);
@@ -43,6 +45,8 @@ public partial class TextBlockProperties : UserControl
                 SetForeground(foregroundSolidColorBrush.Color);
             }
         }
+
+        _isUpdating = false;
     }
 
     private void SetTextAlignment(TextAlignment textAlignment)
