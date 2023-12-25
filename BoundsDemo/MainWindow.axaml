@@ -8,6 +8,7 @@
         WindowStartupLocation="CenterScreen"
         x:Class="BoundsDemo.MainWindow"
         x:CompileBindings="True" x:DataType="c:ToolBoxViewModel"
+        RenderOptions.RequiresFullOpacityHandling="True"
         Title="Form Builder">
   <Panel>
 
@@ -15,24 +16,47 @@
 
       <TabControl Padding="0"
                   Grid.Column="0">
-        <TabItem Padding="0" ToolTip.Tip="Toolbox">
+        <TabControl.Styles>
+          <Style Selector="TabItem:not(:selected) Svg">
+            <Setter Property="Opacity" Value="0.6" />
+          </Style>
+          <Style Selector="TabItem">
+            <Setter Property="Padding" Value="0,8,0,4" />
+            <Setter Property="MinHeight" Value="0" />
+          </Style>
+          <Style Selector="TabItem:selected /template/ Border#PART_SelectedPipe">
+            <Setter Property="IsVisible" Value="False" />
+          </Style>
+        </TabControl.Styles>
+
+        <TabItem ToolTip.Tip="Toolbox">
           <TabItem.Header>
             <Svg Path="/Assets/Icons/ic_fluent_toolbox_24_regular.svg"
                  Width="16" Height="16"
                  Margin="8,0,8,0" />
           </TabItem.Header>
-          <c:Toolbox OverlayView="{Binding #OverlayView}"  />
+          <DockPanel>
+            <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6"
+                       DockPanel.Dock="Top"/>
+            <c:Toolbox OverlayView="{Binding #OverlayView}" />
+          </DockPanel>
         </TabItem>
-        <TabItem Padding="0" ToolTip.Tip="Layers">
+
+        <TabItem ToolTip.Tip="Layers">
           <TabItem.Header>
             <Svg Path="/Assets/Icons/ic_fluent_layer_24_regular.svg"
                  Width="16" Height="16"
                  Margin="8,0,8,0" />
           </TabItem.Header>
-          <TreeView ItemsSource="{Binding RootXamlItem.Children}">
+          <DockPanel>
+            <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6"
+                       DockPanel.Dock="Top"/>
+            <TreeView ItemsSource="{Binding RootXamlItem.Children}">
 
-          </TreeView>
+            </TreeView>
+          </DockPanel>
         </TabItem>
+
       </TabControl>
       
       <Separator Grid.Column="1" Opacity="0.6" Width="0.5" Height="NaN" Margin="0" />
