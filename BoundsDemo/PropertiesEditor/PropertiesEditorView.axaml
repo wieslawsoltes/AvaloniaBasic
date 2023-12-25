@@ -12,6 +12,11 @@
                             Selected="{Binding #PropertiesEditor.Selected}" />
 
     <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6"
+               IsVisible="{Binding #VisualProperties.IsVisible}" />
+    <c:VisualProperties Name="VisualProperties"
+                        Selected="{Binding #PropertiesEditor.Selected}" />
+
+    <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6"
                IsVisible="{Binding #ContentControlProperties.IsVisible}" />
     <c:ContentControlProperties Name="ContentControlProperties"
                                 Selected="{Binding #PropertiesEditor.Selected}" />
