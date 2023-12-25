@@ -18,7 +18,7 @@
                   Grid.Column="0">
         <TabControl.Styles>
           <Style Selector="TabItem:not(:selected) Svg">
-            <Setter Property="Opacity" Value="0.6" />
+            <Setter Property="Opacity" Value="0.4" />
           </Style>
           <Style Selector="TabItem">
             <Setter Property="Padding" Value="0,8,0,4" />
