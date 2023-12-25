@@ -33,8 +33,8 @@ public partial class LayoutableProperties : UserControl
         {
             SetHorizontalAlignment(layoutable.HorizontalAlignment);
             SetVerticalAlignment(layoutable.VerticalAlignment);
-            
-            TextBoWidth.Text = layoutable.Width.ToString(CultureInfo.InvariantCulture);
+
+            TextBoxWidth.Text = layoutable.Width.ToString(CultureInfo.InvariantCulture);
             TextBoxHeight.Text = layoutable.Height.ToString(CultureInfo.InvariantCulture);
             TextBoxMinWidth.Text = layoutable.MinWidth.ToString(CultureInfo.InvariantCulture);
             TextBoxMinHeight.Text = layoutable.MinHeight.ToString(CultureInfo.InvariantCulture);
@@ -62,7 +62,6 @@ public partial class LayoutableProperties : UserControl
         ButtonAlignVerticalStretch.IsChecked = verticalAlignment == VerticalAlignment.Stretch;
     }
 
-    
     private void ButtonAlignHorizontalLeft_OnClick(object? sender, RoutedEventArgs e)
     {
         if (Selected is Layoutable layoutable)
@@ -184,7 +183,7 @@ public partial class LayoutableProperties : UserControl
 
         if (Selected is Layoutable layoutable)
         {
-            var text = TextBoWidth.Text;
+            var text = TextBoxWidth.Text;
             var result = double.TryParse(text, CultureInfo.InvariantCulture, out var value);
             if (result)
             {

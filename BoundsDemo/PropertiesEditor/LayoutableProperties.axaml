@@ -79,7 +79,7 @@
     <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,6" />
 
     <!-- Width -->
-    <TextBox Name="TextBoWidth" BorderBrush="Transparent"
+    <TextBox Name="TextBoxWidth" BorderBrush="Transparent"
              TextChanged="TextBoxWidth_OnTextChanged"
              Margin="6,0,6,0">
       <TextBox.InnerLeftContent>
