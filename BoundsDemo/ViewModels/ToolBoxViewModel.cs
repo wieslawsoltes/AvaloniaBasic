@@ -259,7 +259,7 @@ public class ToolBoxViewModel
         // TODO:
         var sb = new StringBuilder();
 
-        XamlItem.WriteXaml(xamlItem, isRoot: true, sb);
+        XamlWriter.WriteXaml(xamlItem, isRoot: true, sb, level: 0);
 
         var xaml = sb.ToString();
 
