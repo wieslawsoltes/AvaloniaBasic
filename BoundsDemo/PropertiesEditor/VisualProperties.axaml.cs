@@ -31,7 +31,8 @@ public partial class VisualProperties : UserControl
         {
             SetIsVisible(visual.IsVisible);
 
-            TextBoxOpacity.Text = visual.Opacity.ToString(CultureInfo.InvariantCulture);
+            // TextBoxOpacity.Text = visual.Opacity.ToString(CultureInfo.InvariantCulture);
+            TextBoxOpacity.Text = string.Format(CultureInfo.InvariantCulture, "{0}%", visual.Opacity * 100);
         }
 
         _isUpdating = false;
@@ -69,14 +70,16 @@ public partial class VisualProperties : UserControl
         if (Selected is { } visual)
         {
             var text = TextBoxOpacity.Text;
-            var result = double.TryParse(text, CultureInfo.InvariantCulture, out var value);
+            var result = double.TryParse(text.TrimEnd('%'), CultureInfo.InvariantCulture, out var value);
             if (result)
             {
-                visual.Opacity = value;
+                visual.Opacity = value / 100.0;
+
+                var opacityText = visual.Opacity.ToString(CultureInfo.InvariantCulture);
             
                 if (DataContext is ToolBoxViewModel toolBoxViewModel)
                 {
-                    toolBoxViewModel.UpdatePropertyValue(visual as Control, "Opacity", text);
+                    toolBoxViewModel.UpdatePropertyValue(visual as Control, "Opacity", opacityText);
                 }
             }
         }
