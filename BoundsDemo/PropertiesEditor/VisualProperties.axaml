@@ -14,9 +14,34 @@
 
     <!-- TODO: Clip -->
 
-    <!-- TODO: IsVisible -->
-
-    <!-- TODO: Opacity -->
+    <!-- Opacity / IsVisible -->
+    <TextBox Name="TextBoxOpacity" BorderBrush="Transparent"
+             TextChanged="TextBoxOpacity_OnTextChanged"
+             Margin="6,0,6,0">
+      <TextBox.InnerLeftContent>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" SharedSizeGroup="NameGroup" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Text="Opacity" Margin="6" Opacity="0.6" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        </Grid>
+      </TextBox.InnerLeftContent>
+      <TextBox.InnerRightContent>
+        <Button Name="ButtonIsVisible"
+                Background="Transparent"
+                Click="ButtonIsVisible_OnClick"
+                ToolTip.Tip="Visibility">
+          <Panel>
+            <Svg Name="SvgIsVisibleFalse"
+                 Path="/Assets/Icons/ic_fluent_eye_hide_24_regular.svg"
+                 Width="16" Height="16" />
+            <Svg Name="SvgIsVisibleTrue"
+                 Path="/Assets/Icons/ic_fluent_eye_show_24_regular.svg"
+                 Width="16" Height="16" />
+          </Panel>
+        </Button>
+      </TextBox.InnerRightContent>
+    </TextBox>
 
     <!-- TODO: OpacityMask -->
 
