@@ -32,6 +32,16 @@ public partial class PropertiesEditorView : UserControl
 
     public void UpdatePropertiesEditor()
     {
+        if (Selected is not null)
+        {
+            VisualProperties.UpdateVisualProperties();
+            VisualProperties.IsVisible = true;
+        }
+        else
+        {
+            VisualProperties.IsVisible = false;
+        }
+
         if (Selected is Layoutable)
         {
             LayoutableProperties.UpdateLayoutableProperties();
