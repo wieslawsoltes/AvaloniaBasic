@@ -13,9 +13,28 @@
 
     <Grid ColumnDefinitions="220,0.5,*,0.5,220">
 
-      <c:Toolbox OverlayView="{Binding #OverlayView}" 
-                 Grid.Column="0" />
+      <TabControl Padding="0"
+                  Grid.Column="0">
+        <TabItem Padding="0" ToolTip.Tip="Toolbox">
+          <TabItem.Header>
+            <Svg Path="/Assets/Icons/ic_fluent_toolbox_24_regular.svg"
+                 Width="16" Height="16"
+                 Margin="8,0,8,0" />
+          </TabItem.Header>
+          <c:Toolbox OverlayView="{Binding #OverlayView}"  />
+        </TabItem>
+        <TabItem Padding="0" ToolTip.Tip="Layers">
+          <TabItem.Header>
+            <Svg Path="/Assets/Icons/ic_fluent_layer_24_regular.svg"
+                 Width="16" Height="16"
+                 Margin="8,0,8,0" />
+          </TabItem.Header>
+          <TreeView ItemsSource="{Binding RootXamlItem.Children}">
 
+          </TreeView>
+        </TabItem>
+      </TabControl>
+      
       <Separator Grid.Column="1" Opacity="0.6" Width="0.5" Height="NaN" Margin="0" />
 
       <c:EditorCanvasView Name="EditorCanvas"
