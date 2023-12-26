@@ -45,25 +45,30 @@ public partial class EditorCanvasView : UserControl
 
         if (DataContext is ToolBoxViewModel toolBoxViewModel)
         {
-            var stackPanelXamlItem = new XamlItem(name: "StackPanel",
-                properties: new Dictionary<string, object>
-                {
-                    ["Children"] = new List<XamlItem>(),
-                    ["Background"] = "White",
-                    ["Width"] = "350",
-                    ["Height"] = "500",
-                },
-                contentProperty: "Children", 
-                childrenProperty: "Children");
-
-            var stackPanel = stackPanelXamlItem.Create();
-
-            toolBoxViewModel.Add(stackPanel, stackPanelXamlItem);
-
-            toolBoxViewModel.RootXamlItem = stackPanelXamlItem;
-
-            RootPanel.Children.Add(stackPanel);
+            Demo(toolBoxViewModel);
         }
+    }
+
+    private void Demo(ToolBoxViewModel toolBoxViewModel)
+    {
+        var stackPanelXamlItem = new XamlItem(name: "StackPanel",
+            properties: new Dictionary<string, object>
+            {
+                ["Children"] = new List<XamlItem>(),
+                ["Background"] = "White",
+                ["Width"] = "350",
+                ["Height"] = "500",
+            },
+            contentProperty: "Children", 
+            childrenProperty: "Children");
+
+        var stackPanel = XamlItemControlFactory.CreateControl(stackPanelXamlItem);
+            
+        toolBoxViewModel.Add(stackPanel, stackPanelXamlItem);
+
+        toolBoxViewModel.RootXamlItem = stackPanelXamlItem;
+
+        RootPanel.Children.Add(stackPanel);
     }
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)

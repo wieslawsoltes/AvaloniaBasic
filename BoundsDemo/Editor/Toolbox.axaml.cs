@@ -170,7 +170,7 @@ public partial class Toolbox : UserControl
 
                 try
                 {
-                    _control = xamlItem.Create();
+                    _control = XamlItemControlFactory.CreateControl(xamlItem);
 
                     var toolBoxViewModel = DataContext as ToolBoxViewModel;
 

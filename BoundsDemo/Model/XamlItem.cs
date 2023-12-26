@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 
 namespace BoundsDemo;
 
@@ -30,23 +27,6 @@ public class XamlItem
     public string? ChildrenProperty { get; }
 
     public IEnumerable<XamlItem> Children => GetChildren();
-
-    public Control? Create(bool isRoot = true)
-    {
-        var sb = new StringBuilder();
-
-        XamlWriter.WriteXaml(this, isRoot, sb, level: 0);
-
-        var xaml = sb.ToString();
-
-        Console.Clear();
-        // Console.WriteLine($"[XAML {Name}]");
-        Console.WriteLine(xaml);
-
-        var obj = AvaloniaRuntimeXamlLoader.Load(xaml, null, null, null, designMode: false);
-
-        return obj as Control;
-    }
 
     public XamlItem Clone()
     {
