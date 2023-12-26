@@ -28,15 +28,6 @@ public class XamlItem
 
     public IEnumerable<XamlItem> Children => GetChildren();
 
-    public XamlItem Clone()
-    {
-        return new XamlItem(
-            Name, 
-            Properties.ToDictionary(x => x.Key, x => Clone(x)),
-            ContentProperty,
-            ChildrenProperty);
-    }
-
     public IEnumerable<XamlItem> GetChildren()
     {
         if (ChildrenProperty is null)
@@ -59,9 +50,18 @@ public class XamlItem
         }
     }
 
-    private static object Clone(KeyValuePair<string, object> kvp)
+    public XamlItem Clone()
     {
-        switch (kvp.Value)
+        return new XamlItem(
+            Name, 
+            Properties.ToDictionary(x => x.Key, x => Clone(x.Value)),
+            ContentProperty,
+            ChildrenProperty);
+    }
+
+    private static object Clone(object value)
+    {
+        switch (value)
         {
             case string str:
                 return str;
