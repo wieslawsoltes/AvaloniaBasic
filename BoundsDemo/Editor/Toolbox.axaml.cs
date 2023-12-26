@@ -113,7 +113,7 @@ public partial class Toolbox : UserControl
 
         var target = visuals.FirstOrDefault() as Control;
 
-        //Console.WriteLine($"Drop: {target}");
+        Console.WriteLine($"Drop: {target}");
 
         if (insert && target is not null && _control is not null)
         {
@@ -131,12 +131,28 @@ public partial class Toolbox : UserControl
 
             if (target is StackPanel stackPanel)
             {
-                // TODO:
-                stackPanel.Children.Add(_control);
-
-                if (targetXamlItem.Properties[targetXamlItem.ChildrenProperty] is List<XamlItem> children)
+                if (targetXamlItem.ChildrenProperty is not null)
                 {
-                    children.Add(xamlItem);
+                    // TODO:
+                    stackPanel.Children.Add(_control);
+
+                    if (targetXamlItem.Properties[targetXamlItem.ChildrenProperty] is List<XamlItem> children)
+                    {
+                        children.Add(xamlItem);
+                    }
+
+                    // TODO:
+                    toolBoxViewModel.Debug(targetXamlItem);
+                }
+            }
+            else if (target is Button button)
+            {
+                if (targetXamlItem.ContentProperty is not null)
+                {
+                    // TODO:
+                    button.Content = _control;
+
+                    targetXamlItem.Properties[targetXamlItem.ContentProperty] = xamlItem;
                 }
 
                 // TODO:
@@ -147,7 +163,6 @@ public partial class Toolbox : UserControl
                 // TODO:
                 toolBoxViewModel.RemoveControl(_control);
             }
-
         }
     }
 
