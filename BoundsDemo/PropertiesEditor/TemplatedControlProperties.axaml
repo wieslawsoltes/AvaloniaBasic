@@ -10,6 +10,28 @@
 
     <TextBlock Text="Background" Margin="12" />
 
+    <!-- TODO: BorderBrush -->
+
+    <!-- TODO: BorderThickness -->
+
+    <!-- TODO: CornerRadius -->
+
+    <!-- TODO: FontFamily -->
+
+    <!-- TODO: FontSize -->
+
+    <!-- TODO: FontStyle -->
+
+    <!-- TODO: FontWeight -->
+
+    <!-- TODO: FontStretch -->
+
+    <!-- TODO: Padding -->
+
+    <!-- TODO: Template -->
+
+    <!-- TODO: IsTemplateFocusTarget -->
+
     <!-- Background -->
     <TextBox Name="TextBoxBackground" BorderBrush="Transparent"
              TextChanged="TextBoxBackground_OnTextChanged"

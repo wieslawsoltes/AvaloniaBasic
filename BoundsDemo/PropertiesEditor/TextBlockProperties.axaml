@@ -10,7 +10,39 @@
 
     <TextBlock Text="Text" Margin="12" />
 
-    <!-- Align Text -->
+    <!-- TODO: Padding -->
+
+    <!-- TODO: FontFamily -->
+
+    <!-- TODO: FontSize -->
+
+    <!-- TODO: FontStyle -->
+
+    <!-- TODO: FontWeight -->
+
+    <!-- TODO: FontStretch -->
+
+    <!-- TODO: Foreground -->
+
+    <!-- TODO: BaselineOffset -->
+
+    <!-- TODO: LineHeight -->
+
+    <!-- TODO: LineSpacing -->
+
+    <!-- TODO: LetterSpacing -->
+
+    <!-- TODO: MaxLines -->
+
+    <!-- TODO: TextWrapping -->
+
+    <!-- TODO: TextTrimming -->
+
+    <!-- TODO: TextDecorations -->
+
+    <!-- TODO: Inlines -->
+
+    <!-- TextAlignment -->
     <StackPanel Orientation="Horizontal"
                 Margin="6,0,6,0">
       <ToggleButton Name="ButtonTextAlignLeft"

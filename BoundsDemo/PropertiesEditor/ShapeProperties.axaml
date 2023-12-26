@@ -8,6 +8,18 @@
   <!-- Shape -->
   <StackPanel Grid.IsSharedSizeScope="True">
 
+    <!-- TODO: Stretch -->
+
+    <!-- TODO: StrokeDashArray -->
+
+    <!-- TODO: StrokeDashOffset -->
+
+    <!-- TODO: StrokeThickness -->
+
+    <!-- TODO: StrokeLineCap -->
+
+    <!-- TODO: StrokeJoin -->
+
     <TextBlock Text="Fill" Margin="12" />
 
     <!-- Fill -->

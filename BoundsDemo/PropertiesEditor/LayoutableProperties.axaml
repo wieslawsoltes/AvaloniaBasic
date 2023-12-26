@@ -10,7 +10,9 @@
 
     <TextBlock Text="Layout" Margin="12" />
 
-    <!-- Align Horizontal -->
+    <!-- TODO: UseLayoutRounding -->
+
+    <!-- HorizontalAlignment -->
     <StackPanel Orientation="Horizontal"
                 Margin="6,0,6,0">
       <ToggleButton Name="ButtonAlignHorizontalLeft"
@@ -43,7 +45,7 @@
       </ToggleButton>
     </StackPanel>
 
-    <!-- Align Vertical -->
+    <!-- VerticalAlignment -->
     <StackPanel Orientation="Horizontal"
                 Margin="6,0,6,0">
       <ToggleButton Name="ButtonAlignVerticalTop"

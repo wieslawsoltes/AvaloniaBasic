@@ -8,9 +8,61 @@
   <!-- TextBox -->
   <StackPanel>
 
+    <!-- TODO: AcceptsReturn -->
+
+    <!-- TODO: AcceptsTab -->
+
+    <!-- TODO: CaretIndex -->
+
+    <!-- TODO: IsReadOnly -->
+
+    <!-- TODO: PasswordChar -->
+
+    <!-- TODO: SelectionBrush -->
+
+    <!-- TODO: SelectionForegroundBrush -->
+
+    <!-- TODO: CaretBrush -->
+
+    <!-- TODO: SelectionStart -->
+
+    <!-- TODO: SelectionEnd -->
+
+    <!-- TODO: MaxLength -->
+
+    <!-- TODO: MaxLines -->
+
+    <!-- TODO: TextAlignment -->
+
+    <!-- TODO: HorizontalContentAlignment -->
+
+    <!-- TODO: VerticalContentAlignment -->
+
+    <!-- TODO: TextWrapping -->
+
+    <!-- TODO: LineHeight -->
+
+    <!-- TODO: LetterSpacing -->
+
+    <!-- TODO: Watermark -->
+
+    <!-- TODO: UseFloatingWatermark -->
+
+    <!-- TODO: NewLine -->
+
+    <!-- TODO: InnerLeftContent -->
+
+    <!-- TODO: InnerRightContent -->
+
+    <!-- TODO: RevealPassword -->
+
+    <!-- TODO: IsUndoEnabled -->
+
+    <!-- TODO: UndoLimit -->
+
     <TextBlock Text="Text" Margin="12" />
 
-    <!-- Align Text -->
+    <!-- TextAlignment -->
     <StackPanel Orientation="Horizontal"
                 Margin="6,0,6,0">
       <ToggleButton Name="ButtonTextAlignLeft"

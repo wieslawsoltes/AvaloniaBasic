@@ -9,8 +9,12 @@
   <StackPanel>
 
     <TextBlock Text="Content" Margin="12" />
+    
+    <!-- TODO: Content -->
 
-    <!-- Align Horizontal -->
+    <!-- TODO: ContentTemplate -->
+
+    <!-- HorizontalContentAlignment -->
     <StackPanel Orientation="Horizontal"
                 Margin="6,0,6,0">
       <ToggleButton Name="ButtonAlignContentHorizontalLeft"
@@ -43,7 +47,7 @@
       </ToggleButton>
     </StackPanel>
 
-    <!-- Align Vertical -->
+    <!-- VerticalContentAlignment -->
     <StackPanel Orientation="Horizontal"
                 Margin="6,0,6,0">
       <ToggleButton Name="ButtonAlignContentVerticalTop"
@@ -75,6 +79,7 @@
              Width="16" Height="16" />
       </ToggleButton>
     </StackPanel>
+
   </StackPanel>
 
 </UserControl>
