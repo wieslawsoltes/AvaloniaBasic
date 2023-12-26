@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Avalonia;
 using Avalonia.Controls;
 
 namespace BoundsDemo;
@@ -217,15 +218,42 @@ public class ToolBoxViewModel
         _controlsDictionary = new Dictionary<Control, XamlItem>();
     }
 
+    public event EventHandler<EventArgs>? HoveredChanged;
+
+    public event EventHandler<EventArgs>? SelectedChanged;
+
     public event EventHandler<EventArgs>? ControlAdded;
 
     public event EventHandler<EventArgs>? ControlRemoved;
+
+    public event EventHandler<EventArgs>? PropertyValueChanged;
+
+    public Visual? Hovered { get; set; }
+
+    public Visual? Selected { get; set; }
 
     public XamlItem? RootXamlItem { get; set; }
 
     public List<XamlItem> ToolBoxItems { get; set; }
 
     public bool EnableEditing { get; set; }
+
+    public void Hover(Visual? visual)
+    {
+        if (visual is null || visual != Selected)
+        {
+            Hovered = visual;
+            OnHoveredChanged(EventArgs.Empty);
+        }
+    }
+
+    public void Select(Visual? visual)
+    {
+        Hovered = null;
+        OnHoveredChanged(EventArgs.Empty);
+        Selected = visual;
+        OnSelectedChanged(EventArgs.Empty);
+    }
 
     public void AddControl(Control control, XamlItem xamlItem)
     {
@@ -260,7 +288,7 @@ public class ToolBoxViewModel
         if (TryGetXamlItem(control, out var xamlItem))
         {
             xamlItem.Properties[propertyName] = propertyValue;
-
+            OnPropertyValueChanged();
 #if DEBUG
             // TODO:
             // Debug(xamlItem);
@@ -303,6 +331,16 @@ public class ToolBoxViewModel
         return control;
     }
 
+    protected virtual void OnHoveredChanged(EventArgs e)
+    {
+        HoveredChanged?.Invoke(this, e);
+    }
+
+    protected virtual void OnSelectedChanged(EventArgs e)
+    {
+        SelectedChanged?.Invoke(this, e);
+    }
+
     protected virtual void OnControlAdded()
     {
         ControlAdded?.Invoke(this, EventArgs.Empty);
@@ -311,5 +349,10 @@ public class ToolBoxViewModel
     protected virtual void OnControlRemoved()
     {
         ControlRemoved?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected virtual void OnPropertyValueChanged()
+    {
+        PropertyValueChanged?.Invoke(this, EventArgs.Empty);
     }
 }

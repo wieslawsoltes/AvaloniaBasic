@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
@@ -68,67 +67,54 @@ public class OverlayView : Decorator
         Child = new Canvas();
     }
 
-    public event EventHandler<EventArgs>? HoveredChanged;
-
-    public event EventHandler<EventArgs>? SelectedChanged;
-
-    public Visual? Hovered { get; set; }
-
-    public Visual? Selected { get; set; }
-
     public HitTestMode HitTestMode  { get; set; } = HitTestMode.Logical;
-
-    protected virtual void OnHoveredChanged(EventArgs e)
-    {
-        HoveredChanged?.Invoke(this, e);
-    }
-
-    protected virtual void OnSelectedChanged(EventArgs e)
-    {
-        SelectedChanged?.Invoke(this, e);
-    }
 
     public void Hover(Visual? visual)
     {
-        if (visual is null || visual != Selected)
+        if (DataContext is ToolBoxViewModel toolBoxViewModel)
         {
-            Hovered = visual;
+            toolBoxViewModel.Hover(visual);
             InvalidateVisual();
-            OnHoveredChanged(EventArgs.Empty);
         }
     }
 
     public void Select(Visual? visual)
     {
-        Hovered = null;
-        OnHoveredChanged(EventArgs.Empty);
-        Selected = visual;
-        InvalidateVisual();
-        OnSelectedChanged(EventArgs.Empty);
+        if (DataContext is ToolBoxViewModel toolBoxViewModel)
+        {
+            toolBoxViewModel.Select(visual);
+            InvalidateVisual();
+        }
     }
 
     public override void Render(DrawingContext context)
     {
         base.Render(context);
 
-        if (Selected is not null)
+        if (DataContext is ToolBoxViewModel toolBoxViewModel)
         {
-            RenderVisual(Selected, context, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
-            RenderVisualThumbs(Selected, context, new ImmutableSolidColorBrush(Colors.White), new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
+            var selected = toolBoxViewModel.Selected;
+            var hovered = toolBoxViewModel.Hovered;
 
-            if (Hovered is null)
+            if (selected is not null)
             {
-                //DrawName(context, Selected.GetType().Name);
+                RenderVisual(selected, context, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
+                RenderVisualThumbs(selected, context, new ImmutableSolidColorBrush(Colors.White), new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
+
+                if (hovered is null)
+                {
+                    //DrawName(context, selected.GetType().Name);
+                }
             }
-        }
 
-        if (Hovered is not null)
-        {
-            RenderVisual(Hovered, context, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
-            //DrawName(context, Hovered.GetType().Name);
-        }
+            if (hovered is not null)
+            {
+                RenderVisual(hovered, context, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
+                //DrawName(context, hovered.GetType().Name);
+            }
 
-        //DrawHelp(context);
+            //DrawHelp(context);
+        }
     }
 
     private void DrawHelp(DrawingContext context)

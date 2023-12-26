@@ -16,12 +16,6 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        OverlayView.SelectedChanged += (_, _) =>
-        {
-            UpdatePropertiesEditor(OverlayView.Selected);
-            Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
-        };
-
         PropertiesEditor.EnableEditing += (_, _) =>
         {
             if (DataContext is ToolBoxViewModel toolBoxViewModel)
@@ -36,6 +30,23 @@ public partial class MainWindow : Window
         
         _toolBoxViewModel.ControlAdded += ToolBoxViewModelOnControlAdded;
         _toolBoxViewModel.ControlRemoved += ToolBoxViewModelOnControlRemoved;
+
+        _toolBoxViewModel.SelectedChanged += (_, _) =>
+        {
+            UpdatePropertiesEditor(_toolBoxViewModel.Selected);
+            Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
+
+            if (_toolBoxViewModel.Selected is not null)
+            {
+                var selected = _toolBoxViewModel.Selected as Control;
+                _toolBoxViewModel.TryGetXamlItem(selected, out var xamlItem);
+                LayersTreeView.SelectedItem = xamlItem;
+            }
+            else
+            {
+                LayersTreeView.SelectedItem = null;
+            }
+        };
 
         DataContext = _toolBoxViewModel;
         
@@ -110,7 +121,7 @@ public partial class MainWindow : Window
             case Key.Delete:
             case Key.Back:
             {
-                if (OverlayView.Selected is Control control)
+                if (_toolBoxViewModel.Selected is Control control)
                 {
                     OverlayView.Hover(null);
                     OverlayView.Select(null);
@@ -119,8 +130,7 @@ public partial class MainWindow : Window
                     //EditorCanvas.EditablePanel.Children.Remove(control);
 
                     // TODO:
-                    var toolBoxViewModel = DataContext as ToolBoxViewModel;
-                    toolBoxViewModel.RemoveControl(control);
+                    _toolBoxViewModel.RemoveControl(control);
                 }
                 break;
             }
