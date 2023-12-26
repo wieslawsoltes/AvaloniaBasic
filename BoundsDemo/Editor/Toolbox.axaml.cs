@@ -127,12 +127,12 @@ public partial class Toolbox : UserControl
                 return;
             }
 
-            if (target is StackPanel stackPanel)
+            if (target is Panel panel)
             {
                 if (targetXamlItem.ChildrenProperty is not null)
                 {
                     // TODO:
-                    stackPanel.Children.Add(_control);
+                    panel.Children.Add(_control);
 
                     if (targetXamlItem.Properties[targetXamlItem.ChildrenProperty] is List<XamlItem> children)
                     {
@@ -145,12 +145,12 @@ public partial class Toolbox : UserControl
                     toolBoxViewModel.Debug(targetXamlItem);
                 }
             }
-            else if (target is Button button)
+            else if (target is ContentControl contentControl)
             {
                 if (targetXamlItem.ContentProperty is not null)
                 {
                     // TODO:
-                    button.Content = _control;
+                    contentControl.Content = _control;
 
                     targetXamlItem.Properties[targetXamlItem.ContentProperty] = _xamlItem;
                 }
