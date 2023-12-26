@@ -6,7 +6,7 @@ namespace BoundsDemo;
 
 public class XamlWriter
 {
-    public static void WriteXaml(XamlItem xamlItem, bool writeXmlns, StringBuilder sb, int level)
+    public static void WriteXaml(XamlItem xamlItem, bool writeXmlns, StringBuilder sb, int level, bool writeAttributesOnNewLine = false)
     {
         sb.Append(new string(' ', level));
         sb.Append('<');
@@ -20,7 +20,7 @@ public class XamlWriter
 
         var hasObjectProperties = xamlItem.Properties.Any(x => x.Value is not string);
 
-        WriteAttributeProperties(xamlItem, sb);
+        WriteAttributeProperties(xamlItem, sb, level, writeAttributesOnNewLine);
 
         if (hasObjectProperties)
         {
@@ -40,11 +40,20 @@ public class XamlWriter
         }
     }
 
-    private static void WriteAttributeProperties(XamlItem xamlItem, StringBuilder sb)
+    private static void WriteAttributeProperties(XamlItem xamlItem, StringBuilder sb, int level, bool writeAttributesOnNewLine)
     {
         foreach (var property in xamlItem.Properties.Where(x => x.Value is string))
         {
-            sb.Append(' ');
+            if (writeAttributesOnNewLine)
+            {
+                sb.AppendLine();
+                sb.Append(new string(' ', level + 2));
+            }
+            else
+            {
+                sb.Append(' ');
+            }
+
             sb.Append(property.Key);
             sb.Append('=');
             sb.Append('"');
