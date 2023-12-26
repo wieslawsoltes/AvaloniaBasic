@@ -221,7 +221,7 @@ public partial class TextBlockProperties : UserControl
             
                 if (DataContext is ToolBoxViewModel toolBoxViewModel)
                 {
-                    toolBoxViewModel.UpdatePropertyValue(textBlock, "Foreground", color.ToString());
+                    toolBoxViewModel.UpdatePropertyValue(textBlock, "Background", color.ToString());
                 }
             }
             catch (Exception)
