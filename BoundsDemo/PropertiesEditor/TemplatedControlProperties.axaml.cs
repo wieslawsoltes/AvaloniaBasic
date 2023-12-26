@@ -35,28 +35,42 @@ public partial class TemplatedControlProperties : UserControl
             {
                 SetBackground(backgroundSolidColorBrush.Color);
             }
+            else
+            {
+                SetBackground(null);
+            }
 
             if (templatedControl.Foreground is ISolidColorBrush foregroundSolidColorBrush)
             {
                 SetForeground(foregroundSolidColorBrush.Color);
+            }
+            else
+            {
+                SetForeground(null);
             }
         }
 
         _isUpdating = false;
     }
 
-    private void SetBackground(Color color)
+    private void SetBackground(Color? color)
     {
-        TextBoxBackground.Text = color.ToString(); // $"#{color.ToUInt32():X8}";
-        BackgroundColorView.Color = color;
-        RectangleBackground.Fill = new ImmutableSolidColorBrush(color);
+        if (color is not null)
+        {
+            TextBoxBackground.Text = color.Value.ToString(); // $"#{color.ToUInt32():X8}";
+            BackgroundColorView.Color = color.Value;
+            RectangleBackground.Fill = new ImmutableSolidColorBrush(color.Value);
+        }
     }
 
-    private void SetForeground(Color color)
+    private void SetForeground(Color? color)
     {
-        TextBoxForeground.Text = color.ToString(); // $"#{color.ToUInt32():X8}";
-        ForegroundColorView.Color = color;
-        RectangleForeground.Fill = new ImmutableSolidColorBrush(color);
+        if (color is not null)
+        {
+            TextBoxForeground.Text = color.Value.ToString(); // $"#{color.ToUInt32():X8}";
+            ForegroundColorView.Color = color.Value;
+            RectangleForeground.Fill = new ImmutableSolidColorBrush(color.Value);
+        }
     }
 
     private void TextBoxBackground_OnTextChanged(object? sender, TextChangedEventArgs e)

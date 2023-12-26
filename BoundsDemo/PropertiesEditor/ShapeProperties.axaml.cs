@@ -35,28 +35,42 @@ public partial class ShapeProperties : UserControl
             {
                 SetFill(fillSolidColorBrush.Color);
             }
+            else
+            {
+                SetFill(null);
+            }
 
             if (shape.Stroke is ISolidColorBrush strokeSolidColorBrush)
             {
                 SetStroke(strokeSolidColorBrush.Color);
+            }
+            else
+            {
+                SetStroke(null);
             }
         }
 
         _isUpdating = false;
     }
 
-    private void SetFill(Color color)
+    private void SetFill(Color? color)
     {
-        TextBoxFill.Text = color.ToString(); // $"#{color.ToUInt32():X8}";
-        FillColorView.Color = color;
-        RectangleFill.Fill = new ImmutableSolidColorBrush(color);
+        if (color is not null)
+        {
+            TextBoxFill.Text = color.Value.ToString(); // $"#{color.ToUInt32():X8}";
+            FillColorView.Color = color.Value;
+            RectangleFill.Fill = new ImmutableSolidColorBrush(color.Value);
+        }
     }
 
-    private void SetStroke(Color color)
+    private void SetStroke(Color? color)
     {
-        TextBoxStroke.Text = color.ToString(); // $"#{color.ToUInt32():X8}";
-        StrokeColorView.Color = color;
-        RectangleStroke.Fill = new ImmutableSolidColorBrush(color);
+        if (color is not null)
+        {
+            TextBoxStroke.Text = color.Value.ToString(); // $"#{color.ToUInt32():X8}";
+            StrokeColorView.Color = color.Value;
+            RectangleStroke.Fill = new ImmutableSolidColorBrush(color.Value);
+        }
     }
 
     private void TextBoxFill_OnTextChanged(object? sender, TextChangedEventArgs e)
