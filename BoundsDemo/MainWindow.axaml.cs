@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -8,6 +10,8 @@ namespace BoundsDemo;
 
 public partial class MainWindow : Window
 {
+    private readonly ToolBoxViewModel _toolBoxViewModel;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -28,7 +32,40 @@ public partial class MainWindow : Window
 
         UpdatePropertiesEditor(null);
 
-        DataContext = new ToolBoxViewModel();
+        _toolBoxViewModel = new ToolBoxViewModel();
+        
+        _toolBoxViewModel.ControlAdded += ToolBoxViewModelOnControlAdded;
+        _toolBoxViewModel.ControlRemoved += ToolBoxViewModelOnControlRemoved;
+
+        DataContext = _toolBoxViewModel;
+        
+        LayersTreeView.SelectionChanged += LayersTreeViewOnSelectionChanged;
+    }
+
+    private void LayersTreeViewOnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        var xamlItem = LayersTreeView.SelectedItem as XamlItem;
+        if (xamlItem is not null)
+        {
+            if (_toolBoxViewModel.TryGetControl(xamlItem, out var control))
+            {
+                OverlayView.Select(control);
+            }
+        }
+    }
+
+    private void ToolBoxViewModelOnControlAdded(object? sender, EventArgs e)
+    {
+        // TODO:
+
+        var children = Enumerable.Repeat(_toolBoxViewModel.RootXamlItem, 1);
+
+        LayersTreeView.ItemsSource = children;
+    }
+
+    private void ToolBoxViewModelOnControlRemoved(object? sender, EventArgs e)
+    {
+        // TODO:
     }
 
     protected override void OnLoaded(RoutedEventArgs e)

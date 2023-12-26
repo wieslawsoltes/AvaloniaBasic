@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Avalonia.Controls;
 
@@ -216,6 +217,10 @@ public class ToolBoxViewModel
         _controlsDictionary = new Dictionary<Control, XamlItem>();
     }
 
+    public event EventHandler<EventArgs>? ControlAdded;
+
+    public event EventHandler<EventArgs>? ControlRemoved;
+
     public XamlItem? RootXamlItem { get; set; }
 
     public List<XamlItem> ToolBoxItems { get; set; }
@@ -225,16 +230,24 @@ public class ToolBoxViewModel
     public void AddControl(Control control, XamlItem xamlItem)
     {
         _controlsDictionary[control] = xamlItem;
+        OnControlAdded();
     }
 
     public void RemoveControl(Control control)
     {
         _controlsDictionary.Remove(control);
+        OnControlRemoved();
     }
 
     public bool TryGetXamlItem(Control control, out XamlItem? xamlItem)
     {
         return _controlsDictionary.TryGetValue(control, out xamlItem);
+    }
+
+    public bool TryGetControl(XamlItem xamlItem, out Control? control)
+    {
+        control = _controlsDictionary.FirstOrDefault(x => x.Value == xamlItem).Key;
+        return control is not null;
     }
 
     public void UpdatePropertyValue(Control control, string propertyName, string propertyValue)
@@ -282,11 +295,21 @@ public class ToolBoxViewModel
             childrenProperty: "Children");
 
         var control = XamlItemControlFactory.CreateControl(xamlItem);
+
+        RootXamlItem = xamlItem;
             
         AddControl(control, xamlItem);
 
-        RootXamlItem = xamlItem;
-
         return control;
+    }
+
+    protected virtual void OnControlAdded()
+    {
+        ControlAdded?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected virtual void OnControlRemoved()
+    {
+        ControlRemoved?.Invoke(this, EventArgs.Empty);
     }
 }

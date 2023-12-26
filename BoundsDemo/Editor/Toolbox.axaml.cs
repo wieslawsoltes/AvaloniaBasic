@@ -43,6 +43,7 @@ public partial class Toolbox : UserControl
     private Point _start;
     private Control? _control;
     private HashSet<Visual> _ignored;
+    private XamlItem? _xamlItem;
 
     private void ContainerOnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
@@ -63,6 +64,7 @@ public partial class Toolbox : UserControl
 
         _captured = false;
         _control = null;
+        _xamlItem = null;
     }
 
     private void Drop(PointerEventArgs e, HashSet<Visual> ignored, bool insert)
@@ -117,15 +119,9 @@ public partial class Toolbox : UserControl
         Console.WriteLine($"Drop: {target}");
 #endif
 
-        if (insert && target is not null && _control is not null)
+        if (insert && target is not null && _control is not null && _xamlItem is not null)
         {
             if (!toolBoxViewModel.TryGetXamlItem(target, out var targetXamlItem))
-            {
-                toolBoxViewModel.RemoveControl(_control);
-                return;
-            }
-
-            if (!toolBoxViewModel.TryGetXamlItem(_control, out var xamlItem))
             {
                 toolBoxViewModel.RemoveControl(_control);
                 return;
@@ -140,8 +136,10 @@ public partial class Toolbox : UserControl
 
                     if (targetXamlItem.Properties[targetXamlItem.ChildrenProperty] is List<XamlItem> children)
                     {
-                        children.Add(xamlItem);
+                        children.Add(_xamlItem);
                     }
+
+                    toolBoxViewModel.AddControl(_control, _xamlItem);
 
                     // TODO:
                     toolBoxViewModel.Debug(targetXamlItem);
@@ -154,8 +152,10 @@ public partial class Toolbox : UserControl
                     // TODO:
                     button.Content = _control;
 
-                    targetXamlItem.Properties[targetXamlItem.ContentProperty] = xamlItem;
+                    targetXamlItem.Properties[targetXamlItem.ContentProperty] = _xamlItem;
                 }
+
+                toolBoxViewModel.AddControl(_control, _xamlItem);
 
                 // TODO:
                 toolBoxViewModel.Debug(targetXamlItem);
@@ -183,15 +183,11 @@ public partial class Toolbox : UserControl
             {
                 var toolBoxItem = (sender as ListBoxItem).Content as XamlItem;
 
-                var xamlItem = toolBoxItem.Clone();
+                _xamlItem = toolBoxItem.Clone();
 
                 try
                 {
-                    _control = XamlItemControlFactory.CreateControl(xamlItem);
-
-                    var toolBoxViewModel = DataContext as ToolBoxViewModel;
-
-                    toolBoxViewModel.AddControl(_control, xamlItem);
+                    _control = XamlItemControlFactory.CreateControl(_xamlItem);
                 }
                 catch (Exception exception)
                 {
