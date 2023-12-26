@@ -29,30 +29,7 @@ public class XamlItem
 
     public string? ChildrenProperty { get; }
 
-    public IEnumerable<XamlItem> Children
-    {
-        get
-        {
-            if (ChildrenProperty is null)
-            {
-                return Enumerable.Empty<XamlItem>();
-            }
-
-            Properties.TryGetValue(ChildrenProperty, out var value);
-
-            switch (value)
-            {
-                case null:
-                    return Enumerable.Empty<XamlItem>();
-                case XamlItem xamlItem:
-                    return Enumerable.Repeat(xamlItem, 1);
-                case List<XamlItem> xamlItems:
-                    return xamlItems;
-                default:
-                    throw new NotSupportedException();
-            }
-        }
-    }
+    public IEnumerable<XamlItem> Children => GetChildren();
 
     public Control? Create(bool isRoot = true)
     {
@@ -75,11 +52,31 @@ public class XamlItem
     {
         return new XamlItem(
             Name, 
-            Properties.ToDictionary(
-                x => x.Key, 
-                x => Clone(x)),
+            Properties.ToDictionary(x => x.Key, x => Clone(x)),
             ContentProperty,
             ChildrenProperty);
+    }
+
+    public IEnumerable<XamlItem> GetChildren()
+    {
+        if (ChildrenProperty is null)
+        {
+            return Enumerable.Empty<XamlItem>();
+        }
+
+        Properties.TryGetValue(ChildrenProperty, out var value);
+
+        switch (value)
+        {
+            case null:
+                return Enumerable.Empty<XamlItem>();
+            case XamlItem xamlItem:
+                return Enumerable.Repeat(xamlItem, 1);
+            case List<XamlItem> xamlItems:
+                return xamlItems;
+            default:
+                throw new NotSupportedException();
+        }
     }
 
     private static object Clone(KeyValuePair<string, object> kvp)
