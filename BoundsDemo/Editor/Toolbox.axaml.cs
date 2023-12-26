@@ -116,7 +116,7 @@ public partial class Toolbox : UserControl
         var target = visuals.FirstOrDefault() as Control;
 
 #if DEBUG
-        Console.WriteLine($"Drop: {target}");
+        //Console.WriteLine($"Drop: {target}");
 #endif
 
         if (insert && target is not null && _control is not null && _xamlItem is not null)
