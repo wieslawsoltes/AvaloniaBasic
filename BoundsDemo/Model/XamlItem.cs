@@ -30,24 +30,46 @@ public class XamlItem
 
     public IEnumerable<XamlItem> GetChildren()
     {
-        if (ChildrenProperty is null)
+        if (ChildrenProperty is null && ContentProperty is null)
         {
             return Enumerable.Empty<XamlItem>();
         }
 
-        Properties.TryGetValue(ChildrenProperty, out var value);
-
-        switch (value)
+        if (ChildrenProperty is not null)
         {
-            case null:
-                return Enumerable.Empty<XamlItem>();
-            case XamlItem xamlItem:
-                return Enumerable.Repeat(xamlItem, 1);
-            case List<XamlItem> xamlItems:
-                return xamlItems;
-            default:
-                throw new NotSupportedException();
+            Properties.TryGetValue(ChildrenProperty, out var children);
+
+            switch (children)
+            {
+                case null:
+                    return Enumerable.Empty<XamlItem>();
+                case XamlItem xamlItem:
+                    return Enumerable.Repeat(xamlItem, 1);
+                case List<XamlItem> xamlItems:
+                    return xamlItems;
+                default:
+                    throw new NotSupportedException();
+            }
         }
+
+        if (ContentProperty is not null)
+        {
+            Properties.TryGetValue(ContentProperty, out var content);
+
+            switch (content)
+            {
+                case null:
+                    return Enumerable.Empty<XamlItem>();
+                case XamlItem xamlItem:
+                    return Enumerable.Repeat(xamlItem, 1);
+                case List<XamlItem> xamlItems:
+                    return xamlItems;
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
+        return Enumerable.Empty<XamlItem>();
     }
 
     public XamlItem Clone()
