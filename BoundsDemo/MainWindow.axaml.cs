@@ -26,37 +26,19 @@ public partial class MainWindow : Window
 
         UpdatePropertiesEditor(null);
 
+        LayersTreeView.SelectionChanged += LayersTreeViewOnSelectionChanged;
+
         _toolBoxViewModel = new ToolBoxViewModel();
-        
         _toolBoxViewModel.ControlAdded += ToolBoxViewModelOnControlAdded;
         _toolBoxViewModel.ControlRemoved += ToolBoxViewModelOnControlRemoved;
-
-        _toolBoxViewModel.SelectedChanged += (_, _) =>
-        {
-            UpdatePropertiesEditor(_toolBoxViewModel.Selected);
-            Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
-
-            if (_toolBoxViewModel.Selected is not null)
-            {
-                var selected = _toolBoxViewModel.Selected as Control;
-                _toolBoxViewModel.TryGetXamlItem(selected, out var xamlItem);
-                LayersTreeView.SelectedItem = xamlItem;
-            }
-            else
-            {
-                LayersTreeView.SelectedItem = null;
-            }
-        };
+        _toolBoxViewModel.SelectedChanged += ToolBoxViewModelOnSelectedChanged;
 
         DataContext = _toolBoxViewModel;
-        
-        LayersTreeView.SelectionChanged += LayersTreeViewOnSelectionChanged;
     }
 
     private void LayersTreeViewOnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        var xamlItem = LayersTreeView.SelectedItem as XamlItem;
-        if (xamlItem is not null)
+        if (LayersTreeView.SelectedItem is XamlItem xamlItem)
         {
             if (_toolBoxViewModel.TryGetControl(xamlItem, out var control))
             {
@@ -77,6 +59,30 @@ public partial class MainWindow : Window
     private void ToolBoxViewModelOnControlRemoved(object? sender, EventArgs e)
     {
         // TODO:
+    }
+
+    private void ToolBoxViewModelOnSelectedChanged(object? o, EventArgs eventArgs)
+    {
+        UpdatePropertiesEditor(_toolBoxViewModel.Selected);
+
+        Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
+
+        if (_toolBoxViewModel.Selected is not null)
+        {
+            if (_toolBoxViewModel.Selected is Control selected)
+            {
+                _toolBoxViewModel.TryGetXamlItem(selected, out var xamlItem);
+                LayersTreeView.SelectedItem = xamlItem;
+            }
+            else
+            {
+                LayersTreeView.SelectedItem = null;
+            }
+        }
+        else
+        {
+            LayersTreeView.SelectedItem = null;
+        }
     }
 
     protected override void OnLoaded(RoutedEventArgs e)
