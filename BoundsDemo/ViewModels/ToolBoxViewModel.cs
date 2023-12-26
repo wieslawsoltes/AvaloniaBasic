@@ -222,12 +222,12 @@ public class ToolBoxViewModel
 
     public bool EnableEditing { get; set; }
 
-    public void Add(Control control, XamlItem xamlItem)
+    public void AddControl(Control control, XamlItem xamlItem)
     {
         _controlsDictionary[control] = xamlItem;
     }
 
-    public void Remove(Control control)
+    public void RemoveControl(Control control)
     {
         _controlsDictionary.Remove(control);
     }
@@ -248,15 +248,16 @@ public class ToolBoxViewModel
         {
             xamlItem.Properties[propertyName] = propertyValue;
 
+#if DEBUG
             // TODO:
             // Debug(xamlItem);
             Debug(RootXamlItem);
+#endif
         }
     }
-    
+
     public void Debug(XamlItem xamlItem)
     {
-        // TODO:
         var sb = new StringBuilder();
 
         XamlWriter.WriteXaml(xamlItem, writeXmlns: true, sb, level: 0);
@@ -264,7 +265,28 @@ public class ToolBoxViewModel
         var xaml = sb.ToString();
 
         Console.Clear();
-        // Console.WriteLine("[XAML]");
         Console.WriteLine(xaml);
+    }
+
+    public Control Demo()
+    {
+        var xamlItem = new XamlItem(name: "StackPanel",
+            properties: new Dictionary<string, object>
+            {
+                ["Children"] = new List<XamlItem>(),
+                ["Background"] = "White",
+                ["Width"] = "350",
+                ["Height"] = "500",
+            },
+            contentProperty: "Children", 
+            childrenProperty: "Children");
+
+        var control = XamlItemControlFactory.CreateControl(xamlItem);
+            
+        AddControl(control, xamlItem);
+
+        RootXamlItem = xamlItem;
+
+        return control;
     }
 }

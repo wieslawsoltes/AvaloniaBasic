@@ -119,13 +119,13 @@ public partial class Toolbox : UserControl
         {
             if (!toolBoxViewModel.TryGetXamlItem(target, out var targetXamlItem))
             {
-                toolBoxViewModel.Remove(_control);
+                toolBoxViewModel.RemoveControl(_control);
                 return;
             }
 
             if (!toolBoxViewModel.TryGetXamlItem(_control, out var xamlItem))
             {
-                toolBoxViewModel.Remove(_control);
+                toolBoxViewModel.RemoveControl(_control);
                 return;
             }
 
@@ -145,7 +145,7 @@ public partial class Toolbox : UserControl
             else
             {
                 // TODO:
-                toolBoxViewModel.Remove(_control);
+                toolBoxViewModel.RemoveControl(_control);
             }
 
         }
@@ -174,7 +174,7 @@ public partial class Toolbox : UserControl
 
                     var toolBoxViewModel = DataContext as ToolBoxViewModel;
 
-                    toolBoxViewModel.Add(_control, xamlItem);
+                    toolBoxViewModel.AddControl(_control, xamlItem);
                 }
                 catch (Exception exception)
                 {

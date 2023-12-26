@@ -83,7 +83,7 @@ public partial class MainWindow : Window
 
                     // TODO:
                     var toolBoxViewModel = DataContext as ToolBoxViewModel;
-                    toolBoxViewModel.Remove(control);
+                    toolBoxViewModel.RemoveControl(control);
                 }
                 break;
             }
