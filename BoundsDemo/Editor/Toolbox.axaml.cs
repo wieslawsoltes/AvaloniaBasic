@@ -46,6 +46,17 @@ public partial class Toolbox : UserControl
         e.Container.AddHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         e.Container.AddHandler(Control.PointerMovedEvent, ContainerOnPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         e.Container.AddHandler(Control.PointerCaptureLostEvent, ContainerOnPointerCaptureLost, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+
+        e.Container.AddHandler(Gestures.HoldingEvent, ContainerOnHolding);
+    }
+
+    private void ContainerOnHolding(object? sender, HoldingRoutedEventArgs e)
+    {
+        if (e.PointerType != PointerType.Mouse)
+        {
+            _captured = true;
+            _start = e.Position;
+        }
     }
 
     private void ToolboxListBoxOnContainerClearing(object? sender, ContainerClearingEventArgs e)
@@ -56,6 +67,8 @@ public partial class Toolbox : UserControl
         e.Container.RemoveHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased);
         e.Container.RemoveHandler(Control.PointerMovedEvent, ContainerOnPointerMoved);
         e.Container.RemoveHandler(Control.PointerCaptureLostEvent, ContainerOnPointerCaptureLost);
+
+        e.Container.RemoveHandler(Gestures.HoldingEvent, ContainerOnHolding);
     }
 
     private void ToolboxListBoxOnContainerIndexChanged(object? sender, ContainerIndexChangedEventArgs e)
@@ -72,8 +85,11 @@ public partial class Toolbox : UserControl
 
     private void Pressed(PointerPressedEventArgs e)
     {
-        _captured = true;
-        _start = e.GetPosition(e.Source as Control);
+        if (e.Pointer.Type == PointerType.Mouse)
+        {
+            _captured = true;
+            _start = e.GetPosition(e.Source as Control);
+        }
     }
 
     private void ContainerOnPointerReleased(object? sender, PointerReleasedEventArgs e)
@@ -119,6 +135,11 @@ public partial class Toolbox : UserControl
         if (!_captured)
         {
             return;
+        }
+
+        if (e.Pointer.Type != PointerType.Mouse)
+        {
+            e.PreventGestureRecognition();
         }
 
         var position = e.GetPosition(e.Source as Control);
