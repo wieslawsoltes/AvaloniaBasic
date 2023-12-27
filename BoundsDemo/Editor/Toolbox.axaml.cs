@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
@@ -31,6 +32,8 @@ public partial class Toolbox : UserControl
     {
         InitializeComponent();
 
+        _ignored = new HashSet<Visual>();
+
         ToolboxListBox.ContainerPrepared += ToolboxListBoxOnContainerPrepared;
         ToolboxListBox.ContainerClearing += ToolboxListBoxOnContainerClearing;
         ToolboxListBox.ContainerIndexChanged += ToolboxListBoxOnContainerIndexChanged;
@@ -43,6 +46,20 @@ public partial class Toolbox : UserControl
         e.Container.AddHandler(Control.PointerPressedEvent, ContainerOnPointerPressed, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         e.Container.AddHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         e.Container.AddHandler(Control.PointerMovedEvent, ContainerOnPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+    }
+
+    private void ToolboxListBoxOnContainerClearing(object? sender, ContainerClearingEventArgs e)
+    {
+        //Console.WriteLine($"ContainerClearing: {e.Container}");
+
+        e.Container.RemoveHandler(Control.PointerPressedEvent, ContainerOnPointerPressed);
+        e.Container.RemoveHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased);
+        e.Container.RemoveHandler(Control.PointerMovedEvent, ContainerOnPointerMoved);
+    }
+
+    private void ToolboxListBoxOnContainerIndexChanged(object? sender, ContainerIndexChangedEventArgs e)
+    {
+        //Console.WriteLine($"ContainerIndexChanged: {e.Container}");
     }
 
     private void ContainerOnPointerPressed(object? sender, PointerPressedEventArgs e)
@@ -67,20 +84,41 @@ public partial class Toolbox : UserControl
         _xamlItem = null;
     }
 
-    private void Drop(PointerEventArgs e, HashSet<Visual> ignored, bool insert)
+    private void ContainerOnPointerMoved(object? sender, PointerEventArgs e)
     {
-        if (insert)
+        if (!_captured)
         {
-            if (_control is not null)
+            return;
+        }
+
+        var position = e.GetPosition(e.Source as Control);
+        var delta = _start - position;
+
+        if (Math.Abs(delta.X) > 3 || Math.Abs(delta.Y) > 3)
+        {
+            if (_control is null)
             {
-                (OverlayView.Child as Canvas).Children.Remove(_control);
+                CreatePreview(sender);
+                AddPreview();
             }
         }
 
+        if (_control is not null)
+        {
+            MovePreview(e, position);
+
+            Drop(e, _ignored, false);
+        }
+
+        //Console.WriteLine($"PointerMoved: {sender}");
+    }
+
+    private Control? GetTarget(PointerEventArgs e, HashSet<Visual> ignored)
+    {
         var root = this.GetVisualRoot() as Interactive;
         if (root is null)
         {
-            return;
+            return null;
         }
         var descendants = root.GetLogicalDescendants().Cast<Visual>();
 
@@ -89,7 +127,7 @@ public partial class Toolbox : UserControl
         var toolBoxViewModel = DataContext as ToolBoxViewModel;
         if (toolBoxViewModel is null)
         {
-            return;
+            return null;
         }
 
         var visuals = descendants
@@ -113,14 +151,29 @@ public partial class Toolbox : UserControl
             })
             .Reverse();
 
-        var target = visuals.FirstOrDefault() as Control;
+        return visuals.FirstOrDefault() as Control;
+    }
+    
+    private void Drop(PointerEventArgs e, HashSet<Visual> ignored, bool insert)
+    {
+        if (insert)
+        {
+            RemovePreview();
+        }
 
+        var target = GetTarget(e, ignored);
 #if DEBUG
         //Console.WriteLine($"Drop: {target}");
 #endif
 
         if (insert && target is not null && _control is not null && _xamlItem is not null)
         {
+            var toolBoxViewModel = DataContext as ToolBoxViewModel;
+            if (toolBoxViewModel is null)
+            {
+                return;
+            }
+
             if (!toolBoxViewModel.TryGetXamlItem(target, out var targetXamlItem))
             {
                 toolBoxViewModel.RemoveControl(_control);
@@ -163,68 +216,45 @@ public partial class Toolbox : UserControl
         }
     }
 
-    private void ContainerOnPointerMoved(object? sender, PointerEventArgs e)
+    private void CreatePreview(object? sender)
     {
-        if (!_captured)
+        try
         {
-            return;
-        }
+            var toolBoxItem = (sender as ListBoxItem).Content as XamlItem;
 
-        var position = e.GetPosition(e.Source as Control);
-        var delta = _start - position;
-        if (Math.Abs(delta.X) > 3 || Math.Abs(delta.Y) > 3)
+            _xamlItem = toolBoxItem.Clone();
+
+            _control = XamlItemControlFactory.CreateControl(_xamlItem);
+        }
+        catch (Exception exception)
         {
-            if (_control is null)
-            {
-                var toolBoxItem = (sender as ListBoxItem).Content as XamlItem;
-
-                _xamlItem = toolBoxItem.Clone();
-
-                try
-                {
-                    _control = XamlItemControlFactory.CreateControl(_xamlItem);
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception);
-                }
-
-                if (_control is not null)
-                {
-                    (OverlayView.Child as Canvas).Children.Add(_control);
-
-                    _ignored = new HashSet<Visual>(new Visual[] {OverlayView, _control});
-                }
-            }
+            Console.WriteLine(exception);
         }
-
-        if (_control is not null)
-        {
-            var location = (e.Source as Control).TranslatePoint(position, OverlayView.Child as Canvas);
-            Canvas.SetLeft(_control, location.Value.X);
-            Canvas.SetTop(_control, location.Value.Y);
-        }
-
-        if (_control is not null)
-        {
-            Drop(e, _ignored, false);
-        }
-
-        //Console.WriteLine($"PointerMoved: {sender}");
     }
 
-    private void ToolboxListBoxOnContainerClearing(object? sender, ContainerClearingEventArgs e)
+    private void AddPreview()
     {
-        //Console.WriteLine($"ContainerClearing: {e.Container}");
+        if (_control is not null)
+        {
+            (OverlayView.Child as Canvas).Children.Add(_control);
 
-        e.Container.RemoveHandler(Control.PointerPressedEvent, ContainerOnPointerPressed);
-        e.Container.RemoveHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased);
-        e.Container.RemoveHandler(Control.PointerMovedEvent, ContainerOnPointerMoved);
+            _ignored = new HashSet<Visual>(new Visual[] {OverlayView, _control});
+        }
     }
 
-    private void ToolboxListBoxOnContainerIndexChanged(object? sender, ContainerIndexChangedEventArgs e)
+    private void MovePreview(PointerEventArgs e, Point position)
     {
-        //Console.WriteLine($"ContainerIndexChanged: {e.Container}");
+        var location = (e.Source as Control).TranslatePoint(position, OverlayView.Child as Canvas);
+        Canvas.SetLeft(_control, location.Value.X);
+        Canvas.SetTop(_control, location.Value.Y);
+    }
+
+    private void RemovePreview()
+    {
+        if (_control is not null)
+        {
+            (OverlayView.Child as Canvas).Children.Remove(_control);
+        }
     }
 }
 
