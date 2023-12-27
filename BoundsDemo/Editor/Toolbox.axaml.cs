@@ -15,6 +15,12 @@ public partial class Toolbox : UserControl
     public static readonly StyledProperty<OverlayView> OverlayViewProperty = 
         AvaloniaProperty.Register<Toolbox, OverlayView>(nameof(OverlayView));
 
+    private bool _captured;
+    private Point _start;
+    private Control? _control;
+    private HashSet<Visual> _ignored;
+    private XamlItem? _xamlItem;
+
     public OverlayView OverlayView
     {
         get => GetValue(OverlayViewProperty);
@@ -38,12 +44,6 @@ public partial class Toolbox : UserControl
         e.Container.AddHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         e.Container.AddHandler(Control.PointerMovedEvent, ContainerOnPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
     }
-
-    private bool _captured;
-    private Point _start;
-    private Control? _control;
-    private HashSet<Visual> _ignored;
-    private XamlItem? _xamlItem;
 
     private void ContainerOnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
