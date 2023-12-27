@@ -128,6 +128,8 @@ public partial class Toolbox : UserControl
         {
             if (_control is null)
             {
+                e.PreventGestureRecognition();
+
                 CreatePreview(sender);
                 AddPreview();
             }
@@ -135,6 +137,8 @@ public partial class Toolbox : UserControl
 
         if (_control is not null)
         {
+            e.PreventGestureRecognition();
+            
             MovePreview(e, position);
 
             Drop(e, _ignored, false);
