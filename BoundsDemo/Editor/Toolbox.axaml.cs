@@ -45,6 +45,7 @@ public partial class Toolbox : UserControl
         e.Container.AddHandler(Control.PointerPressedEvent, ContainerOnPointerPressed, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         e.Container.AddHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         e.Container.AddHandler(Control.PointerMovedEvent, ContainerOnPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        e.Container.AddHandler(Control.PointerCaptureLostEvent, ContainerOnPointerCaptureLost, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
     }
 
     private void ToolboxListBoxOnContainerClearing(object? sender, ContainerClearingEventArgs e)
@@ -54,6 +55,7 @@ public partial class Toolbox : UserControl
         e.Container.RemoveHandler(Control.PointerPressedEvent, ContainerOnPointerPressed);
         e.Container.RemoveHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased);
         e.Container.RemoveHandler(Control.PointerMovedEvent, ContainerOnPointerMoved);
+        e.Container.RemoveHandler(Control.PointerCaptureLostEvent, ContainerOnPointerCaptureLost);
     }
 
     private void ToolboxListBoxOnContainerIndexChanged(object? sender, ContainerIndexChangedEventArgs e)
@@ -65,6 +67,11 @@ public partial class Toolbox : UserControl
     {
         //Console.WriteLine($"PointerPressed: {sender}");
 
+        Pressed(e);
+    }
+
+    private void Pressed(PointerPressedEventArgs e)
+    {
         _captured = true;
         _start = e.GetPosition(e.Source as Control);
     }
@@ -72,18 +79,42 @@ public partial class Toolbox : UserControl
     private void ContainerOnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         //Console.WriteLine($"PointerReleased: {sender}");
-        
+
+        Released(e);
+    }
+
+    private void Released(PointerReleasedEventArgs e)
+    {
         if (_control is not null)
         {
             Drop(e, _ignored, true);
         }
 
+        Clean();
+    }
+
+    private void Clean()
+    {
         _captured = false;
         _control = null;
         _xamlItem = null;
     }
 
+    private void ContainerOnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
+    { 
+        //Console.WriteLine($"PointerCaptureLost: {sender}");
+
+        Clean();
+    }
+
     private void ContainerOnPointerMoved(object? sender, PointerEventArgs e)
+    {
+        //Console.WriteLine($"PointerMoved: {sender}");
+
+        Moved(sender, e);
+    }
+
+    private void Moved(object? sender, PointerEventArgs e)
     {
         if (!_captured)
         {
@@ -108,8 +139,6 @@ public partial class Toolbox : UserControl
 
             Drop(e, _ignored, false);
         }
-
-        //Console.WriteLine($"PointerMoved: {sender}");
     }
 
     private Control? GetTarget(PointerEventArgs e, HashSet<Visual> ignored)
