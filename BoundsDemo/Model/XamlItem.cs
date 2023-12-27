@@ -72,16 +72,61 @@ public class XamlItem
         return Enumerable.Empty<XamlItem>();
     }
 
+    public bool TryAddChild(XamlItem childXamlItem)
+    {
+        if (ChildrenProperty is null)
+        {
+            return false;
+        }
+
+        if (Properties.TryGetValue(ChildrenProperty, out var childrenValue))
+        {
+            if (childrenValue is List<XamlItem> children)
+            {
+                children.Add(childXamlItem);
+            }
+        }
+        else
+        {
+            var childrenList = new List<XamlItem> {childXamlItem};
+            Properties[ChildrenProperty] = childrenList;
+        }
+
+        return true;
+    }
+
+    public object? GetContent()
+    {
+        if (ContentProperty is null)
+        {
+            return null;
+        }
+
+        return Properties[ContentProperty];
+    }
+
+    public bool TrySetContent(XamlItem contentXamlItem)
+    {
+        if (ContentProperty is null)
+        {
+            return false;
+        }
+
+        Properties[ContentProperty] = contentXamlItem;
+
+        return true;
+    }
+
     public XamlItem Clone()
     {
         return new XamlItem(
             Name, 
-            Properties.ToDictionary(x => x.Key, x => Clone(x.Value)),
+            Properties.ToDictionary(x => x.Key, x => CloneValue(x.Value)),
             ContentProperty,
             ChildrenProperty);
     }
 
-    private static object Clone(object value)
+    private static object CloneValue(object value)
     {
         switch (value)
         {

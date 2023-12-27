@@ -134,11 +134,7 @@ public partial class Toolbox : UserControl
                     // TODO:
                     panel.Children.Add(_control);
 
-                    if (targetXamlItem.Properties[targetXamlItem.ChildrenProperty] is List<XamlItem> children)
-                    {
-                        children.Add(_xamlItem);
-                    }
-
+                    targetXamlItem.TryAddChild(_xamlItem);
                     toolBoxViewModel.AddControl(_control, _xamlItem);
 
                     // TODO:
@@ -152,13 +148,12 @@ public partial class Toolbox : UserControl
                     // TODO:
                     contentControl.Content = _control;
 
-                    targetXamlItem.Properties[targetXamlItem.ContentProperty] = _xamlItem;
+                    targetXamlItem.TrySetContent(_xamlItem);
+                    toolBoxViewModel.AddControl(_control, _xamlItem);
+
+                    // TODO:
+                    toolBoxViewModel.Debug(targetXamlItem);
                 }
-
-                toolBoxViewModel.AddControl(_control, _xamlItem);
-
-                // TODO:
-                toolBoxViewModel.Debug(targetXamlItem);
             }
             else
             {
