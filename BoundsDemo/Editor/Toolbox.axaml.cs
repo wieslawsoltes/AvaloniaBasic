@@ -166,53 +166,61 @@ public partial class Toolbox : UserControl
         //Console.WriteLine($"Drop: {target}");
 #endif
 
-        if (insert && target is not null && _control is not null && _xamlItem is not null)
+        if (insert)
         {
-            var toolBoxViewModel = DataContext as ToolBoxViewModel;
-            if (toolBoxViewModel is null)
+            if (target is not null && _control is not null && _xamlItem is not null)
             {
-                return;
+                Insert(target, _control, _xamlItem);
             }
+        }
+    }
 
-            if (!toolBoxViewModel.TryGetXamlItem(target, out var targetXamlItem))
-            {
-                toolBoxViewModel.RemoveControl(_control);
-                return;
-            }
+    private void Insert(Control target, Control control, XamlItem xamlItem)
+    {
+        var toolBoxViewModel = DataContext as ToolBoxViewModel;
+        if (toolBoxViewModel is null)
+        {
+            return;
+        }
 
-            if (target is Panel panel)
-            {
-                if (targetXamlItem.ChildrenProperty is not null)
-                {
-                    // TODO:
-                    panel.Children.Add(_control);
+        if (!toolBoxViewModel.TryGetXamlItem(target, out var targetXamlItem))
+        {
+            toolBoxViewModel.RemoveControl(control);
+            return;
+        }
 
-                    targetXamlItem.TryAddChild(_xamlItem);
-                    toolBoxViewModel.AddControl(_control, _xamlItem);
-
-                    // TODO:
-                    toolBoxViewModel.Debug(targetXamlItem);
-                }
-            }
-            else if (target is ContentControl contentControl)
-            {
-                if (targetXamlItem.ContentProperty is not null)
-                {
-                    // TODO:
-                    contentControl.Content = _control;
-
-                    targetXamlItem.TrySetContent(_xamlItem);
-                    toolBoxViewModel.AddControl(_control, _xamlItem);
-
-                    // TODO:
-                    toolBoxViewModel.Debug(targetXamlItem);
-                }
-            }
-            else
+        if (target is Panel panel)
+        {
+            if (targetXamlItem.ChildrenProperty is not null)
             {
                 // TODO:
-                toolBoxViewModel.RemoveControl(_control);
+                panel.Children.Add(control);
+
+                targetXamlItem.TryAddChild(xamlItem);
+                toolBoxViewModel.AddControl(control, xamlItem);
+
+                // TODO:
+                toolBoxViewModel.Debug(targetXamlItem);
             }
+        }
+        else if (target is ContentControl contentControl)
+        {
+            if (targetXamlItem.ContentProperty is not null)
+            {
+                // TODO:
+                contentControl.Content = control;
+
+                targetXamlItem.TrySetContent(xamlItem);
+                toolBoxViewModel.AddControl(control, xamlItem);
+
+                // TODO:
+                toolBoxViewModel.Debug(targetXamlItem);
+            }
+        }
+        else
+        {
+            // TODO:
+            toolBoxViewModel.RemoveControl(control);
         }
     }
 
@@ -245,6 +253,7 @@ public partial class Toolbox : UserControl
     private void MovePreview(PointerEventArgs e, Point position)
     {
         var location = (e.Source as Control).TranslatePoint(position, OverlayView.Child as Canvas);
+
         Canvas.SetLeft(_control, location.Value.X);
         Canvas.SetTop(_control, location.Value.Y);
     }
