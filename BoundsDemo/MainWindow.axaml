@@ -16,6 +16,10 @@
 
       <TabControl Padding="0"
                   Grid.Column="0">
+        <TabControl.Effect>
+          <!-- <BlurEffect Radius="4" /> -->
+          <!-- <DropShadowEffect Color="Red" Opacity="0.4" OffsetX="4" OffsetY="4" /> -->
+        </TabControl.Effect>
         <TabControl.Styles>
           <Style Selector="TabItem:not(:selected) Svg">
             <Setter Property="Opacity" Value="0.6" />
