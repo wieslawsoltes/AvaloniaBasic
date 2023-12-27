@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
@@ -228,11 +227,17 @@ public partial class Toolbox : UserControl
     {
         try
         {
+            var toolBoxViewModel = DataContext as ToolBoxViewModel;
+            if (toolBoxViewModel is null)
+            {
+                return;
+            }
+
             var toolBoxItem = (sender as ListBoxItem).Content as XamlItem;
 
-            _xamlItem = toolBoxItem.Clone();
+            _xamlItem = toolBoxItem.Clone(toolBoxViewModel.IdManager);
 
-            _control = XamlItemControlFactory.CreateControl(_xamlItem);
+            _control = XamlItemControlFactory.CreateControl(_xamlItem, isRoot: true, writeUid: true);
         }
         catch (Exception exception)
         {

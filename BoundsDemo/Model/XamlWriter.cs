@@ -6,7 +6,7 @@ namespace BoundsDemo;
 
 public class XamlWriter
 {
-    public static void WriteXaml(XamlItem xamlItem, bool writeXmlns, StringBuilder sb, int level, bool writeAttributesOnNewLine = false)
+    public static void WriteXaml(XamlItem xamlItem, bool writeXmlns, bool writeUid, StringBuilder sb, int level, bool writeAttributesOnNewLine = false)
     {
         sb.Append(new string(' ', level));
         sb.Append('<');
@@ -14,19 +14,43 @@ public class XamlWriter
 
         if (writeXmlns)
         {
-            sb.Append(' ');
+            if (writeAttributesOnNewLine)
+            {
+                sb.AppendLine();
+                sb.Append(new string(' ', level + 2));
+            }
+            else
+            {
+                sb.Append(' ');
+            }
+
             sb.Append("xmlns=\"https://github.com/avaloniaui\"");
+        }
+
+        if (writeUid)
+        {
+            if (writeAttributesOnNewLine)
+            {
+                sb.AppendLine();
+                sb.Append(new string(' ', level + 2));
+            }
+            else
+            {
+                sb.Append(' ');
+            }
+
+            sb.Append("xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"");
         }
 
         var hasObjectProperties = xamlItem.Properties.Any(x => x.Value is not string);
 
-        WriteAttributeProperties(xamlItem, sb, level, writeAttributesOnNewLine);
+        WriteAttributeProperties(xamlItem, sb, level, writeUid, writeAttributesOnNewLine);
 
         if (hasObjectProperties)
         {
             sb.Append('>');
 
-            WriteObjectProperties(xamlItem, sb, level);
+            WriteObjectProperties(xamlItem, sb, level, writeUid);
 
             sb.AppendLine();
             sb.Append(new string(' ', level));
@@ -40,8 +64,34 @@ public class XamlWriter
         }
     }
 
-    private static void WriteAttributeProperties(XamlItem xamlItem, StringBuilder sb, int level, bool writeAttributesOnNewLine)
+    private static void WriteUidAttribute(XamlItem xamlItem, StringBuilder sb, int level, bool writeAttributesOnNewLine)
     {
+        if (writeAttributesOnNewLine)
+        {
+            sb.AppendLine();
+            sb.Append(new string(' ', level + 2));
+        }
+        else
+        {
+            sb.Append(' ');
+        }
+
+        // TODO: Use x:Uid instead of Tag
+        // sb.Append("x:Uid");
+        sb.Append("Tag");
+        sb.Append('=');
+        sb.Append('"');
+        sb.Append(xamlItem.Id);
+        sb.Append('"');
+    }
+
+    private static void WriteAttributeProperties(XamlItem xamlItem, StringBuilder sb, int level, bool writeUid, bool writeAttributesOnNewLine)
+    {
+        if (writeUid)
+        {
+            WriteUidAttribute(xamlItem, sb, level, writeAttributesOnNewLine);
+        }
+
         foreach (var property in xamlItem.Properties.Where(x => x.Value is string))
         {
             if (writeAttributesOnNewLine)
@@ -62,7 +112,7 @@ public class XamlWriter
         }
     }
 
-    private static void WritePropertyValue(StringBuilder sb, int level, object value)
+    private static void WritePropertyValue(StringBuilder sb, int level, object value, bool writeUid)
     {
         switch (value)
         {
@@ -70,7 +120,7 @@ public class XamlWriter
             {
                 sb.AppendLine();
 
-                WriteXaml(childXamlItem, false, sb, level + 2);
+                WriteXaml(childXamlItem, false, writeUid, sb, level + 2);
 
                 break;
             }
@@ -80,7 +130,7 @@ public class XamlWriter
                 {
                     sb.AppendLine();
 
-                    WriteXaml(childXamlItem, false, sb, level + 2);
+                    WriteXaml(childXamlItem, false, writeUid, sb, level + 2);
                 }
 
                 break;
@@ -88,7 +138,7 @@ public class XamlWriter
         }
     }
 
-    private static void WriteObjectProperties(XamlItem xamlItem, StringBuilder sb, int level)
+    private static void WriteObjectProperties(XamlItem xamlItem, StringBuilder sb, int level, bool writeUid)
     {
         foreach (var property in xamlItem.Properties.Where(x => x.Value is not string))
         {
@@ -105,7 +155,7 @@ public class XamlWriter
                 sb.Append('>');
             }
 
-            WritePropertyValue(sb, level, property.Value);
+            WritePropertyValue(sb, level, property.Value, writeUid);
 
             if (writeContentTag)
             {

@@ -8,17 +8,21 @@ public class XamlItem
 {
     public XamlItem(
         string name, 
+        string id,
         Dictionary<string, object> properties,
         string? contentProperty = null,
         string? childrenProperty = null)
     {
         Name = name;
+        Id = id;
         Properties = properties;
         ContentProperty = contentProperty;
         ChildrenProperty = childrenProperty;
     }
 
     public string Name { get; }
+
+    public string Id { get; }
 
     public Dictionary<string, object> Properties { get; }
 
@@ -117,25 +121,26 @@ public class XamlItem
         return true;
     }
 
-    public XamlItem Clone()
+    public XamlItem Clone(XamlItemIdManager idManager, bool newId = true)
     {
         return new XamlItem(
             Name, 
-            Properties.ToDictionary(x => x.Key, x => CloneValue(x.Value)),
+            newId ? idManager.GetNewId() : Id,
+            Properties.ToDictionary(x => x.Key, x => CloneValue(x.Value, idManager, newId)),
             ContentProperty,
             ChildrenProperty);
     }
 
-    private static object CloneValue(object value)
+    private static object CloneValue(object value, XamlItemIdManager idManager, bool newId)
     {
         switch (value)
         {
             case string str:
                 return str;
             case XamlItem xamlItem:
-                return xamlItem.Clone();
+                return xamlItem.Clone(idManager, newId);
             case List<XamlItem> xamlItems:
-                return xamlItems.Select(y => y.Clone()).ToList();
+                return xamlItems.Select(y => y.Clone(idManager, newId)).ToList();
             default:
                 throw new NotSupportedException();
         }

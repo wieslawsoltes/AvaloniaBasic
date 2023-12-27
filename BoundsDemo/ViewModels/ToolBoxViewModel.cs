@@ -10,15 +10,20 @@ namespace BoundsDemo;
 public class ToolBoxViewModel
 {
     private readonly Dictionary<Control, XamlItem> _controlsDictionary;
+    private readonly XamlItemIdManager _idManager;
 
     public ToolBoxViewModel()
     {
+        _controlsDictionary = new Dictionary<Control, XamlItem>();
+        _idManager = new XamlItemIdManager();
+
         ToolBoxItems = new List<XamlItem>
         {
             //
             //
             //
             new(name: "TextBlock", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>
                 {
                     ["Text"] = "TextBlock"
@@ -26,6 +31,7 @@ public class ToolBoxViewModel
                 contentProperty: "Text", 
                 childrenProperty: null),
             new(name: "Label", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>
                 {
                     ["Content"] = "Label"
@@ -33,6 +39,7 @@ public class ToolBoxViewModel
                 contentProperty: "Content", 
                 childrenProperty: null),
             new(name: "TextBox", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>
                 {
                     ["Text"] = "TextBox"
@@ -43,6 +50,7 @@ public class ToolBoxViewModel
             //
             //
             new(name: "Button", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>
                 {
                     ["Content"] = "Button"
@@ -50,6 +58,7 @@ public class ToolBoxViewModel
                 contentProperty: "Content", 
                 childrenProperty: null),
             new(name: "CheckBox", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>
                 {
                     ["Content"] = "CheckBox"
@@ -57,6 +66,7 @@ public class ToolBoxViewModel
                 contentProperty: "Content", 
                 childrenProperty: null),
             new(name: "RadioButton", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>
                 {
                     ["Content"] = "RadioButton"
@@ -67,15 +77,18 @@ public class ToolBoxViewModel
             //
             //
             new(name: "Border",
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(),
                 contentProperty: "Child",
                 childrenProperty: "Child"
             ),
             new(name: "Decorator",
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>
                 {
                     ["Child"] = new XamlItem(
                         name: "Button", 
+                        id: _idManager.GetNewId(),
                         properties: new Dictionary<string, object>
                         {
                             ["Content"] = "Button"
@@ -89,15 +102,18 @@ public class ToolBoxViewModel
             //
             //
             new(name: "Panel", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
             new(name: "StackPanel",
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>
                 {
                     ["Children"] = new List<XamlItem>
                     {
                         new(name: "TextBlock", 
+                            id: _idManager.GetNewId(),
                             properties: new Dictionary<string, object>
                             {
                                 ["Text"] = "TextBlock"
@@ -105,6 +121,7 @@ public class ToolBoxViewModel
                             contentProperty: "Text", 
                             childrenProperty: null),
                         new(name: "TextBox", 
+                            id: _idManager.GetNewId(),
                             properties: new Dictionary<string, object>
                             {
                                 ["Text"] = "TextBox"
@@ -116,14 +133,17 @@ public class ToolBoxViewModel
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
             new(name: "DockPanel", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
             new(name: "WrapPanel", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
             new(name: "Grid", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
@@ -131,20 +151,24 @@ public class ToolBoxViewModel
             //
             //
             new(name: "ItemsControl", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: "Items", 
                 childrenProperty: "Items"),
             new(name: "ListBox",
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>
                 {
                     ["Items"] = new List<XamlItem>
                     {
                         new(name: "ListBoxItem", 
+                            id: _idManager.GetNewId(),
                             properties: new Dictionary<string, object>
                             {
                                 ["Content"] = "ListBoxItem 0"
                             }),
-                        new(name: "ListBoxItem", 
+                        new(name: "ListBoxItem",
+                            id: _idManager.GetNewId(), 
                             properties: new Dictionary<string, object>
                             {
                                 ["Content"] = "ListBoxItem 1"
@@ -154,14 +178,17 @@ public class ToolBoxViewModel
                 contentProperty: "Items", 
                 childrenProperty: "Items"),
             new(name: "ListBoxItem", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: "Content", 
                 childrenProperty: null),
             new(name: "ComboBox", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: "ItemsSource", 
                 childrenProperty: "Items"),
             new(name: "ComboBoxItem", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: "Content", 
                 childrenProperty: null),
@@ -169,14 +196,17 @@ public class ToolBoxViewModel
             //
             //
             new(name: "ProgressBar", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: null, 
                 childrenProperty: null),
             new(name: "Slider", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: null, 
                 childrenProperty: null),
             new(name: "DatePicker", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: null, 
                 childrenProperty: null),
@@ -184,38 +214,43 @@ public class ToolBoxViewModel
             //
             //
             new(name: "Rectangle", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: null, 
                 childrenProperty: null),
             new(name: "Ellipse", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: null, 
                 childrenProperty: null),
             new(name: "Line", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: null, 
                 childrenProperty: null),
             new(name: "Path", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: null, 
                 childrenProperty: null),
             //
             new(name: "Image", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: "Source", 
                 childrenProperty: null),
             new(name: "PathIcon", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: null, 
                 childrenProperty: null),
             //
             new(name: "ScrollViewer", 
+                id: _idManager.GetNewId(),
                 properties: new Dictionary<string, object>(), 
                 contentProperty: "Content", 
                 childrenProperty: "Content"),
         };
-
-        _controlsDictionary = new Dictionary<Control, XamlItem>();
     }
 
     public event EventHandler<EventArgs>? HoveredChanged;
@@ -228,6 +263,8 @@ public class ToolBoxViewModel
 
     public event EventHandler<EventArgs>? PropertyValueChanged;
 
+    public XamlItemIdManager IdManager => _idManager;
+    
     public Visual? Hovered { get; set; }
 
     public Visual? Selected { get; set; }
@@ -301,7 +338,7 @@ public class ToolBoxViewModel
     {
         var sb = new StringBuilder();
 
-        XamlWriter.WriteXaml(xamlItem, writeXmlns: true, sb, level: 0);
+        XamlWriter.WriteXaml(xamlItem, writeXmlns: true, writeUid: false, sb, level: 0);
 
         var xaml = sb.ToString();
 
@@ -312,6 +349,7 @@ public class ToolBoxViewModel
     public Control Demo()
     {
         var xamlItem = new XamlItem(name: "StackPanel",
+            id: _idManager.GetNewId(),
             properties: new Dictionary<string, object>
             {
                 ["Children"] = new List<XamlItem>(),
@@ -322,7 +360,7 @@ public class ToolBoxViewModel
             contentProperty: "Children", 
             childrenProperty: "Children");
 
-        var control = XamlItemControlFactory.CreateControl(xamlItem);
+        var control = XamlItemControlFactory.CreateControl(xamlItem, isRoot: true, writeUid: true);
 
         RootXamlItem = xamlItem;
             
