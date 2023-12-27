@@ -1,15 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace BoundsDemo;
 
 public class XamlItem
 {
+    [JsonConstructor]
     public XamlItem(
         string name, 
         string id,
-        Dictionary<string, object> properties,
+        Dictionary<string, XamlValue> properties,
         string? contentProperty = null,
         string? childrenProperty = null)
     {
@@ -20,16 +22,22 @@ public class XamlItem
         ChildrenProperty = childrenProperty;
     }
 
+    [JsonPropertyName("name")]
     public string Name { get; }
 
+    [JsonPropertyName("id")]
     public string Id { get; }
 
-    public Dictionary<string, object> Properties { get; }
+    [JsonPropertyName("properties")]
+    public Dictionary<string, XamlValue> Properties { get; }
 
+    [JsonPropertyName("contentProperty")]
     public string? ContentProperty { get; }
 
+    [JsonPropertyName("childrenProperty")]
     public string? ChildrenProperty { get; }
 
+    [JsonIgnore]
     public IEnumerable<XamlItem> Children => GetChildren();
 
     public IEnumerable<XamlItem> GetChildren()
@@ -46,11 +54,12 @@ public class XamlItem
             switch (children)
             {
                 case null:
+                case StringXamlValue:
                     return Enumerable.Empty<XamlItem>();
-                case XamlItem xamlItem:
-                    return Enumerable.Repeat(xamlItem, 1);
-                case List<XamlItem> xamlItems:
-                    return xamlItems;
+                case XamlItemXamlValue xamlItemXamlValue:
+                    return Enumerable.Repeat(xamlItemXamlValue.Value, 1);
+                case XamlItemsXamlValue xamlItemsXamlValue:
+                    return xamlItemsXamlValue.Value;
                 default:
                     throw new NotSupportedException();
             }
@@ -63,11 +72,12 @@ public class XamlItem
             switch (content)
             {
                 case null:
+                case StringXamlValue:
                     return Enumerable.Empty<XamlItem>();
-                case XamlItem xamlItem:
-                    return Enumerable.Repeat(xamlItem, 1);
-                case List<XamlItem> xamlItems:
-                    return xamlItems;
+                case XamlItemXamlValue xamlItemXamlValue:
+                    return Enumerable.Repeat(xamlItemXamlValue.Value, 1);
+                case XamlItemsXamlValue xamlItemsXamlValue:
+                    return xamlItemsXamlValue.Value;
                 default:
                     throw new NotSupportedException();
             }
@@ -85,21 +95,21 @@ public class XamlItem
 
         if (Properties.TryGetValue(ChildrenProperty, out var childrenValue))
         {
-            if (childrenValue is List<XamlItem> children)
+            if (childrenValue is XamlItemsXamlValue xamlItemsXamlValue)
             {
-                children.Add(childXamlItem);
+                xamlItemsXamlValue.Value.Add(childXamlItem);
             }
         }
         else
         {
             var childrenList = new List<XamlItem> {childXamlItem};
-            Properties[ChildrenProperty] = childrenList;
+            Properties[ChildrenProperty] = new XamlItemsXamlValue(childrenList);
         }
 
         return true;
     }
 
-    public object? GetContent()
+    public XamlValue? GetContent()
     {
         if (ContentProperty is null)
         {
@@ -109,40 +119,15 @@ public class XamlItem
         return Properties[ContentProperty];
     }
 
-    public bool TrySetContent(XamlItem contentXamlItem)
+    public bool TrySetContent(XamlValue contentXamlValue)
     {
         if (ContentProperty is null)
         {
             return false;
         }
 
-        Properties[ContentProperty] = contentXamlItem;
+        Properties[ContentProperty] = contentXamlValue;
 
         return true;
-    }
-
-    public XamlItem Clone(XamlItemIdManager idManager, bool newId = true)
-    {
-        return new XamlItem(
-            Name, 
-            newId ? idManager.GetNewId() : Id,
-            Properties.ToDictionary(x => x.Key, x => CloneValue(x.Value, idManager, newId)),
-            ContentProperty,
-            ChildrenProperty);
-    }
-
-    private static object CloneValue(object value, XamlItemIdManager idManager, bool newId)
-    {
-        switch (value)
-        {
-            case string str:
-                return str;
-            case XamlItem xamlItem:
-                return xamlItem.Clone(idManager, newId);
-            case List<XamlItem> xamlItems:
-                return xamlItems.Select(y => y.Clone(idManager, newId)).ToList();
-            default:
-                throw new NotSupportedException();
-        }
     }
 }

@@ -209,7 +209,7 @@ public partial class Toolbox : UserControl
                 // TODO:
                 contentControl.Content = control;
 
-                targetXamlItem.TrySetContent(xamlItem);
+                targetXamlItem.TrySetContent(new XamlItemXamlValue(xamlItem));
                 toolBoxViewModel.AddControl(control, xamlItem);
 
                 // TODO:
@@ -235,7 +235,7 @@ public partial class Toolbox : UserControl
 
             var toolBoxItem = (sender as ListBoxItem).Content as XamlItem;
 
-            _xamlItem = toolBoxItem.Clone(toolBoxViewModel.IdManager);
+            _xamlItem = XamlItemFactory.Clone(toolBoxItem, toolBoxViewModel.IdManager);
 
             _control = XamlItemControlFactory.CreateControl(_xamlItem, isRoot: true, writeUid: true);
         }
