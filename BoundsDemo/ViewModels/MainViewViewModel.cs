@@ -16,7 +16,6 @@ public class MainViewViewModel
     private readonly Dictionary<Control, XamlItem> _controlsDictionary;
     private readonly XamlItemIdManager _idManager;
 
-    public MainViewViewModel()
     public MainViewViewModel(EditorCanvasView editorCanvas)
     {
         _editorCanvas = editorCanvas;
