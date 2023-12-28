@@ -10,10 +10,10 @@ using Avalonia.VisualTree;
 
 namespace BoundsDemo;
 
-public partial class Toolbox : UserControl
+public partial class EditorToolboxView : UserControl
 {
     public static readonly StyledProperty<OverlayView> OverlayViewProperty = 
-        AvaloniaProperty.Register<Toolbox, OverlayView>(nameof(OverlayView));
+        AvaloniaProperty.Register<EditorToolboxView, OverlayView>(nameof(OverlayView));
 
     private bool _captured;
     private Point _start;
@@ -27,7 +27,7 @@ public partial class Toolbox : UserControl
         set => SetValue(OverlayViewProperty, value);
     }
 
-    public Toolbox()
+    public EditorToolboxView()
     {
         InitializeComponent();
 
@@ -40,8 +40,6 @@ public partial class Toolbox : UserControl
 
     private void ToolboxListBoxOnContainerPrepared(object? sender, ContainerPreparedEventArgs e)
     {
-        //Console.WriteLine($"ContainerPrepared: {e.Container}");
-
         e.Container.AddHandler(Control.PointerPressedEvent, ContainerOnPointerPressed, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         e.Container.AddHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         e.Container.AddHandler(Control.PointerMovedEvent, ContainerOnPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
@@ -61,8 +59,6 @@ public partial class Toolbox : UserControl
 
     private void ToolboxListBoxOnContainerClearing(object? sender, ContainerClearingEventArgs e)
     {
-        //Console.WriteLine($"ContainerClearing: {e.Container}");
-
         e.Container.RemoveHandler(Control.PointerPressedEvent, ContainerOnPointerPressed);
         e.Container.RemoveHandler(Control.PointerReleasedEvent, ContainerOnPointerReleased);
         e.Container.RemoveHandler(Control.PointerMovedEvent, ContainerOnPointerMoved);
@@ -73,13 +69,10 @@ public partial class Toolbox : UserControl
 
     private void ToolboxListBoxOnContainerIndexChanged(object? sender, ContainerIndexChangedEventArgs e)
     {
-        //Console.WriteLine($"ContainerIndexChanged: {e.Container}");
     }
 
     private void ContainerOnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        //Console.WriteLine($"PointerPressed: {sender}");
-
         Pressed(e);
     }
 
@@ -94,8 +87,6 @@ public partial class Toolbox : UserControl
 
     private void ContainerOnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        //Console.WriteLine($"PointerReleased: {sender}");
-
         Released(e);
     }
 
@@ -117,16 +108,12 @@ public partial class Toolbox : UserControl
     }
 
     private void ContainerOnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
-    { 
-        //Console.WriteLine($"PointerCaptureLost: {sender}");
-
+    {
         Clean();
     }
 
     private void ContainerOnPointerMoved(object? sender, PointerEventArgs e)
     {
-        //Console.WriteLine($"PointerMoved: {sender}");
-
         Moved(sender, e);
     }
 
@@ -177,8 +164,8 @@ public partial class Toolbox : UserControl
 
         var position = e.GetPosition(root);
 
-        var toolBoxViewModel = DataContext as ToolBoxViewModel;
-        if (toolBoxViewModel is null)
+        var mainViewModel = DataContext as MainViewViewModel;
+        if (mainViewModel is null)
         {
             return null;
         }
@@ -187,12 +174,11 @@ public partial class Toolbox : UserControl
             .OfType<Control>()
             .Where(visual =>
             {
-                if (!toolBoxViewModel.TryGetXamlItem(visual, out _))
+                if (!mainViewModel.TryGetXamlItem(visual, out _))
                 {
                     return false;
                 }
 
-                //if (!ignored.Contains(visual) && OverlayView.GetEnableHitTest(visual))
                 if (!ignored.Contains(visual))
                 {
                     var transformedBounds = visual.GetTransformedBounds();
@@ -204,7 +190,7 @@ public partial class Toolbox : UserControl
             })
             .Reverse();
 
-        return visuals.FirstOrDefault() as Control;
+        return visuals.FirstOrDefault();
     }
     
     private void Drop(PointerEventArgs e, HashSet<Visual> ignored, bool insert)
@@ -215,9 +201,6 @@ public partial class Toolbox : UserControl
         }
 
         var target = GetTarget(e, ignored);
-#if DEBUG
-        //Console.WriteLine($"Drop: {target}");
-#endif
 
         if (insert)
         {
@@ -230,50 +213,50 @@ public partial class Toolbox : UserControl
 
     private void Insert(Control target, Control control, XamlItem xamlItem)
     {
-        var toolBoxViewModel = DataContext as ToolBoxViewModel;
-        if (toolBoxViewModel is null)
+        var mainViewModel = DataContext as MainViewViewModel;
+        if (mainViewModel is null)
         {
             return;
         }
 
-        if (!toolBoxViewModel.TryGetXamlItem(target, out var targetXamlItem))
+        if (!mainViewModel.TryGetXamlItem(target, out var targetXamlItem))
         {
-            toolBoxViewModel.RemoveControl(control);
+            mainViewModel.RemoveControl(control);
             return;
         }
 
+        if (targetXamlItem is null)
+        {
+            return;
+        }
+        
         if (target is Panel panel)
         {
             if (targetXamlItem.ChildrenProperty is not null)
             {
-                // TODO:
                 panel.Children.Add(control);
 
                 targetXamlItem.TryAddChild(xamlItem);
-                toolBoxViewModel.AddControl(control, xamlItem);
+                mainViewModel.AddControls(control, xamlItem);
 
-                // TODO:
-                toolBoxViewModel.Debug(targetXamlItem);
+                mainViewModel.Debug(targetXamlItem);
             }
         }
         else if (target is ContentControl contentControl)
         {
             if (targetXamlItem.ContentProperty is not null)
             {
-                // TODO:
                 contentControl.Content = control;
 
                 targetXamlItem.TrySetContent(new XamlItemXamlValue(xamlItem));
-                toolBoxViewModel.AddControl(control, xamlItem);
+                mainViewModel.AddControls(control, xamlItem);
 
-                // TODO:
-                toolBoxViewModel.Debug(targetXamlItem);
+                mainViewModel.Debug(targetXamlItem);
             }
         }
         else
         {
-            // TODO:
-            toolBoxViewModel.RemoveControl(control);
+            mainViewModel.RemoveControl(control);
         }
     }
 
@@ -281,17 +264,16 @@ public partial class Toolbox : UserControl
     {
         try
         {
-            var toolBoxViewModel = DataContext as ToolBoxViewModel;
-            if (toolBoxViewModel is null)
+            if (DataContext is not MainViewViewModel mainViewModel)
             {
                 return;
             }
 
-            var toolBoxItem = (sender as ListBoxItem).Content as XamlItem;
-
-            _xamlItem = XamlItemFactory.Clone(toolBoxItem, toolBoxViewModel.IdManager);
-
-            _control = XamlItemControlFactory.CreateControl(_xamlItem, isRoot: true, writeUid: true);
+            if (sender is ListBoxItem listBoxItem && listBoxItem.Content is XamlItem toolBoxItem)
+            {
+                _xamlItem = XamlItemFactory.Clone(toolBoxItem, mainViewModel.IdManager);
+                _control = XamlItemControlFactory.CreateControl(_xamlItem, isRoot: true, writeUid: true);
+            }
         }
         catch (Exception exception)
         {
@@ -301,9 +283,9 @@ public partial class Toolbox : UserControl
 
     private void AddPreview()
     {
-        if (_control is not null)
+        if (_control is not null && OverlayView.Child is Canvas canvas)
         {
-            (OverlayView.Child as Canvas).Children.Add(_control);
+            canvas.Children.Add(_control);
 
             _ignored = new HashSet<Visual>(new Visual[] {OverlayView, _control});
         }
@@ -311,17 +293,22 @@ public partial class Toolbox : UserControl
 
     private void MovePreview(PointerEventArgs e, Point position)
     {
-        var location = (e.Source as Control).TranslatePoint(position, OverlayView.Child as Canvas);
-
-        Canvas.SetLeft(_control, location.Value.X);
-        Canvas.SetTop(_control, location.Value.Y);
+        if (_control is not null && OverlayView.Child is Canvas canvas && e.Source is Control source)
+        {
+            var location = source.TranslatePoint(position, canvas);
+            if (location is not null)
+            {
+                Canvas.SetLeft(_control, location.Value.X);
+                Canvas.SetTop(_control, location.Value.Y);
+            }
+        }
     }
 
     private void RemovePreview()
     {
-        if (_control is not null)
+        if (_control is not null && OverlayView.Child is Canvas canvas)
         {
-            (OverlayView.Child as Canvas).Children.Remove(_control);
+            canvas.Children.Remove(_control);
         }
     }
 }

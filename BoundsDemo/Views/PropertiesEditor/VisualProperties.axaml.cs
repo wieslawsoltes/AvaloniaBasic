@@ -53,9 +53,9 @@ public partial class VisualProperties : UserControl
             var isVisible = visual.IsVisible;
             SetIsVisible(isVisible);
 
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(visual as Control, "IsVisible", $"{isVisible}");
+                mainViewModel.UpdatePropertyValue(visual as Control, "IsVisible", $"{isVisible}");
             }
         }
     }
@@ -77,9 +77,9 @@ public partial class VisualProperties : UserControl
 
                 var opacityText = visual.Opacity.ToString(CultureInfo.InvariantCulture);
             
-                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    toolBoxViewModel.UpdatePropertyValue(visual as Control, "Opacity", opacityText);
+                    mainViewModel.UpdatePropertyValue(visual as Control, "Opacity", opacityText);
                 }
             }
         }

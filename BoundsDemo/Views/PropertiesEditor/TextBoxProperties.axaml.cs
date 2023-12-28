@@ -58,9 +58,9 @@ public partial class TextBoxProperties : UserControl
             textBox.TextAlignment = TextAlignment.Left;
             SetTextAlignment(TextAlignment.Left);
 
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Left");
+                mainViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Left");
             }
         }
     }
@@ -72,9 +72,9 @@ public partial class TextBoxProperties : UserControl
             textBox.TextAlignment = TextAlignment.Center;
             SetTextAlignment(TextAlignment.Center);
 
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Center");
+                mainViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Center");
             }
         }
     }
@@ -86,9 +86,9 @@ public partial class TextBoxProperties : UserControl
             textBox.TextAlignment = TextAlignment.Right;
             SetTextAlignment(TextAlignment.Right);
 
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Right");
+                mainViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Right");
             }
         }
     }
@@ -100,9 +100,9 @@ public partial class TextBoxProperties : UserControl
             textBox.TextAlignment = TextAlignment.Justify;
             SetTextAlignment(TextAlignment.Justify);
 
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Justify");
+                mainViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Justify");
             }
         }
     }
@@ -125,9 +125,9 @@ public partial class TextBoxProperties : UserControl
                 {
                     textBox.Text = text;
 
-                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        toolBoxViewModel.UpdatePropertyValue(textBox, "Text", text);
+                        mainViewModel.UpdatePropertyValue(textBox, "Text", text);
                     }
                 }
                 catch (Exception)

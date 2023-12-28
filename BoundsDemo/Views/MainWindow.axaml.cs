@@ -10,7 +10,7 @@ namespace BoundsDemo;
 
 public partial class MainWindow : Window
 {
-    private readonly ToolBoxViewModel _toolBoxViewModel;
+    private readonly MainViewViewModel _mainViewViewModel;
 
     public MainWindow()
     {
@@ -18,9 +18,9 @@ public partial class MainWindow : Window
 
         PropertiesEditor.EnableEditing += (_, _) =>
         {
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.EnableEditing = true;
+                mainViewModel.EnableEditing = true;
             }
         };
 
@@ -28,50 +28,50 @@ public partial class MainWindow : Window
 
         LayersTreeView.SelectionChanged += LayersTreeViewOnSelectionChanged;
 
-        _toolBoxViewModel = new ToolBoxViewModel();
-        _toolBoxViewModel.ControlAdded += ToolBoxViewModelOnControlAdded;
-        _toolBoxViewModel.ControlRemoved += ToolBoxViewModelOnControlRemoved;
-        _toolBoxViewModel.SelectedChanged += ToolBoxViewModelOnSelectedChanged;
+        _mainViewViewModel = new MainViewViewModel();
+        _mainViewViewModel.ControlAdded += MainViewViewModelOnControlAdded;
+        _mainViewViewModel.ControlRemoved += MainViewViewModelOnControlRemoved;
+        _mainViewViewModel.SelectedChanged += MainViewViewModelOnSelectedChanged;
 
-        DataContext = _toolBoxViewModel;
+        DataContext = _mainViewViewModel;
     }
 
     private void LayersTreeViewOnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         if (LayersTreeView.SelectedItem is XamlItem xamlItem)
         {
-            if (_toolBoxViewModel.TryGetControl(xamlItem, out var control))
+            if (_mainViewViewModel.TryGetControl(xamlItem, out var control))
             {
                 OverlayView.Select(control);
             }
         }
     }
 
-    private void ToolBoxViewModelOnControlAdded(object? sender, EventArgs e)
+    private void MainViewViewModelOnControlAdded(object? sender, EventArgs e)
     {
         // TODO:
 
-        var children = Enumerable.Repeat(_toolBoxViewModel.RootXamlItem, 1);
+        var children = Enumerable.Repeat(_mainViewViewModel.RootXamlItem, 1);
 
         LayersTreeView.ItemsSource = children;
     }
 
-    private void ToolBoxViewModelOnControlRemoved(object? sender, EventArgs e)
+    private void MainViewViewModelOnControlRemoved(object? sender, EventArgs e)
     {
         // TODO:
     }
 
-    private void ToolBoxViewModelOnSelectedChanged(object? o, EventArgs eventArgs)
+    private void MainViewViewModelOnSelectedChanged(object? o, EventArgs eventArgs)
     {
-        UpdatePropertiesEditor(_toolBoxViewModel.Selected);
+        UpdatePropertiesEditor(_mainViewViewModel.Selected);
 
         Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
 
-        if (_toolBoxViewModel.Selected is not null)
+        if (_mainViewViewModel.Selected is not null)
         {
-            if (_toolBoxViewModel.Selected is Control selected)
+            if (_mainViewViewModel.Selected is Control selected)
             {
-                _toolBoxViewModel.TryGetXamlItem(selected, out var xamlItem);
+                _mainViewViewModel.TryGetXamlItem(selected, out var xamlItem);
                 LayersTreeView.SelectedItem = xamlItem;
             }
             else
@@ -127,7 +127,7 @@ public partial class MainWindow : Window
             case Key.Delete:
             case Key.Back:
             {
-                if (_toolBoxViewModel.Selected is Control control)
+                if (_mainViewViewModel.Selected is Control control)
                 {
                     OverlayView.Hover(null);
                     OverlayView.Select(null);
@@ -136,7 +136,7 @@ public partial class MainWindow : Window
                     //EditorCanvas.EditablePanel.Children.Remove(control);
 
                     // TODO:
-                    _toolBoxViewModel.RemoveControl(control);
+                    _mainViewViewModel.RemoveControl(control);
                 }
                 break;
             }
@@ -160,9 +160,9 @@ public partial class MainWindow : Window
             selected.PropertyChanged += SelectedOnPropertyChanged;
         }
 
-        if (DataContext is ToolBoxViewModel toolBoxViewModel)
+        if (DataContext is MainViewViewModel mainViewModel)
         {
-            toolBoxViewModel.EnableEditing = false;
+            mainViewModel.EnableEditing = false;
         }
 
         PropertiesEditor.Selected = selected;

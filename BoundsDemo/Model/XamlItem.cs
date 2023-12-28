@@ -86,6 +86,16 @@ public class XamlItem
         return Enumerable.Empty<XamlItem>();
     }
 
+    public IEnumerable<XamlItem> GetSelfAndChildren()
+    {
+        yield return this;
+
+        foreach (var xamlItem in GetChildren())
+        {
+            yield return xamlItem;
+        }
+    }
+
     public bool TryAddChild(XamlItem childXamlItem)
     {
         if (ChildrenProperty is null)

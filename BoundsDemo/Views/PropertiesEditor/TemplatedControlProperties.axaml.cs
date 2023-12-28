@@ -94,9 +94,9 @@ public partial class TemplatedControlProperties : UserControl
 
                     SetBackground(color);
 
-                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        toolBoxViewModel.UpdatePropertyValue(templatedControl, "Background", text);
+                        mainViewModel.UpdatePropertyValue(templatedControl, "Background", text);
                     }
                 }
                 catch (Exception)
@@ -127,9 +127,9 @@ public partial class TemplatedControlProperties : UserControl
 
                 SetBackground(color);
 
-                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    toolBoxViewModel.UpdatePropertyValue(templatedControl, "Background", color.ToString());
+                    mainViewModel.UpdatePropertyValue(templatedControl, "Background", color.ToString());
                 }
             }
             catch (Exception)
@@ -162,9 +162,9 @@ public partial class TemplatedControlProperties : UserControl
 
                     SetForeground(color);
 
-                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        toolBoxViewModel.UpdatePropertyValue(templatedControl, "Background", text);
+                        mainViewModel.UpdatePropertyValue(templatedControl, "Background", text);
                     }
                 }
                 catch (Exception)
@@ -193,9 +193,9 @@ public partial class TemplatedControlProperties : UserControl
 
                 SetForeground(color);
 
-                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    toolBoxViewModel.UpdatePropertyValue(templatedControl, "Background", color.ToString());
+                    mainViewModel.UpdatePropertyValue(templatedControl, "Background", color.ToString());
                 }
             }
             catch (Exception)

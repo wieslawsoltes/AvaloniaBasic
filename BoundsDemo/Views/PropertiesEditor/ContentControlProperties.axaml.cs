@@ -59,9 +59,9 @@ public partial class ContentControlProperties : UserControl
             contentControl.HorizontalContentAlignment = HorizontalAlignment.Left;
             SetHorizontalContentAlignment(HorizontalAlignment.Left);
             
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Left");
+                mainViewModel.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Left");
             }
         }
     }
@@ -73,9 +73,9 @@ public partial class ContentControlProperties : UserControl
             contentControl.HorizontalContentAlignment = HorizontalAlignment.Center;
             SetHorizontalContentAlignment(HorizontalAlignment.Center);
             
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Center");
+                mainViewModel.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Center");
             }
         }
     }
@@ -87,9 +87,9 @@ public partial class ContentControlProperties : UserControl
             contentControl.HorizontalContentAlignment = HorizontalAlignment.Right;
             SetHorizontalContentAlignment(HorizontalAlignment.Right);
             
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Right");
+                mainViewModel.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Right");
             }
         }
     }
@@ -101,9 +101,9 @@ public partial class ContentControlProperties : UserControl
             contentControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             SetHorizontalContentAlignment(HorizontalAlignment.Stretch);
             
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Stretch");
+                mainViewModel.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Stretch");
             }
         }
     }
@@ -115,9 +115,9 @@ public partial class ContentControlProperties : UserControl
             contentControl.VerticalContentAlignment = VerticalAlignment.Top;
             SetVerticalContentAlignment(VerticalAlignment.Top);
             
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Top");
+                mainViewModel.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Top");
             }
         }
     }
@@ -129,9 +129,9 @@ public partial class ContentControlProperties : UserControl
             contentControl.VerticalContentAlignment = VerticalAlignment.Center;
             SetVerticalContentAlignment(VerticalAlignment.Center);
             
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Center");
+                mainViewModel.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Center");
             }
         }
     }
@@ -143,9 +143,9 @@ public partial class ContentControlProperties : UserControl
             contentControl.VerticalContentAlignment = VerticalAlignment.Bottom;
             SetVerticalContentAlignment(VerticalAlignment.Bottom);
             
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Bottom");
+                mainViewModel.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Bottom");
             }
         }
     }
@@ -157,9 +157,9 @@ public partial class ContentControlProperties : UserControl
             contentControl.VerticalContentAlignment = VerticalAlignment.Stretch;
             SetVerticalContentAlignment(VerticalAlignment.Stretch);
             
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Stretch");
+                mainViewModel.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Stretch");
             }
         }
     }

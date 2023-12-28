@@ -39,7 +39,9 @@ public class XamlWriter
                 sb.Append(' ');
             }
 
-            sb.Append("xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"");
+            // TODO:
+            // sb.Append("xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"");
+            sb.Append("xmlns:boundsDemo=\"clr-namespace:BoundsDemo\"");
         }
 
         var hasObjectProperties = xamlItem.Properties.Any(x => x.Value is not StringXamlValue);
@@ -78,7 +80,8 @@ public class XamlWriter
 
         // TODO: Use x:Uid instead of Tag
         // sb.Append("x:Uid");
-        sb.Append("Tag");
+        // sb.Append("Tag");
+        sb.Append("boundsDemo:XamlItemProperties.Uid");
         sb.Append('=');
         sb.Append('"');
         sb.Append(xamlItem.Id);

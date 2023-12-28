@@ -43,15 +43,15 @@ public partial class EditorCanvasView : UserControl
     {
         base.OnAttachedToVisualTree(e);
 
-        if (DataContext is ToolBoxViewModel toolBoxViewModel)
+        if (DataContext is MainViewViewModel mainViewModel)
         {
-            Demo(toolBoxViewModel);
+            Demo(mainViewModel);
         }
     }
 
-    private void Demo(ToolBoxViewModel toolBoxViewModel)
+    private void Demo(MainViewViewModel mainViewViewModel)
     {
-        var control = toolBoxViewModel.Demo();
+        var control = mainViewViewModel.Demo();
 
         RootPanel.Children.Add(control);
     }
@@ -106,8 +106,8 @@ public partial class EditorCanvasView : UserControl
             descendants.AddRange(interactive.GetLogicalDescendants().Cast<Visual>());
         }
 
-        var toolBoxViewModel = DataContext as ToolBoxViewModel;
-        if (toolBoxViewModel is null)
+        var mainViewModel = DataContext as MainViewViewModel;
+        if (mainViewModel is null)
         {
             return Enumerable.Empty<Visual>();
         }
@@ -116,7 +116,7 @@ public partial class EditorCanvasView : UserControl
             .OfType<Control>()
             .Where(visual =>
             {
-                if (!toolBoxViewModel.TryGetXamlItem(visual, out _))
+                if (!mainViewModel.TryGetXamlItem(visual, out _))
                 {
                     return false;
                 }

@@ -5,15 +5,16 @@ using System.Text;
 using System.Text.Json;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.VisualTree;
 
 namespace BoundsDemo;
 
-public class ToolBoxViewModel
+public class MainViewViewModel
 {
     private readonly Dictionary<Control, XamlItem> _controlsDictionary;
     private readonly XamlItemIdManager _idManager;
 
-    public ToolBoxViewModel()
+    public MainViewViewModel()
     {
         _controlsDictionary = new Dictionary<Control, XamlItem>();
         _idManager = new XamlItemIdManager();
@@ -305,6 +306,33 @@ public class ToolBoxViewModel
         OnControlRemoved();
     }
 
+    public void AddControls(Control control, XamlItem xamlItem)
+    {
+        var xamlItemsMap = xamlItem
+            .GetSelfAndChildren()
+            .ToDictionary(x => x.Id, x => x);
+
+        var controlsMap = control
+            .GetSelfAndVisualDescendants()
+            .Where(x => x is Control)
+            .Cast<Control>()
+            .Select(x => new 
+            {
+                Uid = XamlItemProperties.GetUid(x), 
+                Control = x
+            })
+            .Where(x => x.Uid is not null)
+            .ToDictionary(x => x.Uid, x => x.Control);
+
+        foreach (var kvpXamlItem in xamlItemsMap)
+        {
+            if (controlsMap.TryGetValue(kvpXamlItem.Key, out var controlValue))
+            {
+                AddControl(controlValue, kvpXamlItem.Value);
+            }
+        }
+    }
+
     public bool TryGetXamlItem(Control control, out XamlItem? xamlItem)
     {
         return _controlsDictionary.TryGetValue(control, out xamlItem);
@@ -384,10 +412,15 @@ public class ToolBoxViewModel
 
         var control = XamlItemControlFactory.CreateControl(xamlItem, isRoot: true, writeUid: true);
 
-        RootXamlItem = xamlItem;
-            
-        AddControl(control, xamlItem);
+        if (control is not null)
+        {
+            RootXamlItem = xamlItem;
 
+            AddControls(control, xamlItem);
+
+            // AddControl(control, xamlItem);
+        }
+        
         return control;
     }
 

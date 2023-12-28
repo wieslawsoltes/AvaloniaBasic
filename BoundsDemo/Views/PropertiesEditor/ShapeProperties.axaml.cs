@@ -94,9 +94,9 @@ public partial class ShapeProperties : UserControl
 
                     SetFill(color);
 
-                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        toolBoxViewModel.UpdatePropertyValue(shape, "Fill", text);
+                        mainViewModel.UpdatePropertyValue(shape, "Fill", text);
                     }
                 }
                 catch (Exception)
@@ -127,9 +127,9 @@ public partial class ShapeProperties : UserControl
 
                 SetFill(color);
 
-                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    toolBoxViewModel.UpdatePropertyValue(shape, "Fill", color.ToString());
+                    mainViewModel.UpdatePropertyValue(shape, "Fill", color.ToString());
                 }
             }
             catch (Exception)
@@ -162,9 +162,9 @@ public partial class ShapeProperties : UserControl
 
                     SetStroke(color);
 
-                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        toolBoxViewModel.UpdatePropertyValue(shape, "Stroke", text);
+                        mainViewModel.UpdatePropertyValue(shape, "Stroke", text);
                     }
                 }
                 catch (Exception)
@@ -193,9 +193,9 @@ public partial class ShapeProperties : UserControl
 
                 SetStroke(color);
 
-                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    toolBoxViewModel.UpdatePropertyValue(shape, "Stroke", color.ToString());
+                    mainViewModel.UpdatePropertyValue(shape, "Stroke", color.ToString());
                 }
             }
             catch (Exception)

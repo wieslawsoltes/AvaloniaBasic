@@ -97,9 +97,9 @@ public partial class TextBlockProperties : UserControl
             textBlock.TextAlignment = TextAlignment.Left;
             SetTextAlignment(TextAlignment.Left);
 
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Left");
+                mainViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Left");
             }
         }
     }
@@ -111,9 +111,9 @@ public partial class TextBlockProperties : UserControl
             textBlock.TextAlignment = TextAlignment.Center;
             SetTextAlignment(TextAlignment.Center);
 
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Center");
+                mainViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Center");
             }
         }
     }
@@ -125,9 +125,9 @@ public partial class TextBlockProperties : UserControl
             textBlock.TextAlignment = TextAlignment.Right;
             SetTextAlignment(TextAlignment.Right);
             
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Right");
+                mainViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Right");
             }
         }
     }
@@ -139,9 +139,9 @@ public partial class TextBlockProperties : UserControl
             textBlock.TextAlignment = TextAlignment.Justify;
             SetTextAlignment(TextAlignment.Justify);
             
-            if (DataContext is ToolBoxViewModel toolBoxViewModel)
+            if (DataContext is MainViewViewModel mainViewModel)
             {
-                toolBoxViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Justify");
+                mainViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Justify");
             }
         }
     }
@@ -164,9 +164,9 @@ public partial class TextBlockProperties : UserControl
                 {
                     textBlock.Text = text;
             
-                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        toolBoxViewModel.UpdatePropertyValue(textBlock, "Text", text);
+                        mainViewModel.UpdatePropertyValue(textBlock, "Text", text);
                     }
                 }
                 catch (Exception)
@@ -200,9 +200,9 @@ public partial class TextBlockProperties : UserControl
 
                     SetBackground(color);
             
-                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        toolBoxViewModel.UpdatePropertyValue(textBlock, "Background", text);
+                        mainViewModel.UpdatePropertyValue(textBlock, "Background", text);
                     }
                 }
                 catch (Exception)
@@ -233,9 +233,9 @@ public partial class TextBlockProperties : UserControl
 
                 SetBackground(color);
             
-                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    toolBoxViewModel.UpdatePropertyValue(textBlock, "Background", color.ToString());
+                    mainViewModel.UpdatePropertyValue(textBlock, "Background", color.ToString());
                 }
             }
             catch (Exception)
@@ -268,9 +268,9 @@ public partial class TextBlockProperties : UserControl
 
                     SetForeground(color);
             
-                    if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                    if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        toolBoxViewModel.UpdatePropertyValue(textBlock, "Foreground", text);
+                        mainViewModel.UpdatePropertyValue(textBlock, "Foreground", text);
                     }
                 }
                 catch (Exception)
@@ -299,9 +299,9 @@ public partial class TextBlockProperties : UserControl
 
                 SetForeground(color);
             
-                if (DataContext is ToolBoxViewModel toolBoxViewModel)
+                if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    toolBoxViewModel.UpdatePropertyValue(textBlock, "Foreground", color.ToString());
+                    mainViewModel.UpdatePropertyValue(textBlock, "Foreground", color.ToString());
                 }
             }
             catch (Exception)
