@@ -19,8 +19,8 @@
                        Grid.Column="0"
                        Grid.ColumnSpan="5"
                        Grid.Row="0">
-      <DockPanel Background="#2C2C2C">
-        <DockPanel.Styles>
+      <Panel Background="#2C2C2C">
+        <Panel.Styles>
           <Style Selector="Button">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Margin" Value="0" />
@@ -40,31 +40,47 @@
             <Setter Property="Height" Value="18" />
             <Setter Property="Margin" Value="0" />
           </Style>
-        </DockPanel.Styles>
-        <Button Command="{Binding NewCommand}"
-                ToolTip.Tip="New"
-                DockPanel.Dock="Left">
-          <Svg Path="/Assets/Icons/Dark/ic_fluent_document_24_regular.svg" />
-        </Button>
-        <Separator DockPanel.Dock="Left" />
-        <Button Command="{Binding OpenCommand}"
-                ToolTip.Tip="Open"
-                DockPanel.Dock="Left">
-          <Svg Path="/Assets/Icons/Dark/ic_fluent_open_24_regular.svg" />
-        </Button>
-        <Separator DockPanel.Dock="Left" />
-        <Button Command="{Binding SaveCommand}"
-                ToolTip.Tip="Save"
-                DockPanel.Dock="Left">
-          <Svg Path="/Assets/Icons/Dark/ic_fluent_save_24_regular.svg" />
-        </Button>
-        <Separator DockPanel.Dock="Left" />
-        <Button Command="{Binding CodeCommand}"
-                ToolTip.Tip="Copy Xaml"
-                DockPanel.Dock="Left">
-          <Svg Path="/Assets/Icons/Dark/ic_fluent_code_24_regular.svg" />
-        </Button>
-      </DockPanel>
+        </Panel.Styles>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Left">
+          <Button Command="{Binding NewCommand}"
+                  ToolTip.Tip="New">
+            <Svg Path="/Assets/Icons/Dark/ic_fluent_document_24_regular.svg" />
+          </Button>
+          <Separator />
+          <Button Command="{Binding OpenCommand}"
+                  ToolTip.Tip="Open">
+            <Svg Path="/Assets/Icons/Dark/ic_fluent_open_24_regular.svg" />
+          </Button>
+          <Separator />
+          <Button Command="{Binding SaveCommand}"
+                  ToolTip.Tip="Save">
+            <Svg Path="/Assets/Icons/Dark/ic_fluent_save_24_regular.svg" />
+          </Button>
+          <Separator />
+          <Button Command="{Binding CodeCommand}"
+                  ToolTip.Tip="Copy Xaml">
+            <Svg Path="/Assets/Icons/Dark/ic_fluent_code_24_regular.svg" />
+          </Button>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+          <Button Command="{Binding PlayCommand}"
+                  IsVisible="{Binding !IsPlaying}"
+                  ToolTip.Tip="Play">
+            <Svg Path="/Assets/Icons/Dark/ic_fluent_play_24_regular.svg" />
+          </Button>
+          <Button Command="{Binding StopCommand}"
+                  IsVisible="{Binding IsPlaying}"
+                  ToolTip.Tip="Stop"
+                  HorizontalAlignment="Center">
+            <Svg Path="/Assets/Icons/Dark/ic_fluent_stop_24_regular.svg" />
+          </Button>
+        </StackPanel>
+
+      </Panel>
     </ThemeVariantScope>
 
       <TabControl Padding="0"

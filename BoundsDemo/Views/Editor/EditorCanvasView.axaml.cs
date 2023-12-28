@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -37,6 +38,15 @@ public partial class EditorCanvasView : UserControl
         AddHandler(PointerCaptureLostEvent, OnPointerCaptureLost, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
 
         Focusable = true;
+
+        RootPanel.GetObservable(Panel.IsHitTestVisibleProperty).Subscribe(new AnonymousObserver<bool>(x =>
+        {
+            if (OverlayView is not null)
+            {
+                OverlayView.Hover(null);
+                OverlayView.Select(null);
+            }
+        }));
     }
 
     public void AddRoot(Control control)
@@ -62,6 +72,11 @@ public partial class EditorCanvasView : UserControl
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
+        if (RootPanel.IsHitTestVisible)
+        {
+            return;
+        }
+
         if (e.Source is LightDismissOverlayLayer)
         {
             return;
@@ -75,6 +90,11 @@ public partial class EditorCanvasView : UserControl
 
     private void OnPointerMoved(object? sender, PointerEventArgs e)
     {
+        if (RootPanel.IsHitTestVisible)
+        {
+            return;
+        }
+
         var visuals = HitTest(this, e.GetPosition(null), OverlayView.HitTestMode, _ignored);
 
         OverlayView.Hover(visuals.FirstOrDefault());
@@ -82,11 +102,21 @@ public partial class EditorCanvasView : UserControl
 
     private void OnPointerExited(object? sender, PointerEventArgs e)
     {
+        if (RootPanel.IsHitTestVisible)
+        {
+            return;
+        }
+
         OverlayView.Hover(null);
     }
 
     private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
+        if (RootPanel.IsHitTestVisible)
+        {
+            return;
+        }
+
         OverlayView.Hover(null);
     }
 

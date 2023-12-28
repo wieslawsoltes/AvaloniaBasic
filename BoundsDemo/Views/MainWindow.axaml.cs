@@ -118,6 +118,8 @@ public partial class MainWindow : Window
                 break;
             case Key.H:
                 EditorCanvas.RootPanel.IsHitTestVisible = !EditorCanvas.RootPanel.IsHitTestVisible;
+                OverlayView.Hover(null);
+                OverlayView.Select(null);
                 break;
             case Key.R:
                 EditorCanvas.ReverseOrder = !EditorCanvas.ReverseOrder;

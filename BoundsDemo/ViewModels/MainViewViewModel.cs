@@ -11,10 +11,11 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace BoundsDemo;
 
-public class MainViewViewModel
+public class MainViewViewModel : ReactiveObject
 {
     private readonly EditorCanvasView _editorCanvas;
     private readonly ApplicationService _applicationService;
@@ -32,6 +33,8 @@ public class MainViewViewModel
         OpenCommand = ReactiveCommand.CreateFromTask(OpenAsync);
         SaveCommand = ReactiveCommand.CreateFromTask(SaveAsync);
         CodeCommand = ReactiveCommand.CreateFromTask(CodeAsync);
+        PlayCommand = ReactiveCommand.Create(Play);
+        StopCommand = ReactiveCommand.Create(Stop);
 
         ToolBoxItems = new List<XamlItem>
         {
@@ -276,6 +279,12 @@ public class MainViewViewModel
     public ICommand SaveCommand { get; }
 
     public ICommand CodeCommand { get; }
+
+    public ICommand PlayCommand { get; }
+
+    public ICommand StopCommand { get; }
+
+    [Reactive] public bool IsPlaying { get; set; }
 
     public event EventHandler<EventArgs>? HoveredChanged;
 
@@ -558,5 +567,17 @@ public class MainViewViewModel
         });
 
         await _applicationService.SetClipboardTextAsync(xaml);
+    }
+
+    private void Play()
+    {
+        IsPlaying = true;
+        _editorCanvas.RootPanel.IsHitTestVisible = true;
+    }
+
+    private void Stop()
+    {
+        IsPlaying = false;
+        _editorCanvas.RootPanel.IsHitTestVisible = false;
     }
 }
