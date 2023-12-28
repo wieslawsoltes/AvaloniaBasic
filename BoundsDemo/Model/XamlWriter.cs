@@ -27,7 +27,7 @@ public class XamlWriter
             sb.Append("xmlns=\"https://github.com/avaloniaui\"");
         }
 
-        if (writeUid)
+        if (writeXmlns && writeUid)
         {
             if (writeAttributesOnNewLine)
             {
