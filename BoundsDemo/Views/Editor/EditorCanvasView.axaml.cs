@@ -39,21 +39,25 @@ public partial class EditorCanvasView : UserControl
         Focusable = true;
     }
 
+    public void AddRoot(Control control)
+    {
+        RootPanel.Children.Clear();
+        RootPanel.Children.Add(control);
+    }
+
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
 
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            Demo(mainViewModel);
+            var control = mainViewModel.Demo();
+
+            if (control is not null)
+            {
+                AddRoot(control);
+            }
         }
-    }
-
-    private void Demo(MainViewViewModel mainViewViewModel)
-    {
-        var control = mainViewViewModel.Demo();
-
-        RootPanel.Children.Add(control);
     }
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
