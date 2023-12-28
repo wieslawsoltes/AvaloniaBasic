@@ -28,7 +28,7 @@ public partial class MainWindow : Window
 
         LayersTreeView.SelectionChanged += LayersTreeViewOnSelectionChanged;
 
-        _mainViewViewModel = new MainViewViewModel();
+        _mainViewViewModel = new MainViewViewModel(EditorCanvas);
         _mainViewViewModel.ControlAdded += MainViewViewModelOnControlAdded;
         _mainViewViewModel.ControlRemoved += MainViewViewModelOnControlRemoved;
         _mainViewViewModel.SelectedChanged += MainViewViewModelOnSelectedChanged;
