@@ -1,11 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Threading;
 using Avalonia.VisualTree;
+using ReactiveUI;
 
 namespace BoundsDemo;
 
@@ -22,6 +27,11 @@ public class MainViewViewModel
         _applicationService = new ApplicationService();
         _controlsDictionary = new Dictionary<Control, XamlItem>();
         _idManager = new XamlItemIdManager();
+
+        NewCommand = ReactiveCommand.Create(New);
+        OpenCommand = ReactiveCommand.CreateFromTask(OpenAsync);
+        SaveCommand = ReactiveCommand.CreateFromTask(SaveAsync);
+        CodeCommand = ReactiveCommand.CreateFromTask(CodeAsync);
 
         ToolBoxItems = new List<XamlItem>
         {
@@ -259,6 +269,14 @@ public class MainViewViewModel
         };
     }
 
+    public ICommand NewCommand { get; }
+
+    public ICommand OpenCommand { get; }
+    
+    public ICommand SaveCommand { get; }
+
+    public ICommand CodeCommand { get; }
+
     public event EventHandler<EventArgs>? HoveredChanged;
 
     public event EventHandler<EventArgs>? SelectedChanged;
@@ -310,6 +328,11 @@ public class MainViewViewModel
         OnControlRemoved();
     }
 
+    public void CleanControls()
+    {
+        _controlsDictionary.Clear();
+    }
+    
     public void AddControls(Control control, XamlItem xamlItem)
     {
         var xamlItemsMap = xamlItem
@@ -392,7 +415,6 @@ public class MainViewViewModel
         Console.Clear();
         Console.WriteLine(xaml);
 
-        
         var json = SerializeXamlItem(xamlItem);
         Console.WriteLine(json);
 
@@ -400,7 +422,7 @@ public class MainViewViewModel
         
     }
 
-    public Control Demo()
+    public Control? Demo()
     {
         var xamlItem = new XamlItem(name: "StackPanel",
             id: _idManager.GetNewId(),
@@ -414,17 +436,26 @@ public class MainViewViewModel
             contentProperty: "Children", 
             childrenProperty: "Children");
 
+        return Load(xamlItem);
+    }
+
+    private Control? Load(XamlItem xamlItem)
+    {
         var control = XamlItemControlFactory.CreateControl(xamlItem, isRoot: true, writeUid: true);
 
-        if (control is not null)
+        if (control is null)
         {
-            RootXamlItem = xamlItem;
-
-            AddControls(control, xamlItem);
-
-            // AddControl(control, xamlItem);
+            return null;
         }
-        
+
+        CleanControls();
+
+        RootXamlItem = xamlItem;
+
+        AddControls(control, xamlItem);
+
+        // AddControl(control, xamlItem);
+
         return control;
     }
 
@@ -451,5 +482,81 @@ public class MainViewViewModel
     protected virtual void OnPropertyValueChanged()
     {
         PropertyValueChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void New()
+    {
+        var control = Demo();
+        if (control is not null)
+        {
+            _editorCanvas.AddRoot(control);
+        }
+    }
+
+    private async Task OpenAsync()
+    {
+        await _applicationService.OpenFileAsync(
+            OpenCallbackAsync, 
+            new List<string>(new[] { "Json", "All" }), 
+            "Open");
+    }
+
+    private async Task OpenCallbackAsync(Stream stream)
+    {
+        var xamlItem = await JsonSerializer.DeserializeAsync(
+            stream, 
+            XamlItemJsonContext.s_instance.XamlItem);
+        if (xamlItem is { })
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                var control = Load(xamlItem);
+                if (control is not null)
+                {
+                    _editorCanvas.AddRoot(control);
+                }
+            });
+        }
+    }
+    private async Task SaveAsync()
+    {
+        await _applicationService.SaveFileAsync(
+            SaveCallbackAsync, 
+            new List<string>(new[] { "Json", "All" }), 
+            "Save", 
+            "form", 
+            "json");
+    }
+    
+    private async Task SaveCallbackAsync(Stream stream)
+    {
+        if (RootXamlItem is null)
+        {
+            return;
+        }
+
+        await JsonSerializer.SerializeAsync(
+            stream, 
+            RootXamlItem, 
+            XamlItemJsonContext.s_instance.XamlItem);
+    }
+
+    private async Task CodeAsync()
+    {
+        if (RootXamlItem is null)
+        {
+            return;
+        }
+
+        var xaml = await Task.Run(() =>
+        {
+            var sb = new StringBuilder();
+
+            XamlWriter.WriteXaml(RootXamlItem, writeXmlns: false, writeUid: false, sb, level: 0);
+
+            return sb.ToString();
+        });
+
+        await _applicationService.SetClipboardTextAsync(xaml);
     }
 }

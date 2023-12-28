@@ -12,10 +12,64 @@
         Title="Form Builder">
   <Panel>
 
-    <Grid ColumnDefinitions="220,0.5,*,0.5,220">
+    <Grid ColumnDefinitions="220,0.5,*,0.5,220"
+          RowDefinitions="50,*">
+
+    <ThemeVariantScope RequestedThemeVariant="Dark"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="5"
+                       Grid.Row="0">
+      <DockPanel Background="#2C2C2C">
+        <DockPanel.Styles>
+          <Style Selector="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Width" Value="47" />
+            <Setter Property="Height" Value="47" />
+          </Style>
+          <Style Selector="Button > Svg">
+            <Setter Property="Width" Value="24" />
+            <Setter Property="Height" Value="24" />
+          </Style>
+          <Style Selector="Separator">
+            <Setter Property="Opacity" Value="0.6" />
+            <Setter Property="Width" Value="0.5" />
+            <Setter Property="Height" Value="18" />
+            <Setter Property="Margin" Value="0" />
+          </Style>
+        </DockPanel.Styles>
+        <Button Command="{Binding NewCommand}"
+                ToolTip.Tip="New"
+                DockPanel.Dock="Left">
+          <Svg Path="/Assets/Icons/Dark/ic_fluent_document_24_regular.svg" />
+        </Button>
+        <Separator DockPanel.Dock="Left" />
+        <Button Command="{Binding OpenCommand}"
+                ToolTip.Tip="Open"
+                DockPanel.Dock="Left">
+          <Svg Path="/Assets/Icons/Dark/ic_fluent_open_24_regular.svg" />
+        </Button>
+        <Separator DockPanel.Dock="Left" />
+        <Button Command="{Binding SaveCommand}"
+                ToolTip.Tip="Save"
+                DockPanel.Dock="Left">
+          <Svg Path="/Assets/Icons/Dark/ic_fluent_save_24_regular.svg" />
+        </Button>
+        <Separator DockPanel.Dock="Left" />
+        <Button Command="{Binding CodeCommand}"
+                ToolTip.Tip="Copy Xaml"
+                DockPanel.Dock="Left">
+          <Svg Path="/Assets/Icons/Dark/ic_fluent_code_24_regular.svg" />
+        </Button>
+      </DockPanel>
+    </ThemeVariantScope>
 
       <TabControl Padding="0"
-                  Grid.Column="0">
+                  Grid.Column="0"
+                  Grid.Row="1">
         <TabControl.Effect>
           <!-- <BlurEffect Radius="4" /> -->
           <!-- <DropShadowEffect Color="Red" Opacity="0.4" OffsetX="4" OffsetY="4" /> -->
@@ -73,18 +127,24 @@
 
       </TabControl>
       
-      <Separator Grid.Column="1" Opacity="0.6" Width="0.5" Height="NaN" Margin="0" />
+      <Separator Grid.Column="1"
+                 Grid.Row="1" 
+                 Opacity="0.6" Width="0.5" Height="NaN" Margin="0" />
 
       <c:EditorCanvasView Name="EditorCanvas"
                           OverlayView="{Binding #OverlayView}" 
                           Grid.Column="2"
+                          Grid.Row="1"
                           Background="Transparent" />
 
-      <Separator Grid.Column="3" Opacity="0.6" Width="0.5" Height="NaN" Margin="0" />
+      <Separator Grid.Column="3" 
+                 Grid.Row="1"
+                 Opacity="0.6" Width="0.5" Height="NaN" Margin="0" />
 
       <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto"
-                    Grid.Column="4">
+                    Grid.Column="4"
+                    Grid.Row="1">
         <c:PropertiesEditorView Name="PropertiesEditor" />
       </ScrollViewer>
 
