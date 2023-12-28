@@ -12,6 +12,7 @@ namespace BoundsDemo;
 public class MainViewViewModel
 {
     private readonly EditorCanvasView _editorCanvas;
+    private readonly ApplicationService _applicationService;
     private readonly Dictionary<Control, XamlItem> _controlsDictionary;
     private readonly XamlItemIdManager _idManager;
 
@@ -19,6 +20,7 @@ public class MainViewViewModel
     public MainViewViewModel(EditorCanvasView editorCanvas)
     {
         _editorCanvas = editorCanvas;
+        _applicationService = new ApplicationService();
         _controlsDictionary = new Dictionary<Control, XamlItem>();
         _idManager = new XamlItemIdManager();
 
