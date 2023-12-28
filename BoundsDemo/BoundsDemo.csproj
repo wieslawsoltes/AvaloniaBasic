@@ -21,5 +21,6 @@
     <PackageReference Include="Avalonia.Svg.Skia" Version="11.0.0.9" />
     <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.0.6" />
     <PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="11.0.6" />
+    <PackageReference Include="ReactiveUI.Fody" Version="19.5.31" />
   </ItemGroup>
 </Project>
