@@ -512,7 +512,7 @@ public class MainViewViewModel : ReactiveObject
         var control = Demo();
         if (control is not null)
         {
-            _editorCanvas.AddRoot(control);
+            _editorCanvas._canvasViewModel.AddRoot(control);
         }
     }
 
@@ -536,7 +536,7 @@ public class MainViewViewModel : ReactiveObject
                 var control = LoadForDesign(xamlItem);
                 if (control is not null)
                 {
-                    _editorCanvas.AddRoot(control);
+                    _editorCanvas._canvasViewModel.AddRoot(control);
                 }
             });
         }

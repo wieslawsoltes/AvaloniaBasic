@@ -122,9 +122,9 @@ public partial class MainWindow : Window
                 OverlayView.Select(null);
                 break;
             case Key.R:
-                EditorCanvas.ReverseOrder = !EditorCanvas.ReverseOrder;
-                OverlayView.Hover(null);
-                OverlayView.Select(null);
+                // EditorCanvas.ReverseOrder = !EditorCanvas.ReverseOrder;
+                // OverlayView.Hover(null);
+                // OverlayView.Select(null);
                 break;
             case Key.Delete:
             case Key.Back:
@@ -133,11 +133,6 @@ public partial class MainWindow : Window
                 {
                     OverlayView.Hover(null);
                     OverlayView.Select(null);
-
-                    // TODO:
-                    //EditorCanvas.EditablePanel.Children.Remove(control);
-
-                    // TODO:
                     _mainViewViewModel.RemoveControl(control);
                 }
                 break;
