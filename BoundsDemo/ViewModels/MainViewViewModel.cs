@@ -244,7 +244,11 @@ public class MainViewViewModel : ReactiveObject
                 childrenProperty: "Items"),
             new(name: "TabItem", 
                 id: _idManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new Dictionary<string, XamlValue>
+                {
+                    ["Content"] = (XamlValue) "TabItem",
+                    ["Header"] = (XamlValue) "TabItem"
+                },
                 contentProperty: "Content", 
                 childrenProperty: null),
             //
@@ -500,7 +504,7 @@ public class MainViewViewModel : ReactiveObject
             {
                 ["Children"] = (XamlValue) new List<XamlItem>(),
                 ["Background"] = (XamlValue) "White",
-                ["Width"] = (XamlValue) "350",
+                ["Width"] = (XamlValue) "450",
                 ["Height"] = (XamlValue) "500",
             },
             contentProperty: "Children", 
