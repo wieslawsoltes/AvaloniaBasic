@@ -527,6 +527,7 @@ public class MainViewViewModel : ReactiveObject
             });
         }
     }
+
     private async Task SaveAsync()
     {
         await _applicationService.SaveFileAsync(
