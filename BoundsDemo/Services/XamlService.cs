@@ -3,95 +3,105 @@ using System.Text;
 
 namespace BoundsDemo;
 
+public readonly record struct XamlServiceSettings(
+    StringBuilder Writer,
+    string Namespace,
+    bool WriteXmlns, 
+    bool WriteUid, 
+    int Level, 
+    bool WriteAttributesOnNewLine);
+
 public class XamlService
 {
-    public static void WriteXaml(XamlItem xamlItem, bool writeXmlns, bool writeUid, StringBuilder sb, int level, bool writeAttributesOnNewLine = false)
+    public static void WriteXaml(XamlItem xamlItem, XamlServiceSettings settings)
     {
-        sb.Append(new string(' ', level));
-        sb.Append('<');
-        sb.Append(xamlItem.Name);
+        settings.Writer.Append(new string(' ', settings.Level));
+        settings.Writer.Append('<');
+        settings.Writer.Append(xamlItem.Name);
 
-        if (writeXmlns)
+        if (settings.WriteXmlns)
         {
-            if (writeAttributesOnNewLine)
+            if (settings.WriteAttributesOnNewLine)
             {
-                sb.AppendLine();
-                sb.Append(new string(' ', level + 2));
+                settings.Writer.AppendLine();
+                settings.Writer.Append(new string(' ', settings.Level + 2));
             }
             else
             {
-                sb.Append(' ');
+                settings.Writer.Append(' ');
             }
 
-            sb.Append("xmlns=\"https://github.com/avaloniaui\"");
+            settings.Writer.Append("xmlns=\"");
+            settings.Writer.Append(settings.Namespace);
+            settings.Writer.Append('"');
         }
 
-        if (writeXmlns && writeUid)
+        if (settings.WriteXmlns && settings.WriteUid)
         {
-            if (writeAttributesOnNewLine)
+            if (settings.WriteAttributesOnNewLine)
             {
-                sb.AppendLine();
-                sb.Append(new string(' ', level + 2));
+                settings.Writer.AppendLine();
+                settings.Writer.Append(new string(' ', settings.Level + 2));
             }
             else
             {
-                sb.Append(' ');
+                settings.Writer.Append(' ');
             }
 
             // TODO:
-            // sb.Append("xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"");
-            sb.Append("xmlns:boundsDemo=\"clr-namespace:BoundsDemo\"");
+            // settings.Writer.Append("xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"");
+            settings.Writer.Append("xmlns:boundsDemo=\"clr-namespace:BoundsDemo\"");
         }
 
         var hasObjectProperties = xamlItem.Properties.Any(x => x.Value is not StringXamlValue);
 
-        WriteAttributeProperties(xamlItem, sb, level, writeUid, writeAttributesOnNewLine);
+        WriteAttributeProperties(xamlItem, settings);
 
         if (hasObjectProperties)
         {
-            sb.Append('>');
+            settings.Writer.Append('>');
 
-            WriteObjectProperties(xamlItem, sb, level, writeUid);
+            WriteObjectProperties(xamlItem, settings);
 
-            sb.AppendLine();
-            sb.Append(new string(' ', level));
-            sb.Append("</");
-            sb.Append(xamlItem.Name);
-            sb.Append('>');
+            settings.Writer.AppendLine();
+            settings.Writer.Append(new string(' ', settings.Level));
+            settings.Writer.Append("</");
+            settings.Writer.Append(xamlItem.Name);
+            settings.Writer.Append('>');
         }
         else
         {
-            sb.Append("/>");
+            settings.Writer.Append("/>");
         }
     }
 
-    private static void WriteUidAttribute(XamlItem xamlItem, StringBuilder sb, int level, bool writeAttributesOnNewLine)
+    private static void WriteUidAttribute(XamlItem xamlItem, XamlServiceSettings settings)
     {
-        if (writeAttributesOnNewLine)
+        if (settings.WriteAttributesOnNewLine)
         {
-            sb.AppendLine();
-            sb.Append(new string(' ', level + 2));
+            settings.Writer.AppendLine();
+            settings.Writer.Append(new string(' ', settings.Level + 2));
         }
         else
         {
-            sb.Append(' ');
+            settings.Writer.Append(' ');
         }
 
         // TODO: Use x:Uid instead of Tag
-        // sb.Append("x:Uid");
-        // sb.Append("Tag");
-        sb.Append("boundsDemo:XamlItemProperties.Uid");
-        sb.Append('=');
-        sb.Append('"');
-        sb.Append(xamlItem.Id);
-        sb.Append('"');
+        // settings.Writer.Append("x:Uid");
+        // settings.Writer.Append("Tag");
+        settings.Writer.Append("boundsDemo:XamlItemProperties.Uid");
+        settings.Writer.Append('=');
+        settings.Writer.Append('"');
+        settings.Writer.Append(xamlItem.Id);
+        settings.Writer.Append('"');
     }
 
-    private static void WriteAttributeProperties(XamlItem xamlItem, StringBuilder sb, int level, bool writeUid, bool writeAttributesOnNewLine)
+    private static void WriteAttributeProperties(XamlItem xamlItem, XamlServiceSettings settings)
     {
-        if (writeUid)
+        if (settings.WriteUid)
         {
-            WriteUidAttribute(xamlItem, sb, level, writeAttributesOnNewLine);
+            WriteUidAttribute(xamlItem, settings);
         }
 
         foreach (var property in xamlItem.Properties.Where(x => x.Value is StringXamlValue))
@@ -101,43 +111,53 @@ public class XamlService
                 continue;
             }
             
-            if (writeAttributesOnNewLine)
+            if (settings.WriteAttributesOnNewLine)
             {
-                sb.AppendLine();
-                sb.Append(new string(' ', level + 2));
+                settings.Writer.AppendLine();
+                settings.Writer.Append(new string(' ', settings.Level + 2));
             }
             else
             {
-                sb.Append(' ');
+                settings.Writer.Append(' ');
             }
 
-            sb.Append(property.Key);
-            sb.Append('=');
-            sb.Append('"');
-            sb.Append(stringXamlValue.Value);
-            sb.Append('"');
+            settings.Writer.Append(property.Key);
+            settings.Writer.Append('=');
+            settings.Writer.Append('"');
+            settings.Writer.Append(stringXamlValue.Value);
+            settings.Writer.Append('"');
         }
     }
 
-    private static void WritePropertyValue(StringBuilder sb, int level, XamlValue value, bool writeUid)
+    private static void WritePropertyValue(XamlValue value, XamlServiceSettings settings)
     {
         switch (value)
         {
             case XamlItemXamlValue xamlItemXamlValue:
             {
-                sb.AppendLine();
+                if (xamlItemXamlValue.Value is null)
+                {
+                    break;
+                }
 
-                WriteXaml(xamlItemXamlValue.Value, false, writeUid, sb, level + 2);
+                settings.Writer.AppendLine();
+
+                WriteXaml(xamlItemXamlValue.Value, settings with { WriteXmlns = false, Level = settings.Level + 2 });
 
                 break;
             }
             case XamlItemsXamlValue xamlItemsXamlValue:
             {
+                if (xamlItemsXamlValue.Value is null)
+                {
+                    break;
+                }
+
                 foreach (var xamlItem in xamlItemsXamlValue.Value)
                 {
-                    sb.AppendLine();
+                    settings.Writer.AppendLine();
 
-                    WriteXaml(xamlItem, false, writeUid, sb, level + 2);
+                    WriteXaml(xamlItem, settings with { WriteXmlns = false, Level = settings.Level + 2 });
                 }
 
                 break;
@@ -145,7 +165,7 @@ public class XamlService
         }
     }
 
-    private static void WriteObjectProperties(XamlItem xamlItem, StringBuilder sb, int level, bool writeUid)
+    private static void WriteObjectProperties(XamlItem xamlItem, XamlServiceSettings settings)
     {
         var properties = xamlItem.Properties.Where(x => x.Value is not StringXamlValue);
  
@@ -155,26 +175,26 @@ public class XamlService
 
             if (writeContentTag)
             {
-                sb.AppendLine();
-                sb.Append(new string(' ', level));
-                sb.Append('<');
-                sb.Append(xamlItem.Name);
-                sb.Append('.');
-                sb.Append(property.Key);
-                sb.Append('>');
+                settings.Writer.AppendLine();
+                settings.Writer.Append(new string(' ', settings.Level));
+                settings.Writer.Append('<');
+                settings.Writer.Append(xamlItem.Name);
+                settings.Writer.Append('.');
+                settings.Writer.Append(property.Key);
+                settings.Writer.Append('>');
             }
 
-            WritePropertyValue(sb, level, property.Value, writeUid);
+            WritePropertyValue(property.Value, settings);
 
             if (writeContentTag)
             {
-                sb.AppendLine();
-                sb.Append(new string(' ', level));
-                sb.Append("</");
-                sb.Append(xamlItem.Name);
-                sb.Append('.');
-                sb.Append(property.Key);
-                sb.Append('>');
+                settings.Writer.AppendLine();
+                settings.Writer.Append(new string(' ', settings.Level));
+                settings.Writer.Append("</");
+                settings.Writer.Append(xamlItem.Name);
+                settings.Writer.Append('.');
+                settings.Writer.Append(property.Key);
+                settings.Writer.Append('>');
             }
         }
     }

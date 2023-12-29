@@ -418,20 +418,26 @@ public class MainViewViewModel : ReactiveObject
 
     public void Debug(XamlItem xamlItem)
     {
-        var sb = new StringBuilder();
+        var settings = new XamlServiceSettings
+        {
+            Writer = new StringBuilder(),
+            Namespace = "https://github.com/avaloniaui",
+            WriteXmlns = true,
+            WriteUid = false,
+            Level = 0,
+            WriteAttributesOnNewLine = false
+        };
 
-        XamlService.WriteXaml(xamlItem, writeXmlns: true, writeUid: false, sb, level: 0);
+        XamlService.WriteXaml(xamlItem, settings);
 
-        var xaml = sb.ToString();
+        var xaml = settings.Writer.ToString();
 
         Console.Clear();
         Console.WriteLine(xaml);
 
-        var json = SerializeXamlItem(xamlItem);
-        Console.WriteLine(json);
-
-        var newXamlItem = DeserializeXamlItem(json);
-        
+        // var json = SerializeXamlItem(xamlItem);
+        // Console.WriteLine(json);
+        // var newXamlItem = DeserializeXamlItem(json);
     }
 
     public Control? Demo()
@@ -568,11 +574,19 @@ public class MainViewViewModel : ReactiveObject
 
         var xaml = await Task.Run(() =>
         {
-            var sb = new StringBuilder();
+            var settings = new XamlServiceSettings
+            {
+                Writer = new StringBuilder(),
+                Namespace = "https://github.com/avaloniaui",
+                WriteXmlns = false,
+                WriteUid = false,
+                Level = 0,
+                WriteAttributesOnNewLine = false
+            };
 
-            XamlService.WriteXaml(RootXamlItem, writeXmlns: false, writeUid: false, sb, level: 0);
+            XamlService.WriteXaml(RootXamlItem, settings);
 
-            return sb.ToString();
+            return settings.Writer.ToString();
         });
 
         await _applicationService.SetClipboardTextAsync(xaml);

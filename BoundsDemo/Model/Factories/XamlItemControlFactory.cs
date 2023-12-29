@@ -8,11 +8,19 @@ public static class XamlItemControlFactory
 {
     public static Control? CreateControl(XamlItem xamlItem, bool isRoot = true, bool writeUid = false)
     {
-        var sb = new StringBuilder();
+        var settings = new XamlServiceSettings
+        {
+            Writer = new StringBuilder(),
+            Namespace = "https://github.com/avaloniaui",
+            WriteXmlns = isRoot,
+            WriteUid = writeUid,
+            Level = 0,
+            WriteAttributesOnNewLine = false
+        };
 
-        XamlService.WriteXaml(xamlItem, writeXmlns: isRoot, writeUid, sb, level: 0);
+        XamlService.WriteXaml(xamlItem, settings);
 
-        var xaml = sb.ToString();
+        var xaml = settings.Writer.ToString();
 
 #if DEBUG
         // Console.Clear();
