@@ -226,6 +226,18 @@ public class ToolboxViewModel : ReactiveObject
                 mainViewModel.Debug(targetXamlItem);
             }
         }
+        else if (target is ItemsControl itemsControl)
+        {
+            if (targetXamlItem.ChildrenProperty is not null)
+            {
+                itemsControl.Items.Add(control);
+
+                targetXamlItem.TryAddChild(xamlItem);
+                mainViewModel.AddControls(control, xamlItem);
+
+                mainViewModel.Debug(targetXamlItem);
+            }
+        }
         else if (target is ContentControl contentControl)
         {
             if (targetXamlItem.ContentProperty is not null)
