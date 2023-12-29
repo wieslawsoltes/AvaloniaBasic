@@ -59,9 +59,14 @@
             <Svg Path="/Assets/Icons/Dark/ic_fluent_save_24_regular.svg" />
           </Button>
           <Separator />
-          <Button Command="{Binding CodeCommand}"
-                  ToolTip.Tip="Copy Xaml">
+          <Button Command="{Binding CopyAsXamlCommand}"
+                  ToolTip.Tip="Copy as Xaml">
             <Svg Path="/Assets/Icons/Dark/ic_fluent_code_24_regular.svg" />
+          </Button>
+          <Separator />
+          <Button Command="{Binding CopyAsSvgCommand}"
+                  ToolTip.Tip="Copy as Svg">
+            <Svg Path="/Assets/Icons/Dark/ic_fluent_shapes_24_regular.svg" />
           </Button>
         </StackPanel>
 
