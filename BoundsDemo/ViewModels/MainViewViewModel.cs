@@ -420,7 +420,7 @@ public class MainViewViewModel : ReactiveObject
     {
         var sb = new StringBuilder();
 
-        XamlWriter.WriteXaml(xamlItem, writeXmlns: true, writeUid: false, sb, level: 0);
+        XamlService.WriteXaml(xamlItem, writeXmlns: true, writeUid: false, sb, level: 0);
 
         var xaml = sb.ToString();
 
@@ -570,7 +570,7 @@ public class MainViewViewModel : ReactiveObject
         {
             var sb = new StringBuilder();
 
-            XamlWriter.WriteXaml(RootXamlItem, writeXmlns: false, writeUid: false, sb, level: 0);
+            XamlService.WriteXaml(RootXamlItem, writeXmlns: false, writeUid: false, sb, level: 0);
 
             return sb.ToString();
         });

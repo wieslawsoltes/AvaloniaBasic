@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace BoundsDemo;
 
-public class XamlWriter
+public class XamlService
 {
     public static void WriteXaml(XamlItem xamlItem, bool writeXmlns, bool writeUid, StringBuilder sb, int level, bool writeAttributesOnNewLine = false)
     {

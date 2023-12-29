@@ -10,7 +10,7 @@ public static class XamlItemControlFactory
     {
         var sb = new StringBuilder();
 
-        XamlWriter.WriteXaml(xamlItem, writeXmlns: isRoot, writeUid, sb, level: 0);
+        XamlService.WriteXaml(xamlItem, writeXmlns: isRoot, writeUid, sb, level: 0);
 
         var xaml = sb.ToString();
 
