@@ -475,7 +475,7 @@ public class MainViewViewModel : ReactiveObject
         // var newXamlItem = DeserializeXamlItem(json);
     }
 
-    public Control? Demo()
+    public Control? DemoStackPanel()
     {
         var xamlItem = new XamlItem(name: "StackPanel",
             id: _idManager.GetNewId(),
@@ -561,7 +561,7 @@ public class MainViewViewModel : ReactiveObject
 
     private void New()
     {
-        var control = Demo();
+        var control = DemoStackPanel();
         if (control is not null)
         {
             _editorCanvas._canvasViewModel.AddRoot(control);
