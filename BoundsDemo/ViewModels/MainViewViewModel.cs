@@ -202,12 +202,47 @@ public class MainViewViewModel : ReactiveObject
                 properties: new Dictionary<string, XamlValue>(), 
                 contentProperty: "Content", 
                 childrenProperty: null),
+            //
+            //
+            //
             new(name: "ComboBox", 
                 id: _idManager.GetNewId(),
                 properties: new Dictionary<string, XamlValue>(), 
                 contentProperty: "ItemsSource", 
                 childrenProperty: "Items"),
             new(name: "ComboBoxItem", 
+                id: _idManager.GetNewId(),
+                properties: new Dictionary<string, XamlValue>(), 
+                contentProperty: "Content", 
+                childrenProperty: null),
+            //
+            //
+            //
+            new(name: "TabControl",
+                id: _idManager.GetNewId(),
+                properties: new Dictionary<string, XamlValue>
+                {
+                    ["Items"] = (XamlValue) new List<XamlItem>
+                    {
+                        new(name: "TabItem", 
+                            id: _idManager.GetNewId(),
+                            properties: new Dictionary<string, XamlValue>
+                            {
+                                ["Content"] = (XamlValue) "TabItem 0",
+                                ["Header"] = (XamlValue) "TabItem 0"
+                            }),
+                        new(name: "TabItem",
+                            id: _idManager.GetNewId(), 
+                            properties: new Dictionary<string, XamlValue>
+                            {
+                                ["Content"] = (XamlValue) "TabItem 1",
+                                ["Header"] = (XamlValue) "TabItem 1"
+                            }),
+                    }
+                }, 
+                contentProperty: "Items", 
+                childrenProperty: "Items"),
+            new(name: "TabItem", 
                 id: _idManager.GetNewId(),
                 properties: new Dictionary<string, XamlValue>(), 
                 contentProperty: "Content", 
