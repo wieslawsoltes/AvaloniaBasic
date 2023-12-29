@@ -19,39 +19,8 @@ public class XamlService
         settings.Writer.Append('<');
         settings.Writer.Append(xamlItem.Name);
 
-        if (settings.WriteXmlns)
-        {
-            if (settings.WriteAttributesOnNewLine)
-            {
-                settings.Writer.AppendLine();
-                settings.Writer.Append(new string(' ', settings.Level + 2));
-            }
-            else
-            {
-                settings.Writer.Append(' ');
-            }
-
-            settings.Writer.Append("xmlns=\"");
-            settings.Writer.Append(settings.Namespace);
-            settings.Writer.Append('"');
-        }
-
-        if (settings.WriteXmlns && settings.WriteUid)
-        {
-            if (settings.WriteAttributesOnNewLine)
-            {
-                settings.Writer.AppendLine();
-                settings.Writer.Append(new string(' ', settings.Level + 2));
-            }
-            else
-            {
-                settings.Writer.Append(' ');
-            }
-
-            // TODO:
-            // settings.Writer.Append("xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"");
-            settings.Writer.Append("xmlns:boundsDemo=\"clr-namespace:BoundsDemo\"");
-        }
+        WriteRootNamespace(settings);
+        WriteNamespaces(settings);
 
         var hasObjectProperties = xamlItem.Properties.Any(x => x.Value is not StringXamlValue);
 
@@ -73,6 +42,50 @@ public class XamlService
         {
             settings.Writer.Append("/>");
         }
+    }
+
+    private static void WriteRootNamespace(XamlServiceSettings settings)
+    {
+        if (!settings.WriteXmlns)
+        {
+            return;
+        }
+
+        if (settings.WriteAttributesOnNewLine)
+        {
+            settings.Writer.AppendLine();
+            settings.Writer.Append(new string(' ', settings.Level + 2));
+        }
+        else
+        {
+            settings.Writer.Append(' ');
+        }
+
+        settings.Writer.Append("xmlns=\"");
+        settings.Writer.Append(settings.Namespace);
+        settings.Writer.Append('"');
+    }
+
+    private static void WriteNamespaces(XamlServiceSettings settings)
+    {
+        if (!settings.WriteXmlns || !settings.WriteUid)
+        {
+            return;
+        }
+
+        if (settings.WriteAttributesOnNewLine)
+        {
+            settings.Writer.AppendLine();
+            settings.Writer.Append(new string(' ', settings.Level + 2));
+        }
+        else
+        {
+            settings.Writer.Append(' ');
+        }
+
+        // TODO:
+        // settings.Writer.Append("xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"");
+        settings.Writer.Append("xmlns:boundsDemo=\"clr-namespace:BoundsDemo\"");
     }
 
     private static void WriteUidAttribute(XamlItem xamlItem, XamlServiceSettings settings)
