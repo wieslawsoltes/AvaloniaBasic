@@ -52,6 +52,16 @@ public partial class PropertiesEditorView : UserControl
             LayoutableProperties.IsVisible = false;
         }
 
+        if (Selected is Control control && control.Parent is DockPanel)
+        {
+            DockPanelAttachedProperties.UpdateDockPanelAttachedProperties();
+            DockPanelAttachedProperties.IsVisible = true;
+        }
+        else
+        {
+            DockPanelAttachedProperties.IsVisible = false;
+        }
+
         if (Selected is ContentControl)
         {
             ContentControlProperties.UpdateContentControlProperties();

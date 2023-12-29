@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BoundsDemo.DockPanelAttachedProperties">
+
+  <!-- DockPanel Attached -->
+  <StackPanel>
+
+    <TextBlock Text="DockPanel" Margin="12" />
+
+    <!-- DockPanel.Dock -->
+    <Border Margin="6,0,6,0"
+            BorderThickness="0.5"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+      <Border.BorderBrush>
+        <SolidColorBrush Color="{DynamicResource SystemBaseHighColor}" Opacity="0.6" />
+      </Border.BorderBrush>
+      <DockPanel LastChildFill="False">
+
+        <ToggleButton Name="ButtonDockLeft"
+                      Click="ButtonDockLeft_OnClick"
+                      Background="Transparent"
+                      Margin="0"
+                      Padding="4"
+                      ToolTip.Tip="Left"
+                      DockPanel.Dock="Left">
+          <Svg Path="/Assets/Icons/ic_fluent_text_align_left_24_regular.svg"
+               Width="16" Height="16" />
+        </ToggleButton>
+        
+        <ToggleButton Name="ButtonDockRight"
+                      Click="ButtonDockRight_OnClick"
+                      Background="Transparent"
+                      Margin="0"
+                      Padding="4"
+                      ToolTip.Tip="Right"
+                      DockPanel.Dock="Right">
+          <Svg Path="/Assets/Icons/ic_fluent_text_align_right_24_regular.svg"
+               Width="16" Height="16" />
+        </ToggleButton>
+        
+        <ToggleButton Name="ButtonDockTop"
+                      Click="ButtonDockTop_OnClick"
+                      Background="Transparent"
+                      Margin="0"
+                      Padding="4"
+                      ToolTip.Tip="Top"
+                      DockPanel.Dock="Top">
+          <Svg Path="/Assets/Icons/ic_fluent_text_align_center_24_regular.svg"
+               Width="16" Height="16" />
+        </ToggleButton>
+        
+        <ToggleButton Name="ButtonDockBottom"
+                      Click="ButtonDockBottom_OnClick"
+                      Background="Transparent"
+                      Margin="0"
+                      Padding="4"
+                      ToolTip.Tip="Bottom"
+                      DockPanel.Dock="Bottom">
+          <Svg Path="/Assets/Icons/ic_fluent_text_align_center_24_regular.svg"
+               Width="16" Height="16" />
+        </ToggleButton>
+
+        <Panel Width="24" Height="24" />
+
+      </DockPanel>
+    </Border>
+
+  </StackPanel>
+
+</UserControl>
+
