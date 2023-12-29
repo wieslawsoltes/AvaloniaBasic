@@ -26,21 +26,13 @@ public partial class EditorCanvasView : UserControl
     {
         base.OnAttachedToVisualTree(e);
 
-        _canvasViewModel = new CanvasViewModel(this, OverlayView, RootPanel);
-
         Focusable = true;
-
-        RootPanel.GetObservable(Panel.IsHitTestVisibleProperty).Subscribe(new AnonymousObserver<bool>(x =>
-        {
-            if (OverlayView is not null)
-            {
-                OverlayView.Hover(null);
-                OverlayView.Select(null);
-            }
-        }));
 
         if (DataContext is MainViewViewModel mainViewModel)
         {
+            _canvasViewModel = new CanvasViewModel(OverlayView);
+            _canvasViewModel.AttachHost(this, RootPanel);
+
             var control = mainViewModel.Demo();
 
             if (control is not null)
@@ -49,5 +41,12 @@ public partial class EditorCanvasView : UserControl
             }
         }
     }
-}
 
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+
+        _canvasViewModel?.DetachHost();
+        _canvasViewModel = null;
+    }
+}
