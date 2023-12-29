@@ -492,6 +492,23 @@ public class MainViewViewModel : ReactiveObject
         return LoadForDesign(xamlItem);
     }
 
+    public Control? DemoPanelDockPanel()
+    {
+        var xamlItem = new XamlItem(name: "DockPanel",
+            id: _idManager.GetNewId(),
+            properties: new Dictionary<string, XamlValue>
+            {
+                ["Children"] = (XamlValue) new List<XamlItem>(),
+                ["Background"] = (XamlValue) "White",
+                ["Width"] = (XamlValue) "350",
+                ["Height"] = (XamlValue) "500",
+            },
+            contentProperty: "Children", 
+            childrenProperty: "Children");
+
+        return LoadForDesign(xamlItem);
+    }
+
     private Control? LoadForDesign(XamlItem xamlItem)
     {
         var control = XamlItemControlFactory.CreateControl(xamlItem, isRoot: true, writeUid: true);
