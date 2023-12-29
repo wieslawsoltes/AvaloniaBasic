@@ -1,4 +1,3 @@
-using System.Reactive;
 using Avalonia;
 using Avalonia.Controls;
 
