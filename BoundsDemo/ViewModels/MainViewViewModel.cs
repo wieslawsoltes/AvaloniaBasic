@@ -32,7 +32,8 @@ public class MainViewViewModel : ReactiveObject
         NewCommand = ReactiveCommand.Create(New);
         OpenCommand = ReactiveCommand.CreateFromTask(OpenAsync);
         SaveCommand = ReactiveCommand.CreateFromTask(SaveAsync);
-        CodeCommand = ReactiveCommand.CreateFromTask(CodeAsync);
+        CopyAsXamlCommand = ReactiveCommand.CreateFromTask(CopyAsXamlAsync);
+        CopyAsSvgCommand = ReactiveCommand.CreateFromTask(CopyAsSvgAsync);
         PlayCommand = ReactiveCommand.Create(Play);
         StopCommand = ReactiveCommand.Create(Stop);
 
@@ -278,7 +279,9 @@ public class MainViewViewModel : ReactiveObject
     
     public ICommand SaveCommand { get; }
 
-    public ICommand CodeCommand { get; }
+    public ICommand CopyAsXamlCommand { get; }
+
+    public ICommand CopyAsSvgCommand { get; }
 
     public ICommand PlayCommand { get; }
 
@@ -445,10 +448,10 @@ public class MainViewViewModel : ReactiveObject
             contentProperty: "Children", 
             childrenProperty: "Children");
 
-        return Load(xamlItem);
+        return LoadForDesign(xamlItem);
     }
 
-    private Control? Load(XamlItem xamlItem)
+    private Control? LoadForDesign(XamlItem xamlItem)
     {
         var control = XamlItemControlFactory.CreateControl(xamlItem, isRoot: true, writeUid: true);
 
@@ -466,6 +469,11 @@ public class MainViewViewModel : ReactiveObject
         // AddControl(control, xamlItem);
 
         return control;
+    }
+
+    private Control? LoadForExport(XamlItem xamlItem)
+    {
+        return XamlItemControlFactory.CreateControl(xamlItem, isRoot: true, writeUid: false);
     }
 
     protected virtual void OnHoveredChanged(EventArgs e)
@@ -519,7 +527,7 @@ public class MainViewViewModel : ReactiveObject
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                var control = Load(xamlItem);
+                var control = LoadForDesign(xamlItem);
                 if (control is not null)
                 {
                     _editorCanvas.AddRoot(control);
@@ -551,7 +559,7 @@ public class MainViewViewModel : ReactiveObject
             XamlItemJsonContext.s_instance.XamlItem);
     }
 
-    private async Task CodeAsync()
+    private async Task CopyAsXamlAsync()
     {
         if (RootXamlItem is null)
         {
@@ -568,6 +576,28 @@ public class MainViewViewModel : ReactiveObject
         });
 
         await _applicationService.SetClipboardTextAsync(xaml);
+    }
+
+    private async Task CopyAsSvgAsync()
+    {
+        if (RootXamlItem is null)
+        {
+            return;
+        }
+
+        var control = LoadForExport(RootXamlItem);
+        if (control is null)
+        {
+            return;
+        }
+
+        var size = new Size(350, 500);
+        using var stream = new MemoryStream();
+        await RenderingService.RenderAsSvg(stream, size, control);
+        var bytes = stream.ToArray();
+        var svg = Encoding.UTF8.GetString(bytes);
+
+        await _applicationService.SetClipboardTextAsync(svg);
     }
 
     private void Play()
