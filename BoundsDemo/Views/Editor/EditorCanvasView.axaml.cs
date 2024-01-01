@@ -32,8 +32,8 @@ public partial class EditorCanvasView : UserControl
             _canvasViewModel = new CanvasViewModel(OverlayView);
             _canvasViewModel.AttachHost(this, RootPanel);
 
-            // var control = mainViewModel.DemoStackPanel();
-            var control = mainViewModel.DemoPanelDockPanel();
+            var control = mainViewModel.DemoStackPanel();
+            // var control = mainViewModel.DemoPanelDockPanel();
             if (control is not null)
             {
                 _canvasViewModel.AddRoot(control);
