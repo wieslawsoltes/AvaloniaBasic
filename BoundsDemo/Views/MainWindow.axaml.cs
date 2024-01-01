@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -24,7 +25,7 @@ public partial class MainWindow : Window
             }
         };
 
-        UpdatePropertiesEditor(null);
+        UpdatePropertiesEditor(new HashSet<Visual>());
 
         LayersTreeView.SelectionChanged += LayersTreeViewOnSelectionChanged;
 
@@ -42,7 +43,10 @@ public partial class MainWindow : Window
         {
             if (_mainViewViewModel.TryGetControl(xamlItem, out var control))
             {
-                OverlayView.Select(control);
+                if (control is not null)
+                {
+                    OverlayView.Select(Enumerable.Repeat(control, 1));
+                }
             }
         }
     }
@@ -67,9 +71,9 @@ public partial class MainWindow : Window
 
         Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
 
-        if (_mainViewViewModel.Selected is not null)
+        if (_mainViewViewModel.Selected.Count > 0)
         {
-            if (_mainViewViewModel.Selected is Control selected)
+            if (_mainViewViewModel.Selected.First() is Control selected)
             {
                 _mainViewViewModel.TryGetXamlItem(selected, out var xamlItem);
                 LayersTreeView.SelectedItem = xamlItem;
@@ -129,7 +133,7 @@ public partial class MainWindow : Window
             case Key.Delete:
             case Key.Back:
             {
-                if (_mainViewViewModel.Selected is Control control)
+                if (_mainViewViewModel.Selected.Count > 0 && _mainViewViewModel.Selected.First() is Control control)
                 {
                     OverlayView.Hover(null);
                     OverlayView.Select(null);
@@ -145,16 +149,16 @@ public partial class MainWindow : Window
         OverlayView.InvalidateVisual();
     }
 
-    private void UpdatePropertiesEditor(Visual? selected)
+    private void UpdatePropertiesEditor(HashSet<Visual> selected)
     {
         if (PropertiesEditor.Selected is not null)
         {
             PropertiesEditor.Selected.PropertyChanged -= SelectedOnPropertyChanged;
         }
 
-        if (selected is not null)
+        if (selected.Count > 0)
         {
-            selected.PropertyChanged += SelectedOnPropertyChanged;
+            selected.First().PropertyChanged += SelectedOnPropertyChanged;
         }
 
         if (DataContext is MainViewViewModel mainViewModel)
@@ -162,7 +166,7 @@ public partial class MainWindow : Window
             mainViewModel.EnableEditing = false;
         }
 
-        PropertiesEditor.Selected = selected;
+        PropertiesEditor.Selected = selected.FirstOrDefault();
         PropertiesEditor.UpdatePropertiesEditor();
     }
 }

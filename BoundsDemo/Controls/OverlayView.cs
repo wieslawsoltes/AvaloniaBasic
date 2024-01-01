@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
@@ -25,11 +27,29 @@ public class OverlayView : Decorator
         }
     }
 
-    public void Select(Visual? visual)
+    public void Select(IEnumerable<Visual>? visuals)
     {
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            mainViewModel.Select(visual);
+            mainViewModel.Select(visuals);
+            InvalidateVisual();
+        }
+    }
+
+    public void Selection(Point startPoint, Point endPoint)
+    {
+        if (DataContext is MainViewViewModel mainViewModel)
+        {
+            mainViewModel.Selection(startPoint, endPoint);
+            InvalidateVisual();
+        }
+    }
+    
+    public void ClearSelection()
+    {
+        if (DataContext is MainViewViewModel mainViewModel)
+        {
+            mainViewModel.ClearSelection();
             InvalidateVisual();
         }
     }
@@ -46,10 +66,13 @@ public class OverlayView : Decorator
         var selected = mainViewModel.Selected;
         var hovered = mainViewModel.Hovered;
 
-        if (selected is not null)
+        if (selected.Count > 0)
         {
-            RenderVisual(selected, context, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
-            RenderVisualThumbs(selected, context, new ImmutableSolidColorBrush(Colors.White), new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
+            foreach (var visual in selected)
+            {
+                RenderVisual(visual, context, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
+                RenderVisualThumbs(visual, context, new ImmutableSolidColorBrush(Colors.White), new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
+            }
 
             if (hovered is null)
             {
@@ -61,6 +84,17 @@ public class OverlayView : Decorator
         {
             RenderVisual(hovered, context, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
             // DrawName(context, hovered.GetType().Name);
+        }
+
+        if (mainViewModel.DrawSelection)
+        {
+            var rect = mainViewModel.GetSelectionRect();
+
+            RenderSelection(
+                rect, 
+                context, 
+                new ImmutableSolidColorBrush(Colors.CornflowerBlue, 0.3), 
+                new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
         }
 
         // DrawHelp(context);
@@ -125,5 +159,11 @@ public class OverlayView : Decorator
         context.DrawRectangle(brush, pen, selection.Right);
         context.DrawRectangle(brush, pen, selection.Top);
         context.DrawRectangle(brush, pen, selection.Bottom);
+    }
+    
+    
+    private static void RenderSelection(Rect rect, DrawingContext context, IBrush? brush, IPen? pen)
+    {
+        context.DrawRectangle(brush, pen, rect);
     }
 }

@@ -342,7 +342,13 @@ public class MainViewViewModel : ReactiveObject
     
     public Visual? Hovered { get; set; }
 
-    public Visual? Selected { get; set; }
+    public HashSet<Visual> Selected { get; set; }
+
+    public bool DrawSelection { get; set; }
+
+    public Point StartPoint { get; set; }
+    
+    public Point EndPoint { get; set; }
 
     public XamlItem? RootXamlItem { get; set; }
 
@@ -350,21 +356,47 @@ public class MainViewViewModel : ReactiveObject
 
     public bool EnableEditing { get; set; }
 
+    public CanvasViewModel? CanvasViewModel { get; set; }
+
     public void Hover(Visual? visual)
     {
-        if (visual is null || visual != Selected)
+        if (visual is null || !Selected.Contains(visual))
         {
             Hovered = visual;
             OnHoveredChanged(EventArgs.Empty);
         }
     }
 
-    public void Select(Visual? visual)
+    public void Select(IEnumerable<Visual>? visuals)
     {
         Hovered = null;
         OnHoveredChanged(EventArgs.Empty);
-        Selected = visual;
+        Selected = visuals is null ? new HashSet<Visual>() : new HashSet<Visual>(visuals);
         OnSelectedChanged(EventArgs.Empty);
+    }
+
+    public void Selection(Point startPoint, Point endPoint)
+    {
+        // TODO:
+        DrawSelection = true;
+        StartPoint = startPoint;
+        EndPoint = endPoint;
+    }
+
+    public void ClearSelection()
+    {
+        DrawSelection = false;
+    }
+
+    public Rect GetSelectionRect()
+    {
+        var topLeft = new Point(
+            Math.Min(StartPoint.X, EndPoint.X),
+            Math.Min(StartPoint.Y, EndPoint.Y));
+        var bottomRight = new Point(
+            Math.Max(StartPoint.X, EndPoint.X),
+            Math.Max(StartPoint.Y, EndPoint.Y));
+        return new Rect(topLeft, bottomRight);
     }
 
     public void AddControl(Control control, XamlItem xamlItem)
@@ -568,7 +600,7 @@ public class MainViewViewModel : ReactiveObject
         var control = DemoStackPanel();
         if (control is not null)
         {
-            _editorCanvas._canvasViewModel.AddRoot(control);
+            CanvasViewModel?.AddRoot(control);
         }
     }
 
@@ -592,7 +624,7 @@ public class MainViewViewModel : ReactiveObject
                 var control = LoadForDesign(xamlItem);
                 if (control is not null)
                 {
-                    _editorCanvas._canvasViewModel.AddRoot(control);
+                    CanvasViewModel?.AddRoot(control);
                 }
             });
         }
