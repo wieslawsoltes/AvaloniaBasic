@@ -122,7 +122,8 @@ public class CanvasViewModel : ReactiveObject
             }
             case CanvasTool.Pointer:
             {
-                var visuals = HitTest(_host, e.GetPosition(null), _overlayView.HitTestMode, _ignored);
+                var point = e.GetPosition(null);
+                var visuals = HitTest(_host, point, _overlayView.HitTestMode, _ignored);
                 var first = visuals.FirstOrDefault();
                 _overlayView.Select(first is null ? Enumerable.Empty<Visual>() : Enumerable.Repeat(first, 1));
                 _host.Focus();
@@ -136,7 +137,7 @@ public class CanvasViewModel : ReactiveObject
                 _startPoint = e.GetPosition(null);
                 _endPoint = _startPoint;
                 e.Pointer.Capture(_host);
-                UpdateSelection();
+                UpdateRectSelection();
                 _host.Focus();
                 break;
             }
@@ -172,9 +173,14 @@ public class CanvasViewModel : ReactiveObject
             }
             case CanvasTool.Selection:
             {
-                UpdateSelection();
-                e.Pointer.Capture(null);
-                _overlayView.ClearSelection();
+                if (e.Pointer.Captured is not null)
+                {
+                    _endPoint = e.GetPosition(null);
+                    _overlayView.Selection(_startPoint, _endPoint);
+                    UpdateRectSelection();
+                    e.Pointer.Capture(null);
+                    _overlayView.ClearSelection();
+                }
                 break;
             }
         }
@@ -200,7 +206,8 @@ public class CanvasViewModel : ReactiveObject
             }
             case CanvasTool.Pointer:
             {
-                var visuals = HitTest(_host, e.GetPosition(null), _overlayView.HitTestMode, _ignored);
+                var point = e.GetPosition(null);
+                var visuals = HitTest(_host, point, _overlayView.HitTestMode, _ignored);
                 _overlayView.Hover(visuals.FirstOrDefault());
                 break;
             }
@@ -210,7 +217,7 @@ public class CanvasViewModel : ReactiveObject
                 {
                     _endPoint = e.GetPosition(null);
                     _overlayView.Selection(_startPoint, _endPoint);
-                    UpdateSelection();
+                    UpdateRectSelection();
                 }
                 break;
             }
@@ -251,7 +258,7 @@ public class CanvasViewModel : ReactiveObject
         _overlayView.ClearSelection();
     }
 
-    private void UpdateSelection()
+    private void UpdateRectSelection()
     {
         if (_host is null)
         {
