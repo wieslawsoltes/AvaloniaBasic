@@ -29,6 +29,7 @@ public class CanvasViewModel : ReactiveObject
     private IDisposable? _isHitTestVisibleDisposable;
     private Point _startPoint;
     private Point _endPoint;
+    private bool _captured;
 
     public CanvasViewModel(OverlayView overlayView)
     {
@@ -113,6 +114,12 @@ public class CanvasViewModel : ReactiveObject
         {
             return;
         }
+        
+        var properties = e.GetCurrentPoint(null).Properties;
+        if (!properties.IsLeftButtonPressed)
+        {
+            return;
+        }
 
         switch (CanvasTool)
         {
@@ -137,6 +144,7 @@ public class CanvasViewModel : ReactiveObject
                 _startPoint = e.GetPosition(null);
                 _endPoint = _startPoint;
                 e.Pointer.Capture(_host);
+                _captured = true;
                 UpdateRectSelection();
                 _host.Focus();
                 break;
@@ -173,12 +181,13 @@ public class CanvasViewModel : ReactiveObject
             }
             case CanvasTool.Selection:
             {
-                if (e.Pointer.Captured is not null)
+                if (e.Pointer.Captured is not null && _captured)
                 {
                     _endPoint = e.GetPosition(null);
                     _overlayView.Selection(_startPoint, _endPoint);
                     UpdateRectSelection();
                     e.Pointer.Capture(null);
+                    _captured = false;
                     _overlayView.ClearSelection();
                 }
                 break;
@@ -213,7 +222,7 @@ public class CanvasViewModel : ReactiveObject
             }
             case CanvasTool.Selection:
             {
-                if (e.Pointer.Captured is not null)
+                if (e.Pointer.Captured is not null && _captured)
                 {
                     _endPoint = e.GetPosition(null);
                     _overlayView.Selection(_startPoint, _endPoint);
@@ -238,6 +247,7 @@ public class CanvasViewModel : ReactiveObject
 
         _overlayView.Hover(null);
         e.Pointer.Capture(null);
+        _captured = false;
         _overlayView.ClearSelection();
     }
 
@@ -255,6 +265,7 @@ public class CanvasViewModel : ReactiveObject
 
         _overlayView.Hover(null);
         e.Pointer.Capture(null);
+        _captured = false;
         _overlayView.ClearSelection();
     }
 
