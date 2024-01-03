@@ -5,10 +5,17 @@
              xmlns:c="clr-namespace:BoundsDemo"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="BoundsDemo.EditorCanvasView">
-  <Panel Name="RootPanel" 
-         Background="LightGray"
-         IsHitTestVisible="False">
-    <!--<StackPanel c:OverlayView.EnableHitTest="True"
+  <ZoomBorder Name="ZoomBorder1"
+              Stretch="None"
+              ZoomSpeed="1.5"
+              EnableConstrains="False"
+              Background="LightGray" ClipToBounds="True" Focusable="True"
+              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+              PanButton="Middle">
+    <Panel Name="RootPanel" 
+           Background="Transparent"
+           IsHitTestVisible="False">
+      <!--<StackPanel c:OverlayView.EnableHitTest="True"
                 Background="White"
                 Name="EditablePanel"
                 Width="350"
@@ -52,7 +59,8 @@
       <Slider />
       <DatePicker />
       -->
-    <!--</StackPanel>-->
-  </Panel>
+      <!--</StackPanel>-->
+    </Panel>
+  </ZoomBorder>
 </UserControl>
 
