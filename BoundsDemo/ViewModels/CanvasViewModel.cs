@@ -130,7 +130,7 @@ public class CanvasViewModel : ReactiveObject
             case CanvasTool.Pointer:
             {
                 var point = e.GetPosition(null);
-                var visuals = HitTest(_host, point, _overlayView.HitTestMode, _ignored);
+                var visuals = HitTest(_host, _overlayView.HitTestMode, _ignored, x => x.Contains(point));
                 var first = visuals.FirstOrDefault();
                 _overlayView.Select(first is null ? Enumerable.Empty<Visual>() : Enumerable.Repeat(first, 1));
                 _host.Focus();
@@ -216,7 +216,7 @@ public class CanvasViewModel : ReactiveObject
             case CanvasTool.Pointer:
             {
                 var point = e.GetPosition(null);
-                var visuals = HitTest(_host, point, _overlayView.HitTestMode, _ignored);
+                var visuals = HitTest(_host, _overlayView.HitTestMode, _ignored, x => x.Contains(point));
                 _overlayView.Hover(visuals.FirstOrDefault());
                 break;
             }
@@ -278,7 +278,13 @@ public class CanvasViewModel : ReactiveObject
 
         // TODO:
         var rect = GetSelectionRect();
-        var visuals = HitTest(_host, rect, _overlayView.HitTestMode, _ignored).Reverse().Skip(1);
+        var visuals = HitTest(_host, _overlayView.HitTestMode, _ignored, 
+            x => 
+                {
+                    var transformedRect = x.Bounds.TransformToAABB(x.Transform);
+                    return rect.Intersects(transformedRect);
+                }).Reverse().Skip(1);
+
         _overlayView.Select(visuals);
 #if false
         Console.WriteLine("[HitTest]");
@@ -289,9 +295,9 @@ public class CanvasViewModel : ReactiveObject
 #endif
     }
 
-    private IEnumerable<Visual> HitTest(Interactive interactive, Point point, HitTestMode hitTestMode, HashSet<Visual> ignored)
+    private IEnumerable<Visual> HitTest(Interactive interactive, HitTestMode hitTestMode, HashSet<Visual> ignored, Func<TransformedBounds, bool> filter)
     {
-        if (_host is null)
+        if (_host?.DataContext is not MainViewViewModel mainViewModel)
         {
             return Enumerable.Empty<Visual>();
         }
@@ -304,100 +310,39 @@ public class CanvasViewModel : ReactiveObject
 
         var descendants = new List<Visual>();
 
-        if (hitTestMode == HitTestMode.Visual)
+        switch (hitTestMode)
         {
-            descendants.AddRange(interactive.GetVisualDescendants());
-        }
-
-        if (hitTestMode == HitTestMode.Logical)
-        {
-            descendants.AddRange(interactive.GetLogicalDescendants().Cast<Visual>());
-        }
-
-        var mainViewModel = _host.DataContext as MainViewViewModel;
-        if (mainViewModel is null)
-        {
-            return Enumerable.Empty<Visual>();
+            case HitTestMode.Visual:
+                descendants.AddRange(interactive.GetVisualDescendants());
+                break;
+            case HitTestMode.Logical:
+                descendants.AddRange(interactive.GetLogicalDescendants().Cast<Visual>());
+                break;
         }
 
         var visuals = descendants
             .OfType<Control>()
-            .Where(visual =>
+            .Select(visual =>
             {
-                if (!mainViewModel.TryGetXamlItem(visual, out _))
+                mainViewModel.TryGetXamlItem(visual, out var xamlItem);
+                return new
+                {
+                    Visual = visual,
+                    XamlItem = xamlItem,
+                    IsIgnored = ignored.Contains(visual),
+                    TransformedBounds = visual.GetTransformedBounds()
+                };
+            })
+            .Where(x =>
+            {
+                if (x.XamlItem is null || x.IsIgnored || x.TransformedBounds is null)
                 {
                     return false;
                 }
-
-                if (!ignored.Contains(visual))
-                {
-                    var transformedBounds = visual.GetTransformedBounds();
-                    return transformedBounds is not null
-                           && transformedBounds.Value.Contains(point);
-                }
-
-                return false;
-            });
-
-        return ReverseOrder 
-            ? visuals.Reverse() 
-            : visuals;
-    }
-
-    private IEnumerable<Visual> HitTest(Interactive interactive, Rect rect, HitTestMode hitTestMode, HashSet<Visual> ignored)
-    {
-        if (_host is null)
-        {
-            return Enumerable.Empty<Visual>();
-        }
-
-        var root = interactive.GetVisualRoot();
-        if (root is null)
-        {
-            return Enumerable.Empty<Visual>();
-        }
-
-        var descendants = new List<Visual>();
-
-        if (hitTestMode == HitTestMode.Visual)
-        {
-            descendants.AddRange(interactive.GetVisualDescendants());
-        }
-
-        if (hitTestMode == HitTestMode.Logical)
-        {
-            descendants.AddRange(interactive.GetLogicalDescendants().Cast<Visual>());
-        }
-
-        var mainViewModel = _host.DataContext as MainViewViewModel;
-        if (mainViewModel is null)
-        {
-            return Enumerable.Empty<Visual>();
-        }
-
-        var visuals = descendants
-            .OfType<Control>()
-            .Where(visual =>
-            {
-                if (!mainViewModel.TryGetXamlItem(visual, out _))
-                {
-                    return false;
-                }
-
-                if (!ignored.Contains(visual))
-                {
-                    var transformedBounds = visual.GetTransformedBounds();
-                    if (transformedBounds is null)
-                    {
-                        return false;
-                    }
-
-                    var transformedRect = transformedBounds.Value.Bounds.TransformToAABB(transformedBounds.Value.Transform);
-                    return rect.Intersects(transformedRect);
-                }
-
-                return false;
-            });
+                var transformedBounds = x.TransformedBounds.Value;
+                return filter(transformedBounds);
+            })
+            .Select(x => x.Visual);
 
         return ReverseOrder 
             ? visuals.Reverse() 
