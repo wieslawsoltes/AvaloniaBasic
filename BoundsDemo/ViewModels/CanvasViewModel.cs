@@ -280,7 +280,7 @@ public class CanvasViewModel : ReactiveObject
         var rect = GetSelectionRect();
         var visuals = HitTest(_host, rect, _overlayView.HitTestMode, _ignored).Reverse().Skip(1);
         _overlayView.Select(visuals);
-#if true
+#if false
         Console.WriteLine("[HitTest]");
         foreach (var visual in visuals)
         {
