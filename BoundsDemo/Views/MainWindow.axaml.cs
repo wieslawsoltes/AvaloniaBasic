@@ -11,12 +11,19 @@ namespace BoundsDemo;
 
 public partial class MainWindow : Window
 {
-    private readonly MainViewViewModel _mainViewViewModel;
+    private MainViewViewModel? _mainViewViewModel;
 
     public MainWindow()
     {
         InitializeComponent();
 
+        InitializePropertiesEditor();
+
+        InitializeMainViewViewModel();
+    }
+
+    private void InitializePropertiesEditor()
+    {
         PropertiesEditor.EnableEditing += (_, _) =>
         {
             if (DataContext is MainViewViewModel mainViewModel)
@@ -26,7 +33,10 @@ public partial class MainWindow : Window
         };
 
         UpdatePropertiesEditor(new HashSet<Visual>());
+    }
 
+    private void InitializeMainViewViewModel()
+    {
         _mainViewViewModel = new MainViewViewModel(EditorCanvas);
         _mainViewViewModel.ControlAdded += MainViewViewModelOnControlAdded;
         _mainViewViewModel.ControlRemoved += MainViewViewModelOnControlRemoved;
@@ -47,7 +57,13 @@ public partial class MainWindow : Window
 
     private void MainViewViewModelOnSelectedChanged(object? o, EventArgs eventArgs)
     {
+        if (_mainViewViewModel is null)
+        {
+            return;
+        }
+
         UpdatePropertiesEditor(_mainViewViewModel.Selected);
+
         Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
     }
 
@@ -95,6 +111,11 @@ public partial class MainWindow : Window
             case Key.Delete:
             case Key.Back:
             {
+                if (_mainViewViewModel is null)
+                {
+                    return;
+                }
+
                 if (_mainViewViewModel.Selected.Count > 0 && _mainViewViewModel.Selected.First() is Control control)
                 {
                     OverlayView.Hover(null);
