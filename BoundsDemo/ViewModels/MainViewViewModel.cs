@@ -503,6 +503,58 @@ public class MainViewViewModel : ReactiveObject
         }
     }
 
+    public bool RemoveXamlItem(XamlItem xamlItem)
+    {
+        var rooXamlItem = RootXamlItem;
+        if (rooXamlItem is null)
+        {
+            return false;
+        }
+
+        if (rooXamlItem == xamlItem)
+        {
+            // TODO: Remove root.
+            return false;
+        }
+
+        return rooXamlItem.TryRemove(xamlItem);
+    }
+
+    public void RemoveSelected()
+    {
+        if (Selected.Count <= 0)
+        {
+            return;
+        }
+
+        var selected = Selected.ToList();
+
+        var haveToReload = false;
+
+        foreach (var visual in selected)
+        {
+            if (visual is not Control control)
+            {
+                continue;
+            }
+
+            if (!TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
+            {
+                continue;
+            }
+
+            if (RemoveXamlItem(xamlItem))
+            {
+                haveToReload = true;
+            }
+        }
+
+        if (haveToReload)
+        {
+            Reload(RootXamlItem);
+        }
+    }
+    
     public bool TryGetXamlItem(Control control, out XamlItem? xamlItem)
     {
         return _controlsDictionary.TryGetValue(control, out xamlItem);
