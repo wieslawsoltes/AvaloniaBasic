@@ -119,6 +119,40 @@ public class XamlItem
         return true;
     }
 
+    public bool TryRemove(XamlItem childXamlItem)
+    {
+        if (ChildrenProperty is not null)
+        {
+            if (Properties.TryGetValue(ChildrenProperty, out var childrenValue))
+            {
+                if (childrenValue is XamlItemsXamlValue xamlItemsXamlValue)
+                {
+                    if (xamlItemsXamlValue.Value.Remove(childXamlItem))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        if (ContentProperty is not null)
+        {
+            if (Properties.TryGetValue(ContentProperty, out var contentValue))
+            {
+                if (contentValue is XamlItemXamlValue xamlItemXamlValue)
+                {
+                    if (xamlItemXamlValue.Value == childXamlItem)
+                    {
+                        Properties[ContentProperty] = null;
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     public XamlValue? GetContent()
     {
         if (ContentProperty is null)
