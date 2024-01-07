@@ -130,19 +130,8 @@
           <DockPanel>
             <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,0"
                        DockPanel.Dock="Top"/>
-            <TreeView Name="LayersTreeView">
-              <TreeView.Styles>
-                <Style Selector="TreeViewItem">
-                  <Setter Property="IsExpanded" Value="True" />
-                </Style>
-              </TreeView.Styles>
-              <TreeView.DataTemplates>
-                <TreeDataTemplate DataType="c:XamlItem"
-                                  ItemsSource="{Binding Children}">
-                  <TextBlock Text="{Binding Name}" />
-                </TreeDataTemplate>
-              </TreeView.DataTemplates>
-            </TreeView>
+            <c:EditorLayersView Name="EditorLayersView"
+                                OverlayView="{Binding #OverlayView}"  />
           </DockPanel>
         </TabItem>
 

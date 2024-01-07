@@ -27,8 +27,6 @@ public partial class MainWindow : Window
 
         UpdatePropertiesEditor(new HashSet<Visual>());
 
-        LayersTreeView.SelectionChanged += LayersTreeViewOnSelectionChanged;
-
         _mainViewViewModel = new MainViewViewModel(EditorCanvas);
         _mainViewViewModel.ControlAdded += MainViewViewModelOnControlAdded;
         _mainViewViewModel.ControlRemoved += MainViewViewModelOnControlRemoved;
@@ -37,27 +35,9 @@ public partial class MainWindow : Window
         DataContext = _mainViewViewModel;
     }
 
-    private void LayersTreeViewOnSelectionChanged(object? sender, SelectionChangedEventArgs e)
-    {
-        if (LayersTreeView.SelectedItem is XamlItem xamlItem)
-        {
-            if (_mainViewViewModel.TryGetControl(xamlItem, out var control))
-            {
-                if (control is not null)
-                {
-                    OverlayView.Select(Enumerable.Repeat(control, 1));
-                }
-            }
-        }
-    }
-
     private void MainViewViewModelOnControlAdded(object? sender, EventArgs e)
     {
         // TODO:
-
-        var children = Enumerable.Repeat(_mainViewViewModel.RootXamlItem, 1);
-
-        LayersTreeView.ItemsSource = children;
     }
 
     private void MainViewViewModelOnControlRemoved(object? sender, EventArgs e)
@@ -68,25 +48,7 @@ public partial class MainWindow : Window
     private void MainViewViewModelOnSelectedChanged(object? o, EventArgs eventArgs)
     {
         UpdatePropertiesEditor(_mainViewViewModel.Selected);
-
         Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
-
-        if (_mainViewViewModel.Selected.Count > 0)
-        {
-            if (_mainViewViewModel.Selected.First() is Control selected)
-            {
-                _mainViewViewModel.TryGetXamlItem(selected, out var xamlItem);
-                LayersTreeView.SelectedItem = xamlItem;
-            }
-            else
-            {
-                LayersTreeView.SelectedItem = null;
-            }
-        }
-        else
-        {
-            LayersTreeView.SelectedItem = null;
-        }
     }
 
     protected override void OnLoaded(RoutedEventArgs e)
