@@ -461,6 +461,29 @@ public class MainViewViewModel : ReactiveObject
         // TODO: Add xamlItem as targetXamlItem Content
         // TODO: After adding to Children or as Content build entire tree independently.
 
+        if (targetXamlItem.ChildrenProperty is not null)
+        {
+            if (targetXamlItem.TryAddChild(xamlItem))
+            {
+                Reload(RootXamlItem);
+                Debug(targetXamlItem);
+                return;
+            }
+        }
+
+        if (targetXamlItem.ContentProperty is not null)
+        {
+            if (targetXamlItem.TrySetContent(new XamlItemXamlValue(xamlItem)))
+            {
+                Reload(RootXamlItem);
+                Debug(targetXamlItem);
+                return;
+            }
+        }
+
+        RemoveControl(control);
+ 
+        /*
         if (target is Panel panel)
         {
             if (targetXamlItem.ChildrenProperty is not null)
@@ -501,6 +524,7 @@ public class MainViewViewModel : ReactiveObject
         {
             RemoveControl(control);
         }
+        */
     }
 
     public bool RemoveXamlItem(XamlItem xamlItem)
