@@ -443,6 +443,66 @@ public class MainViewViewModel : ReactiveObject
         }
     }
 
+    public void InsertXamlItem(Control target, Control control, XamlItem xamlItem)
+    {
+        if (!TryGetXamlItem(target, out var targetXamlItem))
+        {
+            RemoveControl(control);
+            return;
+        }
+
+        if (targetXamlItem is null)
+        {
+            // TODO: Set xamlItem as root and build visual tree.
+            return;
+        }
+
+        // TODO: Add xamlItem to targetXamlItem Children
+        // TODO: Add xamlItem as targetXamlItem Content
+        // TODO: After adding to Children or as Content build entire tree independently.
+
+        if (target is Panel panel)
+        {
+            if (targetXamlItem.ChildrenProperty is not null)
+            {
+                panel.Children.Add(control);
+
+                targetXamlItem.TryAddChild(xamlItem);
+                AddControls(control, xamlItem);
+
+                Debug(targetXamlItem);
+            }
+        }
+        else if (target is ItemsControl itemsControl)
+        {
+            if (targetXamlItem.ChildrenProperty is not null)
+            {
+                itemsControl.Items.Add(control);
+
+                targetXamlItem.TryAddChild(xamlItem);
+                AddControls(control, xamlItem);
+
+                Debug(targetXamlItem);
+            }
+        }
+        else if (target is ContentControl contentControl)
+        {
+            if (targetXamlItem.ContentProperty is not null)
+            {
+                contentControl.Content = control;
+
+                targetXamlItem.TrySetContent(new XamlItemXamlValue(xamlItem));
+                AddControls(control, xamlItem);
+
+                Debug(targetXamlItem);
+            }
+        }
+        else
+        {
+            RemoveControl(control);
+        }
+    }
+
     public bool TryGetXamlItem(Control control, out XamlItem? xamlItem)
     {
         return _controlsDictionary.TryGetValue(control, out xamlItem);

@@ -116,11 +116,19 @@ public partial class MainWindow : Window
                     return;
                 }
 
-                if (_mainViewViewModel.Selected.Count > 0 && _mainViewViewModel.Selected.First() is Control control)
+                // TODO: Delete all selected items.
+                if (_mainViewViewModel.Selected.Count > 0 
+                    && _mainViewViewModel.Selected.First() is Control control)
                 {
                     OverlayView.Hover(null);
                     OverlayView.Select(null);
-                    _mainViewViewModel.RemoveControl(control);
+
+                    if (_mainViewViewModel.TryGetXamlItem(control, out var xamlItem))
+                    {
+                        // TODO: Remove xamlItem.
+
+                        _mainViewViewModel.RemoveControl(control);
+                    }
                 }
                 break;
             }

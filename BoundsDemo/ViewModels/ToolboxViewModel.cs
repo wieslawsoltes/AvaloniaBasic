@@ -203,57 +203,7 @@ public class ToolboxViewModel : ReactiveObject
             return;
         }
 
-        if (!mainViewModel.TryGetXamlItem(target, out var targetXamlItem))
-        {
-            mainViewModel.RemoveControl(control);
-            return;
-        }
-
-        if (targetXamlItem is null)
-        {
-            return;
-        }
-        
-        if (target is Panel panel)
-        {
-            if (targetXamlItem.ChildrenProperty is not null)
-            {
-                panel.Children.Add(control);
-
-                targetXamlItem.TryAddChild(xamlItem);
-                mainViewModel.AddControls(control, xamlItem);
-
-                mainViewModel.Debug(targetXamlItem);
-            }
-        }
-        else if (target is ItemsControl itemsControl)
-        {
-            if (targetXamlItem.ChildrenProperty is not null)
-            {
-                itemsControl.Items.Add(control);
-
-                targetXamlItem.TryAddChild(xamlItem);
-                mainViewModel.AddControls(control, xamlItem);
-
-                mainViewModel.Debug(targetXamlItem);
-            }
-        }
-        else if (target is ContentControl contentControl)
-        {
-            if (targetXamlItem.ContentProperty is not null)
-            {
-                contentControl.Content = control;
-
-                targetXamlItem.TrySetContent(new XamlItemXamlValue(xamlItem));
-                mainViewModel.AddControls(control, xamlItem);
-
-                mainViewModel.Debug(targetXamlItem);
-            }
-        }
-        else
-        {
-            mainViewModel.RemoveControl(control);
-        }
+        mainViewModel.InsertXamlItem(target, control, xamlItem);
     }
 
     private void CreatePreview(object? sender)
