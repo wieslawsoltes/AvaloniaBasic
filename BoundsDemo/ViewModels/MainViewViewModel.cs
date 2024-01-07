@@ -605,6 +605,15 @@ public class MainViewViewModel : ReactiveObject
         return LoadForDesign(xamlItem);
     }
 
+    public void Reload(XamlItem rooXamlItem)
+    {
+        var control = LoadForDesign(rooXamlItem);
+        if (control is not null)
+        {
+            CanvasViewModel?.AddRoot(control);
+        }
+    }
+
     private Control? LoadForDesign(XamlItem xamlItem)
     {
         var control = XamlItemControlFactory.CreateControl(xamlItem, isRoot: true, writeUid: true);
@@ -679,14 +688,7 @@ public class MainViewViewModel : ReactiveObject
             XamlItemJsonContext.s_instance.XamlItem);
         if (xamlItem is { })
         {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                var control = LoadForDesign(xamlItem);
-                if (control is not null)
-                {
-                    CanvasViewModel?.AddRoot(control);
-                }
-            });
+            await Dispatcher.UIThread.InvokeAsync(() => Reload(xamlItem));
         }
     }
 
