@@ -399,24 +399,24 @@ public class MainViewViewModel : ReactiveObject
         return new Rect(topLeft, bottomRight);
     }
 
-    public void AddControl(Control control, XamlItem xamlItem)
+    private void AddControl(Control control, XamlItem xamlItem)
     {
         _controlsDictionary[control] = xamlItem;
         OnControlAdded();
     }
 
-    public void RemoveControl(Control control)
+    private void RemoveControl(Control control)
     {
         _controlsDictionary.Remove(control);
         OnControlRemoved();
     }
 
-    public void CleanControls()
+    private void CleanControls()
     {
         _controlsDictionary.Clear();
     }
     
-    public void AddControls(Control control, XamlItem xamlItem)
+    private void AddControls(Control control, XamlItem xamlItem)
     {
         var xamlItemsMap = xamlItem
             .GetSelfAndChildren()
