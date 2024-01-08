@@ -11,6 +11,9 @@ namespace BoundsDemo;
 
 public partial class MainWindow : Window
 {
+    private readonly KeyGesture? _copyGesture = Application.Current?.PlatformSettings?.HotkeyConfiguration.Copy.FirstOrDefault();
+    private readonly KeyGesture? _cutGesture = Application.Current?.PlatformSettings?.HotkeyConfiguration.Cut.FirstOrDefault();
+    private readonly KeyGesture? _pasteGesture = Application.Current?.PlatformSettings?.HotkeyConfiguration.Paste.FirstOrDefault();
     private MainViewViewModel? _mainViewViewModel;
 
     public MainWindow()
@@ -82,6 +85,22 @@ public partial class MainWindow : Window
             return;
         }
 
+        if (_copyGesture is not null && _copyGesture.Matches(e))
+        {
+            Copy();
+            return;
+        }
+        else if (_cutGesture is not null && _cutGesture.Matches(e))
+        {
+            Cut();
+            return;
+        }
+        else if (_pasteGesture is not null && _pasteGesture.Matches(e))
+        {
+            Paste();
+            return;
+        }
+
         switch (e.Key)
         {
             case Key.Escape:
@@ -111,21 +130,69 @@ public partial class MainWindow : Window
             case Key.Delete:
             case Key.Back:
             {
-                if (_mainViewViewModel is null)
-                {
-                    return;
-                }
-
-                // TODO: Delete all selected items.
-                if (_mainViewViewModel.Selected.Count > 0)
-                {
-                    _mainViewViewModel.RemoveSelected();
- 
-                    OverlayView.Hover(null);
-                    OverlayView.Select(null);
-                }
+                Delete();
                 break;
             }
+        }
+    }
+
+    private void Copy()
+    {
+        if (_mainViewViewModel is null)
+        {
+            return;
+        }
+
+        if (_mainViewViewModel.Selected.Count > 0)
+        {
+            _mainViewViewModel.CopySelected();
+        }
+    }
+
+    private void Cut()
+    {
+        if (_mainViewViewModel is null)
+        {
+            return;
+        }
+
+        if (_mainViewViewModel.Selected.Count > 0)
+        {
+            _mainViewViewModel.CutSelected();
+ 
+            OverlayView.Hover(null);
+            OverlayView.Select(null);
+        }
+    }
+
+    private void Paste()
+    {
+        if (_mainViewViewModel is null)
+        {
+            return;
+        }
+
+        _mainViewViewModel.PasteSelected();
+
+        // TODO: Select pasted items.
+
+        OverlayView.Hover(null);
+        OverlayView.Select(null);
+    }
+
+    private void Delete()
+    {
+        if (_mainViewViewModel is null)
+        {
+            return;
+        }
+
+        if (_mainViewViewModel.Selected.Count > 0)
+        {
+            _mainViewViewModel.RemoveSelected();
+ 
+            OverlayView.Hover(null);
+            OverlayView.Select(null);
         }
     }
 

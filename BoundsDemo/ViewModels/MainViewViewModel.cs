@@ -544,6 +544,110 @@ public class MainViewViewModel : ReactiveObject
         return rooXamlItem.TryRemove(xamlItem);
     }
 
+    private List<XamlItem>? _xamlItemsCopy;
+
+    private void CreateSelectedCopy()
+    {
+        var selected = Selected.ToList();
+        var xamlItems = new List<XamlItem>();
+
+        foreach (var visual in selected)
+        {
+            if (visual is not Control control)
+            {
+                continue;
+            }
+
+            if (!TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
+            {
+                continue;
+            }
+
+            var xamlItemCopy = XamlItemFactory.Clone(xamlItem, IdManager);
+
+            xamlItems.Add(xamlItemCopy);
+        }
+
+        _xamlItemsCopy = xamlItems;
+    }
+
+    public void CopySelected()
+    {
+        CreateSelectedCopy();
+    }
+
+    public void CutSelected()
+    {
+        CreateSelectedCopy();
+        RemoveSelected();
+    }
+
+    public void PasteSelected()
+    {
+        if (_xamlItemsCopy is null || _xamlItemsCopy.Count <= 0)
+        {
+            return;
+        }
+
+        if (Selected.Count > 1)
+        {
+            return;
+        }
+
+        var targetXamlItem = default(XamlItem);
+        
+        if (Selected.Count == 0)
+        {
+            targetXamlItem = RootXamlItem;
+        }
+        else if (Selected.Count == 1)
+        {
+            if (Selected.First() is not Control control)
+            {
+                return;
+            }
+
+            if (!TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
+            {
+                return;
+            }
+
+            targetXamlItem = xamlItem;
+        }
+
+        if (targetXamlItem is null)
+        {
+            return;
+        }
+
+        foreach (var xamlItem in _xamlItemsCopy)
+        {
+            var xamlItemCopy = XamlItemFactory.Clone(xamlItem, IdManager);
+            
+            if (targetXamlItem.ChildrenProperty is not null)
+            {
+                if (targetXamlItem.TryAddChild(xamlItemCopy))
+                {
+                    Debug(targetXamlItem);
+                }
+            }
+            else
+            {
+                // TODO: Add different hot-key for Content paste.
+                if (targetXamlItem.ContentProperty is not null)
+                {
+                    if (targetXamlItem.TrySetContent(new XamlItemXamlValue(xamlItemCopy)))
+                    {
+                        Debug(targetXamlItem);
+                    }
+                }
+            }
+
+        }
+
+        Reload(RootXamlItem);
+    }
+
     public void RemoveSelected()
     {
         if (Selected.Count <= 0)
