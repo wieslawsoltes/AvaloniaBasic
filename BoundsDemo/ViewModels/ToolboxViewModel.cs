@@ -190,12 +190,13 @@ public class ToolboxViewModel : ReactiveObject
         {
             if (target is not null && _control is not null && _xamlItem is not null)
             {
-                Insert(target, _control, _xamlItem);
+                var position = e.GetPosition(target);
+                Insert(target, _control, _xamlItem, position);
             }
         }
     }
 
-    private void Insert(Control target, Control control, XamlItem xamlItem)
+    private void Insert(Control target, Control control, XamlItem xamlItem, Point position)
     {
         var mainViewModel = _host.DataContext as MainViewViewModel;
         if (mainViewModel is null)
@@ -203,7 +204,7 @@ public class ToolboxViewModel : ReactiveObject
             return;
         }
 
-        mainViewModel.InsertXamlItem(target, control, xamlItem);
+        mainViewModel.InsertXamlItem(target, control, xamlItem, position);
     }
 
     private void CreatePreview(object? sender)

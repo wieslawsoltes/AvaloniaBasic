@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -443,7 +444,7 @@ public class MainViewViewModel : ReactiveObject
         }
     }
 
-    public void InsertXamlItem(Control target, Control control, XamlItem xamlItem)
+    public void InsertXamlItem(Control target, Control control, XamlItem xamlItem, Point position)
     {
         if (!TryGetXamlItem(target, out var targetXamlItem))
         {
@@ -463,6 +464,13 @@ public class MainViewViewModel : ReactiveObject
 
         if (targetXamlItem.ChildrenProperty is not null)
         {
+            // TODO: Add callback for XamlItem to position inserted item in target.
+            if (targetXamlItem.Name == "Canvas")
+            {
+                xamlItem.Properties["Canvas.Left"] = new StringXamlValue($"{position.X.ToString(CultureInfo.InvariantCulture)}");
+                xamlItem.Properties["Canvas.Top"] = new StringXamlValue($"{position.Y.ToString(CultureInfo.InvariantCulture)}");
+            }
+
             if (targetXamlItem.TryAddChild(xamlItem))
             {
                 Reload(RootXamlItem);
@@ -768,7 +776,7 @@ public class MainViewViewModel : ReactiveObject
         return LoadForDesign(xamlItem);
     }
 
-    public Control? DemoPanelDockPanel()
+    public Control? DemoDockPanel()
     {
         var xamlItem = new XamlItem(name: "DockPanel",
             id: _idManager.GetNewId(),
@@ -777,6 +785,23 @@ public class MainViewViewModel : ReactiveObject
                 ["Children"] = (XamlValue) new List<XamlItem>(),
                 ["Background"] = (XamlValue) "White",
                 ["Width"] = (XamlValue) "450",
+                ["Height"] = (XamlValue) "500",
+            },
+            contentProperty: "Children", 
+            childrenProperty: "Children");
+
+        return LoadForDesign(xamlItem);
+    }
+
+    public Control? DemoCanvas()
+    {
+        var xamlItem = new XamlItem(name: "Canvas",
+            id: _idManager.GetNewId(),
+            properties: new Dictionary<string, XamlValue>
+            {
+                ["Children"] = (XamlValue) new List<XamlItem>(),
+                ["Background"] = (XamlValue) "White",
+                ["Width"] = (XamlValue) "350",
                 ["Height"] = (XamlValue) "500",
             },
             contentProperty: "Children", 
@@ -846,7 +871,9 @@ public class MainViewViewModel : ReactiveObject
 
     private void New()
     {
-        var control = DemoStackPanel();
+        // var control = DemoStackPanel();
+        // var control = DemoDockPanel();
+        var control = DemoCanvas();
         if (control is not null)
         {
             CanvasViewModel?.AddRoot(control);
