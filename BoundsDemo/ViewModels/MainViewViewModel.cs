@@ -464,12 +464,7 @@ public class MainViewViewModel : ReactiveObject
 
         if (targetXamlItem.ChildrenProperty is not null)
         {
-            // TODO: Add callback for XamlItem to position inserted item in target.
-            if (targetXamlItem.Name == "Canvas")
-            {
-                xamlItem.Properties["Canvas.Left"] = new StringXamlValue($"{position.X.ToString(CultureInfo.InvariantCulture)}");
-                xamlItem.Properties["Canvas.Top"] = new StringXamlValue($"{position.Y.ToString(CultureInfo.InvariantCulture)}");
-            }
+            InsertCallback(xamlItem, position, targetXamlItem);
 
             if (targetXamlItem.TryAddChild(xamlItem))
             {
@@ -533,6 +528,16 @@ public class MainViewViewModel : ReactiveObject
             RemoveControl(control);
         }
         */
+    }
+
+    private void InsertCallback(XamlItem xamlItem, Point position, XamlItem targetXamlItem)
+    {
+        // TODO: Add callback service for XamlItem to position inserted item in target.
+        if (targetXamlItem.Name == "Canvas")
+        {
+            xamlItem.Properties["Canvas.Left"] = new StringXamlValue($"{position.X.ToString(CultureInfo.InvariantCulture)}");
+            xamlItem.Properties["Canvas.Top"] = new StringXamlValue($"{position.Y.ToString(CultureInfo.InvariantCulture)}");
+        }
     }
 
     public bool RemoveXamlItem(XamlItem xamlItem)
