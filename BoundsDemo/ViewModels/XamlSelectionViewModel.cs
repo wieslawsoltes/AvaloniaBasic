@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -7,7 +8,35 @@ using ReactiveUI;
 
 namespace BoundsDemo;
 
-public class XamlSelectionViewModel : ReactiveObject
+public interface IXamlSelectionViewModel
+{
+    event EventHandler<EventArgs>? HoveredChanged;
+    event EventHandler<EventArgs>? SelectedChanged;
+    Visual? Hovered { get; set; }
+    HashSet<Visual> Selected { get; set; }
+    bool DrawSelection { get; set; }
+    Point StartPoint { get; set; }
+    Point EndPoint { get; set; }
+    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
+    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changed { get; }
+    IObservable<Exception> ThrownExceptions { get; }
+    void CopySelected();
+    void CutSelected();
+    void PasteSelected();
+    void RemoveSelected();
+    void Hover(Visual? visual);
+    void Select(IEnumerable<Visual>? visuals);
+    void Selection(Point startPoint, Point endPoint);
+    void ClearSelection();
+    Rect GetSelectionRect();
+    IDisposable SuppressChangeNotifications();
+    bool AreChangeNotificationsEnabled();
+    IDisposable DelayChangeNotifications();
+    event PropertyChangingEventHandler? PropertyChanging;
+    event PropertyChangedEventHandler? PropertyChanged;
+}
+
+public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
 {
     private readonly XamlEditorViewModel _xamlEditorViewModel;
     private List<XamlItem>? _xamlItemsCopy;

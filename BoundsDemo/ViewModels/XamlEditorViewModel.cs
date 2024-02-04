@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,35 @@ using ReactiveUI;
 
 namespace BoundsDemo;
 
-public class XamlEditorViewModel : ReactiveObject
+public interface IXamlEditorViewModel
+{
+    event EventHandler<EventArgs>? PropertyValueChanged;
+    event EventHandler<EventArgs>? ControlAdded;
+    event EventHandler<EventArgs>? ControlRemoved;
+    XamlItem? RootXamlItem { get; set; }
+    bool EnableEditing { get; set; }
+    CanvasViewModel? CanvasViewModel { get; set; }
+    XamlItemIdManager IdManager { get; }
+    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
+    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changed { get; }
+    IObservable<Exception> ThrownExceptions { get; }
+    void InsertXamlItem(Control target, Control control, XamlItem xamlItem, Point position);
+    bool RemoveXamlItem(XamlItem xamlItem);
+    bool TryGetXamlItem(Control control, out XamlItem? xamlItem);
+    bool TryGetControl(XamlItem xamlItem, out Control? control);
+    void UpdatePropertyValue(Control control, string propertyName, string propertyValue);
+    Control? LoadForDesign(XamlItem xamlItem);
+    Control? LoadForExport(XamlItem xamlItem);
+    void Reload(XamlItem rooXamlItem);
+    void Debug(XamlItem xamlItem);
+    IDisposable SuppressChangeNotifications();
+    bool AreChangeNotificationsEnabled();
+    IDisposable DelayChangeNotifications();
+    event PropertyChangingEventHandler? PropertyChanging;
+    event PropertyChangedEventHandler? PropertyChanged;
+}
+
+public class XamlEditorViewModel : ReactiveObject, IXamlEditorViewModel
 {
     private readonly Dictionary<Control, XamlItem> _controlsDictionary;
     private readonly XamlItemIdManager _idManager;

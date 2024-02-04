@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -20,7 +21,24 @@ public enum CanvasTool
     Selection
 }
 
-public class CanvasViewModel : ReactiveObject
+public interface ICanvasViewModel
+{
+    bool ReverseOrder { get; set; }
+    CanvasTool CanvasTool { get; set; }
+    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
+    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changed { get; }
+    IObservable<Exception> ThrownExceptions { get; }
+    void AttachHost(Control host, Panel rootPanel);
+    void DetachHost();
+    void AddRoot(Control control);
+    IDisposable SuppressChangeNotifications();
+    bool AreChangeNotificationsEnabled();
+    IDisposable DelayChangeNotifications();
+    event PropertyChangingEventHandler? PropertyChanging;
+    event PropertyChangedEventHandler? PropertyChanged;
+}
+
+public class CanvasViewModel : ReactiveObject, ICanvasViewModel
 {
     private readonly OverlayView _overlayView;
     private readonly HashSet<Visual> _ignored;

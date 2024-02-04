@@ -2,7 +2,12 @@ using System;
 
 namespace BoundsDemo;
 
-public class XamlItemIdManager
+public interface IXamlItemIdManager
+{
+    string GetNewId();
+}
+
+public class XamlItemIdManager : IXamlItemIdManager
 {
     public string GetNewId()
     {

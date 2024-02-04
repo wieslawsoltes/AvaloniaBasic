@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -11,7 +12,21 @@ using ReactiveUI;
 
 namespace BoundsDemo;
 
-public class ToolboxViewModel : ReactiveObject
+public interface IToolboxViewModel
+{
+    void AttachToContainer(Control container);
+    void DetachFromContainer(Control container);
+    IDisposable SuppressChangeNotifications();
+    bool AreChangeNotificationsEnabled();
+    IDisposable DelayChangeNotifications();
+    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
+    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changed { get; }
+    IObservable<Exception> ThrownExceptions { get; }
+    event PropertyChangingEventHandler? PropertyChanging;
+    event PropertyChangedEventHandler? PropertyChanged;
+}
+
+public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
 {
     private readonly Control _host;
     private readonly OverlayView _overlayView;
