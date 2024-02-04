@@ -99,7 +99,7 @@ public partial class TextBlockProperties : UserControl
 
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Left");
+                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Left");
             }
         }
     }
@@ -113,7 +113,7 @@ public partial class TextBlockProperties : UserControl
 
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Center");
+                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Center");
             }
         }
     }
@@ -127,7 +127,7 @@ public partial class TextBlockProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Right");
+                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Right");
             }
         }
     }
@@ -141,7 +141,7 @@ public partial class TextBlockProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Justify");
+                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBlock, "TextAlignment", "Justify");
             }
         }
     }
@@ -166,7 +166,7 @@ public partial class TextBlockProperties : UserControl
             
                     if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        mainViewModel.UpdatePropertyValue(textBlock, "Text", text);
+                        mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBlock, "Text", text);
                     }
                 }
                 catch (Exception)
@@ -202,7 +202,7 @@ public partial class TextBlockProperties : UserControl
             
                     if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        mainViewModel.UpdatePropertyValue(textBlock, "Background", text);
+                        mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBlock, "Background", text);
                     }
                 }
                 catch (Exception)
@@ -235,7 +235,7 @@ public partial class TextBlockProperties : UserControl
             
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.UpdatePropertyValue(textBlock, "Background", color.ToString());
+                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBlock, "Background", color.ToString());
                 }
             }
             catch (Exception)
@@ -270,7 +270,7 @@ public partial class TextBlockProperties : UserControl
             
                     if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        mainViewModel.UpdatePropertyValue(textBlock, "Foreground", text);
+                        mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBlock, "Foreground", text);
                     }
                 }
                 catch (Exception)
@@ -301,7 +301,7 @@ public partial class TextBlockProperties : UserControl
             
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.UpdatePropertyValue(textBlock, "Foreground", color.ToString());
+                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBlock, "Foreground", color.ToString());
                 }
             }
             catch (Exception)

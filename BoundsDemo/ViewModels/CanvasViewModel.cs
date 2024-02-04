@@ -324,7 +324,7 @@ public class CanvasViewModel : ReactiveObject
             .OfType<Control>()
             .Select(visual =>
             {
-                mainViewModel.TryGetXamlItem(visual, out var xamlItem);
+                mainViewModel.XamlEditorViewModel.TryGetXamlItem(visual, out var xamlItem);
                 return new
                 {
                     Visual = visual,

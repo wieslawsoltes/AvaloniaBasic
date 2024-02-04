@@ -96,7 +96,7 @@ public partial class TemplatedControlProperties : UserControl
 
                     if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        mainViewModel.UpdatePropertyValue(templatedControl, "Background", text);
+                        mainViewModel.XamlEditorViewModel.UpdatePropertyValue(templatedControl, "Background", text);
                     }
                 }
                 catch (Exception)
@@ -129,7 +129,7 @@ public partial class TemplatedControlProperties : UserControl
 
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.UpdatePropertyValue(templatedControl, "Background", color.ToString());
+                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(templatedControl, "Background", color.ToString());
                 }
             }
             catch (Exception)
@@ -164,7 +164,7 @@ public partial class TemplatedControlProperties : UserControl
 
                     if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        mainViewModel.UpdatePropertyValue(templatedControl, "Background", text);
+                        mainViewModel.XamlEditorViewModel.UpdatePropertyValue(templatedControl, "Background", text);
                     }
                 }
                 catch (Exception)
@@ -195,7 +195,7 @@ public partial class TemplatedControlProperties : UserControl
 
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.UpdatePropertyValue(templatedControl, "Background", color.ToString());
+                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(templatedControl, "Background", color.ToString());
                 }
             }
             catch (Exception)

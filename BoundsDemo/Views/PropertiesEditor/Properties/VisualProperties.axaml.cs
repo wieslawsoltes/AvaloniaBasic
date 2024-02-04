@@ -55,7 +55,7 @@ public partial class VisualProperties : UserControl
 
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.UpdatePropertyValue(visual as Control, "IsVisible", $"{isVisible}");
+                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(visual as Control, "IsVisible", $"{isVisible}");
             }
         }
     }
@@ -79,7 +79,7 @@ public partial class VisualProperties : UserControl
             
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.UpdatePropertyValue(visual as Control, "Opacity", opacityText);
+                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(visual as Control, "Opacity", opacityText);
                 }
             }
         }

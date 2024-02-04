@@ -22,7 +22,7 @@ public class OverlayView : Decorator
     {
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            mainViewModel.Hover(visual);
+            mainViewModel.XamlSelectionViewModel.Hover(visual);
             InvalidateVisual();
         }
     }
@@ -31,7 +31,7 @@ public class OverlayView : Decorator
     {
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            mainViewModel.Select(visuals);
+            mainViewModel.XamlSelectionViewModel.Select(visuals);
             InvalidateVisual();
         }
     }
@@ -40,7 +40,7 @@ public class OverlayView : Decorator
     {
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            mainViewModel.Selection(startPoint, endPoint);
+            mainViewModel.XamlSelectionViewModel.Selection(startPoint, endPoint);
             InvalidateVisual();
         }
     }
@@ -49,7 +49,7 @@ public class OverlayView : Decorator
     {
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            mainViewModel.ClearSelection();
+            mainViewModel.XamlSelectionViewModel.ClearSelection();
             InvalidateVisual();
         }
     }
@@ -63,8 +63,8 @@ public class OverlayView : Decorator
             return;
         }
 
-        var selected = mainViewModel.Selected;
-        var hovered = mainViewModel.Hovered;
+        var selected = mainViewModel.XamlSelectionViewModel.Selected;
+        var hovered = mainViewModel.XamlSelectionViewModel.Hovered;
 
         if (selected.Count > 0)
         {
@@ -86,9 +86,9 @@ public class OverlayView : Decorator
             // DrawName(context, hovered.GetType().Name);
         }
 
-        if (mainViewModel.DrawSelection)
+        if (mainViewModel.XamlSelectionViewModel.DrawSelection)
         {
-            var rect = mainViewModel.GetSelectionRect();
+            var rect = mainViewModel.XamlSelectionViewModel.GetSelectionRect();
 
             RenderSelection(
                 rect, 

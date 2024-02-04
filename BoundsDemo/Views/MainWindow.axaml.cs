@@ -31,7 +31,7 @@ public partial class MainWindow : Window
         {
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.EnableEditing = true;
+                mainViewModel.XamlEditorViewModel.EnableEditing = true;
             }
         };
 
@@ -41,9 +41,9 @@ public partial class MainWindow : Window
     private void InitializeMainViewViewModel()
     {
         _mainViewViewModel = new MainViewViewModel(EditorCanvas);
-        _mainViewViewModel.ControlAdded += MainViewViewModelOnControlAdded;
-        _mainViewViewModel.ControlRemoved += MainViewViewModelOnControlRemoved;
-        _mainViewViewModel.SelectedChanged += MainViewViewModelOnSelectedChanged;
+        _mainViewViewModel.XamlEditorViewModel.ControlAdded += MainViewViewModelOnControlAdded;
+        _mainViewViewModel.XamlEditorViewModel.ControlRemoved += MainViewViewModelOnControlRemoved;
+        _mainViewViewModel.XamlSelectionViewModel.SelectedChanged += MainViewViewModelOnSelectedChanged;
 
         DataContext = _mainViewViewModel;
     }
@@ -65,7 +65,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        UpdatePropertiesEditor(_mainViewViewModel.Selected);
+        UpdatePropertiesEditor(_mainViewViewModel.XamlSelectionViewModel.Selected);
 
         Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
     }
@@ -143,9 +143,9 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (_mainViewViewModel.Selected.Count > 0)
+        if (_mainViewViewModel.XamlSelectionViewModel.Selected.Count > 0)
         {
-            _mainViewViewModel.CopySelected();
+            _mainViewViewModel.XamlSelectionViewModel.CopySelected();
         }
     }
 
@@ -156,9 +156,9 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (_mainViewViewModel.Selected.Count > 0)
+        if (_mainViewViewModel.XamlSelectionViewModel.Selected.Count > 0)
         {
-            _mainViewViewModel.CutSelected();
+            _mainViewViewModel.XamlSelectionViewModel.CutSelected();
  
             OverlayView.Hover(null);
             OverlayView.Select(null);
@@ -172,7 +172,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        _mainViewViewModel.PasteSelected();
+        _mainViewViewModel.XamlSelectionViewModel.PasteSelected();
 
         // TODO: Select pasted items.
 
@@ -187,9 +187,9 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (_mainViewViewModel.Selected.Count > 0)
+        if (_mainViewViewModel.XamlSelectionViewModel.Selected.Count > 0)
         {
-            _mainViewViewModel.RemoveSelected();
+            _mainViewViewModel.XamlSelectionViewModel.RemoveSelected();
  
             OverlayView.Hover(null);
             OverlayView.Select(null);
@@ -215,7 +215,7 @@ public partial class MainWindow : Window
 
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            mainViewModel.EnableEditing = false;
+            mainViewModel.XamlEditorViewModel.EnableEditing = false;
         }
 
         PropertiesEditor.Selected = selected.FirstOrDefault();

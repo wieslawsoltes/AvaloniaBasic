@@ -52,7 +52,7 @@ public partial class DockPanelAttachedProperties : UserControl
 
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.UpdatePropertyValue(control, "(DockPanel.Dock)", "Left");
+                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(control, "(DockPanel.Dock)", "Left");
             }
         }
     }
@@ -66,7 +66,7 @@ public partial class DockPanelAttachedProperties : UserControl
 
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.UpdatePropertyValue(control, "(DockPanel.Dock)", "Right");
+                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(control, "(DockPanel.Dock)", "Right");
             }
         }
     }
@@ -80,7 +80,7 @@ public partial class DockPanelAttachedProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.UpdatePropertyValue(control, "(DockPanel.Dock)", "Top");
+                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(control, "(DockPanel.Dock)", "Top");
             }
         }
     }
@@ -94,7 +94,7 @@ public partial class DockPanelAttachedProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.UpdatePropertyValue(control, "(DockPanel.Dock)", "Bottom");
+                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(control, "(DockPanel.Dock)", "Bottom");
             }
         }
     }

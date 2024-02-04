@@ -158,7 +158,7 @@ public class ToolboxViewModel : ReactiveObject
             .OfType<Control>()
             .Where(visual =>
             {
-                if (!mainViewModel.TryGetXamlItem(visual, out _))
+                if (!mainViewModel.XamlEditorViewModel.TryGetXamlItem(visual, out _))
                 {
                     return false;
                 }
@@ -204,7 +204,7 @@ public class ToolboxViewModel : ReactiveObject
             return;
         }
 
-        mainViewModel.InsertXamlItem(target, control, xamlItem, position);
+        mainViewModel.XamlEditorViewModel.InsertXamlItem(target, control, xamlItem, position);
     }
 
     private void CreatePreview(object? sender)
@@ -218,7 +218,7 @@ public class ToolboxViewModel : ReactiveObject
 
             if (sender is ListBoxItem listBoxItem && listBoxItem.Content is XamlItem toolBoxItem)
             {
-                _xamlItem = XamlItemFactory.Clone(toolBoxItem, mainViewModel.IdManager);
+                _xamlItem = XamlItemFactory.Clone(toolBoxItem, mainViewModel.XamlEditorViewModel.IdManager);
                 _control = XamlItemControlFactory.CreateControl(_xamlItem, isRoot: true, writeUid: true);
             }
         }

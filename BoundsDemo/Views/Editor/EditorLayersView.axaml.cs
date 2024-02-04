@@ -33,9 +33,9 @@ public partial class EditorLayersView : UserControl
 
         if (_mainViewViewModel is not null)
         {
-            _mainViewViewModel.ControlAdded += MainViewViewModelOnControlAdded;
-            _mainViewViewModel.ControlRemoved += MainViewViewModelOnControlRemoved;
-            _mainViewViewModel.SelectedChanged += MainViewViewModelOnSelectedChanged;
+            _mainViewViewModel.XamlEditorViewModel.ControlAdded += MainViewViewModelOnControlAdded;
+            _mainViewViewModel.XamlEditorViewModel.ControlRemoved += MainViewViewModelOnControlRemoved;
+            _mainViewViewModel.XamlSelectionViewModel.SelectedChanged += MainViewViewModelOnSelectedChanged;
 
             SetItemsSource();
         }
@@ -47,9 +47,9 @@ public partial class EditorLayersView : UserControl
 
         if (_mainViewViewModel is not null)
         {
-            _mainViewViewModel.ControlAdded -= MainViewViewModelOnControlAdded;
-            _mainViewViewModel.ControlRemoved -= MainViewViewModelOnControlRemoved;
-            _mainViewViewModel.SelectedChanged -= MainViewViewModelOnSelectedChanged;
+            _mainViewViewModel.XamlEditorViewModel.ControlAdded -= MainViewViewModelOnControlAdded;
+            _mainViewViewModel.XamlEditorViewModel.ControlRemoved -= MainViewViewModelOnControlRemoved;
+            _mainViewViewModel.XamlSelectionViewModel.SelectedChanged -= MainViewViewModelOnSelectedChanged;
 
             _mainViewViewModel = null;
 
@@ -64,7 +64,7 @@ public partial class EditorLayersView : UserControl
             return;
         }
 
-        var children = Enumerable.Repeat(_mainViewViewModel.RootXamlItem, 1);
+        var children = Enumerable.Repeat(_mainViewViewModel.XamlEditorViewModel.RootXamlItem, 1);
 
         LayersTreeView.ItemsSource = children;
     }
@@ -98,11 +98,11 @@ public partial class EditorLayersView : UserControl
             return;
         }
 
-        if (_mainViewViewModel.Selected.Count > 0)
+        if (_mainViewViewModel.XamlSelectionViewModel.Selected.Count > 0)
         {
-            if (_mainViewViewModel.Selected.First() is Control selected)
+            if (_mainViewViewModel.XamlSelectionViewModel.Selected.First() is Control selected)
             {
-                _mainViewViewModel.TryGetXamlItem(selected, out var xamlItem);
+                _mainViewViewModel.XamlEditorViewModel.TryGetXamlItem(selected, out var xamlItem);
                 LayersTreeView.SelectedItem = xamlItem;
             }
             else
@@ -125,7 +125,7 @@ public partial class EditorLayersView : UserControl
 
         if (LayersTreeView.SelectedItem is XamlItem xamlItem)
         {
-            if (_mainViewViewModel.TryGetControl(xamlItem, out var control))
+            if (_mainViewViewModel.XamlEditorViewModel.TryGetControl(xamlItem, out var control))
             {
                 if (control is not null)
                 {
