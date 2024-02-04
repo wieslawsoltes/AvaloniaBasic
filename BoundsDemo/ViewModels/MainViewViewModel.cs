@@ -332,71 +332,6 @@ public class MainViewViewModel : ReactiveObject
  
     public XamlSelectionViewModel XamlSelectionViewModel => _xamlSelectionViewModel;
 
-    private XamlItem? DeserializeXamlItem(string json)
-    {
-        return JsonSerializer.Deserialize(
-            json, 
-            XamlItemJsonContext.s_instance.XamlItem);
-    }
-
-    private string? SerializeXamlItem(XamlItem xamlItem)
-    {
-        return JsonSerializer.Serialize(
-            xamlItem, 
-            XamlItemJsonContext.s_instance.XamlItem);
-    }
-
-    public Control? DemoStackPanel()
-    {
-        var xamlItem = new XamlItem(name: "StackPanel",
-            id: _xamlEditorViewModel.IdManager.GetNewId(),
-            properties: new Dictionary<string, XamlValue>
-            {
-                ["Children"] = (XamlValue) new List<XamlItem>(),
-                ["Background"] = (XamlValue) "White",
-                ["Width"] = (XamlValue) "350",
-                ["Height"] = (XamlValue) "500",
-            },
-            contentProperty: "Children", 
-            childrenProperty: "Children");
-
-        return _xamlEditorViewModel.LoadForDesign(xamlItem);
-    }
-
-    public Control? DemoDockPanel()
-    {
-        var xamlItem = new XamlItem(name: "DockPanel",
-            id: _xamlEditorViewModel.IdManager.GetNewId(),
-            properties: new Dictionary<string, XamlValue>
-            {
-                ["Children"] = (XamlValue) new List<XamlItem>(),
-                ["Background"] = (XamlValue) "White",
-                ["Width"] = (XamlValue) "450",
-                ["Height"] = (XamlValue) "500",
-            },
-            contentProperty: "Children", 
-            childrenProperty: "Children");
-
-        return _xamlEditorViewModel.LoadForDesign(xamlItem);
-    }
-
-    public Control? DemoCanvas()
-    {
-        var xamlItem = new XamlItem(name: "Canvas",
-            id: _xamlEditorViewModel.IdManager.GetNewId(),
-            properties: new Dictionary<string, XamlValue>
-            {
-                ["Children"] = (XamlValue) new List<XamlItem>(),
-                ["Background"] = (XamlValue) "White",
-                ["Width"] = (XamlValue) "350",
-                ["Height"] = (XamlValue) "500",
-            },
-            contentProperty: "Children", 
-            childrenProperty: "Children");
-
-        return _xamlEditorViewModel.LoadForDesign(xamlItem);
-    }
-
     private void New()
     {
         // var control = DemoStackPanel();
@@ -509,5 +444,56 @@ public class MainViewViewModel : ReactiveObject
     {
         IsPlaying = false;
         _editorCanvas.RootPanel.IsHitTestVisible = false;
+    }
+
+    public Control? DemoStackPanel()
+    {
+        var xamlItem = new XamlItem(name: "StackPanel",
+            id: _xamlEditorViewModel.IdManager.GetNewId(),
+            properties: new Dictionary<string, XamlValue>
+            {
+                ["Children"] = (XamlValue) new List<XamlItem>(),
+                ["Background"] = (XamlValue) "White",
+                ["Width"] = (XamlValue) "350",
+                ["Height"] = (XamlValue) "500",
+            },
+            contentProperty: "Children", 
+            childrenProperty: "Children");
+
+        return _xamlEditorViewModel.LoadForDesign(xamlItem);
+    }
+
+    public Control? DemoDockPanel()
+    {
+        var xamlItem = new XamlItem(name: "DockPanel",
+            id: _xamlEditorViewModel.IdManager.GetNewId(),
+            properties: new Dictionary<string, XamlValue>
+            {
+                ["Children"] = (XamlValue) new List<XamlItem>(),
+                ["Background"] = (XamlValue) "White",
+                ["Width"] = (XamlValue) "450",
+                ["Height"] = (XamlValue) "500",
+            },
+            contentProperty: "Children", 
+            childrenProperty: "Children");
+
+        return _xamlEditorViewModel.LoadForDesign(xamlItem);
+    }
+
+    public Control? DemoCanvas()
+    {
+        var xamlItem = new XamlItem(name: "Canvas",
+            id: _xamlEditorViewModel.IdManager.GetNewId(),
+            properties: new Dictionary<string, XamlValue>
+            {
+                ["Children"] = (XamlValue) new List<XamlItem>(),
+                ["Background"] = (XamlValue) "White",
+                ["Width"] = (XamlValue) "350",
+                ["Height"] = (XamlValue) "500",
+            },
+            contentProperty: "Children", 
+            childrenProperty: "Children");
+
+        return _xamlEditorViewModel.LoadForDesign(xamlItem);
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.VisualTree;
@@ -322,5 +323,19 @@ public class XamlEditorViewModel : ReactiveObject, IXamlEditorViewModel
         // var json = SerializeXamlItem(xamlItem);
         // Console.WriteLine(json);
         // var newXamlItem = DeserializeXamlItem(json);
+    }
+    
+    private XamlItem? DeserializeXamlItem(string json)
+    {
+        return JsonSerializer.Deserialize(
+            json, 
+            XamlItemJsonContext.s_instance.XamlItem);
+    }
+
+    private string? SerializeXamlItem(XamlItem xamlItem)
+    {
+        return JsonSerializer.Serialize(
+            xamlItem, 
+            XamlItemJsonContext.s_instance.XamlItem);
     }
 }
