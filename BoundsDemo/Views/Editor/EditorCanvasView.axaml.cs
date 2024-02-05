@@ -30,13 +30,8 @@ public partial class EditorCanvasView : UserControl
             mainViewModel.XamlEditorViewModel.CanvasViewModel = new CanvasViewModel(OverlayView);
             mainViewModel.XamlEditorViewModel.CanvasViewModel.AttachHost(this, RootPanel);
 
-            // var control = mainViewModel.DemoStackPanel();
-            // var control = mainViewModel.DemoDockPanel();
-            var control = mainViewModel.DemoCanvas();
-            if (control is not null)
-            {
-                mainViewModel.XamlEditorViewModel.CanvasViewModel.AddRoot(control);
-            }
+            // TODO:
+            mainViewModel.NewCommand.Execute(null);
         }
     }
 
