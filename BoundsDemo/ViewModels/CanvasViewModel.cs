@@ -50,7 +50,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
     private Panel? _rootPanel;
     private IDisposable? _isHitTestVisibleDisposable;
     private List<Tool> _tools;
-    private Tool _currentTool;
+    private Tool? _currentTool;
 
     public CanvasViewModel(OverlayView overlayView)
     {
@@ -74,6 +74,8 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
     public void AttachHost(Control host, Panel rootPanel)
     {
         _host = host;
+
+        _host.AddHandler(InputElement.KeyDownEvent, OnKeyDown, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         _host.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         _host.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
         _host.AddHandler(InputElement.PointerMovedEvent, OnPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
@@ -96,10 +98,12 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
             return;
         }
 
+        _host.RemoveHandler(InputElement.KeyDownEvent, OnKeyDown);
         _host.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
         _host.RemoveHandler(InputElement.PointerMovedEvent, OnPointerMoved);
         _host.RemoveHandler(InputElement.PointerExitedEvent, OnPointerExited);
         _host.RemoveHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
+
         _host = null;
 
         _isHitTestVisibleDisposable?.Dispose();
@@ -115,6 +119,22 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
 
         _rootPanel.Children.Clear();
         _rootPanel.Children.Add(control);
+    }
+
+    private void OnKeyDown(object? sender, KeyEventArgs e)
+    {
+        if (e.Source is LightDismissOverlayLayer || e.Source is TextBox)
+        {
+            return;
+        }
+
+        _currentTool = e.Key switch
+        {
+            Key.N => _tools.FirstOrDefault(x => x is NoneTool),
+            Key.P => _tools.FirstOrDefault(x => x is PointerTool),
+            Key.V => _tools.FirstOrDefault(x => x is SelectionTool),
+            _ => _currentTool
+        };
     }
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
@@ -140,7 +160,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
             return;
         }
 
-        _currentTool.OnPointerPressed(this, sender, e);
+        _currentTool?.OnPointerPressed(this, sender, e);
     }
 
     private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
@@ -160,7 +180,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
             return;
         }
 
-        _currentTool.OnPointerReleased(this, sender, e);
+        _currentTool?.OnPointerReleased(this, sender, e);
     }
 
     private void OnPointerMoved(object? sender, PointerEventArgs e)
@@ -180,7 +200,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
             return;
         }
 
-        _currentTool.OnPointerMoved(this, sender, e);
+        _currentTool?.OnPointerMoved(this, sender, e);
     }
 
     private void OnPointerExited(object? sender, PointerEventArgs e)
@@ -195,7 +215,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
             return;
         }
 
-        _currentTool.OnPointerExited(this, sender, e);
+        _currentTool?.OnPointerExited(this, sender, e);
     }
 
     private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
@@ -210,7 +230,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
             return;
         }
 
-        _currentTool.OnPointerCaptureLost(this, sender, e);
+        _currentTool?.OnPointerCaptureLost(this, sender, e);
     }
 
     public IEnumerable<Visual> HitTest(Interactive interactive, HitTestMode hitTestMode, HashSet<Visual> ignored, Func<TransformedBounds, bool> filter)
