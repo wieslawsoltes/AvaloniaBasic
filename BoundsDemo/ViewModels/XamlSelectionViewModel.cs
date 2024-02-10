@@ -196,8 +196,7 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
             _xamlEditorViewModel.Reload(_xamlEditorViewModel.RootXamlItem);
         }
     }
-    
-    
+
     protected virtual void OnHoveredChanged(EventArgs e)
     {
         HoveredChanged?.Invoke(this, e);
