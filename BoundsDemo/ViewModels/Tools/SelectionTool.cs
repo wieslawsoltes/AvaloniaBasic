@@ -10,6 +10,7 @@ namespace BoundsDemo;
 public class SelectionTool : Tool
 {
     private readonly HashSet<Visual> _ignored;
+    private Point _movePoint;
     private Point _startPoint;
     private Point _endPoint;
     private bool _captured;
@@ -28,6 +29,7 @@ public class SelectionTool : Tool
         if (_selectionRect != default && _selectionRect.Contains(point))
         {
             _moveMode = true;
+            _movePoint = point;
         }
         else
         {
@@ -52,7 +54,7 @@ public class SelectionTool : Tool
         {
             if (_moveMode)
             {
-
+                _moveMode = false;
             }
             else
             {
@@ -73,7 +75,18 @@ public class SelectionTool : Tool
         {
             if (_moveMode)
             {
-                
+                var point = e.GetPosition(null);
+                var delta = point - _movePoint;
+
+                context.OverlayView.MoveSelection(delta);
+
+                _movePoint = point;
+
+                var selected = context.OverlayView.GetSelected();
+                if (selected is not null)
+                {
+                    _selectionRect = GetSelectionRectUnion(selected);
+                }
             }
             else
             {
@@ -113,7 +126,7 @@ public class SelectionTool : Tool
         return new Rect(topLeft, bottomRight);
     }
 
-    private static Rect GetSelectionRectUnion(List<Visual> visuals)
+    private static Rect GetSelectionRectUnion(IEnumerable<Visual> visuals)
     {
         var selectionRect = new Rect();
 

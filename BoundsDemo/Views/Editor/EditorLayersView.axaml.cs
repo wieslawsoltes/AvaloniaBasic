@@ -36,6 +36,7 @@ public partial class EditorLayersView : UserControl
             _mainViewViewModel.XamlEditorViewModel.ControlAdded += MainViewViewModelOnControlAdded;
             _mainViewViewModel.XamlEditorViewModel.ControlRemoved += MainViewViewModelOnControlRemoved;
             _mainViewViewModel.XamlSelectionViewModel.SelectedChanged += MainViewViewModelOnSelectedChanged;
+            _mainViewViewModel.XamlSelectionViewModel.SelectedMoved += MainViewViewModelOnSelectedMoved;
 
             SetItemsSource();
         }
@@ -50,6 +51,7 @@ public partial class EditorLayersView : UserControl
             _mainViewViewModel.XamlEditorViewModel.ControlAdded -= MainViewViewModelOnControlAdded;
             _mainViewViewModel.XamlEditorViewModel.ControlRemoved -= MainViewViewModelOnControlRemoved;
             _mainViewViewModel.XamlSelectionViewModel.SelectedChanged -= MainViewViewModelOnSelectedChanged;
+            _mainViewViewModel.XamlSelectionViewModel.SelectedMoved -= MainViewViewModelOnSelectedMoved;
 
             _mainViewViewModel = null;
 
@@ -114,6 +116,16 @@ public partial class EditorLayersView : UserControl
         {
             LayersTreeView.SelectedItem = null;
         }
+    }
+
+    private void MainViewViewModelOnSelectedMoved(object? sender, EventArgs e)
+    {
+        if (_mainViewViewModel is null)
+        {
+            return;
+        }
+
+        // TODO:
     }
 
     private void LayersTreeViewOnSelectionChanged(object? sender, SelectionChangedEventArgs e)

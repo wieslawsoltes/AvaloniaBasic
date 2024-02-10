@@ -44,6 +44,7 @@ public partial class MainWindow : Window
         _mainViewViewModel.XamlEditorViewModel.ControlAdded += MainViewViewModelOnControlAdded;
         _mainViewViewModel.XamlEditorViewModel.ControlRemoved += MainViewViewModelOnControlRemoved;
         _mainViewViewModel.XamlSelectionViewModel.SelectedChanged += MainViewViewModelOnSelectedChanged;
+        _mainViewViewModel.XamlSelectionViewModel.SelectedMoved += MainViewViewModelOnSelectedMoved;
 
         DataContext = _mainViewViewModel;
     }
@@ -59,6 +60,18 @@ public partial class MainWindow : Window
     }
 
     private void MainViewViewModelOnSelectedChanged(object? o, EventArgs eventArgs)
+    {
+        if (_mainViewViewModel is null)
+        {
+            return;
+        }
+
+        UpdatePropertiesEditor(_mainViewViewModel.XamlSelectionViewModel.Selected);
+
+        Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
+    }
+
+    private void MainViewViewModelOnSelectedMoved(object? sender, EventArgs e)
     {
         if (_mainViewViewModel is null)
         {

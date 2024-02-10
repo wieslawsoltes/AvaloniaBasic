@@ -44,7 +44,16 @@ public class OverlayView : Decorator
             InvalidateVisual();
         }
     }
-    
+
+    public void MoveSelection(Point delta)
+    {
+        if (DataContext is MainViewViewModel mainViewModel)
+        {
+            mainViewModel.XamlSelectionViewModel.MoveSelection(delta);
+            InvalidateVisual();
+        }
+    }
+
     public void ClearSelection()
     {
         if (DataContext is MainViewViewModel mainViewModel)
@@ -54,6 +63,16 @@ public class OverlayView : Decorator
         }
     }
 
+    public HashSet<Visual>? GetSelected()
+    {
+        if (DataContext is MainViewViewModel mainViewModel)
+        {
+            return mainViewModel.XamlSelectionViewModel.Selected;
+        }
+
+        return null;
+    }
+    
     public override void Render(DrawingContext context)
     {
         base.Render(context);

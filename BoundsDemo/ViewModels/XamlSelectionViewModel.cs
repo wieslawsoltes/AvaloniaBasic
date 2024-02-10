@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -49,6 +50,8 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
     public event EventHandler<EventArgs>? HoveredChanged;
 
     public event EventHandler<EventArgs>? SelectedChanged;
+
+    public event EventHandler<EventArgs>? SelectedMoved;
 
     public Visual? Hovered { get; set; }
 
@@ -156,7 +159,6 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
                     }
                 }
             }
-
         }
 
         _xamlEditorViewModel.Reload(_xamlEditorViewModel.RootXamlItem);
@@ -207,6 +209,11 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
         SelectedChanged?.Invoke(this, e);
     }
 
+    protected virtual void OnSelectedMoved(EventArgs e)
+    {
+        SelectedMoved?.Invoke(this, e);
+    }
+
     public void Hover(Visual? visual)
     {
         if (visual is null || !Selected.Contains(visual))
@@ -230,6 +237,46 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
         DrawSelection = true;
         StartPoint = startPoint;
         EndPoint = endPoint;
+    }
+
+    public void MoveSelection(Point delta)
+    {
+        if (Selected.Count > 0)
+        {
+            // TODO: Move Selected
+ 
+            var selected = Selected.ToList();
+
+            foreach (var visual in selected)
+            {
+                if (visual is not Control control)
+                {
+                    continue;
+                }
+
+                if (!_xamlEditorViewModel.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
+                {
+                    continue;
+                }
+
+                // TODO: Canvas
+                if (control.Parent is Canvas)
+                {
+                    var left = Canvas.GetLeft(control) + delta.X;
+                    var top = Canvas.GetTop(control) + delta.Y;
+
+                    Canvas.SetLeft(control, left);
+                    Canvas.SetTop(control, top);
+
+                    _xamlEditorViewModel.UpdatePropertyValue(control, "Canvas.Left", left.ToString(CultureInfo.InvariantCulture));
+                    _xamlEditorViewModel.UpdatePropertyValue(control, "Canvas.Top", top.ToString(CultureInfo.InvariantCulture));
+                }
+
+                // TODO: Add support for other panels.
+            }
+
+            OnSelectedMoved(EventArgs.Empty);
+        }
     }
 
     public void ClearSelection()
