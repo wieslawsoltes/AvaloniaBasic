@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Input;
+using Avalonia.VisualTree;
 
 namespace BoundsDemo;
 
@@ -12,7 +13,9 @@ public class SelectionTool : Tool
     private Point _startPoint;
     private Point _endPoint;
     private bool _captured;
-    
+    private Rect _selectionRect;
+    private bool _moveMode;
+
     public SelectionTool(IToolContext context)
     {
         _ignored = new HashSet<Visual>(new Visual[] {context.OverlayView});
@@ -20,14 +23,26 @@ public class SelectionTool : Tool
 
     public override void OnPointerPressed(IToolContext context, object? sender, PointerPressedEventArgs e)
     {
-        context.OverlayView.Hover(null);
-        context.OverlayView.Select(null);
-        context.OverlayView.ClearSelection();
-        _startPoint = e.GetPosition(null);
-        _endPoint = _startPoint;
+        var point = e.GetPosition(null);
+
+        if (_selectionRect != default && _selectionRect.Contains(point))
+        {
+            _moveMode = true;
+        }
+        else
+        {
+            context.OverlayView.Hover(null);
+            context.OverlayView.Select(null);
+            context.OverlayView.ClearSelection();
+            _startPoint = point;
+            _endPoint = _startPoint;
+
+            _moveMode = false;
+            _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
+        }
+
         e.Pointer.Capture(context.Host);
         _captured = true;
-        UpdateRectSelection(context);
         context.Host.Focus();
     }
 
@@ -35,12 +50,20 @@ public class SelectionTool : Tool
     {
         if (e.Pointer.Captured is not null && _captured)
         {
-            _endPoint = e.GetPosition(null);
-            context.OverlayView.Selection(_startPoint, _endPoint);
-            UpdateRectSelection(context);
+            if (_moveMode)
+            {
+
+            }
+            else
+            {
+                _endPoint = e.GetPosition(null);
+                context.OverlayView.Selection(_startPoint, _endPoint);
+                _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
+                context.OverlayView.ClearSelection();
+            }
+
             e.Pointer.Capture(null);
             _captured = false;
-            context.OverlayView.ClearSelection();
         }
     }
 
@@ -48,9 +71,16 @@ public class SelectionTool : Tool
     {
         if (e.Pointer.Captured is not null && _captured)
         {
-            _endPoint = e.GetPosition(null);
-            context.OverlayView.Selection(_startPoint, _endPoint);
-            UpdateRectSelection(context);
+            if (_moveMode)
+            {
+                
+            }
+            else
+            {
+                _endPoint = e.GetPosition(null);
+                context.OverlayView.Selection(_startPoint, _endPoint);
+                _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
+            }
         }
     }
 
@@ -72,43 +102,55 @@ public class SelectionTool : Tool
         context.OverlayView.ClearSelection();
     }
 
-    private Rect GetSelectionRect()
+    private static Rect GetSelectionRect(Point startPoint, Point endPoint)
     {
         var topLeft = new Point(
-            Math.Min(_startPoint.X, _endPoint.X),
-            Math.Min(_startPoint.Y, _endPoint.Y));
+            Math.Min(startPoint.X, endPoint.X),
+            Math.Min(startPoint.Y, endPoint.Y));
         var bottomRight = new Point(
-            Math.Max(_startPoint.X, _endPoint.X),
-            Math.Max(_startPoint.Y, _endPoint.Y));
+            Math.Max(startPoint.X, endPoint.X),
+            Math.Max(startPoint.Y, endPoint.Y));
         return new Rect(topLeft, bottomRight);
     }
 
-    private void UpdateRectSelection(IToolContext context)
+    private static Rect GetSelectionRectUnion(List<Visual> visuals)
+    {
+        var selectionRect = new Rect();
+
+        foreach (var visual in visuals)
+        {
+            var transformedBounds = visual.GetTransformedBounds();
+            if (transformedBounds is not null)
+            {
+                var transformedRect = transformedBounds.Value.Bounds.TransformToAABB(transformedBounds.Value.Transform);
+                selectionRect = selectionRect.Union(transformedRect);
+            }
+        }
+
+        return selectionRect;
+    }
+
+    private static Rect UpdateRectSelection(IToolContext context, Point startPoint, Point endPoint, HashSet<Visual> ignored)
     {
         if (context.Host is null)
         {
-            return;
+            return new Rect();
         }
 
         // TODO:
-        var rect = GetSelectionRect();
+        var rect = GetSelectionRect(startPoint, endPoint);
         var visuals = context.HitTest(
             context.Host, 
             context.OverlayView.HitTestMode, 
-            _ignored, 
+            ignored, 
             x => 
             {
                 var transformedRect = x.Bounds.TransformToAABB(x.Transform);
                 return rect.Intersects(transformedRect);
-            }).Reverse().Skip(1);
+            }).Reverse().Skip(1).ToList();
 
         context.OverlayView.Select(visuals);
-#if false
-        Console.WriteLine("[HitTest]");
-        foreach (var visual in visuals)
-        {
-            Console.WriteLine($"{visual}");
-        }
-#endif
+
+        return GetSelectionRectUnion(visuals);
     }
 }
