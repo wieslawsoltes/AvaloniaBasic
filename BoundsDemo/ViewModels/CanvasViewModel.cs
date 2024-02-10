@@ -14,17 +14,9 @@ using ReactiveUI;
 
 namespace BoundsDemo;
 
-public enum CanvasTool
-{
-    None,
-    Pointer,
-    Selection
-}
-
 public interface ICanvasViewModel
 {
     bool ReverseOrder { get; set; }
-    CanvasTool CanvasTool { get; set; }
     IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
     IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changed { get; }
     IObservable<Exception> ThrownExceptions { get; }
@@ -38,26 +30,46 @@ public interface ICanvasViewModel
     event PropertyChangedEventHandler? PropertyChanged;
 }
 
-public class CanvasViewModel : ReactiveObject, ICanvasViewModel
+public interface IToolContext
+{
+    OverlayView OverlayView { get; }
+
+    Control? Host { get; }
+
+    IEnumerable<Visual> HitTest(
+        Interactive interactive,
+        HitTestMode hitTestMode,
+        HashSet<Visual> ignored,
+        Func<TransformedBounds, bool> filter);
+}
+
+public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
 {
     private readonly OverlayView _overlayView;
-    private readonly HashSet<Visual> _ignored;
     private Control? _host;
     private Panel? _rootPanel;
     private IDisposable? _isHitTestVisibleDisposable;
-    private Point _startPoint;
-    private Point _endPoint;
-    private bool _captured;
+    private List<Tool> _tools;
+    private Tool _currentTool;
 
     public CanvasViewModel(OverlayView overlayView)
     {
         _overlayView = overlayView;
-        _ignored = new HashSet<Visual>(new Visual[] {_overlayView});
+
+        _tools = new List<Tool>
+        {
+            new NoneTool(),
+            new PointerTool(this),
+            new SelectionTool(this)
+        };
+        _currentTool = _tools[2];
     }
 
-    public bool ReverseOrder { get; set; } = true;
+    public OverlayView OverlayView => _overlayView;
+ 
+    public Control? Host => _host;
 
-    public CanvasTool CanvasTool { get; set; } = CanvasTool.Selection;
+    public bool ReverseOrder { get; set; } = true;
 
     public void AttachHost(Control host, Panel rootPanel)
     {
@@ -105,17 +117,6 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel
         _rootPanel.Children.Add(control);
     }
 
-    private Rect GetSelectionRect()
-    {
-        var topLeft = new Point(
-            Math.Min(_startPoint.X, _endPoint.X),
-            Math.Min(_startPoint.Y, _endPoint.Y));
-        var bottomRight = new Point(
-            Math.Max(_startPoint.X, _endPoint.X),
-            Math.Max(_startPoint.Y, _endPoint.Y));
-        return new Rect(topLeft, bottomRight);
-    }
-
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (_host is null || _rootPanel is null)
@@ -139,35 +140,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel
             return;
         }
 
-        switch (CanvasTool)
-        {
-            case CanvasTool.None:
-            {
-                break;
-            }
-            case CanvasTool.Pointer:
-            {
-                var point = e.GetPosition(null);
-                var visuals = HitTest(_host, _overlayView.HitTestMode, _ignored, x => x.Contains(point));
-                var first = visuals.FirstOrDefault();
-                _overlayView.Select(first is null ? Enumerable.Empty<Visual>() : Enumerable.Repeat(first, 1));
-                _host.Focus();
-                break;
-            }
-            case CanvasTool.Selection:
-            {
-                _overlayView.Hover(null);
-                _overlayView.Select(null);
-                _overlayView.ClearSelection();
-                _startPoint = e.GetPosition(null);
-                _endPoint = _startPoint;
-                e.Pointer.Capture(_host);
-                _captured = true;
-                UpdateRectSelection();
-                _host.Focus();
-                break;
-            }
-        }
+        _currentTool.OnPointerPressed(this, sender, e);
     }
 
     private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
@@ -187,30 +160,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel
             return;
         }
 
-        switch (CanvasTool)
-        {
-            case CanvasTool.None:
-            {
-                break;
-            }
-            case CanvasTool.Pointer:
-            {
-                break;
-            }
-            case CanvasTool.Selection:
-            {
-                if (e.Pointer.Captured is not null && _captured)
-                {
-                    _endPoint = e.GetPosition(null);
-                    _overlayView.Selection(_startPoint, _endPoint);
-                    UpdateRectSelection();
-                    e.Pointer.Capture(null);
-                    _captured = false;
-                    _overlayView.ClearSelection();
-                }
-                break;
-            }
-        }
+        _currentTool.OnPointerReleased(this, sender, e);
     }
 
     private void OnPointerMoved(object? sender, PointerEventArgs e)
@@ -225,30 +175,12 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel
             return;
         }
 
-        switch (CanvasTool)
+        if (e.Source is LightDismissOverlayLayer)
         {
-            case CanvasTool.None:
-            {
-                break;
-            }
-            case CanvasTool.Pointer:
-            {
-                var point = e.GetPosition(null);
-                var visuals = HitTest(_host, _overlayView.HitTestMode, _ignored, x => x.Contains(point));
-                _overlayView.Hover(visuals.FirstOrDefault());
-                break;
-            }
-            case CanvasTool.Selection:
-            {
-                if (e.Pointer.Captured is not null && _captured)
-                {
-                    _endPoint = e.GetPosition(null);
-                    _overlayView.Selection(_startPoint, _endPoint);
-                    UpdateRectSelection();
-                }
-                break;
-            }
+            return;
         }
+
+        _currentTool.OnPointerMoved(this, sender, e);
     }
 
     private void OnPointerExited(object? sender, PointerEventArgs e)
@@ -263,10 +195,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel
             return;
         }
 
-        _overlayView.Hover(null);
-        e.Pointer.Capture(null);
-        _captured = false;
-        _overlayView.ClearSelection();
+        _currentTool.OnPointerExited(this, sender, e);
     }
 
     private void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
@@ -281,39 +210,10 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel
             return;
         }
 
-        _overlayView.Hover(null);
-        e.Pointer.Capture(null);
-        _captured = false;
-        _overlayView.ClearSelection();
+        _currentTool.OnPointerCaptureLost(this, sender, e);
     }
 
-    private void UpdateRectSelection()
-    {
-        if (_host is null)
-        {
-            return;
-        }
-
-        // TODO:
-        var rect = GetSelectionRect();
-        var visuals = HitTest(_host, _overlayView.HitTestMode, _ignored, 
-            x => 
-                {
-                    var transformedRect = x.Bounds.TransformToAABB(x.Transform);
-                    return rect.Intersects(transformedRect);
-                }).Reverse().Skip(1);
-
-        _overlayView.Select(visuals);
-#if false
-        Console.WriteLine("[HitTest]");
-        foreach (var visual in visuals)
-        {
-            Console.WriteLine($"{visual}");
-        }
-#endif
-    }
-
-    private IEnumerable<Visual> HitTest(Interactive interactive, HitTestMode hitTestMode, HashSet<Visual> ignored, Func<TransformedBounds, bool> filter)
+    public IEnumerable<Visual> HitTest(Interactive interactive, HitTestMode hitTestMode, HashSet<Visual> ignored, Func<TransformedBounds, bool> filter)
     {
         if (_host?.DataContext is not MainViewViewModel mainViewModel)
         {
