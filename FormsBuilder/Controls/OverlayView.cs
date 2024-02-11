@@ -45,6 +45,22 @@ public class OverlayView : Decorator
         }
     }
 
+    public void BeginMoveSelection()
+    {
+        if (DataContext is MainViewViewModel mainViewModel)
+        {
+            mainViewModel.XamlSelectionViewModel.BeginMoveSelection();
+        }
+    }
+
+    public void EndMoveSelection()
+    {
+        if (DataContext is MainViewViewModel mainViewModel)
+        {
+            mainViewModel.XamlSelectionViewModel.EndMoveSelection();
+        }
+    }
+
     public void MoveSelection(Point delta)
     {
         if (DataContext is MainViewViewModel mainViewModel)

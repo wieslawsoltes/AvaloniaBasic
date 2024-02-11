@@ -239,6 +239,49 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
         EndPoint = endPoint;
     }
 
+    private Dictionary<Control, Point> _positions = new Dictionary<Control, Point>();
+
+    public void BeginMoveSelection()
+    {
+        if (Selected.Count <= 0)
+        {
+            return;
+        }
+        
+        // TODO: Move Selected
+ 
+        var selected = Selected.ToList();
+
+        foreach (var visual in selected)
+        {
+            if (visual is not Control control)
+            {
+                continue;
+            }
+
+            if (!_xamlEditorViewModel.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
+            {
+                continue;
+            }
+
+            // TODO: Canvas
+            if (control.Parent is Canvas)
+            {
+                var left = Canvas.GetLeft(control);
+                var top = Canvas.GetTop(control);
+
+                _positions[control] = new Point(left, top);
+            }
+
+            // TODO: Add support for other panels.
+        }
+    }
+
+    public void EndMoveSelection()
+    {
+        _positions.Clear();
+    }
+
     public void MoveSelection(Point delta)
     {
         if (Selected.Count <= 0)
@@ -265,15 +308,20 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
             // TODO: Canvas
             if (control.Parent is Canvas)
             {
-                var left = Canvas.GetLeft(control) + delta.X;
-                var top = Canvas.GetTop(control) + delta.Y;
+                // var left = Canvas.GetLeft(control) + delta.X;
+                // var top = Canvas.GetTop(control) + delta.Y;
+                var position = _positions[control];
+                var left = position.X + delta.X;
+                var top = position.Y + delta.Y;
+
+                left = SnapHelper.SnapValue(left, 6);
+                top = SnapHelper.SnapValue(top, 6);
 
                 Canvas.SetLeft(control, left);
                 Canvas.SetTop(control, top);
 
                 _xamlEditorViewModel.UpdatePropertyValue(control, "Canvas.Left", left.ToString(CultureInfo.InvariantCulture));
                 _xamlEditorViewModel.UpdatePropertyValue(control, "Canvas.Top", top.ToString(CultureInfo.InvariantCulture));
-
             }
 
             // TODO: Add support for other panels.

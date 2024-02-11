@@ -29,6 +29,7 @@ public class SelectionTool : Tool
 
         if (_selectionRect != default && _selectionRect.Contains(point))
         {
+            context.OverlayView.BeginMoveSelection();
             _moveMode = true;
             _movePoint = point;
         }
@@ -55,6 +56,7 @@ public class SelectionTool : Tool
         {
             if (_moveMode)
             {
+                context.OverlayView.EndMoveSelection();
                 _moveMode = false;
             }
             else
@@ -81,7 +83,7 @@ public class SelectionTool : Tool
 
                 context.OverlayView.MoveSelection(delta);
 
-                _movePoint = point;
+                //_movePoint = point;
 
                 var selected = context.OverlayView.GetSelected();
                 if (selected is not null)

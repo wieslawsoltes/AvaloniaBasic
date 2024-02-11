@@ -234,6 +234,8 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
             return;
         }
 
+        position = SnapHelper.SnapPoint(position, 6, 6, true);
+
         mainViewModel.XamlEditorViewModel.InsertXamlItem(target, control, xamlItem, position);
     }
 
