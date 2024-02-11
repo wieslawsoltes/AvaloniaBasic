@@ -9,7 +9,7 @@
         x:Class="FormsBuilder.MainWindow"
         x:CompileBindings="True" x:DataType="c:MainViewViewModel"
         RenderOptions.RequiresFullOpacityHandling="True"
-        Title="Form Builder">
+        Title="Forms Builder">
   <Panel>
 
     <Grid ColumnDefinitions="220,0.5,*,0.5,220"
