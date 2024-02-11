@@ -191,6 +191,7 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         }
     }
 
+    // TODO:
     private void Drop(PointerEventArgs e, HashSet<Visual> ignored)
     {
         if (_control is null || _xamlItem is null)
@@ -218,6 +219,7 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         _xamlEditorViewModel.InsertXamlItem(target, _control, _xamlItem, position);
     }
 
+    // TODO:
     private Control? GetTarget(Interactive root, Point position, HashSet<Visual> ignored)
     {
         var descendants = root.GetLogicalDescendants().Cast<Visual>();
