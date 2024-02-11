@@ -6,7 +6,7 @@ namespace FormsBuilder;
 
 public static class XamlItemFactory
 {
-    public static XamlItem Clone(XamlItem xamlItem, XamlItemIdManager idManager, bool newId = true)
+    public static XamlItem Clone(XamlItem xamlItem, IXamlItemIdManager idManager, bool newId = true)
     {
         return new XamlItem(
             xamlItem.Name, 
@@ -16,14 +16,14 @@ public static class XamlItemFactory
             xamlItem.ChildrenProperty);
     }
 
-    public static Dictionary<string, XamlValue> CloneProperties(Dictionary<string, XamlValue> properties, XamlItemIdManager idManager, bool newId)
+    public static Dictionary<string, XamlValue> CloneProperties(Dictionary<string, XamlValue> properties, IXamlItemIdManager idManager, bool newId)
     {
         return properties.ToDictionary(
             x => x.Key,
             x => CloneValue(x.Value, idManager, newId));
     }
 
-    public static XamlValue CloneValue(XamlValue value, XamlItemIdManager idManager, bool newId)
+    public static XamlValue CloneValue(XamlValue value, IXamlItemIdManager idManager, bool newId)
     {
         switch (value)
         {

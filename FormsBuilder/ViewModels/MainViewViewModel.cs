@@ -15,8 +15,8 @@ public class MainViewViewModel : ReactiveObject
 {
     private readonly EditorCanvasView _editorCanvas;
     private readonly ApplicationService _applicationService;
-    private readonly XamlEditorViewModel _xamlEditorViewModel;
-    private readonly XamlSelectionViewModel _xamlSelectionViewModel;
+    private readonly IXamlEditorViewModel _xamlEditorViewModel;
+    private readonly IXamlSelectionViewModel _xamlSelectionViewModel;
     private readonly Demos _demos;
 
     public MainViewViewModel(EditorCanvasView editorCanvas)
@@ -58,9 +58,9 @@ public class MainViewViewModel : ReactiveObject
 
     public List<XamlItem> ToolBoxItems { get; set; }
 
-    public XamlEditorViewModel XamlEditorViewModel => _xamlEditorViewModel;
+    public IXamlEditorViewModel XamlEditorViewModel => _xamlEditorViewModel;
  
-    public XamlSelectionViewModel XamlSelectionViewModel => _xamlSelectionViewModel;
+    public IXamlSelectionViewModel XamlSelectionViewModel => _xamlSelectionViewModel;
 
     public Demos Demos => _demos;
 

@@ -48,7 +48,7 @@ public interface IToolContext
 public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
 {
     private readonly OverlayView _overlayView;
-    private readonly XamlEditorViewModel _xamlEditorViewModel;
+    private readonly IXamlEditorViewModel _xamlEditorViewModel;
     private Control? _host;
     private Panel? _rootPanel;
     private GridLines? _gridLines;
@@ -56,7 +56,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
     private readonly List<Tool> _tools;
     private Tool? _currentTool;
 
-    public CanvasViewModel(OverlayView overlayView, XamlEditorViewModel xamlEditorViewModel)
+    public CanvasViewModel(OverlayView overlayView, IXamlEditorViewModel xamlEditorViewModel)
     {
         _overlayView = overlayView;
         _xamlEditorViewModel = xamlEditorViewModel;

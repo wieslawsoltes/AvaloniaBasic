@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -16,28 +15,20 @@ public interface IToolboxViewModel
 {
     void AttachToContainer(Control container);
     void DetachFromContainer(Control container);
-    IDisposable SuppressChangeNotifications();
-    bool AreChangeNotificationsEnabled();
-    IDisposable DelayChangeNotifications();
-    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
-    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changed { get; }
-    IObservable<Exception> ThrownExceptions { get; }
-    event PropertyChangingEventHandler? PropertyChanging;
-    event PropertyChangedEventHandler? PropertyChanged;
 }
 
 public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
 {
     private readonly Control _host;
     private readonly OverlayView _overlayView;
-    private readonly XamlEditorViewModel _xamlEditorViewModel;
+    private readonly IXamlEditorViewModel _xamlEditorViewModel;
     private bool _captured;
     private Point _start;
     private Control? _control;
     private HashSet<Visual> _ignored;
     private XamlItem? _xamlItem;
 
-    public ToolboxViewModel(Control host, OverlayView overlayView, XamlEditorViewModel xamlEditorViewModel)
+    public ToolboxViewModel(Control host, OverlayView overlayView, IXamlEditorViewModel xamlEditorViewModel)
     {
         _host = host;
         _overlayView = overlayView;
@@ -200,53 +191,6 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         }
     }
 
-    private static Control? HitTest(
-        IEnumerable<Visual> descendants,
-        Point position,
-        HashSet<Visual> ignored,
-        XamlEditorViewModel xamlEditorViewModel)
-    {
-        bool Contains(Control visual)
-        {
-            return xamlEditorViewModel.TryGetXamlItem(visual, out _);
-        }
-
-        var visuals = descendants
-            .OfType<Control>()
-            .Where(visual =>
-            {
-                if (!Contains(visual))
-                {
-                    return false;
-                }
-
-                if (ignored.Contains(visual))
-                {
-                    return false;
-                }
-
-                var transformedBounds = visual.GetTransformedBounds();
-                return transformedBounds is not null
-                       && transformedBounds.Value.Contains(position);
-
-            });
-
-        return visuals.Reverse().FirstOrDefault();
-    }
-    
-    private static Control? GetTarget(Control host, PointerEventArgs e, XamlEditorViewModel xamlEditorViewModel, HashSet<Visual> ignored)
-    {
-        if (host.GetVisualRoot() is not Interactive root)
-        {
-            return null;
-        }
-
-        var position = e.GetPosition(root);
-        var descendants = root.GetLogicalDescendants().Cast<Visual>();
-
-        return HitTest(descendants, position, ignored, xamlEditorViewModel);
-    }
-
     private void Drop(PointerEventArgs e, HashSet<Visual> ignored)
     {
         if (_control is null || _xamlItem is null)
@@ -254,8 +198,12 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
             return;
         }
 
-        var target = GetTarget(_host, e, _xamlEditorViewModel, ignored);
+        if (_host.GetVisualRoot() is not Interactive root)
+        {
+            return;
+        }
 
+        var target = GetTarget(root, e.GetPosition(root), ignored);
         if (target is null)
         {
             return;
@@ -268,5 +216,12 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         _xamlEditorViewModel.RemoveControl(_control);
 
         _xamlEditorViewModel.InsertXamlItem(target, _control, _xamlItem, position);
+    }
+
+    private Control? GetTarget(Interactive root, Point position, HashSet<Visual> ignored)
+    {
+        var descendants = root.GetLogicalDescendants().Cast<Visual>();
+
+        return _xamlEditorViewModel.HitTest(descendants, position, ignored);
     }
 }

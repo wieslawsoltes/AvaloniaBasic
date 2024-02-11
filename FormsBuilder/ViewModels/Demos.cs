@@ -5,9 +5,9 @@ namespace FormsBuilder;
 
 public class Demos
 {
-    private readonly XamlEditorViewModel _xamlEditorViewModel;
+    private readonly IXamlEditorViewModel _xamlEditorViewModel;
 
-    public Demos(XamlEditorViewModel xamlEditorViewModel)
+    public Demos(IXamlEditorViewModel xamlEditorViewModel)
     {
         _xamlEditorViewModel = xamlEditorViewModel;
     }

@@ -13,36 +13,32 @@ public interface IXamlSelectionViewModel
 {
     event EventHandler<EventArgs>? HoveredChanged;
     event EventHandler<EventArgs>? SelectedChanged;
-    Visual? Hovered { get; set; }
-    HashSet<Visual> Selected { get; set; }
+    event EventHandler<EventArgs>? SelectedMoved;
+    Visual? Hovered { get; }
+    HashSet<Visual> Selected { get; }
     bool DrawSelection { get; set; }
     Point StartPoint { get; set; }
     Point EndPoint { get; set; }
-    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
-    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changed { get; }
-    IObservable<Exception> ThrownExceptions { get; }
     void CopySelected();
     void CutSelected();
     void PasteSelected();
     void RemoveSelected();
+    void BeginMoveSelection();
+    void EndMoveSelection();
+    void MoveSelection(Point delta);
     void Hover(Visual? visual);
     void Select(IEnumerable<Visual>? visuals);
     void Selection(Point startPoint, Point endPoint);
     void ClearSelection();
     Rect GetSelectionRect();
-    IDisposable SuppressChangeNotifications();
-    bool AreChangeNotificationsEnabled();
-    IDisposable DelayChangeNotifications();
-    event PropertyChangingEventHandler? PropertyChanging;
-    event PropertyChangedEventHandler? PropertyChanged;
 }
 
 public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
 {
-    private readonly XamlEditorViewModel _xamlEditorViewModel;
+    private readonly IXamlEditorViewModel _xamlEditorViewModel;
     private List<XamlItem>? _xamlItemsCopy;
 
-    public XamlSelectionViewModel(XamlEditorViewModel xamlEditorViewModel)
+    public XamlSelectionViewModel(IXamlEditorViewModel xamlEditorViewModel)
     {
         _xamlEditorViewModel = xamlEditorViewModel;
     }
@@ -53,9 +49,9 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
 
     public event EventHandler<EventArgs>? SelectedMoved;
 
-    public Visual? Hovered { get; set; }
+    public Visual? Hovered { get; private set; }
 
-    public HashSet<Visual> Selected { get; set; }
+    public HashSet<Visual> Selected { get; private set; }
 
     public bool DrawSelection { get; set; }
 

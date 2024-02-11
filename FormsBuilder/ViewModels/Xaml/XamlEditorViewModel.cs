@@ -17,13 +17,14 @@ public interface IXamlEditorViewModel
     event EventHandler<EventArgs>? PropertyValueChanged;
     event EventHandler<EventArgs>? ControlAdded;
     event EventHandler<EventArgs>? ControlRemoved;
-    XamlItem? RootXamlItem { get; set; }
+    XamlItem? RootXamlItem { get; }
     bool EnableEditing { get; set; }
     CanvasViewModel? CanvasViewModel { get; set; }
-    XamlItemIdManager IdManager { get; }
+    IXamlItemIdManager IdManager { get; }
     IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
     IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changed { get; }
-    IObservable<Exception> ThrownExceptions { get; }
+    void AddControl(Control control, XamlItem xamlItem);
+    void RemoveControl(Control control);
     void InsertXamlItem(Control target, Control control, XamlItem xamlItem, Point position);
     bool RemoveXamlItem(XamlItem xamlItem);
     bool TryGetXamlItem(Control control, out XamlItem? xamlItem);
@@ -32,18 +33,15 @@ public interface IXamlEditorViewModel
     Control? LoadForDesign(XamlItem xamlItem);
     Control? LoadForExport(XamlItem xamlItem);
     void Reload(XamlItem rooXamlItem);
+    Control? HitTest(IEnumerable<Visual> descendants, Point position, HashSet<Visual> ignored);
+    // TODO:
     void Debug(XamlItem xamlItem);
-    IDisposable SuppressChangeNotifications();
-    bool AreChangeNotificationsEnabled();
-    IDisposable DelayChangeNotifications();
-    event PropertyChangingEventHandler? PropertyChanging;
-    event PropertyChangedEventHandler? PropertyChanged;
 }
 
 public class XamlEditorViewModel : ReactiveObject, IXamlEditorViewModel
 {
     private readonly Dictionary<Control, XamlItem> _controlsDictionary;
-    private readonly XamlItemIdManager _idManager;
+    private readonly IXamlItemIdManager _idManager;
 
     public XamlEditorViewModel()
     {
@@ -57,13 +55,13 @@ public class XamlEditorViewModel : ReactiveObject, IXamlEditorViewModel
 
     public event EventHandler<EventArgs>? ControlRemoved;
 
-    public XamlItem? RootXamlItem { get; set; }
+    public XamlItem? RootXamlItem { get; private set; }
 
     public bool EnableEditing { get; set; }
 
     public CanvasViewModel? CanvasViewModel { get; set; }
 
-    public XamlItemIdManager IdManager => _idManager;
+    public IXamlItemIdManager IdManager => _idManager;
 
     public void AddControl(Control control, XamlItem xamlItem)
     {
@@ -254,7 +252,37 @@ public class XamlEditorViewModel : ReactiveObject, IXamlEditorViewModel
             CanvasViewModel?.AddToRoot(control);
         }
     }
-    
+
+    public Control? HitTest(IEnumerable<Visual> descendants, Point position, HashSet<Visual> ignored)
+    {
+        var visuals = descendants
+            .OfType<Control>()
+            .Where(visual =>
+            {
+                if (!Contains(visual))
+                {
+                    return false;
+                }
+
+                if (ignored.Contains(visual))
+                {
+                    return false;
+                }
+
+                var transformedBounds = visual.GetTransformedBounds();
+                return transformedBounds is not null
+                       && transformedBounds.Value.Contains(position);
+
+            });
+
+        return visuals.Reverse().FirstOrDefault();
+
+        bool Contains(Control visual)
+        {
+            return TryGetXamlItem(visual, out _);
+        }
+    }
+
     public void Debug(XamlItem xamlItem)
     {
         var settings = new XamlServiceSettings
