@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
 using ReactiveUI;
 
@@ -21,11 +21,9 @@ public interface IXamlEditorViewModel
     bool EnableEditing { get; set; }
     CanvasViewModel? CanvasViewModel { get; set; }
     IXamlItemIdManager IdManager { get; }
-    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
-    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changed { get; }
     void AddControl(Control control, XamlItem xamlItem);
     void RemoveControl(Control control);
-    void InsertXamlItem(Control target, Control control, XamlItem xamlItem, Point position);
+    void InsertXamlItem(Control target, XamlItem xamlItem, Point position);
     bool RemoveXamlItem(XamlItem xamlItem);
     bool TryGetXamlItem(Control control, out XamlItem? xamlItem);
     bool TryGetControl(XamlItem xamlItem, out Control? control);
@@ -34,6 +32,7 @@ public interface IXamlEditorViewModel
     Control? LoadForExport(XamlItem xamlItem);
     void Reload(XamlItem rooXamlItem);
     Control? HitTest(IEnumerable<Visual> descendants, Point position, HashSet<Visual> ignored);
+    Control? HitTest(ILogical root, Point position, HashSet<Visual> ignored);
     // TODO:
     void Debug(XamlItem xamlItem);
 }
@@ -107,7 +106,7 @@ public class XamlEditorViewModel : ReactiveObject, IXamlEditorViewModel
         }
     }
 
-    public void InsertXamlItem(Control target, Control control, XamlItem xamlItem, Point position)
+    public void InsertXamlItem(Control target, XamlItem xamlItem, Point position)
     {
         if (!TryGetXamlItem(target, out var targetXamlItem))
         {
@@ -281,6 +280,13 @@ public class XamlEditorViewModel : ReactiveObject, IXamlEditorViewModel
         {
             return TryGetXamlItem(visual, out _);
         }
+    }
+
+    public Control? HitTest(ILogical root, Point position, HashSet<Visual> ignored)
+    {
+        var descendants = root.GetLogicalDescendants().Cast<Visual>();
+
+        return HitTest(descendants, position, ignored);
     }
 
     public void Debug(XamlItem xamlItem)

@@ -191,7 +191,6 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         }
     }
 
-    // TODO:
     private void Drop(PointerEventArgs e, HashSet<Visual> ignored)
     {
         if (_control is null || _xamlItem is null)
@@ -204,7 +203,7 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
             return;
         }
 
-        var target = GetTarget(root, e.GetPosition(root), ignored);
+        var target = _xamlEditorViewModel.HitTest(root, e.GetPosition(root), ignored);
         if (target is null)
         {
             return;
@@ -216,14 +215,6 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
 
         _xamlEditorViewModel.RemoveControl(_control);
 
-        _xamlEditorViewModel.InsertXamlItem(target, _control, _xamlItem, position);
-    }
-
-    // TODO:
-    private Control? GetTarget(Interactive root, Point position, HashSet<Visual> ignored)
-    {
-        var descendants = root.GetLogicalDescendants().Cast<Visual>();
-
-        return _xamlEditorViewModel.HitTest(descendants, position, ignored);
+        _xamlEditorViewModel.InsertXamlItem(target, _xamlItem, position);
     }
 }
