@@ -297,8 +297,8 @@ public class Demos
             {
                 ["Children"] = (XamlValue) new List<XamlItem>(),
                 ["Background"] = (XamlValue) "White",
-                ["Width"] = (XamlValue) "350",
-                ["Height"] = (XamlValue) "500",
+                ["Width"] = (XamlValue) "336",
+                ["Height"] = (XamlValue) "480",
             },
             contentProperty: "Children", 
             childrenProperty: "Children");
@@ -314,8 +314,8 @@ public class Demos
             {
                 ["Children"] = (XamlValue) new List<XamlItem>(),
                 ["Background"] = (XamlValue) "White",
-                ["Width"] = (XamlValue) "450",
-                ["Height"] = (XamlValue) "500",
+                ["Width"] = (XamlValue) "336",
+                ["Height"] = (XamlValue) "480",
             },
             contentProperty: "Children", 
             childrenProperty: "Children");
@@ -331,8 +331,8 @@ public class Demos
             {
                 ["Children"] = (XamlValue) new List<XamlItem>(),
                 ["Background"] = (XamlValue) "White",
-                ["Width"] = (XamlValue) "350",
-                ["Height"] = (XamlValue) "500",
+                ["Width"] = (XamlValue) "336",
+                ["Height"] = (XamlValue) "480",
             },
             contentProperty: "Children", 
             childrenProperty: "Children");
