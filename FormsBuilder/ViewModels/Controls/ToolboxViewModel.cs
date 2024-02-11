@@ -84,7 +84,8 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
     {
         if (_control is not null)
         {
-            Drop(e, _ignored, true);
+            RemovePreview();
+            Drop(e, _ignored);
         }
 
         Clean();
@@ -147,20 +148,18 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
             e.PreventGestureRecognition();
             
             MovePreview(e, position);
-
-            Drop(e, _ignored, false);
         }
     }
 
-    private Control? GetTarget(PointerEventArgs e, HashSet<Visual> ignored)
+    private static Control? GetTarget(Control host, PointerEventArgs e, HashSet<Visual> ignored)
     {
-        var root = _host.GetVisualRoot() as Interactive;
+        var root = host.GetVisualRoot() as Interactive;
         if (root is null)
         {
             return null;
         }
 
-        var mainViewModel = _host.DataContext as MainViewViewModel;
+        var mainViewModel = host.DataContext as MainViewViewModel;
         if (mainViewModel is null)
         {
             return null;
@@ -207,28 +206,20 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         return visuals.Reverse().FirstOrDefault();
     }
 
-    private void Drop(PointerEventArgs e, HashSet<Visual> ignored, bool insert)
+    private void Drop(PointerEventArgs e, HashSet<Visual> ignored)
     {
-        if (insert)
-        {
-            RemovePreview();
-        }
+        var target = GetTarget(_host, e, ignored);
 
-        var target = GetTarget(e, ignored);
-
-        if (insert)
+        if (target is not null && _control is not null && _xamlItem is not null)
         {
-            if (target is not null && _control is not null && _xamlItem is not null)
-            {
-                var position = e.GetPosition(target);
-                Insert(target, _control, _xamlItem, position);
-            }
+            var position = e.GetPosition(target);
+            Insert(_host, target, _control, _xamlItem, position);
         }
     }
 
-    private void Insert(Control target, Control control, XamlItem xamlItem, Point position)
+    private static void Insert(Control host, Control target, Control control, XamlItem xamlItem, Point position)
     {
-        var mainViewModel = _host.DataContext as MainViewViewModel;
+        var mainViewModel = host.DataContext as MainViewViewModel;
         if (mainViewModel is null)
         {
             return;
