@@ -236,8 +236,7 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
     
     private static Control? GetTarget(Control host, PointerEventArgs e, XamlEditorViewModel xamlEditorViewModel, HashSet<Visual> ignored)
     {
-        var root = host.GetVisualRoot() as Interactive;
-        if (root is null)
+        if (host.GetVisualRoot() is not Interactive root)
         {
             return null;
         }
