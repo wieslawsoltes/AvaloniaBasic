@@ -30,16 +30,18 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
 {
     private readonly Control _host;
     private readonly OverlayView _overlayView;
+    private readonly XamlEditorViewModel _xamlEditorViewModel;
     private bool _captured;
     private Point _start;
     private Control? _control;
     private HashSet<Visual> _ignored;
     private XamlItem? _xamlItem;
 
-    public ToolboxViewModel(Control host, OverlayView overlayView)
+    public ToolboxViewModel(Control host, OverlayView overlayView, XamlEditorViewModel xamlEditorViewModel)
     {
         _host = host;
         _overlayView = overlayView;
+        _xamlEditorViewModel = xamlEditorViewModel;
         _ignored = new HashSet<Visual>();
     }
 
@@ -151,97 +153,13 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         }
     }
 
-    private static Control? GetTarget(Control host, PointerEventArgs e, HashSet<Visual> ignored)
-    {
-        var root = host.GetVisualRoot() as Interactive;
-        if (root is null)
-        {
-            return null;
-        }
-
-        var mainViewModel = host.DataContext as MainViewViewModel;
-        if (mainViewModel is null)
-        {
-            return null;
-        }
-
-        var position = e.GetPosition(root);
-        var descendants = root.GetLogicalDescendants().Cast<Visual>();
-        var xamlEditorViewModel = mainViewModel.XamlEditorViewModel;
-
-        return HitTest(descendants, position, ignored, xamlEditorViewModel);
-    }
-
-    private static Control? HitTest(
-        IEnumerable<Visual> descendants,
-        Point position,
-        HashSet<Visual> ignored,
-        XamlEditorViewModel xamlEditorViewModel)
-    {
-        bool Contains(Control visual)
-        {
-            return xamlEditorViewModel.TryGetXamlItem(visual, out _);
-        }
-
-        var visuals = descendants
-            .OfType<Control>()
-            .Where(visual =>
-            {
-                if (!Contains(visual))
-                {
-                    return false;
-                }
-
-                if (ignored.Contains(visual))
-                {
-                    return false;
-                }
-
-                var transformedBounds = visual.GetTransformedBounds();
-                return transformedBounds is not null
-                       && transformedBounds.Value.Contains(position);
-
-            });
-
-        return visuals.Reverse().FirstOrDefault();
-    }
-
-    private void Drop(PointerEventArgs e, HashSet<Visual> ignored)
-    {
-        var target = GetTarget(_host, e, ignored);
-
-        if (target is not null && _control is not null && _xamlItem is not null)
-        {
-            var position = e.GetPosition(target);
-            Insert(_host, target, _control, _xamlItem, position);
-        }
-    }
-
-    private static void Insert(Control host, Control target, Control control, XamlItem xamlItem, Point position)
-    {
-        var mainViewModel = host.DataContext as MainViewViewModel;
-        if (mainViewModel is null)
-        {
-            return;
-        }
-
-        position = SnapHelper.SnapPoint(position, 6, 6, true);
-
-        mainViewModel.XamlEditorViewModel.InsertXamlItem(target, control, xamlItem, position);
-    }
-
     private void CreatePreview(object? sender)
     {
         try
         {
-            if (_host.DataContext is not MainViewViewModel mainViewModel)
-            {
-                return;
-            }
-
             if (sender is ListBoxItem listBoxItem && listBoxItem.Content is XamlItem toolBoxItem)
             {
-                _xamlItem = XamlItemFactory.Clone(toolBoxItem, mainViewModel.XamlEditorViewModel.IdManager);
+                _xamlItem = XamlItemFactory.Clone(toolBoxItem, _xamlEditorViewModel.IdManager);
                 _control = XamlItemControlFactory.CreateControl(_xamlItem, isRoot: true, writeUid: true);
             }
         }
@@ -279,6 +197,68 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         if (_control is not null && _overlayView.Child is Canvas canvas)
         {
             canvas.Children.Remove(_control);
+        }
+    }
+
+    private static Control? HitTest(
+        IEnumerable<Visual> descendants,
+        Point position,
+        HashSet<Visual> ignored,
+        XamlEditorViewModel xamlEditorViewModel)
+    {
+        bool Contains(Control visual)
+        {
+            return xamlEditorViewModel.TryGetXamlItem(visual, out _);
+        }
+
+        var visuals = descendants
+            .OfType<Control>()
+            .Where(visual =>
+            {
+                if (!Contains(visual))
+                {
+                    return false;
+                }
+
+                if (ignored.Contains(visual))
+                {
+                    return false;
+                }
+
+                var transformedBounds = visual.GetTransformedBounds();
+                return transformedBounds is not null
+                       && transformedBounds.Value.Contains(position);
+
+            });
+
+        return visuals.Reverse().FirstOrDefault();
+    }
+    
+    private static Control? GetTarget(Control host, PointerEventArgs e, XamlEditorViewModel xamlEditorViewModel, HashSet<Visual> ignored)
+    {
+        var root = host.GetVisualRoot() as Interactive;
+        if (root is null)
+        {
+            return null;
+        }
+
+        var position = e.GetPosition(root);
+        var descendants = root.GetLogicalDescendants().Cast<Visual>();
+
+        return HitTest(descendants, position, ignored, xamlEditorViewModel);
+    }
+
+    private void Drop(PointerEventArgs e, HashSet<Visual> ignored)
+    {
+        var target = GetTarget(_host, e, _xamlEditorViewModel, ignored);
+
+        if (target is not null && _control is not null && _xamlItem is not null)
+        {
+            var position = e.GetPosition(target);
+
+            position = SnapHelper.SnapPoint(position, 6, 6, true);
+
+            _xamlEditorViewModel.InsertXamlItem(target, _control, _xamlItem, position);
         }
     }
 }

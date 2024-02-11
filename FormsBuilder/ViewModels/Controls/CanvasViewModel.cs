@@ -48,6 +48,7 @@ public interface IToolContext
 public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
 {
     private readonly OverlayView _overlayView;
+    private readonly XamlEditorViewModel _xamlEditorViewModel;
     private Control? _host;
     private Panel? _rootPanel;
     private GridLines? _gridLines;
@@ -55,9 +56,10 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
     private readonly List<Tool> _tools;
     private Tool? _currentTool;
 
-    public CanvasViewModel(OverlayView overlayView)
+    public CanvasViewModel(OverlayView overlayView, XamlEditorViewModel xamlEditorViewModel)
     {
         _overlayView = overlayView;
+        _xamlEditorViewModel = xamlEditorViewModel;
 
         _tools = new List<Tool>
         {
@@ -272,11 +274,6 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
 
     public IEnumerable<Visual> HitTest(Interactive interactive, HitTestMode hitTestMode, HashSet<Visual> ignored, Func<TransformedBounds, bool> filter)
     {
-        if (_host?.DataContext is not MainViewViewModel mainViewModel)
-        {
-            return Enumerable.Empty<Visual>();
-        }
-
         var root = interactive.GetVisualRoot();
         if (root is null)
         {
@@ -293,13 +290,16 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
             case HitTestMode.Logical:
                 descendants.AddRange(interactive.GetLogicalDescendants().Cast<Visual>());
                 break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(hitTestMode), hitTestMode, null);
         }
 
         var visuals = descendants
             .OfType<Control>()
             .Select(visual =>
             {
-                mainViewModel.XamlEditorViewModel.TryGetXamlItem(visual, out var xamlItem);
+                _xamlEditorViewModel.TryGetXamlItem(visual, out var xamlItem);
+
                 return new
                 {
                     Visual = visual,

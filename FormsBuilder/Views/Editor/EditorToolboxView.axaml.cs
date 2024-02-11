@@ -25,10 +25,13 @@ public partial class EditorToolboxView : UserControl
     {
         base.OnAttachedToVisualTree(e);
 
-        _toolboxViewModel = new ToolboxViewModel(this, OverlayView);
+        if (DataContext is MainViewViewModel mainViewModel)
+        {
+            _toolboxViewModel = new ToolboxViewModel(this, OverlayView, mainViewModel.XamlEditorViewModel);
 
-        ToolboxListBox.ContainerPrepared += ToolboxListBoxOnContainerPrepared;
-        ToolboxListBox.ContainerClearing += ToolboxListBoxOnContainerClearing;
+            ToolboxListBox.ContainerPrepared += ToolboxListBoxOnContainerPrepared;
+            ToolboxListBox.ContainerClearing += ToolboxListBoxOnContainerClearing;
+        }
     }
 
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
