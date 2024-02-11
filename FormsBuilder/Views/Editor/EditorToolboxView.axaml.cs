@@ -8,7 +8,7 @@ public partial class EditorToolboxView : UserControl
     public static readonly StyledProperty<OverlayView> OverlayViewProperty = 
         AvaloniaProperty.Register<EditorToolboxView, OverlayView>(nameof(OverlayView));
 
-    private ToolboxViewModel? _toolboxViewModel;
+    private IToolboxViewModel? _toolboxViewModel;
 
     public OverlayView OverlayView
     {

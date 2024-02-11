@@ -59,36 +59,9 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         Pressed(e);
     }
 
-    private void Pressed(PointerPressedEventArgs e)
-    {
-        if (e.Pointer.Type == PointerType.Mouse)
-        {
-            _captured = true;
-            _start = e.GetPosition(e.Source as Control);
-        }
-    }
-
     private void ContainerOnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         Released(e);
-    }
-
-    private void Released(PointerReleasedEventArgs e)
-    {
-        if (_control is not null)
-        {
-            RemovePreview();
-            Drop(e, _ignored);
-        }
-
-        Clean();
-    }
-
-    private void Clean()
-    {
-        _captured = false;
-        _control = null;
-        _xamlItem = null;
     }
 
     private void ContainerOnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
@@ -108,6 +81,26 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
     private void ContainerOnPointerMoved(object? sender, PointerEventArgs e)
     {
         Moved(sender, e);
+    }
+
+    private void Pressed(PointerPressedEventArgs e)
+    {
+        if (e.Pointer.Type == PointerType.Mouse)
+        {
+            _captured = true;
+            _start = e.GetPosition(e.Source as Control);
+        }
+    }
+
+    private void Released(PointerReleasedEventArgs e)
+    {
+        if (_control is not null)
+        {
+            RemovePreview();
+            Drop(e, _ignored);
+        }
+
+        Clean();
     }
 
     private void Moved(object? sender, PointerEventArgs e)
@@ -142,6 +135,13 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
             
             MovePreview(e, position);
         }
+    }
+
+    private void Clean()
+    {
+        _captured = false;
+        _control = null;
+        _xamlItem = null;
     }
 
     private void CreatePreview(object? sender)
