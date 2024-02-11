@@ -20,7 +20,7 @@ public interface ICanvasViewModel
     IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
     IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changed { get; }
     IObservable<Exception> ThrownExceptions { get; }
-    void AttachHost(Control host, Panel rootPanel);
+    void AttachHost(Control host, Panel rootPanel, GridLines gridLines);
     void DetachHost();
     void AddRoot(Control control);
     IDisposable SuppressChangeNotifications();
@@ -50,6 +50,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
     private readonly OverlayView _overlayView;
     private Control? _host;
     private Panel? _rootPanel;
+    private GridLines? _gridLines;
     private IDisposable? _isHitTestVisibleDisposable;
     private List<Tool> _tools;
     private Tool? _currentTool;
@@ -73,9 +74,11 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
 
     public Panel? RootPanel => _rootPanel;
 
+    public GridLines? GridLines => _gridLines;
+
     public bool ReverseOrder { get; set; } = true;
 
-    public void AttachHost(Control host, Panel rootPanel)
+    public void AttachHost(Control host, Panel rootPanel, GridLines gridLines)
     {
         _host = host;
 
@@ -87,6 +90,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
         _host.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
 
         _rootPanel = rootPanel;
+        _gridLines = gridLines;
 
         _isHitTestVisibleDisposable = _rootPanel.GetObservable(InputElement.IsHitTestVisibleProperty).Subscribe(new AnonymousObserver<bool>(_ =>
         {
@@ -112,17 +116,21 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
 
         _isHitTestVisibleDisposable?.Dispose();
         _rootPanel = null;
+        _gridLines = null;
     }
 
     public void AddRoot(Control control)
     {
-        if (_rootPanel is null)
+        if (_rootPanel is null || _gridLines is null)
         {
             return;
         }
 
         _rootPanel.Children.Clear();
         _rootPanel.Children.Add(control);
+
+        _gridLines.Width = control.Width;
+        _gridLines.Height = control.Height;
     }
 
     private void OnKeyDown(object? sender, KeyEventArgs e)
