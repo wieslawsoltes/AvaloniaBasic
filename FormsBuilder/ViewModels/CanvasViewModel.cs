@@ -36,6 +36,8 @@ public interface IToolContext
 
     Control? Host { get; }
 
+    Panel? RootPanel { get; }
+
     IEnumerable<Visual> HitTest(
         Interactive interactive,
         HitTestMode hitTestMode,
@@ -68,6 +70,8 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
     public OverlayView OverlayView => _overlayView;
  
     public Control? Host => _host;
+
+    public Panel? RootPanel => _rootPanel;
 
     public bool ReverseOrder { get; set; } = true;
 
