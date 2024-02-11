@@ -159,9 +159,6 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         {
             return null;
         }
-        var descendants = root.GetLogicalDescendants().Cast<Visual>();
-
-        var position = e.GetPosition(root);
 
         var mainViewModel = _host.DataContext as MainViewViewModel;
         if (mainViewModel is null)
@@ -169,29 +166,47 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
             return null;
         }
 
+        var position = e.GetPosition(root);
+        var descendants = root.GetLogicalDescendants().Cast<Visual>();
+        var xamlEditorViewModel = mainViewModel.XamlEditorViewModel;
+
+        return HitTest(descendants, position, ignored, xamlEditorViewModel);
+    }
+
+    private static Control? HitTest(
+        IEnumerable<Visual> descendants,
+        Point position,
+        HashSet<Visual> ignored,
+        XamlEditorViewModel xamlEditorViewModel)
+    {
+        bool Contains(Control visual)
+        {
+            return xamlEditorViewModel.TryGetXamlItem(visual, out _);
+        }
+
         var visuals = descendants
             .OfType<Control>()
             .Where(visual =>
             {
-                if (!mainViewModel.XamlEditorViewModel.TryGetXamlItem(visual, out _))
+                if (!Contains(visual))
                 {
                     return false;
                 }
 
-                if (!ignored.Contains(visual))
+                if (ignored.Contains(visual))
                 {
-                    var transformedBounds = visual.GetTransformedBounds();
-                    return transformedBounds is not null
-                           && transformedBounds.Value.Contains(position);
+                    return false;
                 }
 
-                return false;
-            })
-            .Reverse();
+                var transformedBounds = visual.GetTransformedBounds();
+                return transformedBounds is not null
+                       && transformedBounds.Value.Contains(position);
 
-        return visuals.FirstOrDefault();
+            });
+
+        return visuals.Reverse().FirstOrDefault();
     }
-    
+
     private void Drop(PointerEventArgs e, HashSet<Visual> ignored, bool insert)
     {
         if (insert)
