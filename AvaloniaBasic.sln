@@ -18,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResizingAdorner", "Resizing
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyGrid", "PropertyGrid\PropertyGrid.csproj", "{541A2577-0DDD-42CD-B2DB-55DEB3CB487C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoundsDemo", "BoundsDemo\BoundsDemo.csproj", "{561FE864-1D55-43B3-8653-90341E14E537}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsBuilder", "FormsBuilder\FormsBuilder.csproj", "{561FE864-1D55-43B3-8653-90341E14E537}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

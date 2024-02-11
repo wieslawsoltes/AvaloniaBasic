@@ -1,0 +1,102 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="FormsBuilder.TemplatedControlProperties">
+
+  <!-- TemplatedControl -->
+  <StackPanel Grid.IsSharedSizeScope="True">
+
+    <TextBlock Text="Background" Margin="12" />
+
+    <!-- TODO: BorderBrush -->
+
+    <!-- TODO: BorderThickness -->
+
+    <!-- TODO: CornerRadius -->
+
+    <!-- TODO: FontFamily -->
+
+    <!-- TODO: FontSize -->
+
+    <!-- TODO: FontStyle -->
+
+    <!-- TODO: FontWeight -->
+
+    <!-- TODO: FontStretch -->
+
+    <!-- TODO: Padding -->
+
+    <!-- TODO: Template -->
+
+    <!-- TODO: IsTemplateFocusTarget -->
+
+    <!-- Background -->
+    <TextBox Name="TextBoxBackground" BorderBrush="Transparent"
+             TextChanged="TextBoxBackground_OnTextChanged"
+             Margin="6,0,6,0">
+      <TextBox.InnerLeftContent>
+        <Button Classes="ColorView"
+                ToolTip.Tip="Background">
+          <Button.Flyout>
+            <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
+              <Panel Width="350">
+                <ColorView Name="BackgroundColorView" 
+                           SelectedIndex="2"
+                           ColorChanged="BackgroundColorView_OnColorChanged"/>
+              </Panel>
+            </Flyout>
+          </Button.Flyout>
+          <Rectangle Name="RectangleBackground"
+                     Width="16" Height="16"
+                     Margin="6,0,6,0"
+                     Fill="Transparent"
+                     Stroke="Black"
+                     StrokeThickness="0.55">
+          </Rectangle>
+        </Button>
+      </TextBox.InnerLeftContent>
+      <TextBox.InnerRightContent>
+        <TextBox Text="100%"
+                 BorderBrush="Transparent"/>
+      </TextBox.InnerRightContent>
+    </TextBox>
+
+    <TextBlock Text="Foreground" Margin="12" />
+
+    <!-- Foreground -->
+    <TextBox Name="TextBoxForeground" BorderBrush="Transparent"
+             TextChanged="TextBoxForeground_OnTextChanged"
+             Margin="6,0,6,0">
+      <TextBox.InnerLeftContent>
+        <Button Classes="ColorView"
+                ToolTip.Tip="Foreground">
+          <Button.Flyout>
+            <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
+              <Panel Width="350">
+                <ColorView Name="ForegroundColorView" 
+                           SelectedIndex="2"
+                           ColorChanged="ForegroundColorView_OnColorChanged"/>
+              </Panel>
+            </Flyout>
+          </Button.Flyout>
+          <Rectangle Name="RectangleForeground"
+                     Width="16" Height="16"
+                     Margin="6,0,6,0"
+                     Fill="Transparent"
+                     Stroke="Black"
+                     StrokeThickness="0.55">
+          </Rectangle>
+        </Button>
+      </TextBox.InnerLeftContent>
+      <TextBox.InnerRightContent>
+        <TextBox Text="100%"
+                 BorderBrush="Transparent"/>
+      </TextBox.InnerRightContent>
+    </TextBox>
+
+  </StackPanel>
+
+</UserControl>
+

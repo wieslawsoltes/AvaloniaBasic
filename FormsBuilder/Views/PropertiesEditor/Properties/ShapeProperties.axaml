@@ -1,0 +1,92 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="FormsBuilder.ShapeProperties">
+
+  <!-- Shape -->
+  <StackPanel Grid.IsSharedSizeScope="True">
+
+    <!-- TODO: Stretch -->
+
+    <!-- TODO: StrokeDashArray -->
+
+    <!-- TODO: StrokeDashOffset -->
+
+    <!-- TODO: StrokeThickness -->
+
+    <!-- TODO: StrokeLineCap -->
+
+    <!-- TODO: StrokeJoin -->
+
+    <TextBlock Text="Fill" Margin="12" />
+
+    <!-- Fill -->
+    <TextBox Name="TextBoxFill" BorderBrush="Transparent"
+             TextChanged="TextBoxFill_OnTextChanged"
+             Margin="6,0,6,0">
+      <TextBox.InnerLeftContent>
+        <Button Classes="ColorView"
+                ToolTip.Tip="Fill">
+          <Button.Flyout>
+            <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
+              <Panel Width="350">
+                <ColorView Name="FillColorView" 
+                           SelectedIndex="2"
+                           ColorChanged="FillColorView_OnColorChanged"/>
+              </Panel>
+            </Flyout>
+          </Button.Flyout>
+          <Rectangle Name="RectangleFill"
+                     Width="16" Height="16"
+                     Margin="6,0,6,0"
+                     Fill="Transparent"
+                     Stroke="Black"
+                     StrokeThickness="0.55">
+          </Rectangle>
+        </Button>
+      </TextBox.InnerLeftContent>
+      <TextBox.InnerRightContent>
+        <TextBox Text="100%"
+                 BorderBrush="Transparent"/>
+      </TextBox.InnerRightContent>
+    </TextBox>
+
+    <TextBlock Text="Stroke" Margin="12" />
+
+    <!-- Stroke -->
+    <TextBox Name="TextBoxStroke" BorderBrush="Transparent"
+             TextChanged="TextBoxStroke_OnTextChanged"
+             Margin="6,0,6,0">
+      <TextBox.InnerLeftContent>
+        <Button Classes="ColorView"
+                ToolTip.Tip="Stroke">
+          <Button.Flyout>
+            <Flyout ShowMode="TransientWithDismissOnPointerMoveAway">
+              <Panel Width="350">
+                <ColorView Name="StrokeColorView" 
+                           SelectedIndex="2"
+                           ColorChanged="StrokeColorView_OnColorChanged"/>
+              </Panel>
+            </Flyout>
+          </Button.Flyout>
+          <Rectangle Name="RectangleStroke"
+                     Width="16" Height="16"
+                     Margin="6,0,6,0"
+                     Fill="Transparent"
+                     Stroke="Black"
+                     StrokeThickness="0.55">
+          </Rectangle>
+        </Button>
+      </TextBox.InnerLeftContent>
+      <TextBox.InnerRightContent>
+        <TextBox Text="100%"
+                 BorderBrush="Transparent"/>
+      </TextBox.InnerRightContent>
+    </TextBox>
+
+  </StackPanel>
+
+</UserControl>
+
