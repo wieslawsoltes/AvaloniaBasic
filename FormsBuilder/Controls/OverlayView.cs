@@ -135,34 +135,6 @@ public class OverlayView : Decorator
         // DrawHelp(context);
     }
 
-    private void DrawHelp(DrawingContext context)
-    {
-        var helpText = $"[V] [L] Mode: {HitTestMode}, [H] Toggle HitTest, [R] Toggle Reverse Order";
-
-        var formattedTextMode = new FormattedText(
-            helpText, 
-            CultureInfo.CurrentCulture, 
-            FlowDirection.LeftToRight, 
-            Typeface.Default, 
-            12, 
-            Brushes.CornflowerBlue);
-
-        context.DrawText(formattedTextMode, new Point(10, Bounds.Height - 12 - 5));
-    }
-
-    private void DrawName(DrawingContext context, string name)
-    {
-        var formattedText = new FormattedText(
-            name, 
-            CultureInfo.CurrentCulture, 
-            FlowDirection.LeftToRight, 
-            Typeface.Default, 
-            12, 
-            Brushes.CornflowerBlue);
-
-        context.DrawText(formattedText, new Point(Bounds.Width - formattedText.Width - 10, Bounds.Height - 12 - 5));
-    }
-
     private static void RenderVisual(Visual visual, DrawingContext context, IPen? pen)
     {
         var transformedBounds = visual.GetTransformedBounds();
@@ -200,5 +172,33 @@ public class OverlayView : Decorator
     private static void RenderSelection(Rect rect, DrawingContext context, IBrush? brush, IPen? pen)
     {
         context.DrawRectangle(brush, pen, rect);
+    }
+
+    private void DrawHelp(DrawingContext context)
+    {
+        var helpText = $"[V] [L] Mode: {HitTestMode}, [H] Toggle HitTest, [R] Toggle Reverse Order";
+
+        var formattedTextMode = new FormattedText(
+            helpText, 
+            CultureInfo.CurrentCulture, 
+            FlowDirection.LeftToRight, 
+            Typeface.Default, 
+            12, 
+            Brushes.CornflowerBlue);
+
+        context.DrawText(formattedTextMode, new Point(10, Bounds.Height - 12 - 5));
+    }
+
+    private void DrawName(DrawingContext context, string name)
+    {
+        var formattedText = new FormattedText(
+            name, 
+            CultureInfo.CurrentCulture, 
+            FlowDirection.LeftToRight, 
+            Typeface.Default, 
+            12, 
+            Brushes.CornflowerBlue);
+
+        context.DrawText(formattedText, new Point(Bounds.Width - formattedText.Width - 10, Bounds.Height - 12 - 5));
     }
 }
