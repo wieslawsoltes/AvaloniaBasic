@@ -65,13 +65,13 @@ public class XamlEditorViewModel : ReactiveObject, IXamlEditorViewModel
 
     public XamlItemIdManager IdManager => _idManager;
 
-    private void AddControl(Control control, XamlItem xamlItem)
+    public void AddControl(Control control, XamlItem xamlItem)
     {
         _controlsDictionary[control] = xamlItem;
         OnControlAdded();
     }
 
-    private void RemoveControl(Control control)
+    public void RemoveControl(Control control)
     {
         _controlsDictionary.Remove(control);
         OnControlRemoved();
@@ -113,7 +113,6 @@ public class XamlEditorViewModel : ReactiveObject, IXamlEditorViewModel
     {
         if (!TryGetXamlItem(target, out var targetXamlItem))
         {
-            RemoveControl(control);
             return;
         }
 
@@ -148,51 +147,6 @@ public class XamlEditorViewModel : ReactiveObject, IXamlEditorViewModel
                 return;
             }
         }
-
-        RemoveControl(control);
- 
-        /*
-        if (target is Panel panel)
-        {
-            if (targetXamlItem.ChildrenProperty is not null)
-            {
-                panel.Children.Add(control);
-
-                targetXamlItem.TryAddChild(xamlItem);
-                AddControls(control, xamlItem);
-
-                Debug(targetXamlItem);
-            }
-        }
-        else if (target is ItemsControl itemsControl)
-        {
-            if (targetXamlItem.ChildrenProperty is not null)
-            {
-                itemsControl.Items.Add(control);
-
-                targetXamlItem.TryAddChild(xamlItem);
-                AddControls(control, xamlItem);
-
-                Debug(targetXamlItem);
-            }
-        }
-        else if (target is ContentControl contentControl)
-        {
-            if (targetXamlItem.ContentProperty is not null)
-            {
-                contentControl.Content = control;
-
-                targetXamlItem.TrySetContent(new XamlItemXamlValue(xamlItem));
-                AddControls(control, xamlItem);
-
-                Debug(targetXamlItem);
-            }
-        }
-        else
-        {
-            RemoveControl(control);
-        }
-        */
     }
 
     private void InsertCallback(XamlItem xamlItem, Point position, XamlItem targetXamlItem)

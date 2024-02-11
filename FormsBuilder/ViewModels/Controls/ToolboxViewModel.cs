@@ -250,15 +250,24 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
 
     private void Drop(PointerEventArgs e, HashSet<Visual> ignored)
     {
+        if (_control is null || _xamlItem is null)
+        {
+            return;
+        }
+
         var target = GetTarget(_host, e, _xamlEditorViewModel, ignored);
 
-        if (target is not null && _control is not null && _xamlItem is not null)
+        if (target is null)
         {
-            var position = e.GetPosition(target);
-
-            position = SnapHelper.SnapPoint(position, 6, 6, true);
-
-            _xamlEditorViewModel.InsertXamlItem(target, _control, _xamlItem, position);
+            return;
         }
+
+        var position = e.GetPosition(target);
+
+        position = SnapHelper.SnapPoint(position, 6, 6, true);
+
+        _xamlEditorViewModel.RemoveControl(_control);
+
+        _xamlEditorViewModel.InsertXamlItem(target, _control, _xamlItem, position);
     }
 }
