@@ -52,7 +52,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
     private Panel? _rootPanel;
     private GridLines? _gridLines;
     private IDisposable? _isHitTestVisibleDisposable;
-    private List<Tool> _tools;
+    private readonly List<Tool> _tools;
     private Tool? _currentTool;
 
     public CanvasViewModel(OverlayView overlayView)
