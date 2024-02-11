@@ -22,7 +22,7 @@ public interface ICanvasViewModel
     IObservable<Exception> ThrownExceptions { get; }
     void AttachHost(Control host, Panel rootPanel, GridLines gridLines);
     void DetachHost();
-    void AddRoot(Control control);
+    void AddToRoot(Control control);
     IDisposable SuppressChangeNotifications();
     bool AreChangeNotificationsEnabled();
     IDisposable DelayChangeNotifications();
@@ -62,8 +62,14 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
         _tools = new List<Tool>
         {
             new NoneTool(),
+            // Selection
             new PointerTool(this),
-            new SelectionTool(this)
+            new SelectionTool(this),
+            // Draw
+            new RectangleTool(),
+            new LineTool(),
+            new EllipseTool(),
+            new TextTool(),
         };
         _currentTool = _tools[2];
     }
@@ -119,7 +125,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
         _gridLines = null;
     }
 
-    public void AddRoot(Control control)
+    public void AddToRoot(Control control)
     {
         if (_rootPanel is null || _gridLines is null)
         {
@@ -155,8 +161,15 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
         _currentTool = e.Key switch
         {
             Key.N => _tools.FirstOrDefault(x => x is NoneTool),
+            // Selection
             Key.P => _tools.FirstOrDefault(x => x is PointerTool),
             Key.V => _tools.FirstOrDefault(x => x is SelectionTool),
+            // Draw
+            Key.R => _tools.FirstOrDefault(x => x is RectangleTool),
+            Key.L => _tools.FirstOrDefault(x => x is LineTool),
+            Key.O => _tools.FirstOrDefault(x => x is EllipseTool),
+            // Text
+            Key.T => _tools.FirstOrDefault(x => x is TextTool),
             _ => _currentTool
         };
     }

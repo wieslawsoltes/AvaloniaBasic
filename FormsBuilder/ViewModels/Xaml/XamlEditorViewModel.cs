@@ -297,7 +297,7 @@ public class XamlEditorViewModel : ReactiveObject, IXamlEditorViewModel
         var control = LoadForDesign(rooXamlItem);
         if (control is not null)
         {
-            CanvasViewModel?.AddRoot(control);
+            CanvasViewModel?.AddToRoot(control);
         }
     }
     

@@ -72,7 +72,7 @@ public class MainViewViewModel : ReactiveObject
         var control = _demos.DemoCanvas();
         if (control is not null)
         {
-            _xamlEditorViewModel.CanvasViewModel?.AddRoot(control);
+            _xamlEditorViewModel.CanvasViewModel?.AddToRoot(control);
         }
     }
 
