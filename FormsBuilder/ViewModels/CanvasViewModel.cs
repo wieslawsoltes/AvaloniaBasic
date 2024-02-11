@@ -140,6 +140,18 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
             return;
         }
 
+        switch (e.Key)
+        {
+            case Key.G:
+            {
+                if (_gridLines is not null)
+                {
+                    _gridLines.IsVisible = !_gridLines.IsVisible;
+                }
+                break;
+            }
+        }
+
         _currentTool = e.Key switch
         {
             Key.N => _tools.FirstOrDefault(x => x is NoneTool),
