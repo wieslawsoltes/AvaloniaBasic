@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
 using ReactiveUI;
 
@@ -56,17 +54,31 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
 
     private void ContainerOnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        Pressed(e);
+        if (e.Pointer.Type == PointerType.Mouse)
+        {
+            _captured = true;
+            _start = e.GetPosition(e.Source as Control);
+        }
     }
 
     private void ContainerOnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        Released(e);
+        if (_control is not null)
+        {
+            RemovePreview();
+            Drop(e, _ignored);
+        }
+
+        _captured = false;
+        _control = null;
+        _xamlItem = null;
     }
 
     private void ContainerOnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
-        Clean();
+        _captured = false;
+        _control = null;
+        _xamlItem = null;
     }
 
     private void ContainerOnHolding(object? sender, HoldingRoutedEventArgs e)
@@ -79,31 +91,6 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
     }
 
     private void ContainerOnPointerMoved(object? sender, PointerEventArgs e)
-    {
-        Moved(sender, e);
-    }
-
-    private void Pressed(PointerPressedEventArgs e)
-    {
-        if (e.Pointer.Type == PointerType.Mouse)
-        {
-            _captured = true;
-            _start = e.GetPosition(e.Source as Control);
-        }
-    }
-
-    private void Released(PointerReleasedEventArgs e)
-    {
-        if (_control is not null)
-        {
-            RemovePreview();
-            Drop(e, _ignored);
-        }
-
-        Clean();
-    }
-
-    private void Moved(object? sender, PointerEventArgs e)
     {
         if (!_captured)
         {
@@ -135,13 +122,6 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
             
             MovePreview(e, position);
         }
-    }
-
-    private void Clean()
-    {
-        _captured = false;
-        _control = null;
-        _xamlItem = null;
     }
 
     private void CreatePreview(object? sender)
