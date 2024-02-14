@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.VisualTree;
 
 namespace FormsBuilder;
 
@@ -88,7 +85,7 @@ public class SelectionTool : Tool
                 var selected = context.OverlayView.GetSelected();
                 if (selected is not null)
                 {
-                    _selectionRect = GetSelectionRectUnion(selected);
+                    _selectionRect = RectHelper.GetSelectionRectUnion(selected);
                 }
             }
             else
@@ -118,34 +115,6 @@ public class SelectionTool : Tool
         context.OverlayView.ClearSelection();
     }
 
-    private static Rect GetSelectionRect(Point startPoint, Point endPoint)
-    {
-        var topLeft = new Point(
-            Math.Min(startPoint.X, endPoint.X),
-            Math.Min(startPoint.Y, endPoint.Y));
-        var bottomRight = new Point(
-            Math.Max(startPoint.X, endPoint.X),
-            Math.Max(startPoint.Y, endPoint.Y));
-        return new Rect(topLeft, bottomRight);
-    }
-
-    private static Rect GetSelectionRectUnion(IEnumerable<Visual> visuals)
-    {
-        var selectionRect = new Rect();
-
-        foreach (var visual in visuals)
-        {
-            var transformedBounds = visual.GetTransformedBounds();
-            if (transformedBounds is not null)
-            {
-                var transformedRect = transformedBounds.Value.Bounds.TransformToAABB(transformedBounds.Value.Transform);
-                selectionRect = selectionRect.Union(transformedRect);
-            }
-        }
-
-        return selectionRect;
-    }
-
     private static Rect UpdateRectSelection(IToolContext context, Point startPoint, Point endPoint, HashSet<Visual> ignored)
     {
         if (context.Host is null)
@@ -154,7 +123,7 @@ public class SelectionTool : Tool
         }
 
         // TODO:
-        var rect = GetSelectionRect(startPoint, endPoint);
+        var rect = RectHelper.GetSelectionRect(startPoint, endPoint);
         var visuals = context.HitTest(
             context.Host, 
             context.OverlayView.HitTestMode, 
@@ -167,6 +136,6 @@ public class SelectionTool : Tool
 
         context.OverlayView.Select(visuals);
 
-        return GetSelectionRectUnion(visuals);
+        return RectHelper.GetSelectionRectUnion(visuals);
     }
 }
