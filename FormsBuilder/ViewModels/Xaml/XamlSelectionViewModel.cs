@@ -30,12 +30,12 @@ public interface IXamlSelectionViewModel
     void Select(IEnumerable<Visual>? visuals);
     void Selection(Point startPoint, Point endPoint);
     void ClearSelection();
-    Rect GetSelectionRect();
 }
 
 public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
 {
     private readonly IXamlEditorViewModel _xamlEditorViewModel;
+    private readonly Dictionary<Control, Point> _positions = new();
     private List<XamlItem>? _xamlItemsCopy;
 
     public XamlSelectionViewModel(IXamlEditorViewModel xamlEditorViewModel)
@@ -235,8 +235,6 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
         EndPoint = endPoint;
     }
 
-    private Dictionary<Control, Point> _positions = new Dictionary<Control, Point>();
-
     public void BeginMoveSelection()
     {
         if (Selected.Count <= 0)
@@ -329,16 +327,5 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
     public void ClearSelection()
     {
         DrawSelection = false;
-    }
-
-    public Rect GetSelectionRect()
-    {
-        var topLeft = new Point(
-            Math.Min(StartPoint.X, EndPoint.X),
-            Math.Min(StartPoint.Y, EndPoint.Y));
-        var bottomRight = new Point(
-            Math.Max(StartPoint.X, EndPoint.X),
-            Math.Max(StartPoint.Y, EndPoint.Y));
-        return new Rect(topLeft, bottomRight);
     }
 }
