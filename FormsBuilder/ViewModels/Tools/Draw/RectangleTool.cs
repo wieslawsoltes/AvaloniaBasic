@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Input;
 
@@ -6,28 +6,32 @@ namespace FormsBuilder;
 
 public class RectangleTool : Tool
 {
-    /*
+    private readonly HashSet<Visual> _ignored;
     private Point _startPoint;
     private Point _endPoint;
     private bool _captured;
     private Rect _selectionRect;
 
+    public RectangleTool(IToolContext context)
+    {
+        _ignored = new HashSet<Visual>(new Visual[] {context.OverlayView});
+    }
+
     public override void OnPointerPressed(IToolContext context, object? sender, PointerPressedEventArgs e)
     {
         var point = e.GetPosition(null);
 
-
-            context.OverlayView.Hover(null);
-            context.OverlayView.Select(null);
-            context.OverlayView.ClearSelection();
-            _startPoint = point;
-            _endPoint = _startPoint;
-
-            _moveMode = false;
-            _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
+        _startPoint = point;
+        _endPoint = _startPoint;
+        _selectionRect = RectHelper.GetSelectionRect(_startPoint, _endPoint);
 
         e.Pointer.Capture(context.Host);
         _captured = true;
+ 
+        context.OverlayView.Hover(null);
+        context.OverlayView.Select(null);
+        context.OverlayView.ClearSelection();
+
         context.Host.Focus();
     }
 
@@ -35,56 +39,47 @@ public class RectangleTool : Tool
     {
         if (e.Pointer.Captured is not null && _captured)
         {
-
-                _endPoint = e.GetPosition(null);
-                context.OverlayView.Selection(_startPoint, _endPoint);
-                _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
-                context.OverlayView.ClearSelection();
-
             e.Pointer.Capture(null);
             _captured = false;
+
+            _endPoint = e.GetPosition(null);
+            _selectionRect = RectHelper.GetSelectionRect(_startPoint, _endPoint);
+  
+            context.OverlayView.Selection(_startPoint, _endPoint);
+            context.OverlayView.ClearSelection();
         }
     }
 
     public override void OnPointerMoved(IToolContext context, object? sender, PointerEventArgs e)
     {
-        if (e.Pointer.Captured is not null && _captured)
+        if (e.Pointer.Captured is null || !_captured)
         {
-
-                _endPoint = e.GetPosition(null);
-                context.OverlayView.Selection(_startPoint, _endPoint);
-                _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
-
+            return;
         }
+
+        _endPoint = e.GetPosition(null);
+        _selectionRect = RectHelper.GetSelectionRect(_startPoint, _endPoint);
+
+        context.OverlayView.Selection(_startPoint, _endPoint);
     }
 
     public override void OnPointerExited(IToolContext context, object? sender, PointerEventArgs e)
     {
         _captured = false;
+        e.Pointer.Capture(null);
 
         context.OverlayView.Hover(null);
-        e.Pointer.Capture(null);
         context.OverlayView.ClearSelection();
+
     }
 
     public override void OnPointerCaptureLost(IToolContext context, object? sender, PointerCaptureLostEventArgs e)
     {
         _captured = false;
+        e.Pointer.Capture(null);
 
         context.OverlayView.Hover(null);
-        e.Pointer.Capture(null);
         context.OverlayView.ClearSelection();
-    }
 
-    private static Rect GetSelectionRect(Point startPoint, Point endPoint)
-    {
-        var topLeft = new Point(
-            Math.Min(startPoint.X, endPoint.X),
-            Math.Min(startPoint.Y, endPoint.Y));
-        var bottomRight = new Point(
-            Math.Max(startPoint.X, endPoint.X),
-            Math.Max(startPoint.Y, endPoint.Y));
-        return new Rect(topLeft, bottomRight);
     }
-    */
 }
