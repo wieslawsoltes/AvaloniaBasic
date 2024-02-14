@@ -68,7 +68,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
             new PointerTool(this),
             new SelectionTool(this),
             // Draw
-            new RectangleTool(),
+            new RectangleTool(this),
             new LineTool(),
             new EllipseTool(),
             new TextTool(),
