@@ -15,7 +15,16 @@ public interface IToolboxViewModel
     void DetachFromContainer(Control container);
 }
 
-public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
+public interface IDragAndDropEditorViewModel
+{
+    void OnPointerPressed(object? sender, PointerPressedEventArgs e);
+    void OnPointerReleased(object? sender, PointerReleasedEventArgs e);
+    void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e);
+    void OnHolding(object? sender, HoldingRoutedEventArgs e);
+    void OnPointerMoved(object? sender, PointerEventArgs e);
+}
+
+public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
 {
     private readonly Control _host;
     private readonly OverlayView _overlayView;
@@ -25,8 +34,8 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
     private Control? _control;
     private HashSet<Visual> _ignored;
     private XamlItem? _xamlItem;
-
-    public ToolboxViewModel(Control host, OverlayView overlayView, IXamlEditorViewModel xamlEditorViewModel)
+    
+    public DragAndDropEditorViewModel(Control host, OverlayView overlayView, IXamlEditorViewModel xamlEditorViewModel)
     {
         _host = host;
         _overlayView = overlayView;
@@ -34,25 +43,7 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         _ignored = new HashSet<Visual>();
     }
 
-    public void AttachToContainer(Control container)
-    {
-        container.AddHandler(InputElement.PointerPressedEvent, ContainerOnPointerPressed, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
-        container.AddHandler(InputElement.PointerReleasedEvent, ContainerOnPointerReleased, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
-        container.AddHandler(InputElement.PointerMovedEvent, ContainerOnPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
-        container.AddHandler(InputElement.PointerCaptureLostEvent, ContainerOnPointerCaptureLost, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
-        container.AddHandler(Gestures.HoldingEvent, ContainerOnHolding);
-    }
-
-    public void DetachFromContainer(Control container)
-    {
-        container.RemoveHandler(InputElement.PointerPressedEvent, ContainerOnPointerPressed);
-        container.RemoveHandler(InputElement.PointerReleasedEvent, ContainerOnPointerReleased);
-        container.RemoveHandler(InputElement.PointerMovedEvent, ContainerOnPointerMoved);
-        container.RemoveHandler(InputElement.PointerCaptureLostEvent, ContainerOnPointerCaptureLost);
-        container.RemoveHandler(Gestures.HoldingEvent, ContainerOnHolding);
-    }
-
-    private void ContainerOnPointerPressed(object? sender, PointerPressedEventArgs e)
+    public void OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         if (e.Pointer.Type == PointerType.Mouse)
         {
@@ -61,7 +52,7 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         }
     }
 
-    private void ContainerOnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    public void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
         if (_control is not null)
         {
@@ -74,14 +65,14 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         _xamlItem = null;
     }
 
-    private void ContainerOnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
+    public void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
         _captured = false;
         _control = null;
         _xamlItem = null;
     }
 
-    private void ContainerOnHolding(object? sender, HoldingRoutedEventArgs e)
+    public void OnHolding(object? sender, HoldingRoutedEventArgs e)
     {
         if (e.PointerType != PointerType.Mouse)
         {
@@ -90,7 +81,7 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         }
     }
 
-    private void ContainerOnPointerMoved(object? sender, PointerEventArgs e)
+    public void OnPointerMoved(object? sender, PointerEventArgs e)
     {
         if (!_captured)
         {
@@ -124,11 +115,22 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         }
     }
 
+    private XamlItem? GetXamlItemFromListBoxItem(object? sender)
+    {
+        if (sender is ListBoxItem listBoxItem && listBoxItem.Content is XamlItem toolBoxItem)
+        {
+            return toolBoxItem;
+        }
+
+        return null;
+    }
+    
     private void CreatePreview(object? sender)
     {
         try
         {
-            if (sender is ListBoxItem listBoxItem && listBoxItem.Content is XamlItem toolBoxItem)
+            var toolBoxItem = GetXamlItemFromListBoxItem(sender);
+            if (toolBoxItem is not null)
             {
                 _xamlItem = XamlItemFactory.Clone(toolBoxItem, _xamlEditorViewModel.IdManager);
                 _control = XamlItemControlFactory.CreateControl(_xamlItem, isRoot: true, writeUid: true);
@@ -196,5 +198,58 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
         _xamlEditorViewModel.RemoveControl(_control);
 
         _xamlEditorViewModel.InsertXamlItem(target, _xamlItem, position);
+    }
+}
+
+public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
+{
+    private readonly IDragAndDropEditorViewModel _dragAndDropEditorViewModel;
+
+    public ToolboxViewModel(Control host, OverlayView overlayView, IXamlEditorViewModel xamlEditorViewModel)
+    {
+        _dragAndDropEditorViewModel = new DragAndDropEditorViewModel(host, overlayView, xamlEditorViewModel);
+    }
+
+    public void AttachToContainer(Control container)
+    {
+        container.AddHandler(InputElement.PointerPressedEvent, ContainerOnPointerPressed, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        container.AddHandler(InputElement.PointerReleasedEvent, ContainerOnPointerReleased, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        container.AddHandler(InputElement.PointerMovedEvent, ContainerOnPointerMoved, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        container.AddHandler(InputElement.PointerCaptureLostEvent, ContainerOnPointerCaptureLost, RoutingStrategies.Tunnel | RoutingStrategies.Bubble);
+        container.AddHandler(Gestures.HoldingEvent, ContainerOnHolding);
+    }
+
+    public void DetachFromContainer(Control container)
+    {
+        container.RemoveHandler(InputElement.PointerPressedEvent, ContainerOnPointerPressed);
+        container.RemoveHandler(InputElement.PointerReleasedEvent, ContainerOnPointerReleased);
+        container.RemoveHandler(InputElement.PointerMovedEvent, ContainerOnPointerMoved);
+        container.RemoveHandler(InputElement.PointerCaptureLostEvent, ContainerOnPointerCaptureLost);
+        container.RemoveHandler(Gestures.HoldingEvent, ContainerOnHolding);
+    }
+
+    private void ContainerOnPointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        _dragAndDropEditorViewModel.OnPointerPressed(sender, e);
+    }
+
+    private void ContainerOnPointerReleased(object? sender, PointerReleasedEventArgs e)
+    {
+        _dragAndDropEditorViewModel.OnPointerReleased(sender, e);
+    }
+
+    private void ContainerOnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
+    {
+        _dragAndDropEditorViewModel.OnPointerCaptureLost(sender, e);
+    }
+
+    private void ContainerOnHolding(object? sender, HoldingRoutedEventArgs e)
+    {
+        _dragAndDropEditorViewModel.OnHolding(sender, e);
+    }
+
+    private void ContainerOnPointerMoved(object? sender, PointerEventArgs e)
+    {
+        _dragAndDropEditorViewModel.OnPointerMoved(sender, e);
     }
 }
