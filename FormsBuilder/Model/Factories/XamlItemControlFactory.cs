@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
