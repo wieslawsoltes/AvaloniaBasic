@@ -8,36 +8,10 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
-using ReactiveUI;
 
 namespace FormsBuilder;
 
-public interface IXamlEditor
-{
-    event EventHandler<EventArgs>? PropertyValueChanged;
-    event EventHandler<EventArgs>? ControlAdded;
-    event EventHandler<EventArgs>? ControlRemoved;
-    XamlItem? RootXamlItem { get; }
-    bool EnableEditing { get; set; }
-    CanvasEditorViewModel? CanvasViewModel { get; set; }
-    IXamlItemIdManager IdManager { get; }
-    void AddControl(Control control, XamlItem xamlItem);
-    void RemoveControl(Control control);
-    void InsertXamlItem(Control target, XamlItem xamlItem, Point position);
-    bool RemoveXamlItem(XamlItem xamlItem);
-    bool TryGetXamlItem(Control control, out XamlItem? xamlItem);
-    bool TryGetControl(XamlItem xamlItem, out Control? control);
-    void UpdatePropertyValue(Control control, string propertyName, string propertyValue);
-    Control? LoadForDesign(XamlItem xamlItem);
-    Control? LoadForExport(XamlItem xamlItem);
-    void Reload(XamlItem rooXamlItem);
-    Control? HitTest(IEnumerable<Visual> descendants, Point position, HashSet<Visual> ignored);
-    Control? HitTest(ILogical root, Point position, HashSet<Visual> ignored);
-    // TODO:
-    void Debug(XamlItem xamlItem);
-}
-
-public class XamlEditor : ReactiveObject, IXamlEditor
+public class XamlEditor : IXamlEditor
 {
     private readonly Dictionary<Control, XamlItem> _controlsDictionary;
     private readonly IXamlItemIdManager _idManager;
@@ -58,7 +32,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
 
     public bool EnableEditing { get; set; }
 
-    public CanvasEditorViewModel? CanvasViewModel { get; set; }
+    public CanvasEditor? CanvasViewModel { get; set; }
 
     public IXamlItemIdManager IdManager => _idManager;
 

@@ -4,42 +4,10 @@ using System.Globalization;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
-using ReactiveUI;
 
 namespace FormsBuilder;
 
-public enum HitTestMode
-{
-    Logical,
-    Visual,
-}
-
-public interface IXamlSelection
-{
-    event EventHandler<EventArgs>? HoveredChanged;
-    event EventHandler<EventArgs>? SelectedChanged;
-    event EventHandler<EventArgs>? SelectedMoved;
-    HitTestMode HitTestMode  { get; set; }
-    Visual? Hovered { get; }
-    HashSet<Visual> Selected { get; }
-    bool DrawSelection { get; set; }
-    Point StartPoint { get; set; }
-    Point EndPoint { get; set; }
-    void CopySelected();
-    void CutSelected();
-    void PasteSelected();
-    void RemoveSelected();
-    void BeginMoveSelection();
-    void EndMoveSelection();
-    void MoveSelection(Point delta);
-    void Hover(Visual? visual);
-    void Select(IEnumerable<Visual>? visuals);
-    void Selection(Point startPoint, Point endPoint);
-    void ClearSelection();
-    void InvalidateOverlay();
-}
-
-public class XamlSelection : ReactiveObject, IXamlSelection
+public class XamlSelection : IXamlSelection
 {
     private readonly IXamlEditor _xamlEditor;
     private readonly Action _invalidateOverlay;

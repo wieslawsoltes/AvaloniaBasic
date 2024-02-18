@@ -7,16 +7,7 @@ using Avalonia.Interactivity;
 
 namespace FormsBuilder;
 
-public interface IDragAndDropEditorViewModel
-{
-    void OnPointerPressed(object? sender, PointerPressedEventArgs e);
-    void OnPointerReleased(object? sender, PointerReleasedEventArgs e);
-    void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e);
-    void OnHolding(object? sender, HoldingRoutedEventArgs e);
-    void OnPointerMoved(object? sender, PointerEventArgs e);
-}
-
-public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
+public class DragAndDropEditor : IDragAndDropEditor
 {
     private readonly Interactive _visualRoot;
     private readonly IOverlayService _overlayService;
@@ -28,7 +19,7 @@ public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
     private HashSet<Visual> _ignored;
     private XamlItem? _xamlItem;
     
-    public DragAndDropEditorViewModel(
+    public DragAndDropEditor(
         Interactive visualRoot, 
         IOverlayService overlayService, 
         IXamlEditor xamlEditor,

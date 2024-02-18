@@ -5,13 +5,6 @@ using Avalonia.Media;
 
 namespace FormsBuilder;
 
-public interface IOverlayService
-{
-    Visual? Overlay { get; }
-    Canvas Canvas { get; }
-    void Invalidate();
-}
-
 public class DecoratorOverlayService : IOverlayService
 {
     private readonly Action _invalidate;

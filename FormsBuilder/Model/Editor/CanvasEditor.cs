@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -14,42 +13,7 @@ using ReactiveUI;
 
 namespace FormsBuilder;
 
-public interface ICanvasEditorViewModel
-{
-    bool ReverseOrder { get; set; }
-    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
-    IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changed { get; }
-    IObservable<Exception> ThrownExceptions { get; }
-    void AttachHost(Control host, Panel rootPanel, GridLinesControl gridLinesControl);
-    void DetachHost();
-    void AddToRoot(Control control);
-    IDisposable SuppressChangeNotifications();
-    bool AreChangeNotificationsEnabled();
-    IDisposable DelayChangeNotifications();
-    event PropertyChangingEventHandler? PropertyChanging;
-    event PropertyChangedEventHandler? PropertyChanged;
-}
-
-public interface IToolContext
-{
-    IXamlEditor XamlEditor { get; }
-
-    IXamlSelection XamlSelection { get; }
-
-    IOverlayService OverlayService { get; }
-
-    Control? Host { get; }
-
-    Panel? RootPanel { get; }
-
-    IEnumerable<Visual> HitTest(
-        Interactive interactive,
-        HitTestMode hitTestMode,
-        HashSet<Visual> ignored,
-        Func<TransformedBounds, bool> filter);
-}
-
-public class CanvasEditorViewModel : ReactiveObject, ICanvasEditorViewModel, IToolContext
+public class CanvasEditor : ICanvasEditor, IToolContext
 {
     private readonly IOverlayService _overlayService;
     private readonly IXamlEditor _xamlEditor;
@@ -61,7 +25,7 @@ public class CanvasEditorViewModel : ReactiveObject, ICanvasEditorViewModel, ITo
     private readonly List<Tool> _tools;
     private Tool? _currentTool;
 
-    public CanvasEditorViewModel(
+    public CanvasEditor(
         IOverlayService overlayService, 
         IXamlEditor xamlEditor, 
         IXamlSelection xamlSelection)

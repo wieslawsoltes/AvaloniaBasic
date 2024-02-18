@@ -5,7 +5,7 @@ namespace FormsBuilder;
 
 public partial class EditorToolboxView : UserControl
 {
-    private IToolboxViewModel? _toolboxViewModel;
+    private IToolboxEditor? _toolboxViewModel;
 
     public EditorToolboxView()
     {
@@ -18,7 +18,7 @@ public partial class EditorToolboxView : UserControl
 
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            _toolboxViewModel = new ToolboxViewModel(
+            _toolboxViewModel = new ToolboxEditor(
                 this, 
                 mainViewModel.OverlayService, 
                 mainViewModel.XamlEditor);

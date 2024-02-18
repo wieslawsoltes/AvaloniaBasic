@@ -6,21 +6,15 @@ using ReactiveUI;
 
 namespace FormsBuilder;
 
-public interface IToolboxViewModel
+public class ToolboxEditor : IToolboxEditor
 {
-    void AttachToContainer(Control container);
-    void DetachFromContainer(Control container);
-}
+    private readonly IDragAndDropEditor _dragAndDropEditor;
 
-public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
-{
-    private readonly IDragAndDropEditorViewModel _dragAndDropEditorViewModel;
-
-    public ToolboxViewModel(Control host, IOverlayService overlayService, IXamlEditor xamlEditor)
+    public ToolboxEditor(Control host, IOverlayService overlayService, IXamlEditor xamlEditor)
     {
         var visualRoot = host.GetVisualRoot() as Interactive;
  
-        _dragAndDropEditorViewModel = new DragAndDropEditorViewModel(
+        _dragAndDropEditor = new DragAndDropEditor(
             visualRoot, 
             overlayService, 
             xamlEditor,
@@ -54,26 +48,26 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
 
     private void ContainerOnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        _dragAndDropEditorViewModel.OnPointerPressed(sender, e);
+        _dragAndDropEditor.OnPointerPressed(sender, e);
     }
 
     private void ContainerOnPointerReleased(object? sender, PointerReleasedEventArgs e)
     {
-        _dragAndDropEditorViewModel.OnPointerReleased(sender, e);
+        _dragAndDropEditor.OnPointerReleased(sender, e);
     }
 
     private void ContainerOnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
     {
-        _dragAndDropEditorViewModel.OnPointerCaptureLost(sender, e);
+        _dragAndDropEditor.OnPointerCaptureLost(sender, e);
     }
 
     private void ContainerOnHolding(object? sender, HoldingRoutedEventArgs e)
     {
-        _dragAndDropEditorViewModel.OnHolding(sender, e);
+        _dragAndDropEditor.OnHolding(sender, e);
     }
 
     private void ContainerOnPointerMoved(object? sender, PointerEventArgs e)
     {
-        _dragAndDropEditorViewModel.OnPointerMoved(sender, e);
+        _dragAndDropEditor.OnPointerMoved(sender, e);
     }
 }
