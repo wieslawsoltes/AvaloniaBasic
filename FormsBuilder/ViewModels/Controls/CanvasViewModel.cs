@@ -36,7 +36,7 @@ public interface IToolContext
 
     IXamlSelection XamlSelection { get; }
 
-    OverlayView OverlayView { get; }
+    IOverlayService OverlayService { get; }
 
     Control? Host { get; }
 
@@ -51,7 +51,7 @@ public interface IToolContext
 
 public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
 {
-    private readonly OverlayView _overlayView;
+    private readonly IOverlayService _overlayService;
     private readonly IXamlEditor _xamlEditor;
     private readonly IXamlSelection _xamlSelection;
     private Control? _host;
@@ -62,11 +62,11 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
     private Tool? _currentTool;
 
     public CanvasViewModel(
-        OverlayView overlayView, 
+        IOverlayService overlayService, 
         IXamlEditor xamlEditor, 
         IXamlSelection xamlSelection)
     {
-        _overlayView = overlayView;
+        _overlayService = overlayService;
         _xamlEditor = xamlEditor;
         _xamlSelection = xamlSelection;
 
@@ -89,7 +89,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
 
     public IXamlSelection XamlSelection => _xamlSelection;
 
-    public OverlayView OverlayView => _overlayView;
+    public IOverlayService OverlayService => _overlayService;
  
     public Control? Host => _host;
 

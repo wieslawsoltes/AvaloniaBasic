@@ -25,7 +25,7 @@ public class MainViewViewModel : ReactiveObject
         _applicationService = new ApplicationService();
 
         _xamlEditor = new XamlEditor();
-        _xamlSelection = new XamlSelection(_xamlEditor, () => OverlayView?.InvalidateVisual());
+        _xamlSelection = new XamlSelection(_xamlEditor, () => OverlayService?.Invalidate());
 
         _demos = new Demos(_xamlEditor);
 
@@ -62,10 +62,10 @@ public class MainViewViewModel : ReactiveObject
  
     public IXamlSelection XamlSelection => _xamlSelection;
 
+    public IOverlayService? OverlayService { get; set; }
+
     public Demos Demos => _demos;
 
-    public OverlayView? OverlayView { get; set; }
-    
     private void New()
     {
         // TODO:

@@ -20,7 +20,7 @@ public interface IDragAndDropEditorViewModel
 public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
 {
     private readonly Control _host;
-    private readonly OverlayView _overlayView;
+    private readonly IOverlayService _overlayService;
     private readonly IXamlEditor _xamlEditor;
     private bool _captured;
     private Point _start;
@@ -28,10 +28,13 @@ public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
     private HashSet<Visual> _ignored;
     private XamlItem? _xamlItem;
     
-    public DragAndDropEditorViewModel(Control host, OverlayView overlayView, IXamlEditor xamlEditor)
+    public DragAndDropEditorViewModel(
+        Control host, 
+        IOverlayService overlayService, 
+        IXamlEditor xamlEditor)
     {
         _host = host;
-        _overlayView = overlayView;
+        _overlayService = overlayService;
         _xamlEditor = xamlEditor;
         _ignored = new HashSet<Visual>();
     }
@@ -139,9 +142,9 @@ public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
     {
         if (_control is not null)
         {
-            _overlayView.Canvas.Children.Add(_control);
+            _overlayService.Canvas.Children.Add(_control);
 
-            _ignored = new HashSet<Visual>(new Visual[] {_overlayView, _control});
+            _ignored = new HashSet<Visual>(new Visual[] {_overlayService.Overlay, _control});
         }
     }
 
@@ -149,7 +152,7 @@ public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
     {
         if (_control is not null && e.Source is Control source)
         {
-            var location = source.TranslatePoint(position, _overlayView.Canvas);
+            var location = source.TranslatePoint(position, _overlayService.Canvas);
             if (location is not null)
             {
                 Canvas.SetLeft(_control, location.Value.X);
@@ -162,7 +165,7 @@ public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
     {
         if (_control is not null)
         {
-            _overlayView.Canvas.Children.Remove(_control);
+            _overlayService.Canvas.Children.Remove(_control);
         }
     }
 

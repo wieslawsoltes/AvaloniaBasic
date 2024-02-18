@@ -15,9 +15,9 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
 {
     private readonly IDragAndDropEditorViewModel _dragAndDropEditorViewModel;
 
-    public ToolboxViewModel(Control host, OverlayView overlayView, IXamlEditor xamlEditor)
+    public ToolboxViewModel(Control host, IOverlayService overlayService, IXamlEditor xamlEditor)
     {
-        _dragAndDropEditorViewModel = new DragAndDropEditorViewModel(host, overlayView, xamlEditor);
+        _dragAndDropEditorViewModel = new DragAndDropEditorViewModel(host, overlayService, xamlEditor);
     }
 
     public void AttachToContainer(Control container)

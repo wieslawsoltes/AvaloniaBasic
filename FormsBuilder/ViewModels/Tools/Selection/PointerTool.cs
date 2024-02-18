@@ -11,7 +11,7 @@ public class PointerTool : Tool
 
     public PointerTool(IToolContext context)
     {
-        _ignored = new HashSet<Visual>(new Visual[] {context.OverlayView});
+        _ignored = new HashSet<Visual>(new Visual[] {context.OverlayService.Overlay});
     }
 
     public override void OnPointerPressed(IToolContext context, object? sender, PointerPressedEventArgs e)

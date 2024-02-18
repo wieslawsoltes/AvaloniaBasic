@@ -14,7 +14,7 @@ public class RectangleTool : Tool
 
     public RectangleTool(IToolContext context)
     {
-        _ignored = new HashSet<Visual>(new Visual[] {context.OverlayView});
+        _ignored = new HashSet<Visual>(new Visual[] {context.OverlayService.Overlay});
     }
 
     public override void OnPointerPressed(IToolContext context, object? sender, PointerPressedEventArgs e)
