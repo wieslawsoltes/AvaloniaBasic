@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 using ReactiveUI;
 
 namespace FormsBuilder;
@@ -17,7 +18,20 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
 
     public ToolboxViewModel(Control host, IOverlayService overlayService, IXamlEditor xamlEditor)
     {
-        _dragAndDropEditorViewModel = new DragAndDropEditorViewModel(host, overlayService, xamlEditor);
+        var visualRoot = host.GetVisualRoot() as Interactive;
+ 
+        _dragAndDropEditorViewModel = new DragAndDropEditorViewModel(
+            visualRoot, 
+            overlayService, 
+            xamlEditor,
+            GetXamlItem);
+    }
+
+    private XamlItem? GetXamlItem(object? sender)
+    {
+        return sender is ListBoxItem {Content: XamlItem toolBoxItem} 
+            ? toolBoxItem 
+            : null;
     }
 
     public void AttachToContainer(Control container)

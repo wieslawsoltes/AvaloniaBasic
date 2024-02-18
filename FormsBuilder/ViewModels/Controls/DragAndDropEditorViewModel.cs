@@ -4,7 +4,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.VisualTree;
 
 namespace FormsBuilder;
 
@@ -19,9 +18,10 @@ public interface IDragAndDropEditorViewModel
 
 public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
 {
-    private readonly Control _host;
+    private readonly Interactive _visualRoot;
     private readonly IOverlayService _overlayService;
     private readonly IXamlEditor _xamlEditor;
+    private readonly Func<object?, XamlItem?> _getXamlItem;
     private bool _captured;
     private Point _start;
     private Control? _control;
@@ -29,13 +29,15 @@ public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
     private XamlItem? _xamlItem;
     
     public DragAndDropEditorViewModel(
-        Control host, 
+        Interactive visualRoot, 
         IOverlayService overlayService, 
-        IXamlEditor xamlEditor)
+        IXamlEditor xamlEditor,
+        Func<object?, XamlItem?> getXamlItem)
     {
-        _host = host;
+        _visualRoot = visualRoot;
         _overlayService = overlayService;
         _xamlEditor = xamlEditor;
+        _getXamlItem = getXamlItem;
         _ignored = new HashSet<Visual>();
     }
 
@@ -111,21 +113,11 @@ public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
         }
     }
 
-    private XamlItem? GetXamlItemFromListBoxItem(object? sender)
-    {
-        if (sender is ListBoxItem listBoxItem && listBoxItem.Content is XamlItem toolBoxItem)
-        {
-            return toolBoxItem;
-        }
-
-        return null;
-    }
-    
     private void CreatePreview(object? sender)
     {
         try
         {
-            var toolBoxItem = GetXamlItemFromListBoxItem(sender);
+            var toolBoxItem = _getXamlItem(sender);
             if (toolBoxItem is not null)
             {
                 _xamlItem = XamlItemFactory.Clone(toolBoxItem, _xamlEditor.IdManager);
@@ -176,12 +168,7 @@ public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
             return;
         }
 
-        if (_host.GetVisualRoot() is not Interactive root)
-        {
-            return;
-        }
-
-        var target = _xamlEditor.HitTest(root, e.GetPosition(root), ignored);
+        var target = _xamlEditor.HitTest(_visualRoot, e.GetPosition(_visualRoot), ignored);
         if (target is null)
         {
             return;
