@@ -22,7 +22,7 @@ public partial class EditorCanvasView : UserControl
                 mainViewModel.OverlayService,
                 mainViewModel.XamlEditor,
                 mainViewModel.XamlSelection);
-            mainViewModel.XamlEditor.CanvasViewModel.AttachHost(this, RootPanel, GridLinesControl);
+            mainViewModel.XamlEditor.CanvasViewModel.AttachHost(this, RootPanel, GridLines);
 
             // TODO:
             mainViewModel.NewCommand.Execute(null);
