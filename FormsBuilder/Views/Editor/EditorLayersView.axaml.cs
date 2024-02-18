@@ -7,16 +7,7 @@ namespace FormsBuilder;
 
 public partial class EditorLayersView : UserControl
 {
-    public static readonly StyledProperty<OverlayView> OverlayViewProperty = 
-        AvaloniaProperty.Register<EditorLayersView, OverlayView>(nameof(OverlayView));
-
     private MainViewViewModel? _mainViewViewModel;
-    
-    public OverlayView OverlayView
-    {
-        get => GetValue(OverlayViewProperty);
-        set => SetValue(OverlayViewProperty, value);
-    }
 
     public EditorLayersView()
     {

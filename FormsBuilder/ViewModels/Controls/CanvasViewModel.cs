@@ -20,7 +20,7 @@ public interface ICanvasViewModel
     IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
     IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changed { get; }
     IObservable<Exception> ThrownExceptions { get; }
-    void AttachHost(Control host, Panel rootPanel, GridLines gridLines);
+    void AttachHost(Control host, Panel rootPanel, GridLinesControl gridLinesControl);
     void DetachHost();
     void AddToRoot(Control control);
     IDisposable SuppressChangeNotifications();
@@ -56,7 +56,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
     private readonly IXamlSelection _xamlSelection;
     private Control? _host;
     private Panel? _rootPanel;
-    private GridLines? _gridLines;
+    private GridLinesControl? _gridLines;
     private IDisposable? _isHitTestVisibleDisposable;
     private readonly List<Tool> _tools;
     private Tool? _currentTool;
@@ -95,11 +95,11 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
 
     public Panel? RootPanel => _rootPanel;
 
-    public GridLines? GridLines => _gridLines;
+    public GridLinesControl? GridLines => _gridLines;
 
     public bool ReverseOrder { get; set; } = true;
 
-    public void AttachHost(Control host, Panel rootPanel, GridLines gridLines)
+    public void AttachHost(Control host, Panel rootPanel, GridLinesControl gridLinesControl)
     {
         _host = host;
 
@@ -111,7 +111,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
         _host.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost, RoutingStrategies.Tunnel);
 
         _rootPanel = rootPanel;
-        _gridLines = gridLines;
+        _gridLines = gridLinesControl;
 
         _isHitTestVisibleDisposable = _rootPanel.GetObservable(InputElement.IsHitTestVisibleProperty).Subscribe(new AnonymousObserver<bool>(_ =>
         {

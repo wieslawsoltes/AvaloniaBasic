@@ -5,15 +5,6 @@ namespace FormsBuilder;
 
 public partial class EditorCanvasView : UserControl
 {
-    public static readonly StyledProperty<OverlayView> OverlayViewProperty = 
-        AvaloniaProperty.Register<EditorCanvasView, OverlayView>(nameof(OverlayView));
-
-    public OverlayView OverlayView
-    {
-        get => GetValue(OverlayViewProperty);
-        set => SetValue(OverlayViewProperty, value);
-    }
-
     public EditorCanvasView()
     {
         InitializeComponent();
@@ -31,7 +22,7 @@ public partial class EditorCanvasView : UserControl
                 mainViewModel.OverlayService,
                 mainViewModel.XamlEditor,
                 mainViewModel.XamlSelection);
-            mainViewModel.XamlEditor.CanvasViewModel.AttachHost(this, RootPanel, GridLines);
+            mainViewModel.XamlEditor.CanvasViewModel.AttachHost(this, RootPanel, GridLinesControl);
 
             // TODO:
             mainViewModel.NewCommand.Execute(null);

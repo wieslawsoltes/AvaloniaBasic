@@ -30,13 +30,13 @@ public class DecoratorOverlayService : IOverlayService
     public void Invalidate() => _invalidate();
 }
 
-public class OverlayView : Decorator
+public class OverlayControl : Decorator
 {
     private readonly Canvas _canvas;
     private SelectionRenderer? _selectionRenderer;
     private MainViewViewModel? _mainViewModel;
 
-    public OverlayView()
+    public OverlayControl()
     {
         _canvas = new Canvas();
         Child = _canvas;

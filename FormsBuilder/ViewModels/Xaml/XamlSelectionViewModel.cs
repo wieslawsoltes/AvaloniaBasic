@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using Avalonia;
@@ -8,6 +7,12 @@ using Avalonia.Controls;
 using ReactiveUI;
 
 namespace FormsBuilder;
+
+public enum HitTestMode
+{
+    Logical,
+    Visual,
+}
 
 public interface IXamlSelection
 {

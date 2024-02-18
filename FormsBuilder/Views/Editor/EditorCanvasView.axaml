@@ -62,7 +62,7 @@
         -->
         <!--</StackPanel>-->
       </Panel>
-      <c:GridLines Name="GridLines"
+      <c:GridLinesControl Name="GridLines"
                    CellWidth="12"
                    CellHeight="12"
                    BoldSeparatorHorizontalSpacing="4"

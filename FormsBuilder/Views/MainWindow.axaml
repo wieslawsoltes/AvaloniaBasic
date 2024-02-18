@@ -117,7 +117,7 @@
           <DockPanel>
             <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,0"
                        DockPanel.Dock="Top"/>
-            <c:EditorToolboxView OverlayView="{Binding #OverlayView}" />
+            <c:EditorToolboxView />
           </DockPanel>
         </TabItem>
 
@@ -130,8 +130,7 @@
           <DockPanel>
             <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,0"
                        DockPanel.Dock="Top"/>
-            <c:EditorLayersView Name="EditorLayersView"
-                                OverlayView="{Binding #OverlayView}"  />
+            <c:EditorLayersView Name="EditorLayersView" />
           </DockPanel>
         </TabItem>
 
@@ -142,7 +141,6 @@
                  Opacity="0.6" Width="0.5" Height="NaN" Margin="0" />
 
       <c:EditorCanvasView Name="EditorCanvas"
-                          OverlayView="{Binding #OverlayView}" 
                           Grid.Column="2"
                           Grid.Row="1"
                           Background="Transparent" />
@@ -160,7 +158,7 @@
 
     </Grid>
 
-    <c:OverlayView Name="OverlayView" IsHitTestVisible="False" />
+    <c:OverlayControl IsHitTestVisible="False" />
 
   </Panel>
 </Window>

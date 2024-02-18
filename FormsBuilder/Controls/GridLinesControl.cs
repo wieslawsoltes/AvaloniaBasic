@@ -4,22 +4,22 @@ using Avalonia.Media;
 
 namespace FormsBuilder;
 
-public sealed class GridLines : Control
+public sealed class GridLinesControl : Control
 {
     public static readonly StyledProperty<int> CellWidthProperty = 
-        AvaloniaProperty.Register<GridLines, int>(nameof(CellWidth), 10);
+        AvaloniaProperty.Register<GridLinesControl, int>(nameof(CellWidth), 10);
 
     public static readonly StyledProperty<int> CellHeightProperty = 
-        AvaloniaProperty.Register<GridLines, int>(nameof(CellHeight), 10);
+        AvaloniaProperty.Register<GridLinesControl, int>(nameof(CellHeight), 10);
 
     public static readonly StyledProperty<int> BoldSeparatorHorizontalSpacingProperty = 
-        AvaloniaProperty.Register<GridLines, int>(nameof(BoldSeparatorHorizontalSpacing), 10);
+        AvaloniaProperty.Register<GridLinesControl, int>(nameof(BoldSeparatorHorizontalSpacing), 10);
 
     public static readonly StyledProperty<int> BoldSeparatorVerticalSpacingProperty = 
-        AvaloniaProperty.Register<GridLines, int>(nameof(BoldSeparatorVerticalSpacing), 10);
+        AvaloniaProperty.Register<GridLinesControl, int>(nameof(BoldSeparatorVerticalSpacing), 10);
 
     public static readonly StyledProperty<bool> IsGridEnabledProperty = 
-        AvaloniaProperty.Register<GridLines, bool>(nameof(IsGridEnabled), true);
+        AvaloniaProperty.Register<GridLinesControl, bool>(nameof(IsGridEnabled), true);
 
     private readonly Pen _pen;
     private readonly Pen _penBold;
@@ -54,7 +54,7 @@ public sealed class GridLines : Control
         set => SetValue(IsGridEnabledProperty, value);
     }
 
-    public GridLines()
+    public GridLinesControl()
     {
         _pen = new Pen(new SolidColorBrush(Color.FromArgb((byte)(255.0 * 0.1), 14, 94, 253))); 
         _penBold = new Pen(new SolidColorBrush(Color.FromArgb((byte)(255.0 * 0.3), 14, 94, 253)));

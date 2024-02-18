@@ -5,16 +5,7 @@ namespace FormsBuilder;
 
 public partial class EditorToolboxView : UserControl
 {
-    public static readonly StyledProperty<OverlayView> OverlayViewProperty = 
-        AvaloniaProperty.Register<EditorToolboxView, OverlayView>(nameof(OverlayView));
-
     private IToolboxViewModel? _toolboxViewModel;
-
-    public OverlayView OverlayView
-    {
-        get => GetValue(OverlayViewProperty);
-        set => SetValue(OverlayViewProperty, value);
-    }
 
     public EditorToolboxView()
     {
