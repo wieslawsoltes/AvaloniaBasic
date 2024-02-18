@@ -13,7 +13,7 @@ public interface IXamlEditor
     event EventHandler<EventArgs>? ControlRemoved;
     XamlItem? RootXamlItem { get; }
     bool EnableEditing { get; set; }
-    CanvasEditor? CanvasViewModel { get; set; }
+    ICanvasEditor? CanvasViewModel { get; set; }
     IXamlItemIdManager IdManager { get; }
     void AddControl(Control control, XamlItem xamlItem);
     void RemoveControl(Control control);

@@ -32,7 +32,7 @@ public class XamlEditor : IXamlEditor
 
     public bool EnableEditing { get; set; }
 
-    public CanvasEditor? CanvasViewModel { get; set; }
+    public ICanvasEditor? CanvasViewModel { get; set; }
 
     public IXamlItemIdManager IdManager => _idManager;
 
