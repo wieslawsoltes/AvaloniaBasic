@@ -14,7 +14,7 @@ using ReactiveUI;
 
 namespace FormsBuilder;
 
-public interface ICanvasViewModel
+public interface ICanvasEditorViewModel
 {
     bool ReverseOrder { get; set; }
     IObservable<IReactivePropertyChangedEventArgs<IReactiveObject>> Changing { get; }
@@ -49,7 +49,7 @@ public interface IToolContext
         Func<TransformedBounds, bool> filter);
 }
 
-public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
+public class CanvasEditorViewModel : ReactiveObject, ICanvasEditorViewModel, IToolContext
 {
     private readonly IOverlayService _overlayService;
     private readonly IXamlEditor _xamlEditor;
@@ -61,7 +61,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
     private readonly List<Tool> _tools;
     private Tool? _currentTool;
 
-    public CanvasViewModel(
+    public CanvasEditorViewModel(
         IOverlayService overlayService, 
         IXamlEditor xamlEditor, 
         IXamlSelection xamlSelection)
@@ -94,8 +94,6 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
     public Control? Host => _host;
 
     public Panel? RootPanel => _rootPanel;
-
-    public GridLinesControl? GridLines => _gridLines;
 
     public bool ReverseOrder { get; set; } = true;
 

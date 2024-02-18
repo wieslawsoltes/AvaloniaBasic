@@ -19,7 +19,7 @@ public interface IXamlEditor
     event EventHandler<EventArgs>? ControlRemoved;
     XamlItem? RootXamlItem { get; }
     bool EnableEditing { get; set; }
-    CanvasViewModel? CanvasViewModel { get; set; }
+    CanvasEditorViewModel? CanvasViewModel { get; set; }
     IXamlItemIdManager IdManager { get; }
     void AddControl(Control control, XamlItem xamlItem);
     void RemoveControl(Control control);
@@ -58,7 +58,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
 
     public bool EnableEditing { get; set; }
 
-    public CanvasViewModel? CanvasViewModel { get; set; }
+    public CanvasEditorViewModel? CanvasViewModel { get; set; }
 
     public IXamlItemIdManager IdManager => _idManager;
 
