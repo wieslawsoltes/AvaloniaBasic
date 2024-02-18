@@ -12,7 +12,7 @@ using ReactiveUI;
 
 namespace FormsBuilder;
 
-public interface IXamlEditorViewModel
+public interface IXamlEditor
 {
     event EventHandler<EventArgs>? PropertyValueChanged;
     event EventHandler<EventArgs>? ControlAdded;
@@ -37,12 +37,12 @@ public interface IXamlEditorViewModel
     void Debug(XamlItem xamlItem);
 }
 
-public class XamlEditorViewModel : ReactiveObject, IXamlEditorViewModel
+public class XamlEditor : ReactiveObject, IXamlEditor
 {
     private readonly Dictionary<Control, XamlItem> _controlsDictionary;
     private readonly IXamlItemIdManager _idManager;
 
-    public XamlEditorViewModel()
+    public XamlEditor()
     {
         _controlsDictionary = new Dictionary<Control, XamlItem>();
         _idManager = new XamlItemIdManager();

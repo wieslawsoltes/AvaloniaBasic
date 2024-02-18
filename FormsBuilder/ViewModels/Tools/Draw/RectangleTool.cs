@@ -28,9 +28,9 @@ public class RectangleTool : Tool
         e.Pointer.Capture(context.Host);
         _captured = true;
  
-        context.OverlayView.Hover(null);
-        context.OverlayView.Select(null);
-        context.OverlayView.ClearSelection();
+        context.XamlSelection.Hover(null);
+        context.XamlSelection.Select(null);
+        context.XamlSelection.ClearSelection();
 
         context.Host.Focus();
     }
@@ -45,8 +45,8 @@ public class RectangleTool : Tool
             _endPoint = e.GetPosition(null);
             _selectionRect = RectHelper.GetSelectionRect(_startPoint, _endPoint);
   
-            context.OverlayView.Selection(_startPoint, _endPoint);
-            context.OverlayView.ClearSelection();
+            context.XamlSelection.Selection(_startPoint, _endPoint);
+            context.XamlSelection.ClearSelection();
         }
     }
 
@@ -60,7 +60,7 @@ public class RectangleTool : Tool
         _endPoint = e.GetPosition(null);
         _selectionRect = RectHelper.GetSelectionRect(_startPoint, _endPoint);
 
-        context.OverlayView.Selection(_startPoint, _endPoint);
+        context.XamlSelection.Selection(_startPoint, _endPoint);
     }
 
     public override void OnPointerExited(IToolContext context, object? sender, PointerEventArgs e)
@@ -68,8 +68,8 @@ public class RectangleTool : Tool
         _captured = false;
         e.Pointer.Capture(null);
 
-        context.OverlayView.Hover(null);
-        context.OverlayView.ClearSelection();
+        context.XamlSelection.Hover(null);
+        context.XamlSelection.ClearSelection();
     }
 
     public override void OnPointerCaptureLost(IToolContext context, object? sender, PointerCaptureLostEventArgs e)
@@ -77,7 +77,7 @@ public class RectangleTool : Tool
         _captured = false;
         e.Pointer.Capture(null);
 
-        context.OverlayView.Hover(null);
-        context.OverlayView.ClearSelection();
+        context.XamlSelection.Hover(null);
+        context.XamlSelection.ClearSelection();
     }
 }

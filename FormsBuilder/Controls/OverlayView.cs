@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
@@ -15,17 +14,17 @@ public abstract class Renderer
 
 public class SelectionRenderer : Renderer
 {
-    private readonly MainViewViewModel _mainViewModel;
+    private readonly IXamlSelection _xamlSelection;
 
-    public SelectionRenderer(MainViewViewModel mainViewModel)
+    public SelectionRenderer(IXamlSelection xamlSelection)
     {
-        _mainViewModel = mainViewModel;
+        _xamlSelection = xamlSelection;
     }
 
     public override void Render(DrawingContext context)
     {
-        var selected = _mainViewModel.XamlSelectionViewModel.Selected;
-        var hovered = _mainViewModel.XamlSelectionViewModel.Hovered;
+        var selected = _xamlSelection.Selected;
+        var hovered = _xamlSelection.Hovered;
 
         if (selected.Count > 0)
         {
@@ -47,11 +46,11 @@ public class SelectionRenderer : Renderer
             // DrawName(context, hovered.GetType().Name);
         }
 
-        if (_mainViewModel.XamlSelectionViewModel.DrawSelection)
+        if (_xamlSelection.DrawSelection)
         {
             var rect = RectHelper.GetSelectionRect(
-                _mainViewModel.XamlSelectionViewModel.StartPoint,
-                _mainViewModel.XamlSelectionViewModel.EndPoint);
+                _xamlSelection.StartPoint,
+                _xamlSelection.EndPoint);
 
             RenderSelection(
                 rect, 
@@ -141,89 +140,26 @@ public class OverlayView : Decorator
         Child = new Canvas();
     }
 
-    public HitTestMode HitTestMode  { get; set; } = HitTestMode.Logical;
-
-    public void Hover(Visual? visual)
-    {
-        if (DataContext is MainViewViewModel mainViewModel)
-        {
-            mainViewModel.XamlSelectionViewModel.Hover(visual);
-            InvalidateVisual();
-        }
-    }
-
-    public void Select(IEnumerable<Visual>? visuals)
-    {
-        if (DataContext is MainViewViewModel mainViewModel)
-        {
-            mainViewModel.XamlSelectionViewModel.Select(visuals);
-            InvalidateVisual();
-        }
-    }
-
-    public void Selection(Point startPoint, Point endPoint)
-    {
-        if (DataContext is MainViewViewModel mainViewModel)
-        {
-            mainViewModel.XamlSelectionViewModel.Selection(startPoint, endPoint);
-            InvalidateVisual();
-        }
-    }
-
-    public void BeginMoveSelection()
-    {
-        if (DataContext is MainViewViewModel mainViewModel)
-        {
-            mainViewModel.XamlSelectionViewModel.BeginMoveSelection();
-        }
-    }
-
-    public void EndMoveSelection()
-    {
-        if (DataContext is MainViewViewModel mainViewModel)
-        {
-            mainViewModel.XamlSelectionViewModel.EndMoveSelection();
-        }
-    }
-
-    public void MoveSelection(Point delta)
-    {
-        if (DataContext is MainViewViewModel mainViewModel)
-        {
-            mainViewModel.XamlSelectionViewModel.MoveSelection(delta);
-            InvalidateVisual();
-        }
-    }
-
-    public void ClearSelection()
-    {
-        if (DataContext is MainViewViewModel mainViewModel)
-        {
-            mainViewModel.XamlSelectionViewModel.ClearSelection();
-            InvalidateVisual();
-        }
-    }
-
-    public HashSet<Visual>? GetSelected()
-    {
-        if (DataContext is MainViewViewModel mainViewModel)
-        {
-            return mainViewModel.XamlSelectionViewModel.Selected;
-        }
-
-        return null;
-    }
-
+    private MainViewViewModel? _mainViewModel;
+    
     protected override void OnDataContextChanged(EventArgs e)
     {
         base.OnDataContextChanged(e);
         
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            _selectionRenderer = new SelectionRenderer(mainViewModel);
+            _mainViewModel = mainViewModel;
+            _mainViewModel.OverlayView = this;
+            _selectionRenderer = new SelectionRenderer(_mainViewModel.XamlSelection);
         }
         else
         {
+            if (_mainViewModel is not null)
+            {
+                _mainViewModel.OverlayView = null;
+                _mainViewModel = null;
+            }
+
             _selectionRenderer = null;
         }
     }

@@ -71,7 +71,7 @@ public partial class LayoutableProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "HorizontalAlignment", "Left");
+                mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "HorizontalAlignment", "Left");
             }
         }
     }
@@ -85,7 +85,7 @@ public partial class LayoutableProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "HorizontalAlignment", "Center");
+                mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "HorizontalAlignment", "Center");
             }
         }
     }
@@ -99,7 +99,7 @@ public partial class LayoutableProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "HorizontalAlignment", "Right");
+                mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "HorizontalAlignment", "Right");
             }
         }
     }
@@ -113,7 +113,7 @@ public partial class LayoutableProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "HorizontalAlignment", "Stretch");
+                mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "HorizontalAlignment", "Stretch");
             }
         }
     }
@@ -127,7 +127,7 @@ public partial class LayoutableProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "VerticalAlignment", "Top");
+                mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "VerticalAlignment", "Top");
             }
         }
     }
@@ -141,7 +141,7 @@ public partial class LayoutableProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "VerticalAlignment", "Center");
+                mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "VerticalAlignment", "Center");
             }
         }
     }
@@ -155,7 +155,7 @@ public partial class LayoutableProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "VerticalAlignment", "Bottom");
+                mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "VerticalAlignment", "Bottom");
             }
         }
     }
@@ -169,7 +169,7 @@ public partial class LayoutableProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "VerticalAlignment", "Stretch");
+                mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "VerticalAlignment", "Stretch");
             }
         }
     }
@@ -191,7 +191,7 @@ public partial class LayoutableProperties : UserControl
             
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "Width", text);
+                    mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "Width", text);
                 }
             }
         }
@@ -214,7 +214,7 @@ public partial class LayoutableProperties : UserControl
             
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "Height", text);
+                    mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "Height", text);
                 }
             }
         }
@@ -237,7 +237,7 @@ public partial class LayoutableProperties : UserControl
             
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "MinWidth", text);
+                    mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "MinWidth", text);
                 }
             }
         }
@@ -260,7 +260,7 @@ public partial class LayoutableProperties : UserControl
             
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "MinHeight", text);
+                    mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "MinHeight", text);
                 }
             }
         }
@@ -283,7 +283,7 @@ public partial class LayoutableProperties : UserControl
             
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "MaxWidth", text);
+                    mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "MaxWidth", text);
                 }
             }
         }
@@ -306,7 +306,7 @@ public partial class LayoutableProperties : UserControl
             
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "MaxHeight", text);
+                    mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "MaxHeight", text);
                 }
             }
         }
@@ -333,7 +333,7 @@ public partial class LayoutableProperties : UserControl
 
                     if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        mainViewModel.XamlEditorViewModel.UpdatePropertyValue(layoutable as Control, "Margin", text);
+                        mainViewModel.XamlEditor.UpdatePropertyValue(layoutable as Control, "Margin", text);
                     }
                 }
                 catch (Exception)

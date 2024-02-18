@@ -15,8 +15,8 @@ public class MainViewViewModel : ReactiveObject
 {
     private readonly EditorCanvasView _editorCanvas;
     private readonly ApplicationService _applicationService;
-    private readonly IXamlEditorViewModel _xamlEditorViewModel;
-    private readonly IXamlSelectionViewModel _xamlSelectionViewModel;
+    private readonly IXamlEditor _xamlEditor;
+    private readonly IXamlSelection _xamlSelection;
     private readonly Demos _demos;
 
     public MainViewViewModel(EditorCanvasView editorCanvas)
@@ -24,10 +24,10 @@ public class MainViewViewModel : ReactiveObject
         _editorCanvas = editorCanvas;
         _applicationService = new ApplicationService();
 
-        _xamlEditorViewModel = new XamlEditorViewModel();
-        _xamlSelectionViewModel = new XamlSelectionViewModel(_xamlEditorViewModel);
+        _xamlEditor = new XamlEditor();
+        _xamlSelection = new XamlSelection(_xamlEditor, () => OverlayView?.InvalidateVisual());
 
-        _demos = new Demos(_xamlEditorViewModel);
+        _demos = new Demos(_xamlEditor);
 
         ToolBoxItems = _demos.DemoToolBox();
 
@@ -58,12 +58,14 @@ public class MainViewViewModel : ReactiveObject
 
     public List<XamlItem> ToolBoxItems { get; set; }
 
-    public IXamlEditorViewModel XamlEditorViewModel => _xamlEditorViewModel;
+    public IXamlEditor XamlEditor => _xamlEditor;
  
-    public IXamlSelectionViewModel XamlSelectionViewModel => _xamlSelectionViewModel;
+    public IXamlSelection XamlSelection => _xamlSelection;
 
     public Demos Demos => _demos;
 
+    public OverlayView? OverlayView { get; set; }
+    
     private void New()
     {
         // TODO:
@@ -72,7 +74,7 @@ public class MainViewViewModel : ReactiveObject
         var control = _demos.DemoCanvas();
         if (control is not null)
         {
-            _xamlEditorViewModel.CanvasViewModel?.AddToRoot(control);
+            _xamlEditor.CanvasViewModel?.AddToRoot(control);
         }
     }
 
@@ -91,7 +93,7 @@ public class MainViewViewModel : ReactiveObject
             XamlItemJsonContext.s_instance.XamlItem);
         if (xamlItem is { })
         {
-            await Dispatcher.UIThread.InvokeAsync(() => _xamlEditorViewModel.Reload(xamlItem));
+            await Dispatcher.UIThread.InvokeAsync(() => _xamlEditor.Reload(xamlItem));
         }
     }
 
@@ -107,20 +109,20 @@ public class MainViewViewModel : ReactiveObject
     
     private async Task SaveCallbackAsync(Stream stream)
     {
-        if (_xamlEditorViewModel.RootXamlItem is null)
+        if (_xamlEditor.RootXamlItem is null)
         {
             return;
         }
 
         await JsonSerializer.SerializeAsync(
             stream, 
-            _xamlEditorViewModel.RootXamlItem, 
+            _xamlEditor.RootXamlItem, 
             XamlItemJsonContext.s_instance.XamlItem);
     }
 
     private async Task CopyAsXamlAsync()
     {
-        if (_xamlEditorViewModel.RootXamlItem is null)
+        if (_xamlEditor.RootXamlItem is null)
         {
             return;
         }
@@ -137,7 +139,7 @@ public class MainViewViewModel : ReactiveObject
                 WriteAttributesOnNewLine = false
             };
 
-            XamlService.WriteXaml(_xamlEditorViewModel.RootXamlItem, settings);
+            XamlService.WriteXaml(_xamlEditor.RootXamlItem, settings);
 
             return settings.Writer.ToString();
         });
@@ -147,12 +149,12 @@ public class MainViewViewModel : ReactiveObject
 
     private async Task CopyAsSvgAsync()
     {
-        if (_xamlEditorViewModel.RootXamlItem is null)
+        if (_xamlEditor.RootXamlItem is null)
         {
             return;
         }
 
-        var control = _xamlEditorViewModel.LoadForExport(_xamlEditorViewModel.RootXamlItem);
+        var control = _xamlEditor.LoadForExport(_xamlEditor.RootXamlItem);
         if (control is null)
         {
             return;

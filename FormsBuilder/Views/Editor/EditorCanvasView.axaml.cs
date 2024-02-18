@@ -27,8 +27,11 @@ public partial class EditorCanvasView : UserControl
 
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            mainViewModel.XamlEditorViewModel.CanvasViewModel = new CanvasViewModel(OverlayView, mainViewModel.XamlEditorViewModel);
-            mainViewModel.XamlEditorViewModel.CanvasViewModel.AttachHost(this, RootPanel, GridLines);
+            mainViewModel.XamlEditor.CanvasViewModel = new CanvasViewModel(
+                OverlayView,
+                mainViewModel.XamlEditor,
+                mainViewModel.XamlSelection);
+            mainViewModel.XamlEditor.CanvasViewModel.AttachHost(this, RootPanel, GridLines);
 
             // TODO:
             mainViewModel.NewCommand.Execute(null);
@@ -41,8 +44,8 @@ public partial class EditorCanvasView : UserControl
 
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            mainViewModel.XamlEditorViewModel.CanvasViewModel?.DetachHost();
-            mainViewModel.XamlEditorViewModel.CanvasViewModel = null;
+            mainViewModel.XamlEditor.CanvasViewModel?.DetachHost();
+            mainViewModel.XamlEditor.CanvasViewModel = null;
         }
     }
 }

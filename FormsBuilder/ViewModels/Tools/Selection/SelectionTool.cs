@@ -26,15 +26,15 @@ public class SelectionTool : Tool
 
         if (_selectionRect != default && _selectionRect.Contains(point))
         {
-            context.OverlayView.BeginMoveSelection();
+            context.XamlSelection.BeginMoveSelection();
             _moveMode = true;
             _movePoint = point;
         }
         else
         {
-            context.OverlayView.Hover(null);
-            context.OverlayView.Select(null);
-            context.OverlayView.ClearSelection();
+            context.XamlSelection.Hover(null);
+            context.XamlSelection.Select(null);
+            context.XamlSelection.ClearSelection();
             _startPoint = point;
             _endPoint = _startPoint;
 
@@ -53,15 +53,15 @@ public class SelectionTool : Tool
         {
             if (_moveMode)
             {
-                context.OverlayView.EndMoveSelection();
+                context.XamlSelection.EndMoveSelection();
                 _moveMode = false;
             }
             else
             {
                 _endPoint = e.GetPosition(null);
-                context.OverlayView.Selection(_startPoint, _endPoint);
+                context.XamlSelection.Selection(_startPoint, _endPoint);
                 _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
-                context.OverlayView.ClearSelection();
+                context.XamlSelection.ClearSelection();
             }
 
             e.Pointer.Capture(null);
@@ -78,11 +78,11 @@ public class SelectionTool : Tool
                 var point = e.GetPosition(null);
                 var delta = point - _movePoint;
 
-                context.OverlayView.MoveSelection(delta);
+                context.XamlSelection.MoveSelection(delta);
 
                 //_movePoint = point;
 
-                var selected = context.OverlayView.GetSelected();
+                var selected = context.XamlSelection.Selected;
                 if (selected is not null)
                 {
                     _selectionRect = RectHelper.GetSelectionRectUnion(selected);
@@ -91,7 +91,7 @@ public class SelectionTool : Tool
             else
             {
                 _endPoint = e.GetPosition(null);
-                context.OverlayView.Selection(_startPoint, _endPoint);
+                context.XamlSelection.Selection(_startPoint, _endPoint);
                 _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
             }
         }
@@ -101,18 +101,18 @@ public class SelectionTool : Tool
     {
         _captured = false;
 
-        context.OverlayView.Hover(null);
+        context.XamlSelection.Hover(null);
         e.Pointer.Capture(null);
-        context.OverlayView.ClearSelection();
+        context.XamlSelection.ClearSelection();
     }
 
     public override void OnPointerCaptureLost(IToolContext context, object? sender, PointerCaptureLostEventArgs e)
     {
         _captured = false;
 
-        context.OverlayView.Hover(null);
+        context.XamlSelection.Hover(null);
         e.Pointer.Capture(null);
-        context.OverlayView.ClearSelection();
+        context.XamlSelection.ClearSelection();
     }
 
     private static Rect UpdateRectSelection(IToolContext context, Point startPoint, Point endPoint, HashSet<Visual> ignored)
@@ -126,7 +126,7 @@ public class SelectionTool : Tool
         var rect = RectHelper.GetSelectionRect(startPoint, endPoint);
         var visuals = context.HitTest(
             context.Host, 
-            context.OverlayView.HitTestMode, 
+            context.XamlSelection.HitTestMode, 
             ignored, 
             x => 
             {
@@ -134,7 +134,7 @@ public class SelectionTool : Tool
                 return rect.Intersects(transformedRect);
             }).Reverse().Skip(1).ToList();
 
-        context.OverlayView.Select(visuals);
+        context.XamlSelection.Select(visuals);
 
         return RectHelper.GetSelectionRectUnion(visuals);
     }

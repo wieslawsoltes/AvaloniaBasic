@@ -96,7 +96,7 @@ public partial class ShapeProperties : UserControl
 
                     if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        mainViewModel.XamlEditorViewModel.UpdatePropertyValue(shape, "Fill", text);
+                        mainViewModel.XamlEditor.UpdatePropertyValue(shape, "Fill", text);
                     }
                 }
                 catch (Exception)
@@ -129,7 +129,7 @@ public partial class ShapeProperties : UserControl
 
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(shape, "Fill", color.ToString());
+                    mainViewModel.XamlEditor.UpdatePropertyValue(shape, "Fill", color.ToString());
                 }
             }
             catch (Exception)
@@ -164,7 +164,7 @@ public partial class ShapeProperties : UserControl
 
                     if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        mainViewModel.XamlEditorViewModel.UpdatePropertyValue(shape, "Stroke", text);
+                        mainViewModel.XamlEditor.UpdatePropertyValue(shape, "Stroke", text);
                     }
                 }
                 catch (Exception)
@@ -195,7 +195,7 @@ public partial class ShapeProperties : UserControl
 
                 if (DataContext is MainViewViewModel mainViewModel)
                 {
-                    mainViewModel.XamlEditorViewModel.UpdatePropertyValue(shape, "Stroke", color.ToString());
+                    mainViewModel.XamlEditor.UpdatePropertyValue(shape, "Stroke", color.ToString());
                 }
             }
             catch (Exception)

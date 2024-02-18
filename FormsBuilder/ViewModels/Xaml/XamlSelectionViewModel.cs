@@ -9,11 +9,12 @@ using ReactiveUI;
 
 namespace FormsBuilder;
 
-public interface IXamlSelectionViewModel
+public interface IXamlSelection
 {
     event EventHandler<EventArgs>? HoveredChanged;
     event EventHandler<EventArgs>? SelectedChanged;
     event EventHandler<EventArgs>? SelectedMoved;
+    HitTestMode HitTestMode  { get; set; }
     Visual? Hovered { get; }
     HashSet<Visual> Selected { get; }
     bool DrawSelection { get; set; }
@@ -30,17 +31,20 @@ public interface IXamlSelectionViewModel
     void Select(IEnumerable<Visual>? visuals);
     void Selection(Point startPoint, Point endPoint);
     void ClearSelection();
+    void InvalidateOverlay();
 }
 
-public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
+public class XamlSelection : ReactiveObject, IXamlSelection
 {
-    private readonly IXamlEditorViewModel _xamlEditorViewModel;
+    private readonly IXamlEditor _xamlEditor;
+    private readonly Action _invalidateOverlay;
     private readonly Dictionary<Control, Point> _positions = new();
     private List<XamlItem>? _xamlItemsCopy;
 
-    public XamlSelectionViewModel(IXamlEditorViewModel xamlEditorViewModel)
+    public XamlSelection(IXamlEditor xamlEditor, Action invalidateOverlay)
     {
-        _xamlEditorViewModel = xamlEditorViewModel;
+        _xamlEditor = xamlEditor;
+        _invalidateOverlay = invalidateOverlay;
     }
 
     public event EventHandler<EventArgs>? HoveredChanged;
@@ -48,6 +52,8 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
     public event EventHandler<EventArgs>? SelectedChanged;
 
     public event EventHandler<EventArgs>? SelectedMoved;
+
+    public HitTestMode HitTestMode { get; set; } = HitTestMode.Logical;
 
     public Visual? Hovered { get; private set; }
 
@@ -71,12 +77,12 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
                 continue;
             }
 
-            if (!_xamlEditorViewModel.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
+            if (!_xamlEditor.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
             {
                 continue;
             }
 
-            var xamlItemCopy = XamlItemFactory.Clone(xamlItem, _xamlEditorViewModel.IdManager);
+            var xamlItemCopy = XamlItemFactory.Clone(xamlItem, _xamlEditor.IdManager);
 
             xamlItems.Add(xamlItemCopy);
         }
@@ -111,7 +117,7 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
         
         if (Selected.Count == 0)
         {
-            targetXamlItem = _xamlEditorViewModel.RootXamlItem;
+            targetXamlItem = _xamlEditor.RootXamlItem;
         }
         else if (Selected.Count == 1)
         {
@@ -120,7 +126,7 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
                 return;
             }
 
-            if (!_xamlEditorViewModel.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
+            if (!_xamlEditor.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
             {
                 return;
             }
@@ -135,13 +141,13 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
 
         foreach (var xamlItem in _xamlItemsCopy)
         {
-            var xamlItemCopy = XamlItemFactory.Clone(xamlItem, _xamlEditorViewModel.IdManager);
+            var xamlItemCopy = XamlItemFactory.Clone(xamlItem, _xamlEditor.IdManager);
             
             if (targetXamlItem.ChildrenProperty is not null)
             {
                 if (targetXamlItem.TryAddChild(xamlItemCopy))
                 {
-                    _xamlEditorViewModel.Debug(targetXamlItem);
+                    _xamlEditor.Debug(targetXamlItem);
                 }
             }
             else
@@ -151,13 +157,13 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
                 {
                     if (targetXamlItem.TrySetContent(new XamlItemXamlValue(xamlItemCopy)))
                     {
-                        _xamlEditorViewModel.Debug(targetXamlItem);
+                        _xamlEditor.Debug(targetXamlItem);
                     }
                 }
             }
         }
 
-        _xamlEditorViewModel.Reload(_xamlEditorViewModel.RootXamlItem);
+        _xamlEditor.Reload(_xamlEditor.RootXamlItem);
     }
 
     public void RemoveSelected()
@@ -178,12 +184,12 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
                 continue;
             }
 
-            if (!_xamlEditorViewModel.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
+            if (!_xamlEditor.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
             {
                 continue;
             }
 
-            if (_xamlEditorViewModel.RemoveXamlItem(xamlItem))
+            if (_xamlEditor.RemoveXamlItem(xamlItem))
             {
                 haveToReload = true;
             }
@@ -191,7 +197,7 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
 
         if (haveToReload)
         {
-            _xamlEditorViewModel.Reload(_xamlEditorViewModel.RootXamlItem);
+            _xamlEditor.Reload(_xamlEditor.RootXamlItem);
         }
     }
 
@@ -216,6 +222,7 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
         {
             Hovered = visual;
             OnHoveredChanged(EventArgs.Empty);
+            InvalidateOverlay();
         }
     }
 
@@ -225,6 +232,7 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
         OnHoveredChanged(EventArgs.Empty);
         Selected = visuals is null ? new HashSet<Visual>() : new HashSet<Visual>(visuals);
         OnSelectedChanged(EventArgs.Empty);
+        InvalidateOverlay();
     }
 
     public void Selection(Point startPoint, Point endPoint)
@@ -233,6 +241,7 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
         DrawSelection = true;
         StartPoint = startPoint;
         EndPoint = endPoint;
+        InvalidateOverlay();
     }
 
     public void BeginMoveSelection()
@@ -253,7 +262,7 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
                 continue;
             }
 
-            if (!_xamlEditorViewModel.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
+            if (!_xamlEditor.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
             {
                 continue;
             }
@@ -294,7 +303,7 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
                 continue;
             }
 
-            if (!_xamlEditorViewModel.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
+            if (!_xamlEditor.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
             {
                 continue;
             }
@@ -314,18 +323,25 @@ public class XamlSelectionViewModel : ReactiveObject, IXamlSelectionViewModel
                 Canvas.SetLeft(control, left);
                 Canvas.SetTop(control, top);
 
-                _xamlEditorViewModel.UpdatePropertyValue(control, "Canvas.Left", left.ToString(CultureInfo.InvariantCulture));
-                _xamlEditorViewModel.UpdatePropertyValue(control, "Canvas.Top", top.ToString(CultureInfo.InvariantCulture));
+                _xamlEditor.UpdatePropertyValue(control, "Canvas.Left", left.ToString(CultureInfo.InvariantCulture));
+                _xamlEditor.UpdatePropertyValue(control, "Canvas.Top", top.ToString(CultureInfo.InvariantCulture));
             }
 
             // TODO: Add support for other panels.
         }
 
         OnSelectedMoved(EventArgs.Empty);
+        InvalidateOverlay();
     }
 
     public void ClearSelection()
     {
         DrawSelection = false;
+        InvalidateOverlay();
+    }
+
+    public void InvalidateOverlay()
+    {
+        _invalidateOverlay.Invoke();
     }
 }

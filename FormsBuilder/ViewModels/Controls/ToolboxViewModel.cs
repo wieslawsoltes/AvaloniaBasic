@@ -28,18 +28,18 @@ public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
 {
     private readonly Control _host;
     private readonly OverlayView _overlayView;
-    private readonly IXamlEditorViewModel _xamlEditorViewModel;
+    private readonly IXamlEditor _xamlEditor;
     private bool _captured;
     private Point _start;
     private Control? _control;
     private HashSet<Visual> _ignored;
     private XamlItem? _xamlItem;
     
-    public DragAndDropEditorViewModel(Control host, OverlayView overlayView, IXamlEditorViewModel xamlEditorViewModel)
+    public DragAndDropEditorViewModel(Control host, OverlayView overlayView, IXamlEditor xamlEditor)
     {
         _host = host;
         _overlayView = overlayView;
-        _xamlEditorViewModel = xamlEditorViewModel;
+        _xamlEditor = xamlEditor;
         _ignored = new HashSet<Visual>();
     }
 
@@ -132,7 +132,7 @@ public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
             var toolBoxItem = GetXamlItemFromListBoxItem(sender);
             if (toolBoxItem is not null)
             {
-                _xamlItem = XamlItemFactory.Clone(toolBoxItem, _xamlEditorViewModel.IdManager);
+                _xamlItem = XamlItemFactory.Clone(toolBoxItem, _xamlEditor.IdManager);
                 _control = XamlItemControlFactory.CreateControl(_xamlItem, isRoot: true, writeUid: true);
             }
         }
@@ -185,7 +185,7 @@ public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
             return;
         }
 
-        var target = _xamlEditorViewModel.HitTest(root, e.GetPosition(root), ignored);
+        var target = _xamlEditor.HitTest(root, e.GetPosition(root), ignored);
         if (target is null)
         {
             return;
@@ -195,9 +195,9 @@ public class DragAndDropEditorViewModel : IDragAndDropEditorViewModel
 
         position = SnapHelper.SnapPoint(position, 6, 6, true);
 
-        _xamlEditorViewModel.RemoveControl(_control);
+        _xamlEditor.RemoveControl(_control);
 
-        _xamlEditorViewModel.InsertXamlItem(target, _xamlItem, position);
+        _xamlEditor.InsertXamlItem(target, _xamlItem, position);
     }
 }
 
@@ -205,9 +205,9 @@ public class ToolboxViewModel : ReactiveObject, IToolboxViewModel
 {
     private readonly IDragAndDropEditorViewModel _dragAndDropEditorViewModel;
 
-    public ToolboxViewModel(Control host, OverlayView overlayView, IXamlEditorViewModel xamlEditorViewModel)
+    public ToolboxViewModel(Control host, OverlayView overlayView, IXamlEditor xamlEditor)
     {
-        _dragAndDropEditorViewModel = new DragAndDropEditorViewModel(host, overlayView, xamlEditorViewModel);
+        _dragAndDropEditorViewModel = new DragAndDropEditorViewModel(host, overlayView, xamlEditor);
     }
 
     public void AttachToContainer(Control container)

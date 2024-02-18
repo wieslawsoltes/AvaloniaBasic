@@ -61,7 +61,7 @@ public partial class ContentControlProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Left");
+                mainViewModel.XamlEditor.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Left");
             }
         }
     }
@@ -75,7 +75,7 @@ public partial class ContentControlProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Center");
+                mainViewModel.XamlEditor.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Center");
             }
         }
     }
@@ -89,7 +89,7 @@ public partial class ContentControlProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Right");
+                mainViewModel.XamlEditor.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Right");
             }
         }
     }
@@ -103,7 +103,7 @@ public partial class ContentControlProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Stretch");
+                mainViewModel.XamlEditor.UpdatePropertyValue(contentControl, "HorizontalContentAlignment", "Stretch");
             }
         }
     }
@@ -117,7 +117,7 @@ public partial class ContentControlProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Top");
+                mainViewModel.XamlEditor.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Top");
             }
         }
     }
@@ -131,7 +131,7 @@ public partial class ContentControlProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Center");
+                mainViewModel.XamlEditor.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Center");
             }
         }
     }
@@ -145,7 +145,7 @@ public partial class ContentControlProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Bottom");
+                mainViewModel.XamlEditor.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Bottom");
             }
         }
     }
@@ -159,7 +159,7 @@ public partial class ContentControlProperties : UserControl
             
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Stretch");
+                mainViewModel.XamlEditor.UpdatePropertyValue(contentControl, "VerticalContentAlignment", "Stretch");
             }
         }
     }

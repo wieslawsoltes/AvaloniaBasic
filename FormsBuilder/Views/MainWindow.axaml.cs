@@ -31,7 +31,7 @@ public partial class MainWindow : Window
         {
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.EnableEditing = true;
+                mainViewModel.XamlEditor.EnableEditing = true;
             }
         };
 
@@ -41,44 +41,44 @@ public partial class MainWindow : Window
     private void InitializeMainViewViewModel()
     {
         _mainViewViewModel = new MainViewViewModel(EditorCanvas);
-        _mainViewViewModel.XamlEditorViewModel.ControlAdded += MainViewViewModelOnControlAdded;
-        _mainViewViewModel.XamlEditorViewModel.ControlRemoved += MainViewViewModelOnControlRemoved;
-        _mainViewViewModel.XamlSelectionViewModel.SelectedChanged += MainViewViewModelOnSelectedChanged;
-        _mainViewViewModel.XamlSelectionViewModel.SelectedMoved += MainViewViewModelOnSelectedMoved;
+        _mainViewViewModel.XamlEditor.ControlAdded += MainViewOnControlAdded;
+        _mainViewViewModel.XamlEditor.ControlRemoved += MainViewOnControlRemoved;
+        _mainViewViewModel.XamlSelection.SelectedChanged += MainViewOnSelectedChanged;
+        _mainViewViewModel.XamlSelection.SelectedMoved += MainViewOnSelectedMoved;
 
         DataContext = _mainViewViewModel;
     }
 
-    private void MainViewViewModelOnControlAdded(object? sender, EventArgs e)
+    private void MainViewOnControlAdded(object? sender, EventArgs e)
     {
         // TODO:
     }
 
-    private void MainViewViewModelOnControlRemoved(object? sender, EventArgs e)
+    private void MainViewOnControlRemoved(object? sender, EventArgs e)
     {
         // TODO:
     }
 
-    private void MainViewViewModelOnSelectedChanged(object? o, EventArgs eventArgs)
+    private void MainViewOnSelectedChanged(object? o, EventArgs eventArgs)
     {
         if (_mainViewViewModel is null)
         {
             return;
         }
 
-        UpdatePropertiesEditor(_mainViewViewModel.XamlSelectionViewModel.Selected);
+        UpdatePropertiesEditor(_mainViewViewModel.XamlSelection.Selected);
 
         Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
     }
 
-    private void MainViewViewModelOnSelectedMoved(object? sender, EventArgs e)
+    private void MainViewOnSelectedMoved(object? sender, EventArgs e)
     {
         if (_mainViewViewModel is null)
         {
             return;
         }
 
-        UpdatePropertiesEditor(_mainViewViewModel.XamlSelectionViewModel.Selected);
+        UpdatePropertiesEditor(_mainViewViewModel.XamlSelection.Selected);
 
         Dispatcher.UIThread.Post(() => PropertiesEditor.OnEnableEditing());
     }
@@ -117,28 +117,28 @@ public partial class MainWindow : Window
         switch (e.Key)
         {
             case Key.Escape:
-                OverlayView.Hover(null);
-                OverlayView.Select(null);
+                _mainViewViewModel.XamlSelection.Hover(null);
+                _mainViewViewModel.XamlSelection.Select(null);
                 break;
             case Key.L:
-                OverlayView.HitTestMode = HitTestMode.Logical;
-                OverlayView.Hover(null);
-                OverlayView.Select(null);
+                _mainViewViewModel.XamlSelection.HitTestMode = HitTestMode.Logical;
+                _mainViewViewModel.XamlSelection.Hover(null);
+                _mainViewViewModel.XamlSelection.Select(null);
                 break;
             case Key.V:
-                OverlayView.HitTestMode = HitTestMode.Visual;
-                OverlayView.Hover(null);
-                OverlayView.Select(null);
+                _mainViewViewModel.XamlSelection.HitTestMode = HitTestMode.Visual;
+                _mainViewViewModel.XamlSelection.Hover(null);
+                _mainViewViewModel.XamlSelection.Select(null);
                 break;
             case Key.H:
                 EditorCanvas.RootPanel.IsHitTestVisible = !EditorCanvas.RootPanel.IsHitTestVisible;
-                OverlayView.Hover(null);
-                OverlayView.Select(null);
+                _mainViewViewModel.XamlSelection.Hover(null);
+                _mainViewViewModel.XamlSelection.Select(null);
                 break;
             case Key.R:
                 // EditorCanvas.ReverseOrder = !EditorCanvas.ReverseOrder;
-                // OverlayView.Hover(null);
-                // OverlayView.Select(null);
+                // _mainViewViewModel.XamlSelection.Hover(null);
+                // _mainViewViewModel.XamlSelection.Select(null);
                 break;
             case Key.Delete:
             case Key.Back:
@@ -156,9 +156,9 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (_mainViewViewModel.XamlSelectionViewModel.Selected.Count > 0)
+        if (_mainViewViewModel.XamlSelection.Selected.Count > 0)
         {
-            _mainViewViewModel.XamlSelectionViewModel.CopySelected();
+            _mainViewViewModel.XamlSelection.CopySelected();
         }
     }
 
@@ -169,12 +169,12 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (_mainViewViewModel.XamlSelectionViewModel.Selected.Count > 0)
+        if (_mainViewViewModel.XamlSelection.Selected.Count > 0)
         {
-            _mainViewViewModel.XamlSelectionViewModel.CutSelected();
+            _mainViewViewModel.XamlSelection.CutSelected();
  
-            OverlayView.Hover(null);
-            OverlayView.Select(null);
+            _mainViewViewModel.XamlSelection.Hover(null);
+            _mainViewViewModel.XamlSelection.Select(null);
         }
     }
 
@@ -185,12 +185,12 @@ public partial class MainWindow : Window
             return;
         }
 
-        _mainViewViewModel.XamlSelectionViewModel.PasteSelected();
+        _mainViewViewModel.XamlSelection.PasteSelected();
 
         // TODO: Select pasted items.
 
-        OverlayView.Hover(null);
-        OverlayView.Select(null);
+        _mainViewViewModel.XamlSelection.Hover(null);
+        _mainViewViewModel.XamlSelection.Select(null);
     }
 
     private void Delete()
@@ -200,18 +200,18 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (_mainViewViewModel.XamlSelectionViewModel.Selected.Count > 0)
+        if (_mainViewViewModel.XamlSelection.Selected.Count > 0)
         {
-            _mainViewViewModel.XamlSelectionViewModel.RemoveSelected();
+            _mainViewViewModel.XamlSelection.RemoveSelected();
  
-            OverlayView.Hover(null);
-            OverlayView.Select(null);
+            _mainViewViewModel.XamlSelection.Hover(null);
+            _mainViewViewModel.XamlSelection.Select(null);
         }
     }
 
     private void SelectedOnPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
     {
-        OverlayView.InvalidateVisual();
+        _mainViewViewModel.XamlSelection.InvalidateOverlay();
     }
 
     private void UpdatePropertiesEditor(HashSet<Visual> selected)
@@ -228,7 +228,7 @@ public partial class MainWindow : Window
 
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            mainViewModel.XamlEditorViewModel.EnableEditing = false;
+            mainViewModel.XamlEditor.EnableEditing = false;
         }
 
         PropertiesEditor.Selected = selected.FirstOrDefault();

@@ -27,7 +27,7 @@ public partial class EditorToolboxView : UserControl
 
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            _toolboxViewModel = new ToolboxViewModel(this, OverlayView, mainViewModel.XamlEditorViewModel);
+            _toolboxViewModel = new ToolboxViewModel(this, OverlayView, mainViewModel.XamlEditor);
 
             ToolboxListBox.ContainerPrepared += ToolboxListBoxOnContainerPrepared;
             ToolboxListBox.ContainerClearing += ToolboxListBoxOnContainerClearing;

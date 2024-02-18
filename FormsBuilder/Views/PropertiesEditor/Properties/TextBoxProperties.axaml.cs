@@ -60,7 +60,7 @@ public partial class TextBoxProperties : UserControl
 
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Left");
+                mainViewModel.XamlEditor.UpdatePropertyValue(textBox, "TextAlignment", "Left");
             }
         }
     }
@@ -74,7 +74,7 @@ public partial class TextBoxProperties : UserControl
 
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Center");
+                mainViewModel.XamlEditor.UpdatePropertyValue(textBox, "TextAlignment", "Center");
             }
         }
     }
@@ -88,7 +88,7 @@ public partial class TextBoxProperties : UserControl
 
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Right");
+                mainViewModel.XamlEditor.UpdatePropertyValue(textBox, "TextAlignment", "Right");
             }
         }
     }
@@ -102,7 +102,7 @@ public partial class TextBoxProperties : UserControl
 
             if (DataContext is MainViewViewModel mainViewModel)
             {
-                mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBox, "TextAlignment", "Justify");
+                mainViewModel.XamlEditor.UpdatePropertyValue(textBox, "TextAlignment", "Justify");
             }
         }
     }
@@ -127,7 +127,7 @@ public partial class TextBoxProperties : UserControl
 
                     if (DataContext is MainViewViewModel mainViewModel)
                     {
-                        mainViewModel.XamlEditorViewModel.UpdatePropertyValue(textBox, "Text", text);
+                        mainViewModel.XamlEditor.UpdatePropertyValue(textBox, "Text", text);
                     }
                 }
                 catch (Exception)

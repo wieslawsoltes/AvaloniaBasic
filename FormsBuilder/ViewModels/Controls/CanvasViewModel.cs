@@ -32,6 +32,10 @@ public interface ICanvasViewModel
 
 public interface IToolContext
 {
+    IXamlEditor XamlEditor { get; }
+
+    IXamlSelection XamlSelection { get; }
+
     OverlayView OverlayView { get; }
 
     Control? Host { get; }
@@ -48,7 +52,8 @@ public interface IToolContext
 public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
 {
     private readonly OverlayView _overlayView;
-    private readonly IXamlEditorViewModel _xamlEditorViewModel;
+    private readonly IXamlEditor _xamlEditor;
+    private readonly IXamlSelection _xamlSelection;
     private Control? _host;
     private Panel? _rootPanel;
     private GridLines? _gridLines;
@@ -56,10 +61,14 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
     private readonly List<Tool> _tools;
     private Tool? _currentTool;
 
-    public CanvasViewModel(OverlayView overlayView, IXamlEditorViewModel xamlEditorViewModel)
+    public CanvasViewModel(
+        OverlayView overlayView, 
+        IXamlEditor xamlEditor, 
+        IXamlSelection xamlSelection)
     {
         _overlayView = overlayView;
-        _xamlEditorViewModel = xamlEditorViewModel;
+        _xamlEditor = xamlEditor;
+        _xamlSelection = xamlSelection;
 
         _tools = new List<Tool>
         {
@@ -75,6 +84,10 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
         };
         _currentTool = _tools[2];
     }
+
+    public IXamlEditor XamlEditor => _xamlEditor;
+
+    public IXamlSelection XamlSelection => _xamlSelection;
 
     public OverlayView OverlayView => _overlayView;
  
@@ -102,8 +115,8 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
 
         _isHitTestVisibleDisposable = _rootPanel.GetObservable(InputElement.IsHitTestVisibleProperty).Subscribe(new AnonymousObserver<bool>(_ =>
         {
-            _overlayView.Hover(null);
-            _overlayView.Select(null);
+            _xamlSelection.Hover(null);
+            _xamlSelection.Select(null);
         }));
     }
 
@@ -298,7 +311,7 @@ public class CanvasViewModel : ReactiveObject, ICanvasViewModel, IToolContext
             .OfType<Control>()
             .Select(visual =>
             {
-                _xamlEditorViewModel.TryGetXamlItem(visual, out var xamlItem);
+                _xamlEditor.TryGetXamlItem(visual, out var xamlItem);
 
                 return new
                 {
