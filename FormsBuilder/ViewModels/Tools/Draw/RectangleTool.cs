@@ -70,7 +70,6 @@ public class RectangleTool : Tool
 
         context.OverlayView.Hover(null);
         context.OverlayView.ClearSelection();
-
     }
 
     public override void OnPointerCaptureLost(IToolContext context, object? sender, PointerCaptureLostEventArgs e)
@@ -80,6 +79,5 @@ public class RectangleTool : Tool
 
         context.OverlayView.Hover(null);
         context.OverlayView.ClearSelection();
-
     }
 }
