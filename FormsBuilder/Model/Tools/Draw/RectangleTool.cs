@@ -27,6 +27,36 @@ public class RectangleTool : Tool
 
     private XamlItem CreateXamlItem(IToolContext context)
     {
+        var xamlItem = new XamlItem(name: "DockPanel",
+            id: context.XamlEditor.IdManager.GetNewId(),
+            properties: new Dictionary<string, XamlValue>
+            {
+                ["Children"] = (XamlValue) new List<XamlItem>
+                {
+                    new(name: "TextBlock", 
+                        id: context.XamlEditor.IdManager.GetNewId(),
+                        properties: new Dictionary<string, XamlValue>
+                        {
+                            ["Text"] = (XamlValue) "TextBlock",
+                            ["DockPanel.Dock"] = (XamlValue) "Top"
+                        }, 
+                        contentProperty: "Text", 
+                        childrenProperty: null),
+                    new(name: "TextBox", 
+                        id: context.XamlEditor.IdManager.GetNewId(),
+                        properties: new Dictionary<string, XamlValue>
+                        {
+                            ["Text"] = (XamlValue) "TextBox",
+                            ["VerticalAlignment"] = (XamlValue) "Stretch",
+                        },
+                        contentProperty: "Text", 
+                        childrenProperty: null),
+                },
+                ["Background"] = (XamlValue) "LightGray",
+            }, 
+            contentProperty: "Children", 
+            childrenProperty: "Children");
+/*
         var xamlItem = new XamlItem(name: "Rectangle",
             id: context.XamlEditor.IdManager.GetNewId(),
             properties: new Dictionary<string, XamlValue>
@@ -35,7 +65,7 @@ public class RectangleTool : Tool
             },
             contentProperty: null,
             childrenProperty: null);
-
+*/
         return xamlItem;
     }
 
