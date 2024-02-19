@@ -46,7 +46,7 @@ public class DragAndDropEditor : IDragAndDropEditor
         if (_control is not null)
         {
             RemovePreview();
-            Drop(e, _ignored);
+            Insert(e, _ignored);
         }
 
         _captured = false;
@@ -152,7 +152,7 @@ public class DragAndDropEditor : IDragAndDropEditor
         }
     }
 
-    private void Drop(PointerEventArgs e, HashSet<Visual> ignored)
+    private void Insert(PointerEventArgs e, HashSet<Visual> ignored)
     {
         if (_control is null || _xamlItem is null)
         {
