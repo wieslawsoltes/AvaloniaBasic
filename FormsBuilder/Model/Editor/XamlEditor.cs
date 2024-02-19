@@ -125,8 +125,8 @@ public class XamlEditor : IXamlEditor
         // TODO: Add callback service for XamlItem to position inserted item in target.
         if (targetXamlItem.Name == "Canvas")
         {
-            xamlItem.Properties["Canvas.Left"] = new StringXamlValue($"{position.X.ToString(CultureInfo.InvariantCulture)}");
-            xamlItem.Properties["Canvas.Top"] = new StringXamlValue($"{position.Y.ToString(CultureInfo.InvariantCulture)}");
+            xamlItem.Properties["Canvas.Left"] = StringXamlValue.From(position.X);
+            xamlItem.Properties["Canvas.Top"] = StringXamlValue.From(position.Y);
         }
     }
 
