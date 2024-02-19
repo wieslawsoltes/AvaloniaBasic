@@ -49,51 +49,55 @@ public class SelectionTool : Tool
 
     public override void OnPointerReleased(IToolContext context, object? sender, PointerReleasedEventArgs e)
     {
-        if (e.Pointer.Captured is not null && _captured)
+        if (e.Pointer.Captured is null || !_captured)
         {
-            if (_moveMode)
-            {
-                context.XamlSelection.EndMoveSelection();
-                _moveMode = false;
-            }
-            else
-            {
-                _endPoint = e.GetPosition(null);
-                context.XamlSelection.Selection(_startPoint, _endPoint);
-                _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
-                context.XamlSelection.ClearSelection();
-            }
-
-            e.Pointer.Capture(null);
-            _captured = false;
+            return;
         }
+        
+        if (_moveMode)
+        {
+            context.XamlSelection.EndMoveSelection();
+            _moveMode = false;
+        }
+        else
+        {
+            _endPoint = e.GetPosition(null);
+            context.XamlSelection.Selection(_startPoint, _endPoint);
+            _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
+            context.XamlSelection.ClearSelection();
+        }
+
+        e.Pointer.Capture(null);
+        _captured = false;
     }
 
     public override void OnPointerMoved(IToolContext context, object? sender, PointerEventArgs e)
     {
-        if (e.Pointer.Captured is not null && _captured)
+        if (e.Pointer.Captured is null || !_captured)
         {
-            if (_moveMode)
+            return;
+        }
+        
+        if (_moveMode)
+        {
+            var point = e.GetPosition(null);
+            var delta = point - _movePoint;
+
+            context.XamlSelection.MoveSelection(delta);
+
+            //_movePoint = point;
+
+            var selected = context.XamlSelection.Selected;
+            if (selected is not null)
             {
-                var point = e.GetPosition(null);
-                var delta = point - _movePoint;
-
-                context.XamlSelection.MoveSelection(delta);
-
-                //_movePoint = point;
-
-                var selected = context.XamlSelection.Selected;
-                if (selected is not null)
-                {
-                    _selectionRect = RectHelper.GetSelectionRectUnion(selected);
-                }
+                _selectionRect = RectHelper.GetSelectionRectUnion(selected);
             }
-            else
-            {
-                _endPoint = e.GetPosition(null);
-                context.XamlSelection.Selection(_startPoint, _endPoint);
-                _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
-            }
+        }
+        else
+        {
+            _endPoint = e.GetPosition(null);
+            context.XamlSelection.Selection(_startPoint, _endPoint);
+            _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
         }
     }
 
