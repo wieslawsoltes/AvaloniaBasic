@@ -90,8 +90,6 @@ public class RectangleTool : Tool
   
         context.XamlEditor.TryGetControl(_xamlItem, out var control);
         _control = control;
-   
-        _control.IsHitTestVisible = false;
     }
 
     private void Move(IToolContext context)
