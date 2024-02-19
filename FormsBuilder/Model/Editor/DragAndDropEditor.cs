@@ -159,6 +159,8 @@ public class DragAndDropEditor : IDragAndDropEditor
             return;
         }
 
+        _xamlEditor.RemoveControl(_control);
+
         var target = _xamlEditor.HitTest(_visualRoot, e.GetPosition(_visualRoot), ignored);
         if (target is null)
         {
@@ -168,8 +170,6 @@ public class DragAndDropEditor : IDragAndDropEditor
         var position = e.GetPosition(target);
 
         position = SnapHelper.SnapPoint(position, 6, 6, true);
-
-        _xamlEditor.RemoveControl(_control);
 
         _xamlEditor.InsertXamlItem(target, _xamlItem, position);
     }
