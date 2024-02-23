@@ -40,6 +40,13 @@ public class SelectionTool : Tool
 
             _moveMode = false;
             _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
+
+            if (_selectionRect.Contains(point))
+            {
+                context.XamlSelection.BeginMoveSelection();
+                _moveMode = true;
+                _movePoint = point;
+            }
         }
 
         e.Pointer.Capture(context.Host);
