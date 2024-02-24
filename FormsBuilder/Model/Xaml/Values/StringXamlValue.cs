@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text.Json.Serialization;
+using Avalonia;
 
 namespace FormsBuilder;
 
@@ -25,4 +26,7 @@ public partial class StringXamlValue : XamlValue
 
     public static StringXamlValue From(decimal value) 
         => new (value.ToString(CultureInfo.InvariantCulture));
+
+    public static StringXamlValue From(Point value) 
+        => new (string.Concat(value.X.ToString(CultureInfo.InvariantCulture), ',', value.Y.ToString(CultureInfo.InvariantCulture)));
 }

@@ -182,6 +182,6 @@ public class DragAndDropEditor : IDragAndDropEditor
             return;
         }
 
-        _xamlEditor.InsertXamlItem(targetXamlItem, _xamlItem, position);
+        _xamlEditor.InsertXamlItem(targetXamlItem, _xamlItem, position, enableCallback: true);
     }
 }

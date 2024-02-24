@@ -41,8 +41,8 @@ public class CanvasEditor : ICanvasEditor, IToolContext
             new SelectionTool(this),
             // Draw
             new RectangleTool(this),
-            new LineTool(),
-            new EllipseTool(),
+            new LineTool(this),
+            new EllipseTool(this),
             new TextTool(),
         };
         _currentTool = _tools[2];

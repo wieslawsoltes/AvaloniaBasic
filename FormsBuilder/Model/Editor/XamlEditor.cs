@@ -80,7 +80,7 @@ public class XamlEditor : IXamlEditor
         }
     }
 
-    public void InsertXamlItem(XamlItem targetXamlItem, XamlItem xamlItem, Point position)
+    public void InsertXamlItem(XamlItem targetXamlItem, XamlItem xamlItem, Point position, bool enableCallback)
     {
         // TODO: Add xamlItem to targetXamlItem Children
         // TODO: Add xamlItem as targetXamlItem Content
@@ -88,7 +88,10 @@ public class XamlEditor : IXamlEditor
 
         if (targetXamlItem.ChildrenProperty is not null)
         {
-            InsertCallback(xamlItem, position, targetXamlItem);
+            if (enableCallback)
+            {
+                InsertCallback(xamlItem, position, targetXamlItem);
+            }
 
             if (targetXamlItem.TryAddChild(xamlItem))
             {
