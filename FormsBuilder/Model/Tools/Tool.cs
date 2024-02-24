@@ -1,9 +1,13 @@
 using Avalonia.Input;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace FormsBuilder;
 
-public abstract class Tool
+public abstract class Tool : ReactiveObject
 {
+    [Reactive] public bool IsSelected { get; set; }
+
     public virtual void OnPointerPressed(IToolContext context, object? sender, PointerPressedEventArgs e)
     {
     }
