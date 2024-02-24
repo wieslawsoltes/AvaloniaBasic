@@ -170,7 +170,18 @@ public class DragAndDropEditor : IDragAndDropEditor
         var position = e.GetPosition(target);
 
         position = SnapHelper.SnapPoint(position, 6, 6, true);
+        
+        if (!_xamlEditor.TryGetXamlItem(target, out var targetXamlItem))
+        {
+            // TODO: Set xamlItem as root and build visual tree.
+            return;
+        }
 
-        _xamlEditor.InsertXamlItem(target, _xamlItem, position);
+        if (targetXamlItem is null)
+        {
+            return;
+        }
+
+        _xamlEditor.InsertXamlItem(targetXamlItem, _xamlItem, position);
     }
 }

@@ -80,19 +80,8 @@ public class XamlEditor : IXamlEditor
         }
     }
 
-    public void InsertXamlItem(Control target, XamlItem xamlItem, Point position)
+    public void InsertXamlItem(XamlItem targetXamlItem, XamlItem xamlItem, Point position)
     {
-        if (!TryGetXamlItem(target, out var targetXamlItem))
-        {
-            return;
-        }
-
-        if (targetXamlItem is null)
-        {
-            // TODO: Set xamlItem as root and build visual tree.
-            return;
-        }
-
         // TODO: Add xamlItem to targetXamlItem Children
         // TODO: Add xamlItem as targetXamlItem Content
         // TODO: After adding to Children or as Content build entire tree independently.

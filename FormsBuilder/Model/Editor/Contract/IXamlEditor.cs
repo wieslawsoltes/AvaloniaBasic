@@ -17,7 +17,7 @@ public interface IXamlEditor
     IXamlItemIdManager IdManager { get; }
     void AddControl(Control control, XamlItem xamlItem);
     void RemoveControl(Control control);
-    void InsertXamlItem(Control target, XamlItem xamlItem, Point position);
+    void InsertXamlItem(XamlItem targetXamlItem, XamlItem xamlItem, Point position);
     bool RemoveXamlItem(XamlItem xamlItem);
     bool TryGetXamlItem(Control control, out XamlItem? xamlItem);
     bool TryGetControl(XamlItem xamlItem, out Control? control);

@@ -118,7 +118,7 @@ public class RectangleTool : Tool
         context.XamlEditor.TryGetXamlItem(target, out var targetXamlItem);
         _targetXamlItem = targetXamlItem;
 
-        context.XamlEditor.InsertXamlItem(target, _xamlItem, position);
+        context.XamlEditor.InsertXamlItem(_targetXamlItem, _xamlItem, position);
   
         context.XamlEditor.TryGetControl(_xamlItem, out var control);
         _control = control;
