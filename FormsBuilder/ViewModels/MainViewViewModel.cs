@@ -38,6 +38,11 @@ public class MainViewViewModel : ReactiveObject
         CopyAsSvgCommand = ReactiveCommand.CreateFromTask(CopyAsSvgAsync);
         PlayCommand = ReactiveCommand.Create(Play);
         StopCommand = ReactiveCommand.Create(Stop);
+
+        MoveToolCommand = ReactiveCommand.Create(MoveTool);
+        RectangleToolCommand = ReactiveCommand.Create(RectangleTool);
+        LineToolCommand = ReactiveCommand.Create(LineTool);
+        EllipseToolCommand = ReactiveCommand.Create(EllipseTool);
     }
 
     public ICommand NewCommand { get; }
@@ -53,6 +58,14 @@ public class MainViewViewModel : ReactiveObject
     public ICommand PlayCommand { get; }
 
     public ICommand StopCommand { get; }
+
+    public ICommand MoveToolCommand { get; }
+
+    public ICommand RectangleToolCommand { get; }
+
+    public ICommand LineToolCommand { get; }
+
+    public ICommand EllipseToolCommand { get; }
 
     [Reactive] public bool IsPlaying { get; set; }
 
@@ -179,5 +192,25 @@ public class MainViewViewModel : ReactiveObject
     {
         IsPlaying = false;
         _editorCanvas.RootPanel.IsHitTestVisible = false;
+    }
+
+    private void MoveTool()
+    {
+        XamlEditor.CanvasViewModel?.SetCurrentTool("Move");
+    }
+
+    private void RectangleTool()
+    {
+        XamlEditor.CanvasViewModel?.SetCurrentTool("Rectangle");
+    }
+
+    private void LineTool()
+    {
+        XamlEditor.CanvasViewModel?.SetCurrentTool("Line");
+    }
+
+    private void EllipseTool()
+    {
+        XamlEditor.CanvasViewModel?.SetCurrentTool("Ellipse");
     }
 }
