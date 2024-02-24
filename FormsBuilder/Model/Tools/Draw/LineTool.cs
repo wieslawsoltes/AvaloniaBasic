@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
@@ -30,13 +31,12 @@ public class LineTool : DrawTool
     {
         var startPoint = startPosition;
         var endPoint = endPosition - startPosition;
-
         xamlItem.Properties["Canvas.Left"] = StringXamlValue.From(startPoint.X);
         xamlItem.Properties["Canvas.Top"] = StringXamlValue.From(startPoint.Y);
         xamlItem.Properties["StartPoint"] = StringXamlValue.From(new Point());
         xamlItem.Properties["EndPoint"] = StringXamlValue.From(endPoint);
-        //xamlItem.Properties["StartPoint"] = StringXamlValue.From(startPosition);
-        //xamlItem.Properties["EndPoint"] = StringXamlValue.From(endPosition);
+        // xamlItem.Properties["StartPoint"] = StringXamlValue.From(startPosition);
+        // xamlItem.Properties["EndPoint"] = StringXamlValue.From(endPosition);
     }
 
     protected override void UpdateControl(Point startPosition, Point endPosition, Control control)
@@ -45,13 +45,12 @@ public class LineTool : DrawTool
         {
             var startPoint = startPosition;
             var endPoint = endPosition - startPosition;
-
             Canvas.SetLeft(control, startPoint.X);
             Canvas.SetTop(control, startPoint.Y);
             line.StartPoint = new Point();
             line.EndPoint = endPoint;
-            //line.StartPoint = startPosition;
-            //line.EndPoint = endPosition;
+            // line.StartPoint = startPosition;
+            // line.EndPoint = endPosition;
         }
     }
 }
