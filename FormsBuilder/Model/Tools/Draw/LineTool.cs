@@ -18,8 +18,8 @@ public class LineTool : DrawTool
             id: context.XamlEditor.IdManager.GetNewId(),
             properties: new Dictionary<string, XamlValue>
             {
-                ["Stroke"] = (XamlValue) "Blue",
-                ["StrokeThickness"] = (XamlValue) "2.0",
+                ["Stroke"] = (XamlValue) "#000000",
+                ["StrokeThickness"] = (XamlValue) "1.0",
             },
             contentProperty: null,
             childrenProperty: null);
