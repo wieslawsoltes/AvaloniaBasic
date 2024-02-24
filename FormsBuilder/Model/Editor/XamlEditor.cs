@@ -8,10 +8,12 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.VisualTree;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace FormsBuilder;
 
-public class XamlEditor : IXamlEditor
+public class XamlEditor : ReactiveObject, IXamlEditor
 {
     private readonly Dictionary<Control, XamlItem> _controlsDictionary;
     private readonly IXamlItemIdManager _idManager;
@@ -28,10 +30,13 @@ public class XamlEditor : IXamlEditor
 
     public event EventHandler<EventArgs>? ControlRemoved;
 
+    [Reactive]
     public XamlItem? RootXamlItem { get; private set; }
 
+    [Reactive]
     public bool EnableEditing { get; set; }
 
+    [Reactive]
     public ICanvasEditor? CanvasViewModel { get; set; }
 
     public IXamlItemIdManager IdManager => _idManager;
