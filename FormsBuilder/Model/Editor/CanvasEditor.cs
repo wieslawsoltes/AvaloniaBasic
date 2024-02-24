@@ -9,10 +9,11 @@ using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Reactive;
 using Avalonia.VisualTree;
+using ReactiveUI;
 
 namespace FormsBuilder;
 
-public class CanvasEditor : ICanvasEditor, IToolContext
+public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
 {
     private readonly IOverlayService _overlayService;
     private readonly IXamlEditor _xamlEditor;
@@ -46,6 +47,7 @@ public class CanvasEditor : ICanvasEditor, IToolContext
             new TextTool(),
         };
         _currentTool = _tools[2];
+        _currentTool.IsSelected = true;
     }
 
     public IXamlEditor XamlEditor => _xamlEditor;
@@ -59,6 +61,8 @@ public class CanvasEditor : ICanvasEditor, IToolContext
     public Panel? RootPanel => _rootPanel;
 
     public bool ReverseOrder { get; set; } = true;
+
+    public IReadOnlyList<Tool> Tools => _tools;
 
     public void AttachHost(Control host, Panel rootPanel, GridLinesControl gridLinesControl)
     {
@@ -115,6 +119,62 @@ public class CanvasEditor : ICanvasEditor, IToolContext
         _gridLines.Height = control.Height;
     }
 
+    public void SetCurrentTool(string type)
+    {
+        if (_currentTool is not null)
+        {
+            _currentTool.IsSelected = false;
+        }
+
+        _currentTool = type switch
+        {
+            "None" => _tools.FirstOrDefault(x => x is NoneTool),
+            // Selection
+            "Pointer" => _tools.FirstOrDefault(x => x is PointerTool),
+            "Move" => _tools.FirstOrDefault(x => x is MoveTool),
+            // Draw
+            "Rectangle" => _tools.FirstOrDefault(x => x is RectangleTool),
+            "Line" => _tools.FirstOrDefault(x => x is LineTool),
+            "Ellipse" => _tools.FirstOrDefault(x => x is EllipseTool),
+            // Text
+            "Text" => _tools.FirstOrDefault(x => x is TextTool),
+            _ => _currentTool
+        };
+
+        if (_currentTool is not null)
+        {
+            _currentTool.IsSelected = true;
+        }
+    }
+
+    private void SetCurrentTool(Key key)
+    {
+        if (_currentTool is not null)
+        {
+            _currentTool.IsSelected = false;
+        }
+
+        _currentTool = key switch
+        {
+            Key.N => _tools.FirstOrDefault(x => x is NoneTool),
+            // Selection
+            Key.P => _tools.FirstOrDefault(x => x is PointerTool),
+            Key.V => _tools.FirstOrDefault(x => x is MoveTool),
+            // Draw
+            Key.R => _tools.FirstOrDefault(x => x is RectangleTool),
+            Key.L => _tools.FirstOrDefault(x => x is LineTool),
+            Key.O => _tools.FirstOrDefault(x => x is EllipseTool),
+            // Text
+            Key.T => _tools.FirstOrDefault(x => x is TextTool),
+            _ => _currentTool
+        };
+
+        if (_currentTool is not null)
+        {
+            _currentTool.IsSelected = true;
+        }
+    }
+
     private void OnKeyDown(object? sender, KeyEventArgs e)
     {
         if (e.Source is LightDismissOverlayLayer || e.Source is TextBox)
@@ -135,42 +195,6 @@ public class CanvasEditor : ICanvasEditor, IToolContext
         }
 
         SetCurrentTool(e.Key);
-    }
-
-    public void SetCurrentTool(string type)
-    {
-        _currentTool = type switch
-        {
-            "None" => _tools.FirstOrDefault(x => x is NoneTool),
-            // Selection
-            "Pointer" => _tools.FirstOrDefault(x => x is PointerTool),
-            "Move" => _tools.FirstOrDefault(x => x is MoveTool),
-            // Draw
-            "Rectangle" => _tools.FirstOrDefault(x => x is RectangleTool),
-            "Line" => _tools.FirstOrDefault(x => x is LineTool),
-            "Ellipse" => _tools.FirstOrDefault(x => x is EllipseTool),
-            // Text
-            "Text" => _tools.FirstOrDefault(x => x is TextTool),
-            _ => _currentTool
-        };
-    }
-
-    private void SetCurrentTool(Key key)
-    {
-        _currentTool = key switch
-        {
-            Key.N => _tools.FirstOrDefault(x => x is NoneTool),
-            // Selection
-            Key.P => _tools.FirstOrDefault(x => x is PointerTool),
-            Key.V => _tools.FirstOrDefault(x => x is MoveTool),
-            // Draw
-            Key.R => _tools.FirstOrDefault(x => x is RectangleTool),
-            Key.L => _tools.FirstOrDefault(x => x is LineTool),
-            Key.O => _tools.FirstOrDefault(x => x is EllipseTool),
-            // Text
-            Key.T => _tools.FirstOrDefault(x => x is TextTool),
-            _ => _currentTool
-        };
     }
 
     private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
