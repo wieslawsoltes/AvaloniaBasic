@@ -85,6 +85,31 @@
           </Button>
         </StackPanel>
 
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+       
+          <Button Command="{Binding MoveToolCommand}"
+                  ToolTip.Tip="Move">
+            <Svg Path="/Assets/Icons/Dark/ic_fluent_cursor_24_regular.svg" />
+          </Button>
+
+          <Button Command="{Binding RectangleToolCommand}"
+                  ToolTip.Tip="Rectangle">
+            <Svg Path="/Assets/Icons/Dark/ic_fluent_maximize_24_regular.svg" />
+          </Button>
+
+          <Button Command="{Binding LineToolCommand}"
+                  ToolTip.Tip="Line">
+            <Svg Path="/Assets/Icons/Dark/ic_fluent_arrow_up_right_24_regular_line.svg" />
+          </Button>
+
+          <Button Command="{Binding EllipseToolCommand}"
+                  ToolTip.Tip="Ellipse">
+            <Svg Path="/Assets/Icons/Dark/ic_fluent_circle_24_regular.svg" />
+          </Button>
+
+        </StackPanel>
+
       </Panel>
     </ThemeVariantScope>
 
