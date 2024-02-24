@@ -5,7 +5,7 @@ using Avalonia.Input;
 
 namespace FormsBuilder;
 
-public class SelectionTool : Tool
+public class MoveTool : Tool
 {
     private readonly HashSet<Visual> _ignored;
     private Point _movePoint;
@@ -15,7 +15,7 @@ public class SelectionTool : Tool
     private Rect _selectionRect;
     private bool _moveMode;
 
-    public SelectionTool(IToolContext context)
+    public MoveTool(IToolContext context)
     {
         _ignored = new HashSet<Visual>(new Visual[] {context.OverlayService.Overlay});
     }
