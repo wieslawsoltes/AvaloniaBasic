@@ -8,4 +8,5 @@ public interface ICanvasEditor
     void AttachHost(Control host, Panel rootPanel, GridLinesControl gridLinesControl);
     void DetachHost();
     void AddToRoot(Control control);
+    void SetCurrentTool(string type);
 }
