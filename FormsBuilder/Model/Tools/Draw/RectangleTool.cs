@@ -13,7 +13,7 @@ public class RectangleTool : Tool
     private Point _startPoint;
     private Point _endPoint;
     private bool _captured;
-    private Rect _selectionRect;
+    private Rect _rect;
 
     private Interactive? _visualRoot;
     private Control? _control;
@@ -102,9 +102,9 @@ public class RectangleTool : Tool
             return;
         }
 
-        var width = _selectionRect.Width;
-        var height = _selectionRect.Height;
-        var translatePoint = _visualRoot.TranslatePoint(_selectionRect.TopLeft, target);
+        var width = _rect.Width;
+        var height = _rect.Height;
+        var translatePoint = _visualRoot.TranslatePoint(_rect.TopLeft, target);
         var position = translatePoint.Value;
 
         width = SnapHelper.SnapValue(width, 12);
@@ -137,9 +137,9 @@ public class RectangleTool : Tool
             return;
         }
 
-        var width = _selectionRect.Width;
-        var height = _selectionRect.Height;
-        var translatePoint = _visualRoot.TranslatePoint(_selectionRect.TopLeft, target);
+        var width = _rect.Width;
+        var height = _rect.Height;
+        var translatePoint = _visualRoot.TranslatePoint(_rect.TopLeft, target);
         var position = translatePoint.Value;
 
         width = SnapHelper.SnapValue(width, 12);
@@ -167,7 +167,7 @@ public class RectangleTool : Tool
 
         _startPoint = point;
         _endPoint = _startPoint;
-        _selectionRect = RectHelper.GetSelectionRect(_startPoint, _endPoint);
+        _rect = RectHelper.GetSelectionRect(_startPoint, _endPoint);
 
         Initialize(context, sender, e);
 
@@ -188,7 +188,7 @@ public class RectangleTool : Tool
         var point = e.GetPosition(null);
 
         _endPoint = point;
-        _selectionRect = RectHelper.GetSelectionRect(_startPoint, _endPoint);
+        _rect = RectHelper.GetSelectionRect(_startPoint, _endPoint);
 
         Move(context);
         Reset();
@@ -204,7 +204,7 @@ public class RectangleTool : Tool
         var point = e.GetPosition(null);
 
         _endPoint = point;
-        _selectionRect = RectHelper.GetSelectionRect(_startPoint, _endPoint);
+        _rect = RectHelper.GetSelectionRect(_startPoint, _endPoint);
 
         Move(context);
     }
