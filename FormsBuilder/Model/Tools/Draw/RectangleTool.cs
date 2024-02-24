@@ -87,7 +87,7 @@ public class RectangleTool : Tool
         control.Height = height;
     }
 
-    private void Initialize(IToolContext context, object? sender, PointerPressedEventArgs e)
+    private void Pressed(IToolContext context, object? sender, PointerPressedEventArgs e)
     {
         _visualRoot = (sender as Control)?.GetVisualRoot() as Interactive;
         if (_visualRoot is null)
@@ -169,7 +169,7 @@ public class RectangleTool : Tool
         _endPoint = _startPoint;
         _rect = RectHelper.GetSelectionRect(_startPoint, _endPoint);
 
-        Initialize(context, sender, e);
+        Pressed(context, sender, e);
 
         e.Pointer.Capture(context.Host);
         _captured = true;
