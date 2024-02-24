@@ -271,8 +271,11 @@ public class XamlEditor : IXamlEditor
 
         var xaml = settings.Writer.ToString();
 
-        Console.Clear();
-        Console.WriteLine(xaml);
+        if (!Design.IsDesignMode)
+        {
+            Console.Clear();
+            Console.WriteLine(xaml);
+        }
 
         // var json = SerializeXamlItem(xamlItem);
         // Console.WriteLine(json);
