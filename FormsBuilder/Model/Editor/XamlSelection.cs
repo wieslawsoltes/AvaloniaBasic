@@ -246,6 +246,16 @@ public class XamlSelection : IXamlSelection
                 var left = Canvas.GetLeft(control);
                 var top = Canvas.GetTop(control);
 
+                if (double.IsNaN(left))
+                {
+                    left = 0.0;
+                }
+
+                if (double.IsNaN(top))
+                {
+                    top = 0.0;
+                }
+
                 _positions[control] = new Point(left, top);
             }
 
