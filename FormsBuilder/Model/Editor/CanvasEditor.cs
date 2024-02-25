@@ -40,12 +40,10 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
         _tools = new List<Tool>
         {
             new NoneTool(),
-            // Selection
             new PointerTool(this),
             new MoveTool(this),
-            // Draw
-            new RectangleTool(this),
             new PaintTool(this, _toolboxXamlItemProvider),
+            new RectangleTool(this),
             new LineTool(this),
             new EllipseTool(this),
             new TextTool(),
