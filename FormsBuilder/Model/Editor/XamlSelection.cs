@@ -105,7 +105,9 @@ public class XamlSelection : IXamlSelection
                 return;
             }
 
-            targetXamlItem = xamlItem;
+            targetXamlItem = xamlItem.ChildrenProperty is null && xamlItem.ContentProperty is null
+                ? _xamlEditor.RootXamlItem
+                : xamlItem;
         }
 
         if (targetXamlItem is null)
