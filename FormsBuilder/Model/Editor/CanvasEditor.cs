@@ -44,7 +44,7 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
             new PointerTool(this),
             new MoveTool(this),
             // Draw
-            //new RectangleTool(this),
+            new RectangleTool(this),
             new PaintTool(this, _toolboxXamlItemProvider),
             new LineTool(this),
             new EllipseTool(this),
