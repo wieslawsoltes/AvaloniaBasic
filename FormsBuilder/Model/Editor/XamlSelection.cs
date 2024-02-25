@@ -117,11 +117,11 @@ public class XamlSelection : IXamlSelection
             targetXamlItem = canSetContentOrChildren && !copyItemIsSameAsSelected
                 ? selectedXamlItem
                 : _xamlEditor.RootXamlItem;
+        }
 
-            if (targetXamlItem == _xamlEditor.RootXamlItem)
-            {
-                isTargetXamlItemRoot = true;
-            }
+        if (targetXamlItem == _xamlEditor.RootXamlItem)
+        {
+            isTargetXamlItemRoot = true;
         }
 
         if (targetXamlItem is null)
