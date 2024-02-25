@@ -78,29 +78,30 @@ public class XamlSelection : IXamlSelection
     {
         if (_xamlItemsCopy is null || _xamlItemsCopy.Count <= 0)
         {
-            return;
-        }
-
-        if (Selected.Count > 1)
-        {
+            Hover(null);
+            Select(null);
             return;
         }
 
         var targetXamlItem = default(XamlItem);
         
-        if (Selected.Count == 0)
+        if (Selected.Count is 0 or > 1)
         {
             targetXamlItem = _xamlEditor.RootXamlItem;
         }
-        else if (Selected.Count == 1)
+        else if (Selected.Count is 1)
         {
             if (Selected.First() is not Control control)
             {
+                Hover(null);
+                Select(null);
                 return;
             }
 
             if (!_xamlEditor.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
             {
+                Hover(null);
+                Select(null);
                 return;
             }
 
@@ -109,6 +110,8 @@ public class XamlSelection : IXamlSelection
 
         if (targetXamlItem is null)
         {
+            Hover(null);
+            Select(null);
             return;
         }
 
@@ -143,7 +146,7 @@ public class XamlSelection : IXamlSelection
         }
 
         _xamlEditor.Reload(_xamlEditor.RootXamlItem);
-        
+
         Hover(null);
         SelectItems(newXamlItems);
     }
