@@ -14,6 +14,7 @@ public class MoveTool : Tool
     private bool _captured;
     private Rect _selectionRect;
     private bool _moveMode;
+    private bool _isUpdatingSelection;
 
     public MoveTool(IToolContext context)
     {
@@ -23,6 +24,12 @@ public class MoveTool : Tool
     public override void OnPointerPressed(IToolContext context, object? sender, PointerPressedEventArgs e)
     {
         var point = e.GetPosition(null);
+
+        _isUpdatingSelection = true;
+
+        _selectionRect = context.XamlSelection.Selected.Count > 0 
+            ? RectHelper.GetSelectionRectUnion(context.XamlSelection.Selected) 
+            : new Rect();
 
         if (_selectionRect != default && _selectionRect.Contains(point))
         {
@@ -52,6 +59,8 @@ public class MoveTool : Tool
         e.Pointer.Capture(context.Host);
         _captured = true;
         context.Host.Focus();
+
+        _isUpdatingSelection = false;
     }
 
     public override void OnPointerReleased(IToolContext context, object? sender, PointerReleasedEventArgs e)
@@ -60,7 +69,9 @@ public class MoveTool : Tool
         {
             return;
         }
-        
+
+        _isUpdatingSelection = true;
+
         if (_moveMode)
         {
             context.XamlSelection.EndMoveSelection();
@@ -76,6 +87,8 @@ public class MoveTool : Tool
 
         e.Pointer.Capture(null);
         _captured = false;
+
+        _isUpdatingSelection = false;
     }
 
     public override void OnPointerMoved(IToolContext context, object? sender, PointerEventArgs e)
@@ -84,7 +97,9 @@ public class MoveTool : Tool
         {
             return;
         }
-        
+
+        _isUpdatingSelection = true;
+
         if (_moveMode)
         {
             var point = e.GetPosition(null);
@@ -106,6 +121,8 @@ public class MoveTool : Tool
             context.XamlSelection.Selection(_startPoint, _endPoint);
             _selectionRect = UpdateRectSelection(context, _startPoint, _endPoint, _ignored);
         }
+
+        _isUpdatingSelection = false;
     }
 
     public override void OnPointerExited(IToolContext context, object? sender, PointerEventArgs e)
