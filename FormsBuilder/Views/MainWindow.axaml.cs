@@ -11,9 +11,15 @@ namespace FormsBuilder;
 
 public partial class MainWindow : Window
 {
-    private readonly KeyGesture? _copyGesture = Application.Current?.PlatformSettings?.HotkeyConfiguration.Copy.FirstOrDefault();
-    private readonly KeyGesture? _cutGesture = Application.Current?.PlatformSettings?.HotkeyConfiguration.Cut.FirstOrDefault();
-    private readonly KeyGesture? _pasteGesture = Application.Current?.PlatformSettings?.HotkeyConfiguration.Paste.FirstOrDefault();
+    private readonly List<KeyGesture>? _copyGesture = Application.Current?.PlatformSettings?.HotkeyConfiguration.Copy;
+    private readonly List<KeyGesture>? _cutGesture = Application.Current?.PlatformSettings?.HotkeyConfiguration.Cut;
+    private readonly List<KeyGesture>? _pasteGesture = Application.Current?.PlatformSettings?.HotkeyConfiguration.Paste;
+    private readonly List<KeyGesture>? _duplicateGesture = new List<KeyGesture>()
+    {
+        new KeyGesture(Key.D, Application.Current.PlatformSettings.HotkeyConfiguration.CommandModifiers)
+    };
+    private readonly List<KeyGesture>? _selectAllGesture = Application.Current?.PlatformSettings?.HotkeyConfiguration.SelectAll;
+
     private MainViewViewModel? _mainViewViewModel;
 
     public MainWindow()
@@ -23,6 +29,11 @@ public partial class MainWindow : Window
         InitializePropertiesEditor();
 
         InitializeMainViewViewModel();
+    }
+
+    private bool Match(List<KeyGesture> gestures, KeyEventArgs e)
+    {
+        return gestures.Any(g => g.Matches(e));
     }
 
     private void InitializePropertiesEditor()
@@ -98,19 +109,30 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (_copyGesture is not null && _copyGesture.Matches(e))
+        if (_copyGesture is not null && Match(_copyGesture, e))
         {
             Copy();
             return;
         }
-        else if (_cutGesture is not null && _cutGesture.Matches(e))
+        else if (_cutGesture is not null && Match(_cutGesture, e))
         {
             Cut();
             return;
         }
-        else if (_pasteGesture is not null && _pasteGesture.Matches(e))
+        else if (_pasteGesture is not null && Match(_pasteGesture, e))
         {
             Paste();
+            return;
+        }
+        else if (_duplicateGesture is not null && Match(_duplicateGesture, e))
+        {
+            Copy();
+            Paste();
+            return;
+        }
+        else if (_selectAllGesture is not null && Match(_selectAllGesture, e))
+        {
+            SelectAll();
             return;
         }
 
@@ -190,6 +212,19 @@ public partial class MainWindow : Window
         // TODO: Select pasted items.
         // _mainViewViewModel.XamlSelection.Hover(null);
         // _mainViewViewModel.XamlSelection.Select(null);
+    }
+
+    private void SelectAll()
+    {
+        if (_mainViewViewModel is null)
+        {
+            return;
+        }
+
+        if (_mainViewViewModel.XamlEditor.RootXamlItem is not null)
+        {
+            _mainViewViewModel.XamlSelection.SelectItems(_mainViewViewModel.XamlEditor.RootXamlItem.Children);
+        }
     }
 
     private void Delete()
