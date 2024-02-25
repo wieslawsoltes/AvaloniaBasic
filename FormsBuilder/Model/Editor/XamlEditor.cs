@@ -261,6 +261,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
 
     public void Debug(XamlItem xamlItem)
     {
+#if DEBUG
         var settings = new XamlServiceSettings
         {
             Writer = new StringBuilder(),
@@ -284,6 +285,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
         // var json = SerializeXamlItem(xamlItem);
         // Console.WriteLine(json);
         // var newXamlItem = DeserializeXamlItem(json);
+#endif
     }
     
     private XamlItem? DeserializeXamlItem(string json)
