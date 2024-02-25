@@ -91,23 +91,25 @@ public class XamlSelection : IXamlSelection
         }
         else if (Selected.Count is 1)
         {
-            if (Selected.First() is not Control control)
+            var selected = Selected.First();
+
+            if (selected is not Control control)
             {
                 Hover(null);
                 Select(null);
                 return;
             }
 
-            if (!_xamlEditor.TryGetXamlItem(control, out var xamlItem) || xamlItem is null)
+            if (!_xamlEditor.TryGetXamlItem(control, out var selectedXamlItem) || selectedXamlItem is null)
             {
                 Hover(null);
                 Select(null);
                 return;
             }
 
-            targetXamlItem = xamlItem.ChildrenProperty is null && xamlItem.ContentProperty is null
+            targetXamlItem = selectedXamlItem.ChildrenProperty is null && selectedXamlItem.ContentProperty is null
                 ? _xamlEditor.RootXamlItem
-                : xamlItem;
+                : selectedXamlItem;
         }
 
         if (targetXamlItem is null)
