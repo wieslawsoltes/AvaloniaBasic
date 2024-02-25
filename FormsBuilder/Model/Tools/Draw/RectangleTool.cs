@@ -15,13 +15,13 @@ public class RectangleTool : DrawTool
 #if false
         var xamlItem = new XamlItem(name: "DockPanel",
             id: context.XamlEditor.IdManager.GetNewId(),
-            properties: new Dictionary<string, XamlValue>
+            properties: new()
             {
                 ["Children"] = (XamlValue) new List<XamlItem>
                 {
                     new(name: "TextBlock", 
                         id: context.XamlEditor.IdManager.GetNewId(),
-                        properties: new Dictionary<string, XamlValue>
+                        properties: new()
                         {
                             ["Text"] = (XamlValue) "TextBlock",
                             ["DockPanel.Dock"] = (XamlValue) "Top"
@@ -30,7 +30,7 @@ public class RectangleTool : DrawTool
                         childrenProperty: null),
                     new(name: "TextBox", 
                         id: context.XamlEditor.IdManager.GetNewId(),
-                        properties: new Dictionary<string, XamlValue>
+                        properties: new()
                         {
                             ["Text"] = (XamlValue) "TextBox",
                             ["VerticalAlignment"] = (XamlValue) "Stretch",
@@ -45,7 +45,7 @@ public class RectangleTool : DrawTool
 #else
         var xamlItem = new XamlItem(name: "Rectangle",
             id: context.XamlEditor.IdManager.GetNewId(),
-            properties: new Dictionary<string, XamlValue>
+            properties: new()
             {
                 ["Fill"] = (XamlValue) "#D9D9D9",
             },

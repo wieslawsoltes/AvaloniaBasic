@@ -22,7 +22,7 @@ public class Demos
             //
             new(name: "TextBlock", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>
+                properties: new()
                 {
                     ["Text"] = (XamlValue) "TextBlock"
                 }, 
@@ -30,7 +30,7 @@ public class Demos
                 childrenProperty: null),
             new(name: "Label", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>
+                properties: new()
                 {
                     ["Content"] = (XamlValue) "Label"
                 }, 
@@ -38,7 +38,7 @@ public class Demos
                 childrenProperty: null),
             new(name: "TextBox", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>
+                properties: new()
                 {
                     ["Text"] = (XamlValue) "TextBox"
                 }, 
@@ -49,7 +49,7 @@ public class Demos
             //
             new(name: "Button", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>
+                properties: new()
                 {
                     ["Content"] = (XamlValue) "Button"
                 }, 
@@ -57,7 +57,7 @@ public class Demos
                 childrenProperty: null),
             new(name: "CheckBox", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>
+                properties: new()
                 {
                     ["Content"] = (XamlValue) "CheckBox"
                 }, 
@@ -65,7 +65,7 @@ public class Demos
                 childrenProperty: null),
             new(name: "RadioButton", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>
+                properties: new()
                 {
                     ["Content"] = (XamlValue) "RadioButton"
                 }, 
@@ -76,18 +76,18 @@ public class Demos
             //
             new(name: "Border",
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(),
+                properties: new(),
                 contentProperty: "Child",
                 childrenProperty: "Child"
             ),
             new(name: "Decorator",
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>
+                properties: new()
                 {
                     ["Child"] = (XamlValue) new XamlItem(
                         name: "Button", 
                         id: _xamlEditor.IdManager.GetNewId(),
-                        properties: new Dictionary<string, XamlValue>
+                        properties: new()
                         {
                             ["Content"] = (XamlValue) "Button"
                         }, 
@@ -101,18 +101,18 @@ public class Demos
             //
             new(name: "Panel", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
             new(name: "StackPanel",
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>
+                properties: new()
                 {
                     ["Children"] = (XamlValue) new List<XamlItem>
                     {
                         new(name: "TextBlock", 
                             id: _xamlEditor.IdManager.GetNewId(),
-                            properties: new Dictionary<string, XamlValue>
+                            properties: new()
                             {
                                 ["Text"] = (XamlValue) "TextBlock"
                             }, 
@@ -120,7 +120,7 @@ public class Demos
                             childrenProperty: null),
                         new(name: "TextBox", 
                             id: _xamlEditor.IdManager.GetNewId(),
-                            properties: new Dictionary<string, XamlValue>
+                            properties: new()
                             {
                                 ["Text"] = (XamlValue) "TextBox"
                             },
@@ -132,17 +132,17 @@ public class Demos
                 childrenProperty: "Children"),
             new(name: "DockPanel", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
             new(name: "WrapPanel", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
             new(name: "Grid", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
             //
@@ -150,24 +150,24 @@ public class Demos
             //
             new(name: "ItemsControl", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: "Items", 
                 childrenProperty: "Items"),
             new(name: "ListBox",
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>
+                properties: new()
                 {
                     ["Items"] = (XamlValue) new List<XamlItem>
                     {
                         new(name: "ListBoxItem", 
                             id: _xamlEditor.IdManager.GetNewId(),
-                            properties: new Dictionary<string, XamlValue>
+                            properties: new()
                             {
                                 ["Content"] = (XamlValue) "ListBoxItem 0"
                             }),
                         new(name: "ListBoxItem",
                             id: _xamlEditor.IdManager.GetNewId(), 
-                            properties: new Dictionary<string, XamlValue>
+                            properties: new()
                             {
                                 ["Content"] = (XamlValue) "ListBoxItem 1"
                             }),
@@ -177,7 +177,7 @@ public class Demos
                 childrenProperty: "Items"),
             new(name: "ListBoxItem", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: "Content", 
                 childrenProperty: null),
             //
@@ -185,12 +185,12 @@ public class Demos
             //
             new(name: "ComboBox", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: "ItemsSource", 
                 childrenProperty: "Items"),
             new(name: "ComboBoxItem", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: "Content", 
                 childrenProperty: null),
             //
@@ -198,20 +198,20 @@ public class Demos
             //
             new(name: "TabControl",
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>
+                properties: new()
                 {
                     ["Items"] = (XamlValue) new List<XamlItem>
                     {
                         new(name: "TabItem", 
                             id: _xamlEditor.IdManager.GetNewId(),
-                            properties: new Dictionary<string, XamlValue>
+                            properties: new()
                             {
                                 ["Content"] = (XamlValue) "TabItem 0",
                                 ["Header"] = (XamlValue) "TabItem 0"
                             }),
                         new(name: "TabItem",
                             id: _xamlEditor.IdManager.GetNewId(), 
-                            properties: new Dictionary<string, XamlValue>
+                            properties: new()
                             {
                                 ["Content"] = (XamlValue) "TabItem 1",
                                 ["Header"] = (XamlValue) "TabItem 1"
@@ -222,7 +222,7 @@ public class Demos
                 childrenProperty: "Items"),
             new(name: "TabItem", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>
+                properties: new()
                 {
                     ["Content"] = (XamlValue) "TabItem",
                     ["Header"] = (XamlValue) "TabItem"
@@ -234,17 +234,17 @@ public class Demos
             //
             new(name: "ProgressBar", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: null, 
                 childrenProperty: null),
             new(name: "Slider", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: null, 
                 childrenProperty: null),
             new(name: "DatePicker", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: null, 
                 childrenProperty: null),
             //
@@ -252,39 +252,39 @@ public class Demos
             //
             new(name: "Rectangle", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: null, 
                 childrenProperty: null),
             new(name: "Ellipse", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: null, 
                 childrenProperty: null),
             new(name: "Line", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: null, 
                 childrenProperty: null),
             new(name: "Path", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: null, 
                 childrenProperty: null),
             //
             new(name: "Image", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: "Source", 
                 childrenProperty: null),
             new(name: "PathIcon", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: null, 
                 childrenProperty: null),
             //
             new(name: "ScrollViewer", 
                 id: _xamlEditor.IdManager.GetNewId(),
-                properties: new Dictionary<string, XamlValue>(), 
+                properties: new(), 
                 contentProperty: "Content", 
                 childrenProperty: "Content"),
         };
@@ -294,7 +294,7 @@ public class Demos
     {
         var xamlItem = new XamlItem(name: "StackPanel",
             id: _xamlEditor.IdManager.GetNewId(),
-            properties: new Dictionary<string, XamlValue>
+            properties: new()
             {
                 ["Children"] = (XamlValue) new List<XamlItem>(),
                 ["Background"] = (XamlValue) "White",
@@ -311,7 +311,7 @@ public class Demos
     {
         var xamlItem = new XamlItem(name: "DockPanel",
             id: _xamlEditor.IdManager.GetNewId(),
-            properties: new Dictionary<string, XamlValue>
+            properties: new()
             {
                 ["Children"] = (XamlValue) new List<XamlItem>(),
                 ["Background"] = (XamlValue) "White",
@@ -328,7 +328,7 @@ public class Demos
     {
         var xamlItem = new XamlItem(name: "Canvas",
             id: _xamlEditor.IdManager.GetNewId(),
-            properties: new Dictionary<string, XamlValue>
+            properties: new()
             {
                 ["Children"] = (XamlValue) new List<XamlItem>(),
                 ["Background"] = (XamlValue) "White",

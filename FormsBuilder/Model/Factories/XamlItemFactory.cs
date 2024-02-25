@@ -16,7 +16,7 @@ public static class XamlItemFactory
             xamlItem.ChildrenProperty);
     }
 
-    public static Dictionary<string, XamlValue> CloneProperties(Dictionary<string, XamlValue> properties, IXamlItemIdManager idManager, bool newId)
+    public static XamlProperties CloneProperties(XamlProperties properties, IXamlItemIdManager idManager, bool newId)
     {
         return properties.ToDictionary(
             x => x.Key,

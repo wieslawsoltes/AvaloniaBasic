@@ -14,7 +14,7 @@ public class EllipseTool : DrawTool
     {
         var xamlItem = new XamlItem(name: "Ellipse",
             id: context.XamlEditor.IdManager.GetNewId(),
-            properties: new Dictionary<string, XamlValue>
+            properties: new()
             {
                 ["Fill"] = (XamlValue) "#D9D9D9",
             },

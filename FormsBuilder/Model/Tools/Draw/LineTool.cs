@@ -16,7 +16,7 @@ public class LineTool : DrawTool
     {
         var xamlItem = new XamlItem(name: "Line",
             id: context.XamlEditor.IdManager.GetNewId(),
-            properties: new Dictionary<string, XamlValue>
+            properties: new()
             {
                 ["Stroke"] = (XamlValue) "#000000",
                 ["StrokeThickness"] = (XamlValue) "1.0",

@@ -1,3 +1,4 @@
+global using XamlProperties = System.Collections.Generic.Dictionary<string, FormsBuilder.XamlValue>;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ public class XamlItem
     public XamlItem(
         string name, 
         string id,
-        Dictionary<string, XamlValue> properties,
+        XamlProperties properties,
         string? contentProperty = null,
         string? childrenProperty = null)
     {
@@ -29,7 +30,7 @@ public class XamlItem
     public string Id { get; }
 
     [JsonPropertyName("properties")]
-    public Dictionary<string, XamlValue> Properties { get; }
+    public XamlProperties Properties { get; }
 
     [JsonPropertyName("contentProperty")]
     public string? ContentProperty { get; }
