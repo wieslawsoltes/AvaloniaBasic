@@ -188,9 +188,8 @@ public partial class MainWindow : Window
         _mainViewViewModel.XamlSelection.PasteSelected();
 
         // TODO: Select pasted items.
-
-        _mainViewViewModel.XamlSelection.Hover(null);
-        _mainViewViewModel.XamlSelection.Select(null);
+        // _mainViewViewModel.XamlSelection.Hover(null);
+        // _mainViewViewModel.XamlSelection.Select(null);
     }
 
     private void Delete()

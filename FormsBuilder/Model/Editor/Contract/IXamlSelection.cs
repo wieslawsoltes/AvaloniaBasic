@@ -22,6 +22,8 @@ public interface IXamlSelection
     void BeginMoveSelection();
     void EndMoveSelection();
     void MoveSelection(Point delta);
+    void HoverItem(XamlItem xamlItem);
+    void SelectItems(IEnumerable<XamlItem> xamlItems);
     void Hover(Visual? visual);
     void Select(IEnumerable<Visual>? visuals);
     void Selection(Point startPoint, Point endPoint);

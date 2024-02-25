@@ -112,6 +112,8 @@ public class XamlSelection : IXamlSelection
             return;
         }
 
+        var newXamlItems = new List<XamlItem>();
+
         foreach (var xamlItem in _xamlItemsCopy)
         {
             var xamlItemCopy = XamlItemFactory.Clone(xamlItem, _xamlEditor.IdManager);
@@ -120,6 +122,8 @@ public class XamlSelection : IXamlSelection
             {
                 if (targetXamlItem.TryAddChild(xamlItemCopy))
                 {
+                    newXamlItems.Add(xamlItemCopy);
+
                     _xamlEditor.Debug(targetXamlItem);
                 }
             }
@@ -130,6 +134,8 @@ public class XamlSelection : IXamlSelection
                 {
                     if (targetXamlItem.TrySetContent(new XamlItemXamlValue(xamlItemCopy)))
                     {
+                        newXamlItems.Add(xamlItemCopy);
+
                         _xamlEditor.Debug(targetXamlItem);
                     }
                 }
@@ -137,6 +143,9 @@ public class XamlSelection : IXamlSelection
         }
 
         _xamlEditor.Reload(_xamlEditor.RootXamlItem);
+        
+        Hover(null);
+        SelectItems(newXamlItems);
     }
 
     public void RemoveSelected()
@@ -189,14 +198,39 @@ public class XamlSelection : IXamlSelection
         SelectedMoved?.Invoke(this, e);
     }
 
+    public void HoverItem(XamlItem xamlItem)
+    {
+        if (_xamlEditor.TryGetControl(xamlItem, out var control) && control is not null)
+        {
+            Hover(control);
+        }
+    }
+
+    public void SelectItems(IEnumerable<XamlItem> xamlItems)
+    {
+        var newSelectedVisuals = new List<Visual>();
+
+        foreach (var newXamlItem in xamlItems)
+        {
+            if (_xamlEditor.TryGetControl(newXamlItem, out var control) && control is not null)
+            {
+                newSelectedVisuals.Add(control);
+            }
+        }
+
+        Select(newSelectedVisuals.Count > 0 ? newSelectedVisuals : null);
+    }
+
     public void Hover(Visual? visual)
     {
-        if (visual is null || !Selected.Contains(visual))
+        if (visual is not null && Selected.Contains(visual))
         {
-            Hovered = visual;
-            OnHoveredChanged(EventArgs.Empty);
-            InvalidateOverlay();
+            return;
         }
+
+        Hovered = visual;
+        OnHoveredChanged(EventArgs.Empty);
+        InvalidateOverlay();
     }
 
     public void Select(IEnumerable<Visual>? visuals)
