@@ -55,9 +55,9 @@ public class XamlSelection : IXamlSelection
                 continue;
             }
 
-            var xamlItemCopy = XamlItemFactory.Clone(xamlItem, _xamlEditor.IdManager);
-
-            xamlItems.Add(xamlItemCopy);
+            // var xamlItemCopy = XamlItemFactory.Clone(xamlItem, _xamlEditor.IdManager);
+            // xamlItems.Add(xamlItemCopy);
+            xamlItems.Add(xamlItem);
         }
 
         _xamlItemsCopy = xamlItems;
@@ -84,6 +84,7 @@ public class XamlSelection : IXamlSelection
         }
 
         var targetXamlItem = default(XamlItem);
+        var isTargetXamlItemRoot = false;
         
         if (Selected.Count is 0 or > 1)
         {
@@ -107,9 +108,20 @@ public class XamlSelection : IXamlSelection
                 return;
             }
 
-            targetXamlItem = selectedXamlItem.ChildrenProperty is null && selectedXamlItem.ContentProperty is null
-                ? _xamlEditor.RootXamlItem
-                : selectedXamlItem;
+            var canSetContentOrChildren = selectedXamlItem.ChildrenProperty is not null
+                                          || selectedXamlItem.ContentProperty is not null;
+
+            var firstXamlItemToCopy = _xamlItemsCopy.First();
+            var copyItemIsSameAsSelected = firstXamlItemToCopy == selectedXamlItem;
+
+            targetXamlItem = canSetContentOrChildren && !copyItemIsSameAsSelected
+                ? selectedXamlItem
+                : _xamlEditor.RootXamlItem;
+
+            if (targetXamlItem == _xamlEditor.RootXamlItem)
+            {
+                isTargetXamlItemRoot = true;
+            }
         }
 
         if (targetXamlItem is null)
@@ -123,13 +135,24 @@ public class XamlSelection : IXamlSelection
 
         foreach (var xamlItem in _xamlItemsCopy)
         {
+            if (targetXamlItem == xamlItem)
+            {
+                break;
+            }
+
             var xamlItemCopy = XamlItemFactory.Clone(xamlItem, _xamlEditor.IdManager);
             
             if (targetXamlItem.ChildrenProperty is not null)
             {
                 if (targetXamlItem.TryAddChild(xamlItemCopy))
                 {
-                    newXamlItems.Add(xamlItemCopy);
+                    // TODO:
+                    // newXamlItems.Add(xamlItemCopy);
+
+                    if (isTargetXamlItemRoot)
+                    {
+                        newXamlItems.Add(xamlItemCopy);
+                    }
 
                     _xamlEditor.Debug(targetXamlItem);
                 }
@@ -141,7 +164,8 @@ public class XamlSelection : IXamlSelection
                 {
                     if (targetXamlItem.TrySetContent(new XamlItemXamlValue(xamlItemCopy)))
                     {
-                        newXamlItems.Add(xamlItemCopy);
+                        // TODO:
+                        // newXamlItems.Add(xamlItemCopy);
 
                         _xamlEditor.Debug(targetXamlItem);
                     }
