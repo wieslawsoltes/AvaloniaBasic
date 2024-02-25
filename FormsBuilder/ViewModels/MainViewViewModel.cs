@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -11,7 +13,14 @@ using ReactiveUI.Fody.Helpers;
 
 namespace FormsBuilder;
 
-public class MainViewViewModel : ReactiveObject
+public interface IToolboxXamlItemProvider
+{
+    ObservableCollection<XamlItem> ToolBoxItems { get; set; }
+
+    public XamlItem? SelectedToolBoxItem { get; set; }
+}
+
+public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
 {
     private readonly EditorCanvasView _editorCanvas;
     private readonly ApplicationService _applicationService;
@@ -30,6 +39,7 @@ public class MainViewViewModel : ReactiveObject
         _demos = new Demos(_xamlEditor);
 
         ToolBoxItems = _demos.DemoToolBox();
+        SelectedToolBoxItem = ToolBoxItems.FirstOrDefault();
 
         NewCommand = ReactiveCommand.Create(New);
         OpenCommand = ReactiveCommand.CreateFromTask(OpenAsync);
@@ -40,6 +50,7 @@ public class MainViewViewModel : ReactiveObject
         StopCommand = ReactiveCommand.Create(Stop);
 
         MoveToolCommand = ReactiveCommand.Create(MoveTool);
+        PaintToolCommand = ReactiveCommand.Create(PaintTool);
         RectangleToolCommand = ReactiveCommand.Create(RectangleTool);
         LineToolCommand = ReactiveCommand.Create(LineTool);
         EllipseToolCommand = ReactiveCommand.Create(EllipseTool);
@@ -61,6 +72,8 @@ public class MainViewViewModel : ReactiveObject
 
     public ICommand MoveToolCommand { get; }
 
+    public ICommand PaintToolCommand { get; }
+
     public ICommand RectangleToolCommand { get; }
 
     public ICommand LineToolCommand { get; }
@@ -69,7 +82,9 @@ public class MainViewViewModel : ReactiveObject
 
     [Reactive] public bool IsPlaying { get; set; }
 
-    public List<XamlItem> ToolBoxItems { get; set; }
+    public ObservableCollection<XamlItem> ToolBoxItems { get; set; }
+
+    [Reactive] public XamlItem? SelectedToolBoxItem { get; set; }
 
     public IXamlEditor XamlEditor => _xamlEditor;
  
@@ -197,6 +212,11 @@ public class MainViewViewModel : ReactiveObject
     private void MoveTool()
     {
         XamlEditor.CanvasViewModel?.SetCurrentTool("Move");
+    }
+
+    private void PaintTool()
+    {
+        XamlEditor.CanvasViewModel?.SetCurrentTool("Paint");
     }
 
     private void RectangleTool()

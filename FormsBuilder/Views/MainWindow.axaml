@@ -96,21 +96,27 @@
                   ToolTip.Tip="Move">
             <Svg Path="/Assets/Icons/Dark/ic_fluent_cursor_24_regular.svg" />
           </Button>
+       
+          <Button Command="{Binding PaintToolCommand}"
+                  Classes.isChecked="{Binding XamlEditor.CanvasViewModel.Tools[3].IsSelected, Mode=OneWay}"
+                  ToolTip.Tip="Paint">
+            <Svg Path="/Assets/Icons/Dark/ic_fluent_paint_brush_24_regular.svg" />
+          </Button>
 
           <Button Command="{Binding RectangleToolCommand}"
-                  Classes.isChecked="{Binding XamlEditor.CanvasViewModel.Tools[3].IsSelected, Mode=OneWay}"
+                  Classes.isChecked="{Binding XamlEditor.CanvasViewModel.Tools[4].IsSelected, Mode=OneWay}"
                   ToolTip.Tip="Rectangle">
             <Svg Path="/Assets/Icons/Dark/ic_fluent_maximize_24_regular.svg" />
           </Button>
 
           <Button Command="{Binding LineToolCommand}"
-                  Classes.isChecked="{Binding XamlEditor.CanvasViewModel.Tools[4].IsSelected, Mode=OneWay}"
+                  Classes.isChecked="{Binding XamlEditor.CanvasViewModel.Tools[5].IsSelected, Mode=OneWay}"
                   ToolTip.Tip="Line">
             <Svg Path="/Assets/Icons/Dark/ic_fluent_arrow_up_right_24_regular_line.svg" />
           </Button>
 
           <Button Command="{Binding EllipseToolCommand}"
-                  Classes.isChecked="{Binding XamlEditor.CanvasViewModel.Tools[5].IsSelected, Mode=OneWay}"
+                  Classes.isChecked="{Binding XamlEditor.CanvasViewModel.Tools[6].IsSelected, Mode=OneWay}"
                   ToolTip.Tip="Ellipse">
             <Svg Path="/Assets/Icons/Dark/ic_fluent_circle_24_regular.svg" />
           </Button>

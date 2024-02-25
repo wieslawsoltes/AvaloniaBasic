@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Avalonia.Controls;
 
 namespace FormsBuilder;
@@ -12,9 +13,9 @@ public class Demos
         _xamlEditor = xamlEditor;
     }
 
-    public List<XamlItem> DemoToolBox()
+    public ObservableCollection<XamlItem> DemoToolBox()
     {
-        return new List<XamlItem>
+        return new ObservableCollection<XamlItem>
         {
             //
             //

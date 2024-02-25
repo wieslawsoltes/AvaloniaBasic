@@ -18,6 +18,7 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
     private readonly IOverlayService _overlayService;
     private readonly IXamlEditor _xamlEditor;
     private readonly IXamlSelection _xamlSelection;
+    private readonly IToolboxXamlItemProvider _toolboxXamlItemProvider;
     private Control? _host;
     private Panel? _rootPanel;
     private GridLinesControl? _gridLines;
@@ -28,11 +29,13 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
     public CanvasEditor(
         IOverlayService overlayService, 
         IXamlEditor xamlEditor, 
-        IXamlSelection xamlSelection)
+        IXamlSelection xamlSelection,
+        IToolboxXamlItemProvider toolboxXamlItemProvider)
     {
         _overlayService = overlayService;
         _xamlEditor = xamlEditor;
         _xamlSelection = xamlSelection;
+        _toolboxXamlItemProvider = toolboxXamlItemProvider;
 
         _tools = new List<Tool>
         {
@@ -41,7 +44,8 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
             new PointerTool(this),
             new MoveTool(this),
             // Draw
-            new RectangleTool(this),
+            //new RectangleTool(this),
+            new PaintTool(this, _toolboxXamlItemProvider),
             new LineTool(this),
             new EllipseTool(this),
             new TextTool(),
@@ -132,6 +136,8 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
             // Selection
             "Pointer" => _tools.FirstOrDefault(x => x is PointerTool),
             "Move" => _tools.FirstOrDefault(x => x is MoveTool),
+            // Paint
+            "Paint" => _tools.FirstOrDefault(x => x is PaintTool),
             // Draw
             "Rectangle" => _tools.FirstOrDefault(x => x is RectangleTool),
             "Line" => _tools.FirstOrDefault(x => x is LineTool),
@@ -160,6 +166,8 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
             // Selection
             Key.P => _tools.FirstOrDefault(x => x is PointerTool),
             Key.V => _tools.FirstOrDefault(x => x is MoveTool),
+            // Paint
+            Key.B => _tools.FirstOrDefault(x => x is PaintTool),
             // Draw
             Key.R => _tools.FirstOrDefault(x => x is RectangleTool),
             Key.L => _tools.FirstOrDefault(x => x is LineTool),
