@@ -157,7 +157,7 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
 
         var xaml = await Task.Run(() =>
         {
-            var settings = new XamlServiceSettings
+            var settings = new XamlWriterSettings
             {
                 Writer = new StringBuilder(),
                 Namespace = "https://github.com/avaloniaui",
@@ -167,7 +167,8 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
                 WriteAttributesOnNewLine = false
             };
 
-            XamlService.WriteXaml(_xamlEditor.RootXamlItem, settings);
+            var xamlWriter = new XamlWriter();
+            xamlWriter.Write(_xamlEditor.RootXamlItem, settings);
 
             return settings.Writer.ToString();
         });

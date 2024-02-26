@@ -2,9 +2,20 @@ using System.Linq;
 
 namespace FormsBuilder;
 
-public class XamlService
+public interface IXamlWriter
 {
-    public static void WriteXaml(XamlItem xamlItem, XamlServiceSettings settings)
+    void Write(XamlItem xamlItem, XamlWriterSettings settings);
+    void WriteRootNamespace(XamlWriterSettings settings);
+    void WriteNamespaces(XamlWriterSettings settings);
+    void WriteUidAttribute(XamlItem xamlItem, XamlWriterSettings settings);
+    void WriteAttributeProperties(XamlItem xamlItem, XamlWriterSettings settings);
+    void WritePropertyValue(XamlValue value, XamlWriterSettings settings);
+    void WriteObjectProperties(XamlItem xamlItem, XamlWriterSettings settings);
+}
+
+public class XamlWriter : IXamlWriter
+{
+    public void Write(XamlItem xamlItem, XamlWriterSettings settings)
     {
         settings.Writer.Append(new string(' ', settings.Level));
         settings.Writer.Append('<');
@@ -35,7 +46,7 @@ public class XamlService
         }
     }
 
-    private static void WriteRootNamespace(XamlServiceSettings settings)
+    public void WriteRootNamespace(XamlWriterSettings settings)
     {
         if (!settings.WriteXmlns)
         {
@@ -57,7 +68,7 @@ public class XamlService
         settings.Writer.Append('"');
     }
 
-    private static void WriteNamespaces(XamlServiceSettings settings)
+    public void WriteNamespaces(XamlWriterSettings settings)
     {
         if (!settings.WriteXmlns || !settings.WriteUid)
         {
@@ -79,7 +90,7 @@ public class XamlService
         settings.Writer.Append("xmlns:formsBuilder=\"clr-namespace:FormsBuilder\"");
     }
 
-    private static void WriteUidAttribute(XamlItem xamlItem, XamlServiceSettings settings)
+    public void WriteUidAttribute(XamlItem xamlItem, XamlWriterSettings settings)
     {
         if (settings.WriteAttributesOnNewLine)
         {
@@ -101,7 +112,7 @@ public class XamlService
         settings.Writer.Append('"');
     }
 
-    private static void WriteAttributeProperties(XamlItem xamlItem, XamlServiceSettings settings)
+    public void WriteAttributeProperties(XamlItem xamlItem, XamlWriterSettings settings)
     {
         if (settings.WriteUid)
         {
@@ -133,7 +144,7 @@ public class XamlService
         }
     }
 
-    private static void WritePropertyValue(XamlValue value, XamlServiceSettings settings)
+    public void WritePropertyValue(XamlValue value, XamlWriterSettings settings)
     {
         switch (value)
         {
@@ -146,7 +157,7 @@ public class XamlService
 
                 settings.Writer.AppendLine();
 
-                WriteXaml(xamlItemXamlValue.Value, settings with { WriteXmlns = false, Level = settings.Level + 2 });
+                Write(xamlItemXamlValue.Value, settings with { WriteXmlns = false, Level = settings.Level + 2 });
 
                 break;
             }
@@ -161,7 +172,7 @@ public class XamlService
                 {
                     settings.Writer.AppendLine();
 
-                    WriteXaml(xamlItem, settings with { WriteXmlns = false, Level = settings.Level + 2 });
+                    Write(xamlItem, settings with { WriteXmlns = false, Level = settings.Level + 2 });
                 }
 
                 break;
@@ -169,7 +180,7 @@ public class XamlService
         }
     }
 
-    private static void WriteObjectProperties(XamlItem xamlItem, XamlServiceSettings settings)
+    public void WriteObjectProperties(XamlItem xamlItem, XamlWriterSettings settings)
     {
         var properties = xamlItem.Properties.Where(x => x.Value is not StringXamlValue);
  

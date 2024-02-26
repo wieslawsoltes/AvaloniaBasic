@@ -262,7 +262,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
     public void Debug(XamlItem xamlItem)
     {
 #if DEBUG
-        var settings = new XamlServiceSettings
+        var settings = new XamlWriterSettings
         {
             Writer = new StringBuilder(),
             Namespace = "https://github.com/avaloniaui",
@@ -272,7 +272,8 @@ public class XamlEditor : ReactiveObject, IXamlEditor
             WriteAttributesOnNewLine = false
         };
 
-        XamlService.WriteXaml(xamlItem, settings);
+        var xamlWriter = new XamlWriter();
+        xamlWriter.Write(xamlItem, settings);
 
         var xaml = settings.Writer.ToString();
 

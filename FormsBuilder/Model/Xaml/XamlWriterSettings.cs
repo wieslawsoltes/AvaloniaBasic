@@ -2,7 +2,7 @@ using System.Text;
 
 namespace FormsBuilder;
 
-public readonly record struct XamlServiceSettings(
+public readonly record struct XamlWriterSettings(
     StringBuilder Writer,
     string Namespace,
     bool WriteXmlns, 
