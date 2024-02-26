@@ -21,7 +21,7 @@ public interface IXamlEditor
     bool RemoveXamlItem(XamlItem xamlItem);
     bool TryGetXamlItem(Control control, out XamlItem? xamlItem);
     bool TryGetControl(XamlItem xamlItem, out Control? control);
-    void UpdatePropertyValue(Control control, string propertyName, string propertyValue);
+    void UpdatePropertyValue(Control control, string propertyName, XamlValue propertyValue);
     Control? LoadForDesign(XamlItem xamlItem);
     Control? LoadForExport(XamlItem xamlItem);
     void Reload(XamlItem rooXamlItem);

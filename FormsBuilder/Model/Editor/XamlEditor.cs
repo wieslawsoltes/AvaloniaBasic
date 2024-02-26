@@ -121,8 +121,8 @@ public class XamlEditor : ReactiveObject, IXamlEditor
         // TODO: Add callback service for XamlItem to position inserted item in target.
         if (targetXamlItem.Name == "Canvas")
         {
-            xamlItem.Properties["Canvas.Left"] = StringXamlValue.From(position.X);
-            xamlItem.Properties["Canvas.Top"] = StringXamlValue.From(position.Y);
+            xamlItem.Properties["Canvas.Left"] = position.X;
+            xamlItem.Properties["Canvas.Top"] = position.Y;
         }
     }
 
@@ -154,7 +154,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
         return control is not null;
     }
 
-    public void UpdatePropertyValue(Control control, string propertyName, string propertyValue)
+    public void UpdatePropertyValue(Control control, string propertyName, XamlValue propertyValue)
     {
         if (!EnableEditing)
         {
@@ -163,7 +163,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
 
         if (TryGetXamlItem(control, out var xamlItem))
         {
-            xamlItem.Properties[propertyName] = (XamlValue) propertyValue;
+            xamlItem.Properties[propertyName] = propertyValue;
             OnPropertyValueChanged();
 #if DEBUG
             // TODO:

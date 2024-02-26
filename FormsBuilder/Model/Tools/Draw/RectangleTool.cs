@@ -17,14 +17,14 @@ public class RectangleTool : DrawTool
             id: context.XamlEditor.IdManager.GetNewId(),
             properties: new()
             {
-                ["Children"] = (XamlValue) new List<XamlItem>
+                ["Children"] = new List<XamlItem>
                 {
                     new(name: "TextBlock", 
                         id: context.XamlEditor.IdManager.GetNewId(),
                         properties: new()
                         {
-                            ["Text"] = (XamlValue) "TextBlock",
-                            ["DockPanel.Dock"] = (XamlValue) "Top"
+                            ["Text"] = "TextBlock",
+                            ["DockPanel.Dock"] = "Top"
                         }, 
                         contentProperty: "Text", 
                         childrenProperty: null),
@@ -32,13 +32,13 @@ public class RectangleTool : DrawTool
                         id: context.XamlEditor.IdManager.GetNewId(),
                         properties: new()
                         {
-                            ["Text"] = (XamlValue) "TextBox",
-                            ["VerticalAlignment"] = (XamlValue) "Stretch",
+                            ["Text"] = "TextBox",
+                            ["VerticalAlignment"] = "Stretch",
                         },
                         contentProperty: "Text", 
                         childrenProperty: null),
                 },
-                ["Background"] = (XamlValue) "LightGray",
+                ["Background"] = "LightGray",
             }, 
             contentProperty: "Children", 
             childrenProperty: "Children");
@@ -47,7 +47,7 @@ public class RectangleTool : DrawTool
             id: context.XamlEditor.IdManager.GetNewId(),
             properties: new()
             {
-                ["Fill"] = (XamlValue) "#D9D9D9",
+                ["Fill"] = "#D9D9D9",
             },
             contentProperty: null,
             childrenProperty: null);
@@ -58,10 +58,10 @@ public class RectangleTool : DrawTool
     protected override void UpdateXamlItem(Point startPosition, Point endPosition, XamlItem xamlItem)
     {
         var rect = RectHelper.GetSelectionRect(startPosition, endPosition);
-        xamlItem.Properties["Canvas.Left"] = StringXamlValue.From(rect.TopLeft.X);
-        xamlItem.Properties["Canvas.Top"] = StringXamlValue.From(rect.TopLeft.Y);
-        xamlItem.Properties["Width"] = StringXamlValue.From(rect.Width);
-        xamlItem.Properties["Height"] = StringXamlValue.From(rect.Height);
+        xamlItem.Properties["Canvas.Left"] = rect.TopLeft.X;
+        xamlItem.Properties["Canvas.Top"] = rect.TopLeft.Y;
+        xamlItem.Properties["Width"] = rect.Width;
+        xamlItem.Properties["Height"] = rect.Height;
     }
 
     protected override void UpdateControl(Point startPosition, Point endPosition, Control control)

@@ -371,8 +371,8 @@ public class XamlSelection : IXamlSelection
                 Canvas.SetLeft(control, left);
                 Canvas.SetTop(control, top);
 
-                _xamlEditor.UpdatePropertyValue(control, "Canvas.Left", StringXamlValue.From(left));
-                _xamlEditor.UpdatePropertyValue(control, "Canvas.Top", StringXamlValue.From(top));
+                _xamlEditor.UpdatePropertyValue(control, "Canvas.Left", left);
+                _xamlEditor.UpdatePropertyValue(control, "Canvas.Top", top);
             }
 
             // TODO: Add support for other panels.

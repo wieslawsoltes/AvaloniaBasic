@@ -22,10 +22,10 @@ public class PaintTool : DrawTool
     protected override void UpdateXamlItem(Point startPosition, Point endPosition, XamlItem xamlItem)
     {
         var rect = RectHelper.GetSelectionRect(startPosition, endPosition);
-        xamlItem.Properties["Canvas.Left"] = StringXamlValue.From(rect.TopLeft.X);
-        xamlItem.Properties["Canvas.Top"] = StringXamlValue.From(rect.TopLeft.Y);
-        xamlItem.Properties["Width"] = StringXamlValue.From(rect.Width);
-        xamlItem.Properties["Height"] = StringXamlValue.From(rect.Height);
+        xamlItem.Properties["Canvas.Left"] = rect.TopLeft.X;
+        xamlItem.Properties["Canvas.Top"] = rect.TopLeft.Y;
+        xamlItem.Properties["Width"] = rect.Width;
+        xamlItem.Properties["Height"] = rect.Height;
     }
 
     protected override void UpdateControl(Point startPosition, Point endPosition, Control control)

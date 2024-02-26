@@ -24,7 +24,7 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Text"] = (XamlValue) "TextBlock"
+                    ["Text"] = "TextBlock"
                 }, 
                 contentProperty: "Text", 
                 childrenProperty: null),
@@ -32,7 +32,7 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Content"] = (XamlValue) "Label"
+                    ["Content"] = "Label"
                 }, 
                 contentProperty: "Content", 
                 childrenProperty: null),
@@ -40,7 +40,7 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Text"] = (XamlValue) "TextBox"
+                    ["Text"] = "TextBox"
                 }, 
                 contentProperty: "Text", 
                 childrenProperty: null),
@@ -51,7 +51,7 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Content"] = (XamlValue) "Button"
+                    ["Content"] = "Button"
                 }, 
                 contentProperty: "Content", 
                 childrenProperty: null),
@@ -59,7 +59,7 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Content"] = (XamlValue) "CheckBox"
+                    ["Content"] = "CheckBox"
                 }, 
                 contentProperty: "Content", 
                 childrenProperty: null),
@@ -67,7 +67,7 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Content"] = (XamlValue) "RadioButton"
+                    ["Content"] = "RadioButton"
                 }, 
                 contentProperty: "Content", 
                 childrenProperty: null),
@@ -84,12 +84,12 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Child"] = (XamlValue) new XamlItem(
+                    ["Child"] = new XamlItem(
                         name: "Button", 
                         id: _xamlEditor.IdManager.GetNewId(),
                         properties: new()
                         {
-                            ["Content"] = (XamlValue) "Button"
+                            ["Content"] = "Button"
                         }, 
                         contentProperty: "Content", 
                         childrenProperty: null)
@@ -108,13 +108,13 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Children"] = (XamlValue) new List<XamlItem>
+                    ["Children"] = new List<XamlItem>
                     {
                         new(name: "TextBlock", 
                             id: _xamlEditor.IdManager.GetNewId(),
                             properties: new()
                             {
-                                ["Text"] = (XamlValue) "TextBlock"
+                                ["Text"] = "TextBlock"
                             }, 
                             contentProperty: "Text", 
                             childrenProperty: null),
@@ -122,7 +122,7 @@ public class Demos
                             id: _xamlEditor.IdManager.GetNewId(),
                             properties: new()
                             {
-                                ["Text"] = (XamlValue) "TextBox"
+                                ["Text"] = "TextBox"
                             },
                             contentProperty: "Text", 
                             childrenProperty: null),
@@ -157,19 +157,19 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Items"] = (XamlValue) new List<XamlItem>
+                    ["Items"] = new List<XamlItem>
                     {
                         new(name: "ListBoxItem", 
                             id: _xamlEditor.IdManager.GetNewId(),
                             properties: new()
                             {
-                                ["Content"] = (XamlValue) "ListBoxItem 0"
+                                ["Content"] = "ListBoxItem 0"
                             }),
                         new(name: "ListBoxItem",
                             id: _xamlEditor.IdManager.GetNewId(), 
                             properties: new()
                             {
-                                ["Content"] = (XamlValue) "ListBoxItem 1"
+                                ["Content"] = "ListBoxItem 1"
                             }),
                     }
                 }, 
@@ -200,21 +200,21 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Items"] = (XamlValue) new List<XamlItem>
+                    ["Items"] = new List<XamlItem>
                     {
                         new(name: "TabItem", 
                             id: _xamlEditor.IdManager.GetNewId(),
                             properties: new()
                             {
-                                ["Content"] = (XamlValue) "TabItem 0",
-                                ["Header"] = (XamlValue) "TabItem 0"
+                                ["Content"] = "TabItem 0",
+                                ["Header"] = "TabItem 0"
                             }),
                         new(name: "TabItem",
                             id: _xamlEditor.IdManager.GetNewId(), 
                             properties: new()
                             {
-                                ["Content"] = (XamlValue) "TabItem 1",
-                                ["Header"] = (XamlValue) "TabItem 1"
+                                ["Content"] = "TabItem 1",
+                                ["Header"] = "TabItem 1"
                             }),
                     }
                 }, 
@@ -224,8 +224,8 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Content"] = (XamlValue) "TabItem",
-                    ["Header"] = (XamlValue) "TabItem"
+                    ["Content"] = "TabItem",
+                    ["Header"] = "TabItem"
                 },
                 contentProperty: "Content", 
                 childrenProperty: null),
@@ -296,10 +296,10 @@ public class Demos
             id: _xamlEditor.IdManager.GetNewId(),
             properties: new()
             {
-                ["Children"] = (XamlValue) new List<XamlItem>(),
-                ["Background"] = (XamlValue) "White",
-                ["Width"] = (XamlValue) "336",
-                ["Height"] = (XamlValue) "480",
+                ["Children"] = new List<XamlItem>(),
+                ["Background"] = "White",
+                ["Width"] = "336",
+                ["Height"] = "480",
             },
             contentProperty: "Children", 
             childrenProperty: "Children");
@@ -313,10 +313,10 @@ public class Demos
             id: _xamlEditor.IdManager.GetNewId(),
             properties: new()
             {
-                ["Children"] = (XamlValue) new List<XamlItem>(),
-                ["Background"] = (XamlValue) "White",
-                ["Width"] = (XamlValue) "336",
-                ["Height"] = (XamlValue) "480",
+                ["Children"] = new List<XamlItem>(),
+                ["Background"] = "White",
+                ["Width"] = "336",
+                ["Height"] = "480",
             },
             contentProperty: "Children", 
             childrenProperty: "Children");
@@ -330,10 +330,10 @@ public class Demos
             id: _xamlEditor.IdManager.GetNewId(),
             properties: new()
             {
-                ["Children"] = (XamlValue) new List<XamlItem>(),
-                ["Background"] = (XamlValue) "White",
-                ["Width"] = (XamlValue) "336",
-                ["Height"] = (XamlValue) "480",
+                ["Children"] = new List<XamlItem>(),
+                ["Background"] = "White",
+                ["Width"] = "336",
+                ["Height"] = "480",
             },
             contentProperty: "Children", 
             childrenProperty: "Children");

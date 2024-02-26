@@ -18,8 +18,8 @@ public class LineTool : DrawTool
             id: context.XamlEditor.IdManager.GetNewId(),
             properties: new()
             {
-                ["Stroke"] = (XamlValue) "#000000",
-                ["StrokeThickness"] = (XamlValue) "1.0",
+                ["Stroke"] = "#000000",
+                ["StrokeThickness"] = "1.0",
             },
             contentProperty: null,
             childrenProperty: null);
@@ -31,12 +31,12 @@ public class LineTool : DrawTool
     {
         var startPoint = startPosition;
         var endPoint = endPosition - startPosition;
-        xamlItem.Properties["Canvas.Left"] = StringXamlValue.From(startPoint.X);
-        xamlItem.Properties["Canvas.Top"] = StringXamlValue.From(startPoint.Y);
-        xamlItem.Properties["StartPoint"] = StringXamlValue.From(new Point());
-        xamlItem.Properties["EndPoint"] = StringXamlValue.From(endPoint);
-        // xamlItem.Properties["StartPoint"] = StringXamlValue.From(startPosition);
-        // xamlItem.Properties["EndPoint"] = StringXamlValue.From(endPosition);
+        xamlItem.Properties["Canvas.Left"] = startPoint.X;
+        xamlItem.Properties["Canvas.Top"] = startPoint.Y;
+        xamlItem.Properties["StartPoint"] = new Point();
+        xamlItem.Properties["EndPoint"] = endPoint;
+        // xamlItem.Properties["StartPoint"] = startPosition;
+        // xamlItem.Properties["EndPoint"] = endPosition;
     }
 
     protected override void UpdateControl(Point startPosition, Point endPosition, Control control)
