@@ -59,11 +59,6 @@ public class XamlItem : IXamlItem
 
     public IEnumerable<XamlItem> GetChildren()
     {
-        if (ChildrenProperty is null && ContentProperty is null)
-        {
-            return Enumerable.Empty<XamlItem>();
-        }
-
         if (ChildrenProperty is not null)
         {
             Properties.TryGetValue(ChildrenProperty, out var children);
