@@ -92,8 +92,6 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
 
     public IOverlayService? OverlayService { get; set; }
 
-    public Demos Demos => _demos;
-
     private void New()
     {
         // TODO:
