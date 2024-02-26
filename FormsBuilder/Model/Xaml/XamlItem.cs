@@ -6,7 +6,23 @@ using System.Text.Json.Serialization;
 
 namespace FormsBuilder;
 
-public class XamlItem
+public interface IXamlItem
+{
+    string Name { get; }
+    string Id { get; }
+    XamlProperties Properties { get; }
+    string? ContentProperty { get; }
+    string? ChildrenProperty { get; }
+    IEnumerable<XamlItem> Children { get; }
+    IEnumerable<XamlItem> GetChildren();
+    IEnumerable<XamlItem> GetSelfAndChildren();
+    bool TryAddChild(XamlItem childXamlItem);
+    bool TryRemove(XamlItem childXamlItem);
+    XamlValue? GetContent();
+    bool TrySetContent(XamlValue contentXamlValue);
+}
+
+public class XamlItem : IXamlItem
 {
     [JsonConstructor]
     public XamlItem(
