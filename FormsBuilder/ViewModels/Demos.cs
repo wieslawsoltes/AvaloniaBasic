@@ -286,6 +286,24 @@ public class Demos
         return _xamlEditor.LoadForDesign(xamlItem);
     }
 
+    // TODO:
+    public ObservableCollection<XamlItem> DemoComponents()
+    {
+        return new ObservableCollection<XamlItem>
+        {
+            // TODO:
+        };
+    }
+
+    // TODO:
+    public ObservableCollection<XamlItem> DemoStyles()
+    {
+        return new ObservableCollection<XamlItem>
+        {
+            // TODO:
+        };
+    }
+
     public Control? DemoCanvas()
     {
         var xamlItemStyleRectangle = new XamlItem(
