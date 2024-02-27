@@ -9,11 +9,10 @@ public static class XamlItemFactory
     public static XamlItem Clone(XamlItem xamlItem, IXamlItemIdManager idManager, bool newId = true)
     {
         return new XamlItem(
-            xamlItem.Name, 
-            newId ? idManager.GetNewId() : xamlItem.Id,
+            xamlItem.Name,
             CloneProperties(xamlItem.Properties, idManager, newId),
-            xamlItem.ContentProperty,
-            xamlItem.ChildrenProperty);
+            newId && xamlItem.Id is not null ? idManager.GetNewId() : xamlItem.Id,
+            xamlItem.ContentProperty, xamlItem.ChildrenProperty);
     }
 
     public static XamlProperties CloneProperties(XamlProperties properties, IXamlItemIdManager idManager, bool newId)

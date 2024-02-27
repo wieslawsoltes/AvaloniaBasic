@@ -15,14 +15,13 @@ public class LineTool : DrawTool
     protected override XamlItem CreateXamlItem(IToolContext context)
     {
         var xamlItem = new XamlItem(name: "Line",
-            id: context.XamlEditor.IdManager.GetNewId(),
             properties: new()
             {
                 ["Stroke"] = "#000000",
                 ["StrokeThickness"] = "1.0",
             },
-            contentProperty: null,
-            childrenProperty: null);
+            id: context.XamlEditor.IdManager.GetNewId(),
+            contentProperty: null, childrenProperty: null);
 
         return xamlItem;
     }

@@ -44,13 +44,12 @@ public class RectangleTool : DrawTool
             childrenProperty: "Children");
 #else
         var xamlItem = new XamlItem(name: "Rectangle",
-            id: context.XamlEditor.IdManager.GetNewId(),
             properties: new()
             {
                 ["Fill"] = "#D9D9D9",
             },
-            contentProperty: null,
-            childrenProperty: null);
+            id: context.XamlEditor.IdManager.GetNewId(),
+            contentProperty: null, childrenProperty: null);
 #endif
         return xamlItem;
     }

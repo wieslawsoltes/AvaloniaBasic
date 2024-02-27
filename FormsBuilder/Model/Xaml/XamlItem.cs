@@ -8,16 +8,15 @@ namespace FormsBuilder;
 public class XamlItem
 {
     [JsonConstructor]
-    public XamlItem(
-        string name, 
-        string id,
+    public XamlItem(string name,
         XamlProperties properties,
+        string? id = null,
         string? contentProperty = null,
         string? childrenProperty = null)
     {
         Name = name;
-        Id = id;
         Properties = properties;
+        Id = id;
         ContentProperty = contentProperty;
         ChildrenProperty = childrenProperty;
     }
@@ -26,7 +25,7 @@ public class XamlItem
     public string Name { get; }
 
     [JsonPropertyName("id")]
-    public string Id { get; }
+    public string? Id { get; }
 
     [JsonPropertyName("properties")]
     public XamlProperties Properties { get; }

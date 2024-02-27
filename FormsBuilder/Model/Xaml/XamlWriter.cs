@@ -114,7 +114,7 @@ public class XamlWriter : IXamlWriter
 
     public void WriteAttributeProperties(XamlItem xamlItem, XamlWriterSettings settings)
     {
-        if (settings.WriteUid)
+        if (settings.WriteUid && xamlItem.Id is not null)
         {
             WriteUidAttribute(xamlItem, settings);
         }
