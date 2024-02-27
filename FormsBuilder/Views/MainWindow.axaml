@@ -173,7 +173,7 @@
         </TabItem>
 
       </TabControl>
-      
+
       <Separator Grid.Column="1"
                  Grid.Row="1" 
                  Opacity="0.6" Width="0.5" Height="NaN" Margin="0" />
@@ -187,12 +187,56 @@
                  Grid.Row="1"
                  Opacity="0.6" Width="0.5" Height="NaN" Margin="0" />
 
-      <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                    VerticalScrollBarVisibility="Auto"
-                    Grid.Column="4"
-                    Grid.Row="1">
-        <c:PropertiesEditorView Name="PropertiesEditor" />
-      </ScrollViewer>
+      <TabControl Padding="0"
+                  Grid.Column="4"
+                  Grid.Row="1">
+        <TabControl.Effect>
+          <!-- <BlurEffect Radius="4" /> -->
+          <!-- <DropShadowEffect Color="Red" Opacity="0.4" OffsetX="4" OffsetY="4" /> -->
+        </TabControl.Effect>
+        <TabControl.Styles>
+          <Style Selector="TabItem:not(:selected) Svg">
+            <Setter Property="Opacity" Value="0.6" />
+          </Style>
+          <Style Selector="TabItem">
+            <Setter Property="Padding" Value="0,8,0,4" />
+            <Setter Property="MinHeight" Value="0" />
+          </Style>
+          <Style Selector="TabItem:selected /template/ Border#PART_SelectedPipe">
+            <Setter Property="IsVisible" Value="False" />
+          </Style>
+        </TabControl.Styles>
+
+        <TabItem ToolTip.Tip="Properties">
+          <TabItem.Header>
+            <Svg Path="/Assets/Icons/ic_fluent_options_24_regular.svg"
+                 Width="16" Height="16"
+                 Margin="8,0,8,0" />
+          </TabItem.Header>
+          <DockPanel>
+            <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,0"
+                       DockPanel.Dock="Top"/>
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto">
+              <c:PropertiesEditorView Name="PropertiesEditor" />
+            </ScrollViewer>
+          </DockPanel>
+        </TabItem>
+
+        <TabItem ToolTip.Tip="Components">
+          <TabItem.Header>
+            <Svg Path="/Assets/Icons/ic_fluent_library_24_regular.svg"
+                 Width="16" Height="16"
+                 Margin="8,0,8,0" />
+          </TabItem.Header>
+          <DockPanel>
+            <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,0"
+                       DockPanel.Dock="Top"/>
+            <c:EditorComponentsView />
+          </DockPanel>
+        </TabItem>
+
+      </TabControl>
 
     </Grid>
 
