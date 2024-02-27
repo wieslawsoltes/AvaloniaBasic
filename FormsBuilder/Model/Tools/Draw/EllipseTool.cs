@@ -12,13 +12,15 @@ public class EllipseTool : DrawTool
 
     protected override XamlItem CreateXamlItem(IToolContext context)
     {
-        var xamlItem = new XamlItem(name: "Ellipse",
-            properties: new()
+        var xamlItem = new XamlItem(
+            name: "Ellipse",
+            properties: new XamlProperties
             {
                 ["Fill"] = "#D9D9D9",
             },
             id: context.XamlEditor.IdManager.GetNewId(),
-            contentProperty: null, childrenProperty: null);
+            contentProperty: null, 
+            childrenProperty: null);
 
         return xamlItem;
     }
