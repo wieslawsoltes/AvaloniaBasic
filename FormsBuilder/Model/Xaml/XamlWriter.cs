@@ -32,7 +32,7 @@ public class XamlWriter : IXamlWriter
         {
             settings.Writer.Append('>');
 
-            WriteObjectProperties(xamlItem, settings);
+            WriteObjectProperties(xamlItem, settings with { Level = settings.Level + 2 });
 
             settings.Writer.AppendLine();
             settings.Writer.Append(new string(' ', settings.Level));
@@ -157,7 +157,7 @@ public class XamlWriter : IXamlWriter
 
                 settings.Writer.AppendLine();
 
-                Write(xamlItemXamlValue.Value, settings with { WriteXmlns = false, Level = settings.Level + 2 });
+                Write(xamlItemXamlValue.Value, settings with { WriteXmlns = false, Level = settings.Level });
 
                 break;
             }
@@ -172,7 +172,7 @@ public class XamlWriter : IXamlWriter
                 {
                     settings.Writer.AppendLine();
 
-                    Write(xamlItem, settings with { WriteXmlns = false, Level = settings.Level + 2 });
+                    Write(xamlItem, settings with { WriteXmlns = false, Level = settings.Level });
                 }
 
                 break;
@@ -199,7 +199,9 @@ public class XamlWriter : IXamlWriter
                 settings.Writer.Append('>');
             }
 
-            WritePropertyValue(property.Value, settings);
+            WritePropertyValue(
+                property.Value, 
+                settings with { Level = writeContentTag ? settings.Level + 2 : settings.Level });
 
             if (writeContentTag)
             {
