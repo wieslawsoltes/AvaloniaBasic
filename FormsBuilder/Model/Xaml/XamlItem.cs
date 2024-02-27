@@ -107,7 +107,7 @@ public class XamlItem
         }
         else
         {
-            var childrenList = new List<XamlItem> {childXamlItem};
+            var childrenList = new XamlItems {childXamlItem};
             Properties[ChildrenProperty] = new XamlItemsXamlValue(childrenList);
         }
 

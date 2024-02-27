@@ -108,7 +108,7 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Children"] = new List<XamlItem>
+                    ["Children"] = new XamlItems
                     {
                         new(name: "TextBlock", 
                             id: _xamlEditor.IdManager.GetNewId(),
@@ -157,7 +157,7 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Items"] = new List<XamlItem>
+                    ["Items"] = new XamlItems
                     {
                         new(name: "ListBoxItem", 
                             id: _xamlEditor.IdManager.GetNewId(),
@@ -200,7 +200,7 @@ public class Demos
                 id: _xamlEditor.IdManager.GetNewId(),
                 properties: new()
                 {
-                    ["Items"] = new List<XamlItem>
+                    ["Items"] = new XamlItems
                     {
                         new(name: "TabItem", 
                             id: _xamlEditor.IdManager.GetNewId(),
@@ -296,7 +296,7 @@ public class Demos
             id: _xamlEditor.IdManager.GetNewId(),
             properties: new()
             {
-                ["Children"] = new List<XamlItem>(),
+                ["Children"] = new XamlItems(),
                 ["Background"] = "White",
                 ["Width"] = "336",
                 ["Height"] = "480",
@@ -313,7 +313,7 @@ public class Demos
             id: _xamlEditor.IdManager.GetNewId(),
             properties: new()
             {
-                ["Children"] = new List<XamlItem>(),
+                ["Children"] = new XamlItems(),
                 ["Background"] = "White",
                 ["Width"] = "336",
                 ["Height"] = "480",
@@ -330,7 +330,7 @@ public class Demos
             id: _xamlEditor.IdManager.GetNewId(),
             properties: new()
             {
-                ["Children"] = new List<XamlItem>(),
+                ["Children"] = new XamlItems(),
                 ["Background"] = "White",
                 ["Width"] = "336",
                 ["Height"] = "480",

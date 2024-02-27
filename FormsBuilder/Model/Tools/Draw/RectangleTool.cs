@@ -17,7 +17,7 @@ public class RectangleTool : DrawTool
             id: context.XamlEditor.IdManager.GetNewId(),
             properties: new()
             {
-                ["Children"] = new List<XamlItem>
+                ["Children"] = new XamlItems
                 {
                     new(name: "TextBlock", 
                         id: context.XamlEditor.IdManager.GetNewId(),

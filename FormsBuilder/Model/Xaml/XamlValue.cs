@@ -44,7 +44,7 @@ public abstract partial class XamlValue
         return new XamlItemXamlValue(value);
     }
 
-    public static implicit operator XamlValue(List<XamlItem> value)
+    public static implicit operator XamlValue(XamlItems value)
     {
         return new XamlItemsXamlValue(value);
     }

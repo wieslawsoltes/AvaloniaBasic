@@ -6,13 +6,13 @@ namespace FormsBuilder;
 public partial class XamlItemsXamlValue : XamlValue
 {
     [JsonConstructor]
-    public XamlItemsXamlValue(List<XamlItem>? value)
+    public XamlItemsXamlValue(XamlItems? value)
     {
         Value = value;
     }
 
     [JsonPropertyName("value")]
-    public List<XamlItem>? Value { get; set; }
+    public XamlItems? Value { get; set; }
 
-    public static implicit operator List<XamlItem>(XamlItemsXamlValue value) => value.Value;
+    public static implicit operator XamlItems(XamlItemsXamlValue value) => value.Value;
 }

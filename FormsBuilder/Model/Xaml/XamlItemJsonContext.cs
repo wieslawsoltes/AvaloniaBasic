@@ -7,6 +7,7 @@ namespace FormsBuilder;
 [JsonSerializable(typeof(XamlItem))]
 [JsonSerializable(typeof(XamlItem[]))]
 [JsonSerializable(typeof(List<XamlItem>))]
+[JsonSerializable(typeof(XamlItems))]
 [JsonSerializable(typeof(Dictionary<string, XamlValue>))]
 [JsonSerializable(typeof(XamlProperties))]
 [JsonSerializable(typeof(XamlValue))]

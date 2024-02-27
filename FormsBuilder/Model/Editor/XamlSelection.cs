@@ -12,7 +12,7 @@ public class XamlSelection : IXamlSelection
     private readonly IXamlEditor _xamlEditor;
     private readonly Action _invalidateOverlay;
     private readonly Dictionary<Control, Point> _positions = new();
-    private List<XamlItem>? _xamlItemsCopy;
+    private XamlItems? _xamlItemsCopy;
 
     public XamlSelection(IXamlEditor xamlEditor, Action invalidateOverlay)
     {
@@ -41,7 +41,7 @@ public class XamlSelection : IXamlSelection
     private void CreateSelectedCopy()
     {
         var selected = Selected.ToList();
-        var xamlItems = new List<XamlItem>();
+        var xamlItems = new XamlItems();
 
         foreach (var visual in selected)
         {
@@ -131,7 +131,7 @@ public class XamlSelection : IXamlSelection
             return;
         }
 
-        var newXamlItems = new List<XamlItem>();
+        var newXamlItems = new XamlItems();
 
         foreach (var xamlItem in _xamlItemsCopy)
         {
