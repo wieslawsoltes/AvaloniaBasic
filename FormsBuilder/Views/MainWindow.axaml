@@ -237,6 +237,20 @@
           </DockPanel>
         </TabItem>
 
+        <TabItem ToolTip.Tip="Styles">
+          <TabItem.Header>
+            <Svg Path="/Assets/Icons/ic_fluent_design_ideas_24_regular.svg"
+                 Width="16" Height="16"
+                 Margin="8,0,8,0" />
+          </TabItem.Header>
+          <DockPanel>
+            <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,0"
+                       DockPanel.Dock="Top"/>
+            <!-- TODO: -->
+            <c:EditorStylesView />
+          </DockPanel>
+        </TabItem>
+
       </TabControl>
 
     </Grid>
