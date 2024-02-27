@@ -232,6 +232,7 @@
           <DockPanel>
             <Separator Opacity="0.6" Height="0.5" Margin="0,6,0,0"
                        DockPanel.Dock="Top"/>
+            <!-- TODO: -->
             <c:EditorComponentsView />
           </DockPanel>
         </TabItem>
