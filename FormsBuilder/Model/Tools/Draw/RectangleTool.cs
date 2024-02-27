@@ -13,24 +13,27 @@ public class RectangleTool : DrawTool
     protected override XamlItem CreateXamlItem(IToolContext context)
     {
 #if false
-        var xamlItem = new XamlItem(name: "DockPanel",
+        var xamlItem = new XamlItem(
+            name: "DockPanel",
             id: context.XamlEditor.IdManager.GetNewId(),
-            properties: new()
+            properties: new XamlProperties
             {
                 ["Children"] = new XamlItems
                 {
-                    new(name: "TextBlock", 
+                    new XamlItem(
+                        name: "TextBlock", 
                         id: context.XamlEditor.IdManager.GetNewId(),
-                        properties: new()
+                        properties: new XamlProperties
                         {
                             ["Text"] = "TextBlock",
                             ["DockPanel.Dock"] = "Top"
                         }, 
                         contentProperty: "Text", 
                         childrenProperty: null),
-                    new(name: "TextBox", 
+                    new XamlItem(
+                        name: "TextBox", 
                         id: context.XamlEditor.IdManager.GetNewId(),
-                        properties: new()
+                        properties: new XamlProperties
                         {
                             ["Text"] = "TextBox",
                             ["VerticalAlignment"] = "Stretch",
@@ -43,13 +46,15 @@ public class RectangleTool : DrawTool
             contentProperty: "Children", 
             childrenProperty: "Children");
 #else
-        var xamlItem = new XamlItem(name: "Rectangle",
-            properties: new()
+        var xamlItem = new XamlItem(
+            name: "Rectangle",
+            properties: new XamlProperties
             {
                 ["Fill"] = "#D9D9D9",
             },
             id: context.XamlEditor.IdManager.GetNewId(),
-            contentProperty: null, childrenProperty: null);
+            contentProperty: null, 
+            childrenProperty: null);
 #endif
         return xamlItem;
     }
