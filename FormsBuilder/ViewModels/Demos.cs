@@ -300,6 +300,36 @@ public class Demos
             contentProperty: "Children", 
             childrenProperty: "Children");
 
+        var xamlItemStyleRectangle = new XamlItem(
+            "Style",
+            new()
+            {
+                ["Selector"] = "Rectangle",
+                ["Children"] = new XamlItems
+                {
+                    new(name: "Setter",
+                        properties: new()
+                        {
+                            ["Property"] = "Stroke",
+                            ["Value"] = "Red"
+                        }),
+                    new(name: "Setter", 
+                        properties: new()
+                        {
+                            ["Property"] = "StrokeThickness",
+                            ["Value"] = "2"
+                        }),
+                }
+            },
+            _idManager.GetNewId(), 
+            contentProperty: "Children", 
+            childrenProperty: "Children");
+
+        xamlItem.Properties["Styles"] = new XamlItems
+        {
+            xamlItemStyleRectangle
+        };
+
         return _xamlEditor.LoadForDesign(xamlItem);
     }
 }
