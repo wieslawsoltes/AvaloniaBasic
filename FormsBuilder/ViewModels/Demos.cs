@@ -288,18 +288,6 @@ public class Demos
 
     public Control? DemoCanvas()
     {
-        var xamlItem = new XamlItem(name: "Canvas",
-            properties: new()
-            {
-                ["Children"] = new XamlItems(),
-                ["Background"] = "White",
-                ["Width"] = "336",
-                ["Height"] = "480",
-            },
-            id: _idManager.GetNewId(), 
-            contentProperty: "Children", 
-            childrenProperty: "Children");
-
         var xamlItemStyleRectangle = new XamlItem(
             "Style",
             new()
@@ -325,10 +313,21 @@ public class Demos
             contentProperty: "Children", 
             childrenProperty: "Children");
 
-        xamlItem.Properties["Styles"] = new XamlItems
-        {
-            xamlItemStyleRectangle
-        };
+        var xamlItem = new XamlItem(name: "Canvas",
+            properties: new()
+            {
+                ["Styles"] = new XamlItems
+                {
+                    xamlItemStyleRectangle
+                },
+                ["Background"] = "White",
+                ["Width"] = "336",
+                ["Height"] = "480",
+                ["Children"] = new XamlItems(),
+            },
+            id: _idManager.GetNewId(), 
+            contentProperty: "Children", 
+            childrenProperty: "Children");
 
         return _xamlEditor.LoadForDesign(xamlItem);
     }
