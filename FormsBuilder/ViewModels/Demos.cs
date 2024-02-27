@@ -308,19 +308,19 @@ public class Demos
     {
         var xamlItemStyleRectangle = new XamlItem(
             "Style",
-            new()
+            new XamlProperties
             {
                 ["Selector"] = "Rectangle",
                 ["Children"] = new XamlItems
                 {
-                    new(name: "Setter",
-                        properties: new()
+                    new XamlItem(name: "Setter",
+                        properties: new XamlProperties
                         {
                             ["Property"] = "Stroke",
                             ["Value"] = "Red"
                         }),
-                    new(name: "Setter", 
-                        properties: new()
+                    new XamlItem(name: "Setter", 
+                        properties: new XamlProperties
                         {
                             ["Property"] = "StrokeThickness",
                             ["Value"] = "2"
