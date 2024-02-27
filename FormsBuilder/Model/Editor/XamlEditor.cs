@@ -17,10 +17,10 @@ public class XamlEditor : ReactiveObject, IXamlEditor
     private readonly Dictionary<Control, XamlItem> _controlsDictionary;
     private readonly IXamlItemIdManager _idManager;
 
-    public XamlEditor()
+    public XamlEditor(IXamlItemIdManager idManager)
     {
         _controlsDictionary = new Dictionary<Control, XamlItem>();
-        _idManager = new XamlItemIdManager();
+        _idManager = idManager;
     }
 
     public event EventHandler<EventArgs>? PropertyValueChanged;

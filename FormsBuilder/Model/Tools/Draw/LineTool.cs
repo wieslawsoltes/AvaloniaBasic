@@ -14,6 +14,7 @@ public class LineTool : DrawTool
 
     protected override XamlItem CreateXamlItem(IToolContext context)
     {
+        // TODO: Use IXamlFactory
         var xamlItem = new XamlItem(
             name: "Line",
             properties: new XamlProperties

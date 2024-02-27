@@ -6,6 +6,7 @@ namespace FormsBuilder;
 
 public static class XamlItemFactory
 {
+    // TODO: Move to IXamlFactory
     public static XamlItem Clone(XamlItem xamlItem, IXamlItemIdManager idManager, bool newId = true)
     {
         return new XamlItem(

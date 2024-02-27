@@ -13,6 +13,7 @@ public class RectangleTool : DrawTool
     protected override XamlItem CreateXamlItem(IToolContext context)
     {
 #if false
+        // TODO: Use IXamlFactory
         var xamlItem = new XamlItem(
             name: "DockPanel",
             id: context.XamlEditor.IdManager.GetNewId(),
@@ -46,6 +47,7 @@ public class RectangleTool : DrawTool
             contentProperty: "Children", 
             childrenProperty: "Children");
 #else
+        // TODO: Use IXamlFactory
         var xamlItem = new XamlItem(
             name: "Rectangle",
             properties: new XamlProperties

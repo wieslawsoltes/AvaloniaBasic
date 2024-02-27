@@ -12,6 +12,7 @@ public class EllipseTool : DrawTool
 
     protected override XamlItem CreateXamlItem(IToolContext context)
     {
+        // TODO: Use IXamlFactory
         var xamlItem = new XamlItem(
             name: "Ellipse",
             properties: new XamlProperties

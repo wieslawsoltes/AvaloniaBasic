@@ -6,12 +6,12 @@ namespace FormsBuilder;
 public class Demos
 {
     private readonly IXamlEditor _xamlEditor;
-    private readonly IXamlItemIdManager _idManager;
+    private readonly IXamlFactory _xamlFactory;
 
-    public Demos(IXamlEditor xamlEditor)
+    public Demos(IXamlEditor xamlEditor, IXamlFactory xamlFactory)
     {
         _xamlEditor = xamlEditor;
-        _idManager = _xamlEditor.IdManager;
+        _xamlFactory = xamlFactory;
     }
 
     public ObservableCollection<XamlItem> DemoToolBox()
@@ -21,306 +21,269 @@ public class Demos
             //
             //
             //
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "TextBlock",
                 properties: new XamlProperties
                 {
                     ["Text"] = "TextBlock"
-                }, 
-                id: _idManager.GetNewId(), 
+                },
                 contentProperty: "Text", 
                 childrenProperty: null),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "Label",
                 properties: new XamlProperties
                 {
                     ["Content"] = "Label"
-                }, 
-                id: _idManager.GetNewId(), 
+                },
                 contentProperty: "Content", 
                 childrenProperty: null),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "TextBox",
                 properties: new XamlProperties
                 {
                     ["Text"] = "TextBox"
-                }, 
-                id: _idManager.GetNewId(), 
+                },
                 contentProperty: "Text", 
                 childrenProperty: null),
             //
             //
             //
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "Button",
                 properties: new XamlProperties
                 {
                     ["Content"] = "Button"
                 }, 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Content", 
                 childrenProperty: null),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "CheckBox",
                 properties: new XamlProperties
                 {
                     ["Content"] = "CheckBox"
                 }, 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Content", 
                 childrenProperty: null),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "RadioButton",
                 properties: new XamlProperties
                 {
                     ["Content"] = "RadioButton"
                 }, 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Content", 
                 childrenProperty: null),
             //
             //
             //
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "Border",
                 properties: new XamlProperties(),
-                id: _idManager.GetNewId(),
                 contentProperty: "Child", 
                 childrenProperty: "Child"),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "Decorator",
                 properties: new XamlProperties
                 {
-                    ["Child"] = new XamlItem(
+                    ["Child"] = _xamlFactory.CreateControl(
                         name: "Button",
                         properties: new XamlProperties
                         {
                             ["Content"] = "Button"
                         }, 
-                        id: _idManager.GetNewId(), 
                         contentProperty: "Content", 
                         childrenProperty: null)
                 },
-                id: _idManager.GetNewId(),
                 contentProperty: "Child", 
                 childrenProperty: "Child"),
             //
             //
             //
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "Panel",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "StackPanel",
                 properties: new XamlProperties
                 {
                     ["Children"] = new XamlItems
                     {
-                        new XamlItem(
+                        _xamlFactory.CreateControl(
                             name: "TextBlock",
                             properties: new XamlProperties
                             {
                                 ["Text"] = "TextBlock"
                             }, 
-                            id: _idManager.GetNewId(), 
                             contentProperty: "Text", 
                             childrenProperty: null),
-                        new XamlItem(
+                        _xamlFactory.CreateControl(
                             name: "TextBox",
                             properties: new XamlProperties
                             {
                                 ["Text"] = "TextBox"
                             },
-                            id: _idManager.GetNewId(), 
                             contentProperty: "Text", 
                             childrenProperty: null),
                     }
                 }, 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "DockPanel",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "WrapPanel",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "Grid",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
             //
             //
             //
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "ItemsControl",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Items", 
                 childrenProperty: "Items"),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "ListBox",
                 properties: new XamlProperties
                 {
                     ["Items"] = new XamlItems
                     {
-                        new XamlItem(
+                        _xamlFactory.CreateControl(
                             name: "ListBoxItem",
                             properties: new XamlProperties
                             {
                                 ["Content"] = "ListBoxItem 0"
-                            }, 
-                            id: _idManager.GetNewId()),
-                        new XamlItem(
+                            }),
+                        _xamlFactory.CreateControl(
                             name: "ListBoxItem", 
                             properties: new XamlProperties
                             {
                                 ["Content"] = "ListBoxItem 1"
-                            }, 
-                            id: _idManager.GetNewId()),
+                            }),
                     }
-                }, 
-                id: _idManager.GetNewId(), 
+                },
                 contentProperty: "Items", 
                 childrenProperty: "Items"),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "ListBoxItem",
-                properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
+                properties: new XamlProperties(),
                 contentProperty: "Content", 
                 childrenProperty: null),
             //
             //
             //
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "ComboBox",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: "ItemsSource", 
                 childrenProperty: "Items"),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "ComboBoxItem",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Content", 
                 childrenProperty: null),
             //
             //
             //
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "TabControl",
                 properties: new XamlProperties
                 {
                     ["Items"] = new XamlItems
                     {
-                        new XamlItem(
+                        _xamlFactory.CreateControl(
                             name: "TabItem",
                             properties: new XamlProperties
                             {
                                 ["Content"] = "TabItem 0",
                                 ["Header"] = "TabItem 0"
-                            }, 
-                            id: _idManager.GetNewId()),
-                        new XamlItem(
+                            }),
+                        _xamlFactory.CreateControl(
                             name: "TabItem", 
                             properties: new XamlProperties
                             {
                                 ["Content"] = "TabItem 1",
                                 ["Header"] = "TabItem 1"
-                            }, 
-                            id: _idManager.GetNewId()),
+                            }),
                     }
                 }, 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Items", 
                 childrenProperty: "Items"),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "TabItem",
                 properties: new XamlProperties
                 {
                     ["Content"] = "TabItem",
                     ["Header"] = "TabItem"
                 },
-                id: _idManager.GetNewId(), 
                 contentProperty: "Content", 
                 childrenProperty: null),
             //
             //
             //
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "ProgressBar",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: null, 
                 childrenProperty: null),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "Slider",
-                properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
+                properties: new XamlProperties(),
                 contentProperty: null, 
                 childrenProperty: null),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "DatePicker",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: null, 
                 childrenProperty: null),
             //
             //
             //
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "Rectangle",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: null, 
                 childrenProperty: null),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "Ellipse",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: null, 
                 childrenProperty: null),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "Line",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: null, 
                 childrenProperty: null),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "Path",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: null, 
                 childrenProperty: null),
             //
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "Image",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Source", 
                 childrenProperty: null),
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "PathIcon",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: null, 
                 childrenProperty: null),
             //
-            new XamlItem(
+            _xamlFactory.CreateControl(
                 name: "ScrollViewer",
                 properties: new XamlProperties(), 
-                id: _idManager.GetNewId(), 
                 contentProperty: "Content", 
                 childrenProperty: "Content"),
         };
@@ -328,7 +291,7 @@ public class Demos
 
     public Control? DemoStackPanel()
     {
-        var xamlItem = new XamlItem(
+        var xamlItem = _xamlFactory.CreateControl(
             name: "StackPanel",
             properties: new XamlProperties
             {
@@ -337,7 +300,6 @@ public class Demos
                 ["Width"] = "336",
                 ["Height"] = "480",
             },
-            id: _idManager.GetNewId(), 
             contentProperty: "Children", 
             childrenProperty: "Children");
 
@@ -346,7 +308,7 @@ public class Demos
 
     public Control? DemoDockPanel()
     {
-        var xamlItem = new XamlItem(
+        var xamlItem = _xamlFactory.CreateControl(
             name: "DockPanel",
             properties: new XamlProperties
             {
@@ -354,8 +316,7 @@ public class Demos
                 ["Background"] = "White",
                 ["Width"] = "336",
                 ["Height"] = "480",
-            },
-            id: _idManager.GetNewId(), 
+            }, 
             contentProperty: "Children", 
             childrenProperty: "Children");
 
@@ -382,21 +343,21 @@ public class Demos
 
     public Control? DemoCanvas()
     {
-        var xamlItemStyleRectangle = new XamlItem(
+        var xamlItemStyleRectangle = _xamlFactory.CreateStyle(
             name: "Style",
             properties: new XamlProperties
             {
                 ["Selector"] = "Rectangle",
                 ["Children"] = new XamlItems
                 {
-                    new XamlItem(
+                    _xamlFactory.CreateSetter(
                         name: "Setter",
                         properties: new XamlProperties
                         {
                             ["Property"] = "Stroke",
                             ["Value"] = "Red"
                         }),
-                    new XamlItem(
+                    _xamlFactory.CreateSetter(
                         name: "Setter", 
                         properties: new XamlProperties
                         {
@@ -404,12 +365,11 @@ public class Demos
                             ["Value"] = "2"
                         }),
                 }
-            },
-            _idManager.GetNewId(), 
+            }, 
             contentProperty: "Children", 
             childrenProperty: "Children");
 
-        var xamlItem = new XamlItem(
+        var xamlItem = _xamlFactory.CreateControl(
             name: "Canvas",
             properties: new XamlProperties
             {
@@ -422,7 +382,6 @@ public class Demos
                 ["Height"] = "480",
                 ["Children"] = new XamlItems(),
             },
-            id: _idManager.GetNewId(), 
             contentProperty: "Children", 
             childrenProperty: "Children");
 
