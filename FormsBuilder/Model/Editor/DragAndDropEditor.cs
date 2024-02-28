@@ -11,9 +11,9 @@ public class DragAndDropEditor : IDragAndDropEditor
 {
     private readonly Interactive _visualRoot;
     private readonly IOverlayService _overlayService;
-    private readonly IAvaloniaFactory _avaloniaFactory;
+    private readonly IXamlObjectFactory _xamlObjectFactory;
     private readonly IXamlEditor _xamlEditor;
-    private readonly IXamlFactory _xamlFactory;
+    private readonly IXamlItemFactory _xamlItemFactory;
     private readonly Func<object?, XamlItem?> _getXamlItem;
     private bool _captured;
     private Point _start;
@@ -24,16 +24,16 @@ public class DragAndDropEditor : IDragAndDropEditor
     public DragAndDropEditor(
         Interactive visualRoot, 
         IOverlayService overlayService,  
-        IAvaloniaFactory avaloniaFactory,
+        IXamlObjectFactory xamlObjectFactory,
         IXamlEditor xamlEditor,
-        IXamlFactory xamlFactory,
+        IXamlItemFactory xamlItemFactory,
         Func<object?, XamlItem?> getXamlItem)
     {
         _visualRoot = visualRoot;
         _overlayService = overlayService;
-        _avaloniaFactory = avaloniaFactory;
+        _xamlObjectFactory = xamlObjectFactory;
         _xamlEditor = xamlEditor;
-        _xamlFactory = xamlFactory;
+        _xamlItemFactory = xamlItemFactory;
         _getXamlItem = getXamlItem;
         _ignored = new HashSet<Visual>();
     }
@@ -117,8 +117,8 @@ public class DragAndDropEditor : IDragAndDropEditor
             var toolBoxItem = _getXamlItem(sender);
             if (toolBoxItem is not null)
             {
-                _xamlItem = _xamlFactory.CloneItem(toolBoxItem, true);
-                _control = _avaloniaFactory.CreateControl(_xamlItem, isRoot: true, writeUid: true);
+                _xamlItem = _xamlItemFactory.CloneItem(toolBoxItem, true);
+                _control = _xamlObjectFactory.CreateControl(_xamlItem, isRoot: true, writeUid: true) as Control;
             }
         }
         catch (Exception exception)

@@ -12,7 +12,7 @@ public class LineTool : DrawTool
 
     protected override XamlItem CreateXamlItem(IToolContext context)
     {
-        var xamlItem = context.XamlFactory.CreateControl(
+        var xamlItem = context.XamlItemFactory.CreateControl(
             name: "Line",
             properties: new XamlProperties
             {

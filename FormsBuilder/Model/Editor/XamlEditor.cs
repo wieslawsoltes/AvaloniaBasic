@@ -15,12 +15,12 @@ namespace FormsBuilder;
 public class XamlEditor : ReactiveObject, IXamlEditor
 {
     private readonly Dictionary<Control, XamlItem> _controlsDictionary;
-    private readonly IAvaloniaFactory _avaloniaFactory;
+    private readonly IXamlObjectFactory _xamlObjectFactory;
 
-    public XamlEditor(IAvaloniaFactory avaloniaFactory)
+    public XamlEditor(IXamlObjectFactory xamlObjectFactory)
     {
         _controlsDictionary = new Dictionary<Control, XamlItem>();
-        _avaloniaFactory = avaloniaFactory;
+        _xamlObjectFactory = xamlObjectFactory;
     }
 
     public event EventHandler<EventArgs>? PropertyValueChanged;
@@ -188,7 +188,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
    
     public Control? LoadForDesign(XamlItem xamlItem)
     {
-        var control = _avaloniaFactory.CreateControl(xamlItem, isRoot: true, writeUid: true);
+        var control = _xamlObjectFactory.CreateControl(xamlItem, isRoot: true, writeUid: true) as Control;
 
         if (control is null)
         {
@@ -208,7 +208,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
 
     public Control? LoadForExport(XamlItem xamlItem)
     {
-        return _avaloniaFactory.CreateControl(xamlItem, isRoot: true, writeUid: false);
+        return _xamlObjectFactory.CreateControl(xamlItem, isRoot: true, writeUid: false) as Control;
     }
 
     public void Reload(XamlItem rooXamlItem)

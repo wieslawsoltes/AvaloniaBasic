@@ -21,7 +21,7 @@ public partial class EditorCanvasView : UserControl
             mainViewModel.XamlEditor.CanvasViewModel = new CanvasEditor(
                 mainViewModel.OverlayService,
                 mainViewModel.XamlEditor,
-                mainViewModel.XamlFactory,
+                mainViewModel.XamlItemFactory,
                 mainViewModel.XamlSelection,
                 mainViewModel);
             mainViewModel.XamlEditor.CanvasViewModel.AttachHost(this, RootPanel, GridLines);

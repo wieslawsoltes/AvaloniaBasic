@@ -43,7 +43,7 @@ public class RectangleTool : DrawTool
             contentProperty: "Children", 
             childrenProperty: "Children");
 #else
-        var xamlItem = context.XamlFactory.CreateControl(
+        var xamlItem = context.XamlItemFactory.CreateControl(
             name: "Rectangle",
             properties: new XamlProperties
             {

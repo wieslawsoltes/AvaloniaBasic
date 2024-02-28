@@ -11,7 +11,7 @@ public interface IToolContext
 {
     IXamlEditor XamlEditor { get; }
 
-    IXamlFactory XamlFactory { get; }
+    IXamlItemFactory XamlItemFactory { get; }
 
     IXamlSelection XamlSelection { get; }
 

@@ -6,12 +6,12 @@ namespace FormsBuilder;
 public class Demos
 {
     private readonly IXamlEditor _xamlEditor;
-    private readonly IXamlFactory _xamlFactory;
+    private readonly IXamlItemFactory _xamlItemFactory;
 
-    public Demos(IXamlEditor xamlEditor, IXamlFactory xamlFactory)
+    public Demos(IXamlEditor xamlEditor, IXamlItemFactory xamlItemFactory)
     {
         _xamlEditor = xamlEditor;
-        _xamlFactory = xamlFactory;
+        _xamlItemFactory = xamlItemFactory;
     }
 
     public ObservableCollection<XamlItem> DemoToolBox()
@@ -21,7 +21,7 @@ public class Demos
             //
             //
             //
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "TextBlock",
                 properties: new XamlProperties
                 {
@@ -29,7 +29,7 @@ public class Demos
                 },
                 contentProperty: "Text", 
                 childrenProperty: null),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "Label",
                 properties: new XamlProperties
                 {
@@ -37,7 +37,7 @@ public class Demos
                 },
                 contentProperty: "Content", 
                 childrenProperty: null),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "TextBox",
                 properties: new XamlProperties
                 {
@@ -48,7 +48,7 @@ public class Demos
             //
             //
             //
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "Button",
                 properties: new XamlProperties
                 {
@@ -56,7 +56,7 @@ public class Demos
                 }, 
                 contentProperty: "Content", 
                 childrenProperty: null),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "CheckBox",
                 properties: new XamlProperties
                 {
@@ -64,7 +64,7 @@ public class Demos
                 }, 
                 contentProperty: "Content", 
                 childrenProperty: null),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "RadioButton",
                 properties: new XamlProperties
                 {
@@ -75,16 +75,16 @@ public class Demos
             //
             //
             //
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "Border",
                 properties: new XamlProperties(),
                 contentProperty: "Child", 
                 childrenProperty: "Child"),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "Decorator",
                 properties: new XamlProperties
                 {
-                    ["Child"] = _xamlFactory.CreateControl(
+                    ["Child"] = _xamlItemFactory.CreateControl(
                         name: "Button",
                         properties: new XamlProperties
                         {
@@ -98,18 +98,18 @@ public class Demos
             //
             //
             //
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "Panel",
                 properties: new XamlProperties(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "StackPanel",
                 properties: new XamlProperties
                 {
                     ["Children"] = new XamlItems
                     {
-                        _xamlFactory.CreateControl(
+                        _xamlItemFactory.CreateControl(
                             name: "TextBlock",
                             properties: new XamlProperties
                             {
@@ -117,7 +117,7 @@ public class Demos
                             }, 
                             contentProperty: "Text", 
                             childrenProperty: null),
-                        _xamlFactory.CreateControl(
+                        _xamlItemFactory.CreateControl(
                             name: "TextBox",
                             properties: new XamlProperties
                             {
@@ -129,17 +129,17 @@ public class Demos
                 }, 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "DockPanel",
                 properties: new XamlProperties(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "WrapPanel",
                 properties: new XamlProperties(), 
                 contentProperty: "Children", 
                 childrenProperty: "Children"),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "Grid",
                 properties: new XamlProperties(), 
                 contentProperty: "Children", 
@@ -147,24 +147,24 @@ public class Demos
             //
             //
             //
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "ItemsControl",
                 properties: new XamlProperties(), 
                 contentProperty: "Items", 
                 childrenProperty: "Items"),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "ListBox",
                 properties: new XamlProperties
                 {
                     ["Items"] = new XamlItems
                     {
-                        _xamlFactory.CreateControl(
+                        _xamlItemFactory.CreateControl(
                             name: "ListBoxItem",
                             properties: new XamlProperties
                             {
                                 ["Content"] = "ListBoxItem 0"
                             }),
-                        _xamlFactory.CreateControl(
+                        _xamlItemFactory.CreateControl(
                             name: "ListBoxItem", 
                             properties: new XamlProperties
                             {
@@ -174,7 +174,7 @@ public class Demos
                 },
                 contentProperty: "Items", 
                 childrenProperty: "Items"),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "ListBoxItem",
                 properties: new XamlProperties(),
                 contentProperty: "Content", 
@@ -182,12 +182,12 @@ public class Demos
             //
             //
             //
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "ComboBox",
                 properties: new XamlProperties(), 
                 contentProperty: "ItemsSource", 
                 childrenProperty: "Items"),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "ComboBoxItem",
                 properties: new XamlProperties(), 
                 contentProperty: "Content", 
@@ -195,20 +195,20 @@ public class Demos
             //
             //
             //
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "TabControl",
                 properties: new XamlProperties
                 {
                     ["Items"] = new XamlItems
                     {
-                        _xamlFactory.CreateControl(
+                        _xamlItemFactory.CreateControl(
                             name: "TabItem",
                             properties: new XamlProperties
                             {
                                 ["Content"] = "TabItem 0",
                                 ["Header"] = "TabItem 0"
                             }),
-                        _xamlFactory.CreateControl(
+                        _xamlItemFactory.CreateControl(
                             name: "TabItem", 
                             properties: new XamlProperties
                             {
@@ -219,7 +219,7 @@ public class Demos
                 }, 
                 contentProperty: "Items", 
                 childrenProperty: "Items"),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "TabItem",
                 properties: new XamlProperties
                 {
@@ -231,17 +231,17 @@ public class Demos
             //
             //
             //
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "ProgressBar",
                 properties: new XamlProperties(), 
                 contentProperty: null, 
                 childrenProperty: null),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "Slider",
                 properties: new XamlProperties(),
                 contentProperty: null, 
                 childrenProperty: null),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "DatePicker",
                 properties: new XamlProperties(), 
                 contentProperty: null, 
@@ -249,39 +249,39 @@ public class Demos
             //
             //
             //
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "Rectangle",
                 properties: new XamlProperties(), 
                 contentProperty: null, 
                 childrenProperty: null),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "Ellipse",
                 properties: new XamlProperties(), 
                 contentProperty: null, 
                 childrenProperty: null),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "Line",
                 properties: new XamlProperties(), 
                 contentProperty: null, 
                 childrenProperty: null),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "Path",
                 properties: new XamlProperties(), 
                 contentProperty: null, 
                 childrenProperty: null),
             //
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "Image",
                 properties: new XamlProperties(), 
                 contentProperty: "Source", 
                 childrenProperty: null),
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "PathIcon",
                 properties: new XamlProperties(), 
                 contentProperty: null, 
                 childrenProperty: null),
             //
-            _xamlFactory.CreateControl(
+            _xamlItemFactory.CreateControl(
                 name: "ScrollViewer",
                 properties: new XamlProperties(), 
                 contentProperty: "Content", 
@@ -291,7 +291,7 @@ public class Demos
 
     public Control? DemoStackPanel()
     {
-        var xamlItem = _xamlFactory.CreateControl(
+        var xamlItem = _xamlItemFactory.CreateControl(
             name: "StackPanel",
             properties: new XamlProperties
             {
@@ -308,7 +308,7 @@ public class Demos
 
     public Control? DemoDockPanel()
     {
-        var xamlItem = _xamlFactory.CreateControl(
+        var xamlItem = _xamlItemFactory.CreateControl(
             name: "DockPanel",
             properties: new XamlProperties
             {
@@ -343,21 +343,21 @@ public class Demos
 
     public Control? DemoCanvas()
     {
-        var xamlItemStyleRectangle = _xamlFactory.CreateStyle(
+        var xamlItemStyleRectangle = _xamlItemFactory.CreateStyle(
             name: "Style",
             properties: new XamlProperties
             {
                 ["Selector"] = "Rectangle",
                 ["Children"] = new XamlItems
                 {
-                    _xamlFactory.CreateSetter(
+                    _xamlItemFactory.CreateSetter(
                         name: "Setter",
                         properties: new XamlProperties
                         {
                             ["Property"] = "Stroke",
                             ["Value"] = "Red"
                         }),
-                    _xamlFactory.CreateSetter(
+                    _xamlItemFactory.CreateSetter(
                         name: "Setter", 
                         properties: new XamlProperties
                         {
@@ -369,7 +369,7 @@ public class Demos
             contentProperty: "Children", 
             childrenProperty: "Children");
 
-        var xamlItem = _xamlFactory.CreateControl(
+        var xamlItem = _xamlItemFactory.CreateControl(
             name: "Canvas",
             properties: new XamlProperties
             {

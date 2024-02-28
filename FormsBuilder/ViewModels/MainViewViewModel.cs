@@ -27,9 +27,9 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
     private readonly ApplicationService _applicationService;
     private readonly IXamlItemIdManager _idManager;
     private readonly IXamlWriter _xamlWriter;
-    private readonly IAvaloniaFactory _avaloniaFactory;
+    private readonly IXamlObjectFactory _xamlObjectFactory;
     private readonly IXamlEditor _xamlEditor;
-    private readonly IXamlFactory _xamlFactory;
+    private readonly IXamlItemFactory _xamlItemFactory;
     private readonly IXamlSelection _xamlSelection;
     private readonly Demos _demos;
 
@@ -40,12 +40,12 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
 
         _idManager = new XamlItemIdManager();
         _xamlWriter = new XamlWriter();
-        _avaloniaFactory = new AvaloniaFactory(_xamlWriter);
-        _xamlEditor = new XamlEditor(_avaloniaFactory);
-        _xamlFactory = new XamlFactory(_idManager);
-        _xamlSelection = new XamlSelection(_xamlEditor, _xamlFactory, () => OverlayService?.Invalidate());
+        _xamlObjectFactory = new AvaloniaXamlObjectFactory(_xamlWriter);
+        _xamlEditor = new XamlEditor(_xamlObjectFactory);
+        _xamlItemFactory = new XamlItemFactory(_idManager);
+        _xamlSelection = new XamlSelection(_xamlEditor, _xamlItemFactory, () => OverlayService?.Invalidate());
 
-        _demos = new Demos(_xamlEditor, _xamlFactory);
+        _demos = new Demos(_xamlEditor, _xamlItemFactory);
 
         ToolBoxItems = _demos.DemoToolBox();
         SelectedToolBoxItem = ToolBoxItems.FirstOrDefault();
@@ -97,11 +97,11 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
 
     public IXamlItemIdManager IdManager => _idManager;
 
-    public IAvaloniaFactory AvaloniaFactory => _avaloniaFactory;
+    public IXamlObjectFactory XamlObjectFactory => _xamlObjectFactory;
 
     public IXamlEditor XamlEditor => _xamlEditor;
  
-    public IXamlFactory XamlFactory => _xamlFactory;
+    public IXamlItemFactory XamlItemFactory => _xamlItemFactory;
 
     public IXamlSelection XamlSelection => _xamlSelection;
 

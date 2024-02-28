@@ -21,9 +21,9 @@ public partial class EditorToolboxView : UserControl
             _toolboxViewModel = new ToolboxEditor(
                 this, 
                 mainViewModel.OverlayService,  
-                mainViewModel.AvaloniaFactory, 
+                mainViewModel.XamlObjectFactory, 
                 mainViewModel.XamlEditor, 
-                mainViewModel.XamlFactory);
+                mainViewModel.XamlItemFactory);
 
             ToolboxListBox.ContainerPrepared += ToolboxListBoxOnContainerPrepared;
             ToolboxListBox.ContainerClearing += ToolboxListBoxOnContainerClearing;

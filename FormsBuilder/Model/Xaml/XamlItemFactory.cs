@@ -3,34 +3,7 @@ using System.Linq;
 
 namespace FormsBuilder;
 
-public interface IXamlFactory
-{
-    XamlItem CloneItem(XamlItem xamlItem, bool newId);
-
-    XamlProperties CloneProperties(XamlProperties properties, bool newId);
-
-    XamlValue CloneValue(XamlValue value, bool newId);
-
-    XamlItem CreateControl(
-        string name,
-        XamlProperties properties,
-        string? contentProperty = null,
-        string? childrenProperty = null);
-
-    XamlItem CreateStyle(
-        string name,
-        XamlProperties properties,
-        string? contentProperty = null,
-        string? childrenProperty = null);
-
-    XamlItem CreateSetter(
-        string name,
-        XamlProperties properties,
-        string? contentProperty = null,
-        string? childrenProperty = null);
-}
-
-public class XamlFactory(IXamlItemIdManager idManager) : IXamlFactory
+public class XamlItemFactory(IXamlItemIdManager idManager) : IXamlItemFactory
 {
     public XamlItem CloneItem(XamlItem xamlItem, bool newId)
     {

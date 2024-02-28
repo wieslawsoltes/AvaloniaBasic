@@ -10,18 +10,18 @@ namespace FormsBuilder;
 public class XamlSelection : IXamlSelection
 {
     private readonly IXamlEditor _xamlEditor;
-    private readonly IXamlFactory _xamlFactory;
+    private readonly IXamlItemFactory _xamlItemFactory;
     private readonly Action _invalidateOverlay;
     private readonly Dictionary<Control, Point> _positions = new();
     private XamlItems? _xamlItemsCopy;
 
     public XamlSelection(
         IXamlEditor xamlEditor, 
-        IXamlFactory xamlFactory,
+        IXamlItemFactory xamlItemFactory,
         Action invalidateOverlay)
     {
         _xamlEditor = xamlEditor;
-        _xamlFactory = xamlFactory;
+        _xamlItemFactory = xamlItemFactory;
         _invalidateOverlay = invalidateOverlay;
     }
 
@@ -145,7 +145,7 @@ public class XamlSelection : IXamlSelection
                 break;
             }
 
-            var xamlItemCopy = _xamlFactory.CloneItem(xamlItem, true);
+            var xamlItemCopy = _xamlItemFactory.CloneItem(xamlItem, true);
             
             if (targetXamlItem.ChildrenProperty is not null)
             {
