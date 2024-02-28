@@ -117,7 +117,7 @@ public class DragAndDropEditor : IDragAndDropEditor
             var toolBoxItem = _getXamlItem(sender);
             if (toolBoxItem is not null)
             {
-                _xamlItem = _xamlFactory.Clone(toolBoxItem);
+                _xamlItem = _xamlFactory.CloneItem(toolBoxItem, true);
                 _control = _avaloniaFactory.CreateControl(_xamlItem, isRoot: true, writeUid: true);
             }
         }

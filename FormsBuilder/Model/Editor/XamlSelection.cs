@@ -145,7 +145,7 @@ public class XamlSelection : IXamlSelection
                 break;
             }
 
-            var xamlItemCopy = _xamlFactory.Clone(xamlItem);
+            var xamlItemCopy = _xamlFactory.CloneItem(xamlItem, true);
             
             if (targetXamlItem.ChildrenProperty is not null)
             {

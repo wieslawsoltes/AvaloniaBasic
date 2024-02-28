@@ -15,7 +15,7 @@ public class PaintTool : DrawTool
     protected override XamlItem CreateXamlItem(IToolContext context)
     {
         var xamlItem = _toolboxXamlItemProvider.SelectedToolBoxItem;
-        var xamlItemCopy = context.XamlFactory.Clone(xamlItem);
+        var xamlItemCopy = context.XamlFactory.CloneItem(xamlItem, true);
         return xamlItemCopy;
     }
 

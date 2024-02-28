@@ -5,7 +5,11 @@ namespace FormsBuilder;
 
 public interface IXamlFactory
 {
-    XamlItem Clone(XamlItem xamlItem, bool newId = true);
+    XamlItem CloneItem(XamlItem xamlItem, bool newId);
+
+    XamlProperties CloneProperties(XamlProperties properties, bool newId);
+
+    XamlValue CloneValue(XamlValue value, bool newId);
 
     XamlItem CreateControl(
         string name,
@@ -28,7 +32,7 @@ public interface IXamlFactory
 
 public class XamlFactory(IXamlItemIdManager idManager) : IXamlFactory
 {
-    public XamlItem Clone(XamlItem xamlItem, bool newId = true)
+    public XamlItem CloneItem(XamlItem xamlItem, bool newId)
     {
         return new XamlItem(
             xamlItem.Name,
@@ -37,23 +41,23 @@ public class XamlFactory(IXamlItemIdManager idManager) : IXamlFactory
             xamlItem.ContentProperty, xamlItem.ChildrenProperty);
     }
 
-    private XamlProperties CloneProperties(XamlProperties properties, bool newId)
+    public XamlProperties CloneProperties(XamlProperties properties, bool newId)
     {
         return properties.ToDictionary(
             x => x.Key,
             x => CloneValue(x.Value, newId));
     }
 
-    private XamlValue CloneValue(XamlValue value, bool newId)
+    public XamlValue CloneValue(XamlValue value, bool newId)
     {
         switch (value)
         {
             case StringXamlValue stringXamlValue:
                 return new StringXamlValue(stringXamlValue.Value);
             case XamlItemXamlValue xamlItemXamlValue:
-                return new XamlItemXamlValue(Clone(xamlItemXamlValue.Value, newId));
+                return new XamlItemXamlValue(CloneItem(xamlItemXamlValue.Value, newId));
             case XamlItemsXamlValue xamlItemsXamlValue:
-                return new XamlItemsXamlValue(xamlItemsXamlValue.Value.Select(x => Clone(x, newId)).ToList());
+                return new XamlItemsXamlValue(xamlItemsXamlValue.Value.Select(x => CloneItem(x, newId)).ToList());
             default:
                 throw new NotSupportedException();
         }
