@@ -14,8 +14,13 @@ public class SelectionRenderer : Renderer
         _xamlSelection = xamlSelection;
     }
 
-    public override void Render(DrawingContext context)
+    public override void Render(object context)
     {
+        if (context is not DrawingContext drawingContext)
+        {
+            return;
+        }
+
         var selected = _xamlSelection.Selected;
         var hovered = _xamlSelection.Hovered;
 
@@ -23,20 +28,20 @@ public class SelectionRenderer : Renderer
         {
             foreach (var visual in selected)
             {
-                RenderVisual(visual, context, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
-                RenderVisualThumbs(visual, context, new ImmutableSolidColorBrush(Colors.White), new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
+                RenderVisual(visual, drawingContext, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
+                RenderVisualThumbs(visual, drawingContext, new ImmutableSolidColorBrush(Colors.White), new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
             }
 
             if (hovered is null)
             {
-                // DrawName(context, selected.GetType().Name);
+                // DrawName(drawingContext, selected.GetType().Name);
             }
         }
 
         if (hovered is not null)
         {
-            RenderVisual(hovered, context, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
-            // DrawName(context, hovered.GetType().Name);
+            RenderVisual(hovered, drawingContext, new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
+            // DrawName(drawingContext, hovered.GetType().Name);
         }
 
         if (_xamlSelection.DrawSelection)
@@ -47,12 +52,12 @@ public class SelectionRenderer : Renderer
 
             RenderSelection(
                 rect, 
-                context, 
+                drawingContext, 
                 new ImmutableSolidColorBrush(Colors.CornflowerBlue, 0.3), 
                 new ImmutablePen(Colors.CornflowerBlue.ToUInt32()));
         }
 
-        // DrawHelp(context);
+        // DrawHelp(drawingContext);
     }
 
     private static void RenderVisual(Visual visual, DrawingContext context, IPen? pen)
