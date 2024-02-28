@@ -289,6 +289,24 @@ public class Demos
         };
     }
 
+    // TODO:
+    public ObservableCollection<XamlItem> DemoComponents()
+    {
+        return new ObservableCollection<XamlItem>
+        {
+            // TODO:
+        };
+    }
+
+    // TODO:
+    public ObservableCollection<XamlItem> DemoStyles()
+    {
+        return new ObservableCollection<XamlItem>
+        {
+            // TODO:
+        };
+    }
+
     public Control? DemoStackPanel()
     {
         var xamlItem = _xamlItemFactory.CreateControl(
@@ -321,24 +339,6 @@ public class Demos
             childrenProperty: "Children");
 
         return _xamlEditor.LoadForDesign(xamlItem);
-    }
-
-    // TODO:
-    public ObservableCollection<XamlItem> DemoComponents()
-    {
-        return new ObservableCollection<XamlItem>
-        {
-            // TODO:
-        };
-    }
-
-    // TODO:
-    public ObservableCollection<XamlItem> DemoStyles()
-    {
-        return new ObservableCollection<XamlItem>
-        {
-            // TODO:
-        };
     }
 
     public Control? DemoCanvas()
