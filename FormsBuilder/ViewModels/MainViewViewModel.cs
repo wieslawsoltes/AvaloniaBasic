@@ -26,9 +26,11 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
     private readonly EditorCanvasView _editorCanvas;
     private readonly ApplicationService _applicationService;
     private readonly IXamlItemIdManager _idManager;
+    private readonly IXamlWriter _xamlWriter;
+    private readonly IAvaloniaFactory _avaloniaFactory;
     private readonly IXamlEditor _xamlEditor;
-    private readonly IXamlSelection _xamlSelection;
     private readonly IXamlFactory _xamlFactory;
+    private readonly IXamlSelection _xamlSelection;
     private readonly Demos _demos;
 
     public MainViewViewModel(EditorCanvasView editorCanvas)
@@ -37,9 +39,11 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
         _applicationService = new ApplicationService();
 
         _idManager = new XamlItemIdManager();
-        _xamlEditor = new XamlEditor(_idManager);
-        _xamlSelection = new XamlSelection(_xamlEditor, () => OverlayService?.Invalidate());
+        _xamlWriter = new XamlWriter();
+        _avaloniaFactory = new AvaloniaFactory(_xamlWriter);
+        _xamlEditor = new XamlEditor(_avaloniaFactory);
         _xamlFactory = new XamlFactory(_idManager);
+        _xamlSelection = new XamlSelection(_xamlEditor, _xamlFactory, () => OverlayService?.Invalidate());
 
         _demos = new Demos(_xamlEditor, _xamlFactory);
 
@@ -93,11 +97,13 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
 
     public IXamlItemIdManager IdManager => _idManager;
 
+    public IAvaloniaFactory AvaloniaFactory => _avaloniaFactory;
+
     public IXamlEditor XamlEditor => _xamlEditor;
  
-    public IXamlSelection XamlSelection => _xamlSelection;
-
     public IXamlFactory XamlFactory => _xamlFactory;
+
+    public IXamlSelection XamlSelection => _xamlSelection;
 
     public IOverlayService? OverlayService { get; set; }
 

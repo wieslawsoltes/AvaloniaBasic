@@ -9,14 +9,21 @@ public class ToolboxEditor : IToolboxEditor
 {
     private readonly IDragAndDropEditor _dragAndDropEditor;
 
-    public ToolboxEditor(Control host, IOverlayService overlayService, IXamlEditor xamlEditor)
+    public ToolboxEditor(
+        Control host, 
+        IOverlayService overlayService, 
+        IAvaloniaFactory avaloniaFactory,
+        IXamlEditor xamlEditor,
+        IXamlFactory xamlFactory)
     {
         var visualRoot = host.GetVisualRoot() as Interactive;
  
         _dragAndDropEditor = new DragAndDropEditor(
             visualRoot, 
             overlayService, 
+            avaloniaFactory,
             xamlEditor,
+            xamlFactory,
             GetXamlItem);
     }
 

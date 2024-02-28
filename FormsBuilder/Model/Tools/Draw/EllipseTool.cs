@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 
@@ -12,14 +11,12 @@ public class EllipseTool : DrawTool
 
     protected override XamlItem CreateXamlItem(IToolContext context)
     {
-        // TODO: Use IXamlFactory
-        var xamlItem = new XamlItem(
+        var xamlItem = context.XamlFactory.CreateControl(
             name: "Ellipse",
             properties: new XamlProperties
             {
                 ["Fill"] = "#D9D9D9",
             },
-            id: context.XamlEditor.IdManager.GetNewId(),
             contentProperty: null, 
             childrenProperty: null);
 

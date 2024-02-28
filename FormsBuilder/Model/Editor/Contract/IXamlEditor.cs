@@ -14,7 +14,6 @@ public interface IXamlEditor
     XamlItem? RootXamlItem { get; }
     bool EnableEditing { get; set; }
     ICanvasEditor? CanvasViewModel { get; set; }
-    IXamlItemIdManager IdManager { get; }
     void AddControl(Control control, XamlItem xamlItem);
     void RemoveControl(Control control);
     void InsertXamlItem(XamlItem targetXamlItem, XamlItem xamlItem, Point position, bool enableCallback);

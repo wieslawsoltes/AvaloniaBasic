@@ -4,9 +4,21 @@ using Avalonia.Markup.Xaml;
 
 namespace FormsBuilder;
 
-public static class XamlItemControlFactory
+public interface IAvaloniaFactory
 {
-    public static Control? CreateControl(XamlItem xamlItem, bool isRoot = true, bool writeUid = false)
+    Control? CreateControl(XamlItem xamlItem, bool isRoot = true, bool writeUid = false);
+}
+
+public class AvaloniaFactory : IAvaloniaFactory
+{
+    private readonly IXamlWriter _xamlWriter;
+
+    public AvaloniaFactory(IXamlWriter xamlWriter)
+    {
+        _xamlWriter = xamlWriter;
+    }
+    
+    public Control? CreateControl(XamlItem xamlItem, bool isRoot = true, bool writeUid = false)
     {
         var settings = new XamlWriterSettings
         {
@@ -18,8 +30,7 @@ public static class XamlItemControlFactory
             WriteAttributesOnNewLine = false
         };
 
-        var xamlWriter = new XamlWriter();
-        xamlWriter.Write(xamlItem, settings);
+        _xamlWriter.Write(xamlItem, settings);
 
         var xaml = settings.Writer.ToString();
 

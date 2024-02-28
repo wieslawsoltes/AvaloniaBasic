@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
@@ -14,15 +12,13 @@ public class LineTool : DrawTool
 
     protected override XamlItem CreateXamlItem(IToolContext context)
     {
-        // TODO: Use IXamlFactory
-        var xamlItem = new XamlItem(
+        var xamlItem = context.XamlFactory.CreateControl(
             name: "Line",
             properties: new XamlProperties
             {
                 ["Stroke"] = "#000000",
                 ["StrokeThickness"] = "1.0",
             },
-            id: context.XamlEditor.IdManager.GetNewId(),
             contentProperty: null, 
             childrenProperty: null);
 
@@ -37,8 +33,6 @@ public class LineTool : DrawTool
         xamlItem.Properties["Canvas.Top"] = startPoint.Y;
         xamlItem.Properties["StartPoint"] = new Point();
         xamlItem.Properties["EndPoint"] = endPoint;
-        // xamlItem.Properties["StartPoint"] = startPosition;
-        // xamlItem.Properties["EndPoint"] = endPosition;
     }
 
     protected override void UpdateControl(Point startPosition, Point endPosition, Control control)
@@ -51,8 +45,6 @@ public class LineTool : DrawTool
             Canvas.SetTop(control, startPoint.Y);
             line.StartPoint = new Point();
             line.EndPoint = endPoint;
-            // line.StartPoint = startPosition;
-            // line.EndPoint = endPosition;
         }
     }
 }

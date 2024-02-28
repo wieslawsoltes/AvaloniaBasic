@@ -17,6 +17,7 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
 {
     private readonly IOverlayService _overlayService;
     private readonly IXamlEditor _xamlEditor;
+    private readonly IXamlFactory _xamlFactory;
     private readonly IXamlSelection _xamlSelection;
     private readonly IToolboxXamlItemProvider _toolboxXamlItemProvider;
     private Control? _host;
@@ -29,11 +30,13 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
     public CanvasEditor(
         IOverlayService overlayService, 
         IXamlEditor xamlEditor, 
+        IXamlFactory xamlFactory,
         IXamlSelection xamlSelection,
         IToolboxXamlItemProvider toolboxXamlItemProvider)
     {
         _overlayService = overlayService;
         _xamlEditor = xamlEditor;
+        _xamlFactory = xamlFactory;
         _xamlSelection = xamlSelection;
         _toolboxXamlItemProvider = toolboxXamlItemProvider;
 
@@ -53,6 +56,8 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
     }
 
     public IXamlEditor XamlEditor => _xamlEditor;
+
+    public IXamlFactory XamlFactory => _xamlFactory;
 
     public IXamlSelection XamlSelection => _xamlSelection;
 

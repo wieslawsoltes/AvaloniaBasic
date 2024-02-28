@@ -15,12 +15,12 @@ namespace FormsBuilder;
 public class XamlEditor : ReactiveObject, IXamlEditor
 {
     private readonly Dictionary<Control, XamlItem> _controlsDictionary;
-    private readonly IXamlItemIdManager _idManager;
+    private readonly IAvaloniaFactory _avaloniaFactory;
 
-    public XamlEditor(IXamlItemIdManager idManager)
+    public XamlEditor(IAvaloniaFactory avaloniaFactory)
     {
         _controlsDictionary = new Dictionary<Control, XamlItem>();
-        _idManager = idManager;
+        _avaloniaFactory = avaloniaFactory;
     }
 
     public event EventHandler<EventArgs>? PropertyValueChanged;
@@ -37,8 +37,6 @@ public class XamlEditor : ReactiveObject, IXamlEditor
 
     [Reactive]
     public ICanvasEditor? CanvasViewModel { get; set; }
-
-    public IXamlItemIdManager IdManager => _idManager;
 
     public void AddControl(Control control, XamlItem xamlItem)
     {
@@ -190,7 +188,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
    
     public Control? LoadForDesign(XamlItem xamlItem)
     {
-        var control = XamlItemControlFactory.CreateControl(xamlItem, isRoot: true, writeUid: true);
+        var control = _avaloniaFactory.CreateControl(xamlItem, isRoot: true, writeUid: true);
 
         if (control is null)
         {
@@ -210,7 +208,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
 
     public Control? LoadForExport(XamlItem xamlItem)
     {
-        return XamlItemControlFactory.CreateControl(xamlItem, isRoot: true, writeUid: false);
+        return _avaloniaFactory.CreateControl(xamlItem, isRoot: true, writeUid: false);
     }
 
     public void Reload(XamlItem rooXamlItem)

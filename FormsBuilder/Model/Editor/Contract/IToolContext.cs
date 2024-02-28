@@ -11,6 +11,8 @@ public interface IToolContext
 {
     IXamlEditor XamlEditor { get; }
 
+    IXamlFactory XamlFactory { get; }
+
     IXamlSelection XamlSelection { get; }
 
     IOverlayService OverlayService { get; }

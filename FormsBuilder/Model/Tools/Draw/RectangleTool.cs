@@ -13,17 +13,14 @@ public class RectangleTool : DrawTool
     protected override XamlItem CreateXamlItem(IToolContext context)
     {
 #if false
-        // TODO: Use IXamlFactory
-        var xamlItem = new XamlItem(
+        var xamlItem = context.XamlFactory.CreateControl(
             name: "DockPanel",
-            id: context.XamlEditor.IdManager.GetNewId(),
             properties: new XamlProperties
             {
                 ["Children"] = new XamlItems
                 {
-                    new XamlItem(
+                    context.XamlFactory.CreateControl(
                         name: "TextBlock", 
-                        id: context.XamlEditor.IdManager.GetNewId(),
                         properties: new XamlProperties
                         {
                             ["Text"] = "TextBlock",
@@ -31,9 +28,8 @@ public class RectangleTool : DrawTool
                         }, 
                         contentProperty: "Text", 
                         childrenProperty: null),
-                    new XamlItem(
+                    context.XamlFactory.CreateControl(
                         name: "TextBox", 
-                        id: context.XamlEditor.IdManager.GetNewId(),
                         properties: new XamlProperties
                         {
                             ["Text"] = "TextBox",
@@ -47,14 +43,12 @@ public class RectangleTool : DrawTool
             contentProperty: "Children", 
             childrenProperty: "Children");
 #else
-        // TODO: Use IXamlFactory
-        var xamlItem = new XamlItem(
+        var xamlItem = context.XamlFactory.CreateControl(
             name: "Rectangle",
             properties: new XamlProperties
             {
                 ["Fill"] = "#D9D9D9",
             },
-            id: context.XamlEditor.IdManager.GetNewId(),
             contentProperty: null, 
             childrenProperty: null);
 #endif
