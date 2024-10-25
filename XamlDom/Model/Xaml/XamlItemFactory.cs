@@ -16,9 +16,10 @@ public class XamlItemFactory(IXamlItemIdManager idManager) : IXamlItemFactory
 
     public XamlProperties CloneProperties(XamlProperties properties, bool newId)
     {
-        return properties.ToDictionary(
-            x => x.Key,
-            x => CloneValue(x.Value, newId));
+        return new XamlProperties(
+            properties.ToDictionary(
+                x => x.Key,
+                x => CloneValue(x.Value, newId)));
     }
 
     public XamlValue CloneValue(XamlValue value, bool newId)
@@ -30,7 +31,9 @@ public class XamlItemFactory(IXamlItemIdManager idManager) : IXamlItemFactory
             case XamlItemXamlValue xamlItemXamlValue:
                 return new XamlItemXamlValue(CloneItem(xamlItemXamlValue.Value, newId));
             case XamlItemsXamlValue xamlItemsXamlValue:
-                return new XamlItemsXamlValue(xamlItemsXamlValue.Value.Select(x => CloneItem(x, newId)).ToList());
+                return new XamlItemsXamlValue(
+                    new XamlItems(
+                        xamlItemsXamlValue.Value.Select(x => CloneItem(x, newId)).ToList()));
             default:
                 throw new NotSupportedException();
         }

@@ -6,7 +6,6 @@
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-    <AvaloniaVersion>11.0.9</AvaloniaVersion>
     <RootNamespace>FormsBuilder</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
@@ -25,5 +24,8 @@
     <PackageReference Include="Avalonia.Controls.PanAndZoom" Version="11.0.0.2" />
     <PackageReference Include="Avalonia.Svg.Skia" Version="11.0.0.13" />
     <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XamlDom\XamlDom.csproj" />
   </ItemGroup>
 </Project>
