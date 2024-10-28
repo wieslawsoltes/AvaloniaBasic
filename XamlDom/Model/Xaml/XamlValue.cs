@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.Json.Serialization;
-using Avalonia;
+// TODO: using Avalonia;
 
 namespace FormsBuilder;
 
@@ -31,13 +31,14 @@ public abstract partial class XamlValue
         return value.ToString(CultureInfo.InvariantCulture);
     }
 
-    public static implicit operator XamlValue(Point value)
-    {
-        return string.Concat(
-            value.X.ToString(CultureInfo.InvariantCulture), 
-            ',', 
-            value.Y.ToString(CultureInfo.InvariantCulture));
-    }
+    // TODO:
+    // public static implicit operator XamlValue(Point value)
+    // {
+    //     return string.Concat(
+    //         value.X.ToString(CultureInfo.InvariantCulture), 
+    //         ',', 
+    //         value.Y.ToString(CultureInfo.InvariantCulture));
+    // }
 
     public static implicit operator XamlValue(XamlItem value)
     {

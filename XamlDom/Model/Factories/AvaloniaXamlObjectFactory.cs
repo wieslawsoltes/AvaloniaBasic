@@ -1,15 +1,16 @@
 using System.Text;
-using Avalonia.Markup.Xaml;
 
 namespace FormsBuilder;
 
 public class AvaloniaXamlObjectFactory : IXamlObjectFactory
 {
     private readonly IXamlWriter _xamlWriter;
+    private readonly IXamlLoader _xamlLoader;
 
-    public AvaloniaXamlObjectFactory(IXamlWriter xamlWriter)
+    public AvaloniaXamlObjectFactory(IXamlWriter xamlWriter, IXamlLoader xamlLoader)
     {
         _xamlWriter = xamlWriter;
+        _xamlLoader = xamlLoader;
     }
     
     public object? CreateControl(XamlItem xamlItem, bool isRoot = true, bool writeUid = false)
@@ -33,7 +34,7 @@ public class AvaloniaXamlObjectFactory : IXamlObjectFactory
         // Console.WriteLine(xaml);
 #endif
 
-        var obj = AvaloniaRuntimeXamlLoader.Load(xaml, null, null, null, designMode: false);
+        var obj = _xamlLoader.Load(xaml);
 
         return obj;
     }

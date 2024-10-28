@@ -32,6 +32,7 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
     private readonly IXamlItemFactory _xamlItemFactory;
     private readonly IXamlSelection _xamlSelection;
     private readonly Demos _demos;
+    private readonly IXamlLoader _xamlLoader;
 
     public MainViewViewModel(EditorCanvasView editorCanvas)
     {
@@ -40,7 +41,8 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
 
         _idManager = new XamlItemIdManager();
         _xamlWriter = new XamlWriter();
-        _xamlObjectFactory = new AvaloniaXamlObjectFactory(_xamlWriter);
+        _xamlLoader = new XamlLoader();
+        _xamlObjectFactory = new AvaloniaXamlObjectFactory(_xamlWriter, _xamlLoader);
         _xamlEditor = new XamlEditor(_xamlObjectFactory);
         _xamlItemFactory = new XamlItemFactory(_idManager);
         _xamlSelection = new XamlSelection(_xamlEditor, _xamlItemFactory, () => OverlayService?.Invalidate());
@@ -101,6 +103,8 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
 
     public IXamlEditor XamlEditor => _xamlEditor;
  
+    public IXamlLoader XamlLoader => _xamlLoader;
+
     public IXamlItemFactory XamlItemFactory => _xamlItemFactory;
 
     public IXamlSelection XamlSelection => _xamlSelection;

@@ -1,7 +1,9 @@
 namespace FormsBuilder;
 
+// TODO:
 // global using XamlProperties = System.Collections.Generic.Dictionary<string, FormsBuilder.XamlValue>;
 
+// TODO:
 // global using XamlItems = System.Collections.Generic.List<FormsBuilder.XamlItem>;
 
 public class XamlProperties : System.Collections.Generic.Dictionary<string, FormsBuilder.XamlValue>

@@ -1,3 +1,4 @@
+using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
@@ -31,8 +32,8 @@ public class LineTool : DrawTool
         var endPoint = endPosition - startPosition;
         xamlItem.Properties["Canvas.Left"] = startPoint.X;
         xamlItem.Properties["Canvas.Top"] = startPoint.Y;
-        xamlItem.Properties["StartPoint"] = new Point();
-        xamlItem.Properties["EndPoint"] = endPoint;
+        xamlItem.Properties["StartPoint"] = new Point().ToXamlValue();
+        xamlItem.Properties["EndPoint"] = endPoint.ToXamlValue();
     }
 
     protected override void UpdateControl(Point startPosition, Point endPosition, Control control)
