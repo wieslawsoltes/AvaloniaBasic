@@ -18,7 +18,7 @@ public partial class EditorCanvasView : UserControl
 
         if (DataContext is MainViewViewModel mainViewModel)
         {
-            mainViewModel.XamlEditor.CanvasViewModel = new CanvasEditor(
+            mainViewModel.XamlEditor.CanvasViewModel = new CanvasEditor<Control>(
                 mainViewModel.OverlayService,
                 mainViewModel.XamlEditor,
                 mainViewModel.XamlItemFactory,

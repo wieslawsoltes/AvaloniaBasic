@@ -14,7 +14,7 @@ public class ToolboxEditor : IToolboxEditor
         Control host, 
         IOverlayService overlayService, 
         IXamlObjectFactory xamlObjectFactory,
-        IXamlEditor xamlEditor,
+        IXamlEditor<Control> xamlEditor,
         IXamlItemFactory xamlItemFactory)
     {
         var visualRoot = host.GetVisualRoot() as Interactive;

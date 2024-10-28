@@ -3,12 +3,12 @@ using Avalonia.Controls;
 
 namespace FormsBuilder;
 
-public interface ICanvasEditor
+public interface ICanvasEditor<T> where T : class
 {
     bool ReverseOrder { get; set; }
-    void AttachHost(Control host, Panel rootPanel, GridLinesControl gridLinesControl);
+    void AttachHost(T host, Panel rootPanel, GridLinesControl gridLinesControl);
     void DetachHost();
-    void AddToRoot(Control control);
+    void AddToRoot(T control);
     void SetCurrentTool(string type);
     IReadOnlyList<Tool> Tools { get; }
 }

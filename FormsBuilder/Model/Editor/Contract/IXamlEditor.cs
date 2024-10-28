@@ -1,32 +1,26 @@
 using System;
-using System.Collections.Generic;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.LogicalTree;
 using XamlDom;
 
 namespace FormsBuilder;
 
-public interface IXamlEditor
+public interface IXamlEditor<T> where T : class
 {
     event EventHandler<EventArgs>? PropertyValueChanged;
     event EventHandler<EventArgs>? ControlAdded;
     event EventHandler<EventArgs>? ControlRemoved;
     XamlItem? RootXamlItem { get; }
     bool EnableEditing { get; set; }
-    ICanvasEditor? CanvasViewModel { get; set; }
-    void AddControl(Control control, XamlItem xamlItem);
-    void RemoveControl(Control control);
-    void InsertXamlItem(XamlItem targetXamlItem, XamlItem xamlItem, Point position, bool enableCallback);
+    ICanvasEditor<T>? CanvasViewModel { get; set; }
+    void AddControl(T control, XamlItem xamlItem);
+    void RemoveControl(T control);
+    void InsertXamlItem(XamlItem targetXamlItem, XamlItem xamlItem, double x, double y, bool enableCallback);
     bool RemoveXamlItem(XamlItem xamlItem);
-    bool TryGetXamlItem(Control control, out XamlItem? xamlItem);
-    bool TryGetControl(XamlItem xamlItem, out Control? control);
-    void UpdatePropertyValue(Control control, string propertyName, XamlValue propertyValue);
-    Control? LoadForDesign(XamlItem xamlItem);
-    Control? LoadForExport(XamlItem xamlItem);
+    bool TryGetXamlItem(T control, out XamlItem? xamlItem);
+    bool TryGetControl(XamlItem xamlItem, out T? control);
+    void UpdatePropertyValue(T control, string propertyName, XamlValue propertyValue);
+    T? LoadForDesign(XamlItem xamlItem);
+    T? LoadForExport(XamlItem xamlItem);
     void Reload(XamlItem rooXamlItem);
-    Control? HitTest(IEnumerable<Visual> descendants, Point position, HashSet<Visual> ignored);
-    Control? HitTest(ILogical root, Point position, HashSet<Visual> ignored);
     // TODO:
     void Debug(XamlItem xamlItem);
 }

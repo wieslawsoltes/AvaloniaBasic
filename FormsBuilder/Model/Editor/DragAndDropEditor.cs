@@ -13,7 +13,7 @@ public class DragAndDropEditor : IDragAndDropEditor
     private readonly Interactive _visualRoot;
     private readonly IOverlayService _overlayService;
     private readonly IXamlObjectFactory _xamlObjectFactory;
-    private readonly IXamlEditor _xamlEditor;
+    private readonly IXamlEditor<Control> _xamlEditor;
     private readonly IXamlItemFactory _xamlItemFactory;
     private readonly Func<object?, XamlItem?> _getXamlItem;
     private bool _captured;
@@ -26,7 +26,7 @@ public class DragAndDropEditor : IDragAndDropEditor
         Interactive visualRoot, 
         IOverlayService overlayService,  
         IXamlObjectFactory xamlObjectFactory,
-        IXamlEditor xamlEditor,
+        IXamlEditor<Control> xamlEditor,
         IXamlItemFactory xamlItemFactory,
         Func<object?, XamlItem?> getXamlItem)
     {
@@ -168,7 +168,11 @@ public class DragAndDropEditor : IDragAndDropEditor
 
         _xamlEditor.RemoveControl(_control);
 
-        var target = _xamlEditor.HitTest(_visualRoot, e.GetPosition(_visualRoot), ignored);
+        var target = AvaloniaHitTestHelper.HitTest(
+            _visualRoot, 
+            e.GetPosition(_visualRoot), 
+            ignored, 
+            x => _xamlEditor.TryGetXamlItem(x, out _));
         if (target is null)
         {
             return;
@@ -189,6 +193,6 @@ public class DragAndDropEditor : IDragAndDropEditor
             return;
         }
 
-        _xamlEditor.InsertXamlItem(targetXamlItem, _xamlItem, position, enableCallback: true);
+        _xamlEditor.InsertXamlItem(targetXamlItem, _xamlItem, position.X, position.Y, enableCallback: true);
     }
 }

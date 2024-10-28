@@ -6,10 +6,10 @@ namespace FormsBuilder;
 
 public class Demos
 {
-    private readonly IXamlEditor _xamlEditor;
+    private readonly IXamlEditor<Control> _xamlEditor;
     private readonly IXamlItemFactory _xamlItemFactory;
 
-    public Demos(IXamlEditor xamlEditor, IXamlItemFactory xamlItemFactory)
+    public Demos(IXamlEditor<Control> xamlEditor, IXamlItemFactory xamlItemFactory)
     {
         _xamlEditor = xamlEditor;
         _xamlItemFactory = xamlItemFactory;

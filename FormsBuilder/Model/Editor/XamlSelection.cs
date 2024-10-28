@@ -9,14 +9,14 @@ namespace FormsBuilder;
 
 public class XamlSelection : IXamlSelection
 {
-    private readonly IXamlEditor _xamlEditor;
+    private readonly IXamlEditor<Control> _xamlEditor;
     private readonly IXamlItemFactory _xamlItemFactory;
     private readonly Action _invalidateOverlay;
     private readonly Dictionary<Control, Point> _positions = new();
     private XamlItems? _xamlItemsCopy;
 
     public XamlSelection(
-        IXamlEditor xamlEditor, 
+        IXamlEditor<Control> xamlEditor, 
         IXamlItemFactory xamlItemFactory,
         Action invalidateOverlay)
     {

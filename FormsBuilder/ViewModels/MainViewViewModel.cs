@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Serialization;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Threading;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -29,7 +30,7 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
     private readonly IXamlItemIdManager _idManager;
     private readonly IXamlWriter _xamlWriter;
     private readonly IXamlObjectFactory _xamlObjectFactory;
-    private readonly IXamlEditor _xamlEditor;
+    private readonly IXamlEditor<Control> _xamlEditor;
     private readonly IXamlItemFactory _xamlItemFactory;
     private readonly IXamlSelection _xamlSelection;
     private readonly Demos _demos;
@@ -44,7 +45,7 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
         _xamlWriter = new XamlWriter();
         _xamlLoader = new XamlLoader();
         _xamlObjectFactory = new AvaloniaXamlObjectFactory(_xamlWriter, _xamlLoader);
-        _xamlEditor = new XamlEditor(_xamlObjectFactory);
+        _xamlEditor = new XamlEditor<Control>(_xamlObjectFactory, new AvaloniaControlMap());
         _xamlItemFactory = new XamlItemFactory(_idManager);
         _xamlSelection = new XamlSelection(_xamlEditor, _xamlItemFactory, () => OverlayService?.Invalidate());
 
@@ -102,7 +103,7 @@ public class MainViewViewModel : ReactiveObject, IToolboxXamlItemProvider
 
     public IXamlObjectFactory XamlObjectFactory => _xamlObjectFactory;
 
-    public IXamlEditor XamlEditor => _xamlEditor;
+    public IXamlEditor<Control> XamlEditor => _xamlEditor;
  
     public IXamlLoader XamlLoader => _xamlLoader;
 

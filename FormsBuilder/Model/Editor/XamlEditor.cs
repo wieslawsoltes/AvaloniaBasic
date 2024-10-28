@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.LogicalTree;
-using Avalonia.VisualTree;
+//using Avalonia;
+//using Avalonia.Controls;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using XamlDom;
 
 namespace FormsBuilder;
 
-public class XamlEditor : ReactiveObject, IXamlEditor
+public class XamlEditor<T> : ReactiveObject, IXamlEditor<T> where T : class
 {
-    private readonly Dictionary<Control, XamlItem> _controlsDictionary;
+    private readonly Dictionary<T, XamlItem> _controlsDictionary;
     private readonly IXamlObjectFactory _xamlObjectFactory;
+    private readonly IControlMap<T> _controlMap;
 
-    public XamlEditor(IXamlObjectFactory xamlObjectFactory)
+    public XamlEditor(IXamlObjectFactory xamlObjectFactory, IControlMap<T> controlMap)
     {
-        _controlsDictionary = new Dictionary<Control, XamlItem>();
+        _controlsDictionary = new Dictionary<T, XamlItem>();
         _xamlObjectFactory = xamlObjectFactory;
+        _controlMap = controlMap;
     }
 
     public event EventHandler<EventArgs>? PropertyValueChanged;
@@ -37,15 +38,15 @@ public class XamlEditor : ReactiveObject, IXamlEditor
     public bool EnableEditing { get; set; }
 
     [Reactive]
-    public ICanvasEditor? CanvasViewModel { get; set; }
+    public ICanvasEditor<T>? CanvasViewModel { get; set; }
 
-    public void AddControl(Control control, XamlItem xamlItem)
+    public void AddControl(T control, XamlItem xamlItem)
     {
         _controlsDictionary[control] = xamlItem;
         OnControlAdded();
     }
 
-    public void RemoveControl(Control control)
+    public void RemoveControl(T control)
     {
         _controlsDictionary.Remove(control);
         OnControlRemoved();
@@ -56,23 +57,11 @@ public class XamlEditor : ReactiveObject, IXamlEditor
         _controlsDictionary.Clear();
     }
     
-    private void AddControls(Control control, XamlItem xamlItem)
+    private void AddControls(T control, XamlItem xamlItem)
     {
-        var xamlItemsMap = xamlItem
-            .GetSelfAndChildren()
-            .ToDictionary(x => x.Id, x => x);
+        var xamlItemsMap = _controlMap.CreateMap(xamlItem);
 
-        var controlsMap = control
-            .GetSelfAndVisualDescendants()
-            .Where(x => x is Control)
-            .Cast<Control>()
-            .Select(x => new 
-            {
-                Uid = XamlItemProperties.GetUid(x), 
-                Control = x
-            })
-            .Where(x => x.Uid is not null)
-            .ToDictionary(x => x.Uid, x => x.Control);
+        var controlsMap = _controlMap.CreateMap(control);
 
         foreach (var kvpXamlItem in xamlItemsMap)
         {
@@ -83,7 +72,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
         }
     }
 
-    public void InsertXamlItem(XamlItem targetXamlItem, XamlItem xamlItem, Point position, bool enableCallback)
+    public void InsertXamlItem(XamlItem targetXamlItem, XamlItem xamlItem, double x, double y, bool enableCallback)
     {
         // TODO: Add xamlItem to targetXamlItem Children
         // TODO: Add xamlItem as targetXamlItem Content
@@ -93,7 +82,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
         {
             if (enableCallback)
             {
-                InsertCallback(xamlItem, position, targetXamlItem);
+                InsertCallback(xamlItem, x, y, targetXamlItem);
             }
 
             if (targetXamlItem.TryAddChild(xamlItem))
@@ -110,18 +99,17 @@ public class XamlEditor : ReactiveObject, IXamlEditor
             {
                 Reload(RootXamlItem);
                 Debug(targetXamlItem);
-                return;
             }
         }
     }
 
-    private void InsertCallback(XamlItem xamlItem, Point position, XamlItem targetXamlItem)
+    private void InsertCallback(XamlItem xamlItem, double x, double y, XamlItem targetXamlItem)
     {
         // TODO: Add callback service for XamlItem to position inserted item in target.
         if (targetXamlItem.Name == "Canvas")
         {
-            xamlItem.Properties["Canvas.Left"] = position.X;
-            xamlItem.Properties["Canvas.Top"] = position.Y;
+            xamlItem.Properties["Canvas.Left"] = x;
+            xamlItem.Properties["Canvas.Top"] = y;
         }
     }
 
@@ -142,18 +130,18 @@ public class XamlEditor : ReactiveObject, IXamlEditor
         return rooXamlItem.TryRemove(xamlItem);
     }
 
-    public bool TryGetXamlItem(Control control, out XamlItem? xamlItem)
+    public bool TryGetXamlItem(T control, out XamlItem? xamlItem)
     {
         return _controlsDictionary.TryGetValue(control, out xamlItem);
     }
 
-    public bool TryGetControl(XamlItem xamlItem, out Control? control)
+    public bool TryGetControl(XamlItem xamlItem, out T? control)
     {
         control = _controlsDictionary.FirstOrDefault(x => x.Value == xamlItem).Key;
         return control is not null;
     }
 
-    public void UpdatePropertyValue(Control control, string propertyName, XamlValue propertyValue)
+    public void UpdatePropertyValue(T control, string propertyName, XamlValue propertyValue)
     {
         if (!EnableEditing)
         {
@@ -187,13 +175,13 @@ public class XamlEditor : ReactiveObject, IXamlEditor
         PropertyValueChanged?.Invoke(this, EventArgs.Empty);
     }
    
-    public Control? LoadForDesign(XamlItem xamlItem)
+    public T? LoadForDesign(XamlItem xamlItem)
     {
-        var control = _xamlObjectFactory.CreateControl(xamlItem, isRoot: true, writeUid: true) as Control;
+        var control = _xamlObjectFactory.CreateControl(xamlItem, isRoot: true, writeUid: true) as T;
 
         if (control is null)
         {
-            return null;
+            return default;
         }
 
         CleanControls();
@@ -207,9 +195,9 @@ public class XamlEditor : ReactiveObject, IXamlEditor
         return control;
     }
 
-    public Control? LoadForExport(XamlItem xamlItem)
+    public T? LoadForExport(XamlItem xamlItem)
     {
-        return _xamlObjectFactory.CreateControl(xamlItem, isRoot: true, writeUid: false) as Control;
+        return _xamlObjectFactory.CreateControl(xamlItem, isRoot: true, writeUid: false) as T;
     }
 
     public void Reload(XamlItem rooXamlItem)
@@ -219,43 +207,6 @@ public class XamlEditor : ReactiveObject, IXamlEditor
         {
             CanvasViewModel?.AddToRoot(control);
         }
-    }
-
-    public Control? HitTest(IEnumerable<Visual> descendants, Point position, HashSet<Visual> ignored)
-    {
-        var visuals = descendants
-            .OfType<Control>()
-            .Where(visual =>
-            {
-                if (!Contains(visual))
-                {
-                    return false;
-                }
-
-                if (ignored.Contains(visual))
-                {
-                    return false;
-                }
-
-                var transformedBounds = visual.GetTransformedBounds();
-                return transformedBounds is not null
-                       && transformedBounds.Value.Contains(position);
-
-            });
-
-        return visuals.Reverse().FirstOrDefault();
-
-        bool Contains(Control visual)
-        {
-            return TryGetXamlItem(visual, out _);
-        }
-    }
-
-    public Control? HitTest(ILogical root, Point position, HashSet<Visual> ignored)
-    {
-        var descendants = root.GetLogicalDescendants().Cast<Visual>();
-
-        return HitTest(descendants, position, ignored);
     }
 
     public void Debug(XamlItem xamlItem)
@@ -276,7 +227,7 @@ public class XamlEditor : ReactiveObject, IXamlEditor
 
         var xaml = settings.Writer.ToString();
 
-        if (!Design.IsDesignMode)
+        // TOOD: if (!Design.IsDesignMode)
         {
             Console.Clear();
             Console.WriteLine(xaml);

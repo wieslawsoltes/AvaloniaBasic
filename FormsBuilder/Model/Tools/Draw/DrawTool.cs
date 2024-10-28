@@ -41,7 +41,11 @@ public abstract class DrawTool : Tool
             return;
         }
 
-        var target = context.XamlEditor.HitTest(_visualRoot, e.GetPosition(_visualRoot), _ignored);
+        var target = AvaloniaHitTestHelper.HitTest(
+            _visualRoot, 
+            e.GetPosition(_visualRoot), 
+            _ignored,
+            x => context.XamlEditor.TryGetXamlItem(x, out _));
         if (target is null)
         {
             _visualRoot = null;
@@ -60,7 +64,7 @@ public abstract class DrawTool : Tool
         context.XamlEditor.TryGetXamlItem(target, out var targetXamlItem);
         _targetXamlItem = targetXamlItem;
 
-        context.XamlEditor.InsertXamlItem(_targetXamlItem, _xamlItem, _startPosition, enableCallback: false);
+        context.XamlEditor.InsertXamlItem(_targetXamlItem, _xamlItem, _startPosition.X, _startPosition.Y, enableCallback: false);
   
         context.XamlEditor.TryGetControl(_xamlItem, out var control);
         _control = control;

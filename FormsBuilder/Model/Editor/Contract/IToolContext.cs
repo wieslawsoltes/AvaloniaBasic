@@ -10,7 +10,7 @@ namespace FormsBuilder;
 
 public interface IToolContext
 {
-    IXamlEditor XamlEditor { get; }
+    IXamlEditor<Control> XamlEditor { get; }
 
     IXamlItemFactory XamlItemFactory { get; }
 

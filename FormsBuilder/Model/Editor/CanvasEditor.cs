@@ -14,10 +14,10 @@ using XamlDom;
 
 namespace FormsBuilder;
 
-public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
+public class CanvasEditor<T> : ReactiveObject, IToolContext, ICanvasEditor<T> where T : Control
 {
     private readonly IOverlayService _overlayService;
-    private readonly IXamlEditor _xamlEditor;
+    private readonly IXamlEditor<Control> _xamlEditor;
     private readonly IXamlItemFactory _xamlItemFactory;
     private readonly IXamlSelection _xamlSelection;
     private readonly IToolboxXamlItemProvider _toolboxXamlItemProvider;
@@ -30,7 +30,7 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
 
     public CanvasEditor(
         IOverlayService overlayService, 
-        IXamlEditor xamlEditor, 
+        IXamlEditor<Control> xamlEditor, 
         IXamlItemFactory xamlItemFactory,
         IXamlSelection xamlSelection,
         IToolboxXamlItemProvider toolboxXamlItemProvider)
@@ -56,7 +56,7 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
         _currentTool.IsSelected = true;
     }
 
-    public IXamlEditor XamlEditor => _xamlEditor;
+    public IXamlEditor<Control> XamlEditor => _xamlEditor;
 
     public IXamlItemFactory XamlItemFactory => _xamlItemFactory;
 
@@ -72,7 +72,7 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
 
     public IReadOnlyList<Tool> Tools => _tools;
 
-    public void AttachHost(Control host, Panel rootPanel, GridLinesControl gridLinesControl)
+    public void AttachHost(T host, Panel rootPanel, GridLinesControl gridLinesControl)
     {
         _host = host;
 
@@ -113,7 +113,7 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
         _gridLines = null;
     }
 
-    public void AddToRoot(Control control)
+    public void AddToRoot(T control)
     {
         if (_rootPanel is null || _gridLines is null)
         {
@@ -328,7 +328,7 @@ public class CanvasEditor : ReactiveObject, ICanvasEditor, IToolContext
         }
 
         var visuals = descendants
-            .OfType<Control>()
+            .OfType<T>()
             .Select(visual =>
             {
                 _xamlEditor.TryGetXamlItem(visual, out var xamlItem);
