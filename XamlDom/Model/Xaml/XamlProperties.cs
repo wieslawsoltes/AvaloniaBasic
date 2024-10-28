@@ -1,11 +1,5 @@
 namespace FormsBuilder;
 
-// TODO:
-// global using XamlProperties = System.Collections.Generic.Dictionary<string, FormsBuilder.XamlValue>;
-
-// TODO:
-// global using XamlItems = System.Collections.Generic.List<FormsBuilder.XamlItem>;
-
 public class XamlProperties : System.Collections.Generic.Dictionary<string, FormsBuilder.XamlValue>
 {
     public XamlProperties()
@@ -26,22 +20,5 @@ public class XamlProperties : System.Collections.Generic.Dictionary<string, Form
         {
             Add(property.Key, property.Value);
         }
-    }
-}
-
-public class XamlItems : System.Collections.Generic.List<FormsBuilder.XamlItem>
-{
-    public XamlItems()
-    {
-    }
-
-    public XamlItems(System.Collections.Generic.List<FormsBuilder.XamlItem> items)
-    {
-        AddRange(items);
-    }
-    
-    public XamlItems(System.Collections.Generic.IEnumerable<FormsBuilder.XamlItem> items)
-    {
-        AddRange(items);
     }
 }
