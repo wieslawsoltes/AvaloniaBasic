@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace FormsBuilder;
+namespace XamlDom;
 
 public partial class XamlItemsXamlValue : XamlValue
 {

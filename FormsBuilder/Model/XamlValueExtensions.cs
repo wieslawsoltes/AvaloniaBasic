@@ -1,5 +1,6 @@
 using System.Globalization;
 using Avalonia;
+using XamlDom;
 
 namespace FormsBuilder;
 

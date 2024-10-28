@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text.Json.Serialization;
 // TODO: using Avalonia;
 
-namespace FormsBuilder;
+namespace XamlDom;
 
 [JsonPolymorphic]
 [JsonDerivedType(typeof(StringXamlValue), typeDiscriminator: "xamlString")]

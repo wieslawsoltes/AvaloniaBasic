@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace FormsBuilder;
+namespace XamlDom;
 
 public class XamlWriter : IXamlWriter
 {
@@ -76,7 +76,7 @@ public class XamlWriter : IXamlWriter
 
         // TODO:
         // settings.Writer.Append("xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\"");
-        settings.Writer.Append("xmlns:formsBuilder=\"clr-namespace:FormsBuilder\"");
+        settings.Writer.Append("xmlns:FormsBuilder=\"clr-namespace:FormsBuilder\"");
     }
 
     public void WriteUidAttribute(XamlItem xamlItem, XamlWriterSettings settings)
@@ -94,7 +94,7 @@ public class XamlWriter : IXamlWriter
         // TODO: Use x:Uid instead of Tag
         // settings.Writer.Append("x:Uid");
         // settings.Writer.Append("Tag");
-        settings.Writer.Append("formsBuilder:XamlItemProperties.Uid");
+        settings.Writer.Append("FormsBuilder:XamlItemProperties.Uid");
         settings.Writer.Append('=');
         settings.Writer.Append('"');
         settings.Writer.Append(xamlItem.Id);

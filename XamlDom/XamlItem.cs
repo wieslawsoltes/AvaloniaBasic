@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 
-namespace FormsBuilder;
+namespace XamlDom;
 
 public class XamlItem
 {

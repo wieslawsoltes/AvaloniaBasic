@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace FormsBuilder;
+namespace XamlDom;
 
 [JsonSerializable(typeof(XamlItem))]
 [JsonSerializable(typeof(XamlItem[]))]

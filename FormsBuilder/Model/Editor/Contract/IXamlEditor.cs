@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
+using XamlDom;
 
 namespace FormsBuilder;
 

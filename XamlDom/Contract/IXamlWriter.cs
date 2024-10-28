@@ -1,4 +1,4 @@
-namespace FormsBuilder;
+namespace XamlDom;
 
 public interface IXamlWriter
 {

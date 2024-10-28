@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace FormsBuilder;
+namespace XamlDom;
 
 public partial class XamlItemXamlValue : XamlValue
 {

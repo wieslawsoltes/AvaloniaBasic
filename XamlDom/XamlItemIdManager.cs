@@ -1,6 +1,6 @@
 using System;
 
-namespace FormsBuilder;
+namespace XamlDom;
 
 public class XamlItemIdManager : IXamlItemIdManager
 {

@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace FormsBuilder;
+namespace XamlDom;
 
 public class XamlItemFactory(IXamlItemIdManager idManager) : IXamlItemFactory
 {

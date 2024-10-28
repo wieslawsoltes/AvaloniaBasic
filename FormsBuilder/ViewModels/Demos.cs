@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
+using XamlDom;
 
 namespace FormsBuilder;
 

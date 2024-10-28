@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace FormsBuilder;
+namespace XamlDom;
 
 public readonly record struct XamlWriterSettings(
     StringBuilder Writer,

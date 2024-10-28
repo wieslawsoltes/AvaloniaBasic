@@ -10,6 +10,7 @@ using Avalonia.LogicalTree;
 using Avalonia.Reactive;
 using Avalonia.VisualTree;
 using ReactiveUI;
+using XamlDom;
 
 namespace FormsBuilder;
 
