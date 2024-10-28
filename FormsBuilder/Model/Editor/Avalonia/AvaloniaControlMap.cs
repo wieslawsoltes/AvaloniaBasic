@@ -6,13 +6,6 @@ using XamlDom;
 
 namespace FormsBuilder;
 
-public interface IControlMap<T>
-{
-    Dictionary<string, XamlItem> CreateMap(XamlItem xamlItem);
-
-    Dictionary<string, T> CreateMap(T control);
-}
-
 public class AvaloniaControlMap : IControlMap<Control>
 {
     private static string? GetUid(Control x)
