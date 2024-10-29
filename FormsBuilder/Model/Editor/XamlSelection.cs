@@ -136,9 +136,19 @@ public class XamlSelection : IXamlSelection
             return;
         }
 
+        var newXamlItems = Paste(targetXamlItem, _xamlItemsCopy, isTargetXamlItemRoot);
+
+        _xamlEditor.Reload(_xamlEditor.RootXamlItem);
+
+        Hover(null);
+        SelectItems(newXamlItems);
+    }
+
+    private XamlItems Paste(XamlItem targetXamlItem, XamlItems xamlItemsCopy, bool isTargetXamlItemRoot)
+    {
         var newXamlItems = new XamlItems();
 
-        foreach (var xamlItem in _xamlItemsCopy)
+        foreach (var xamlItem in xamlItemsCopy)
         {
             if (targetXamlItem == xamlItem)
             {
@@ -178,10 +188,7 @@ public class XamlSelection : IXamlSelection
             }
         }
 
-        _xamlEditor.Reload(_xamlEditor.RootXamlItem);
-
-        Hover(null);
-        SelectItems(newXamlItems);
+        return newXamlItems;
     }
 
     public void RemoveSelected()
