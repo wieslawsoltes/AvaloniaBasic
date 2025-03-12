@@ -1,0 +1,84 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:ResizingControlDemo"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ResizingControlDemo.MainView"
+             x:Name="Main">
+
+  <DockControl x:Name="Dock" InitializeLayout="True" InitializeFactory="True">
+    <DockControl.Factory>
+      <Factory />
+    </DockControl.Factory>
+
+    <RootDock x:Name="Root" Id="Root" IsCollapsable="False" DefaultDockable="{Binding #MainLayout}">
+
+      <ProportionalDock x:Name="MainLayout" Id="MainLayout" Orientation="Horizontal">
+
+        <!-- Left Pane -->
+
+        <ToolDock x:Name="LeftPane" Id="LeftPane" Proportion="0.25" Alignment="Left">
+          <Tool x:Name="Toolbox" Id="Toolbox" Title="Toolbox" x:DataType="Tool">
+            <local:ToolBoxView EditorCanvas="{Binding #Main.EditorView.EditorCanvas}" />
+          </Tool>
+        </ToolDock>
+
+        <ProportionalDockSplitter x:Name="LeftSplitter" Id="LeftSplitter" />
+
+        <!-- Top Pane -->
+
+        <ProportionalDock x:Name="TopPane" Id="TopPane" Orientation="Vertical">
+
+          <!-- Right Pane -->
+
+          <ProportionalDock x:Name="RightPane" Id="RightPane" Orientation="Horizontal">
+
+            <!-- Documents Pane -->
+
+            <DocumentDock x:Name="DocumentsPane" Id="DocumentsPane" CanCreateDocument="True" ActiveDockable="UserControl1" FocusedDockable="UserControl1">
+              <DocumentDock.DocumentTemplate>
+                <DocumentTemplate>
+                  <local:EditorView />
+                </DocumentTemplate>
+              </DocumentDock.DocumentTemplate>
+              <Document x:Name="UserControl1" Id="UserControl1" Title="UserControl1.axaml" x:DataType="Document">
+                <local:EditorView />
+              </Document>
+            </DocumentDock>
+
+            <ProportionalDockSplitter x:Name="RightSplitter" Id="RightSplitter" />
+
+            <!-- Properties Pane -->
+            <ToolDock x:Name="PropertiesPane" Id="PropertiesPane" Proportion="0.3" Alignment="Right">
+              <Tool x:Name="Properties" Id="Properties" Title="Properties" x:DataType="Tool">
+                <local:PropertiesView ResizingHostControl="{Binding #Main.EditorView.ResizingHostControl}" />
+              </Tool>
+            </ToolDock>
+
+          </ProportionalDock>
+
+          <!--<ProportionalDockSplitter x:Name="BottomSplitter" Id="BottomSplitter" />-->
+
+          <!-- Bottom Pane -->
+
+          <!--
+          <ToolDock x:Name="BottomPane" Id="BottomPane" Proportion="0.3" Alignment="Bottom" ActiveDockable="Output">
+            <Tool x:Name="ErrorList" Id="ErrorList" Title="Error List" x:DataType="Tool">
+            </Tool>
+            <Tool x:Name="Output" Id="Output" Title="Output" x:DataType="Tool">
+            </Tool>
+          </ToolDock>
+          -->
+
+        </ProportionalDock>
+
+      </ProportionalDock>
+
+    </RootDock>
+
+  </DockControl>
+
+  
+</UserControl>
+
